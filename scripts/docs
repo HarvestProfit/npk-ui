@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+set -e
+
+BRANCH='master'
+BUILD_DIR='build/'
+REPOSITORY=`mktemp -d /tmp/reactstrap.XXXXXX`
+GITHUB_REPO='reactstrap/reactstrap.github.io'
+VERSION=$(node -pe "require('./package.json').version")
+
+success() {
+  echo -e "\033[32;1m$1"
+}
+
+error() {
+  echo -e "\033[31;1m$1"
+}
+
+echo "Deploying documentation"
+
+if [ -z "$GITHUB_TOKEN" ]; then
+  error "Environment variable GITHUB_TOKEN does not exist. Stopping deploy."
+  exit 1
+fi
+
+npm run build:docs
+
+if [ ! -d $BUILD_DIR ]; then
+  error "Build directory does not exist. Stopping deploy."
+  exit 1
+fi
+
+echo "Cloning ${GITHUB_REPO} & applying changes"
+git clone --branch $BRANCH https://${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git $REPOSITORY > /dev/null 2>&1
+rsync -rt --del --exclude=".git" --exclude="legacy" $BUILD_DIR $REPOSITORY
+cd $REPOSITORY
+
+if [ -z "$(git status --porcelain)" ]; then
+  success "No documentation changes to publish. Skipping deploy."
+  exit 0
+fi
+
+git config user.name "Github Actions"
+git config user.email "reactstrap@github.io"
+git add --all
+git commit -m "docs(Github Actions): publish documentation for $VERSION ($GITHUB_SHA)"
+git remote remove origin
+git remote add origin https://${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git
+git push origin $BRANCH
+
+success "Successfully published documentation for $VERSION ($GITHUB_SHA)!"
