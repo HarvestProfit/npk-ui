@@ -1,0 +1,505 @@
+.btn {
+  cursor: pointer;
+
+  &.btn-xs {
+    font-size: 13px;
+    padding: 0.1rem 0.5rem;
+    border-radius: $border-radius-experimental;
+  }
+}
+
+a.link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-on-hover {
+  color: inherit;
+  text-decoration: none;
+  transition: none;
+
+  &:hover {
+    cursor: pointer;
+    color: $primary;
+    text-decoration: underline;
+  }
+}
+
+.btn-no-hover:hover {
+  cursor: default;
+  background-color: inherit !important;
+}
+
+.btn-block+.btn-block {
+  margin-top: inherit;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.cursor-grab {
+  cursor: grab !important;
+}
+
+.cursor-sort {
+  cursor: move !important;
+}
+
+.btn-link {
+  text-decoration: underline;
+}
+
+.hoverable {
+  transition: opacity 0.2s;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
+
+.btn-outline-inherit {
+  color: inherit !important;
+}
+
+.btn-danger.btn-light {
+  color: #B81F14;
+  background-color: #FFECEB;
+  border-color: #FFECEB;
+
+  &:disabled {
+    color: #B81F14;
+    background-color: #FFECEB;
+    border-color: #FFECEB;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    color: #B81F14;
+    background-color: #FFCEC9;
+    border-color: #FFCEC9;
+  }
+}
+
+.btn-white-text {
+  color: white;
+
+  &:hover {
+    color: $gray-150;
+  }
+}
+
+.btn-nav {
+  @include button-variant(transparent, transparent, $hover-border: transparent, $hover-background: rgba($dark, 0.05), $hover-color: $dark, $active-border: transparent, $active-background: rgba($dark, 0.1), $active-color: $dark);
+  color: $dark;
+  border-radius: $btn-border-radius-experimental;
+  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+  margin-left: 8px;
+  white-space: nowrap;
+
+  svg:first-child {
+    opacity: 0.6;
+    font-size: 95%;
+    margin-bottom: 1px;
+    margin-right: 6px;
+  }
+}
+
+.btn-nav.btn-nav-active {
+  @include button-variant(rgba($dark, 0.05), transparent, $hover-border: transparent, $hover-background: rgba($dark, 0.05), $hover-color: $dark, $active-border: transparent, $active-background: rgba($dark, 0.1), $active-color: $dark);
+  color: $dark;
+  border-radius: $btn-border-radius-experimental;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    width: 4px;
+    border-radius: 4px;
+    background-color: $orange;
+    top: 2px;
+    bottom: 2px;
+  }
+
+  svg:first-child {
+    opacity: 1;
+  }
+}
+
+.btn-icon {
+  @include button-variant(transparent, $gray-300, $hover-border: $gray-400, $hover-background: rgba($gray-600, 0.05), $hover-color: $gray-600, $active-border: $gray-400, $active-background: rgba($gray-600, 0.1), $active-color: $gray-600);
+  color: $gray-500;
+  border-radius: $btn-border-radius-experimental;
+  border-width: 2px;
+  font-size: 1.2rem;
+  padding: 0.25rem 0.75rem;
+
+  &.btn-sm {
+    font-size: 1.2rem;
+    padding: 0.05rem 0.64rem;
+  }
+
+  &.btn-xs {
+    font-size: 1rem;
+    padding: 0.05rem 0.3rem;
+  }
+}
+
+.btn-icon-danger {
+  @include button-variant(transparent, rgba($danger, 0.3), $hover-border: rgba($danger, 0.7), $hover-background: rgba($danger, 0.07), $hover-color: $danger, $active-background: rgba($danger, 0.1), $active-border: rgba($danger, 0.7), $active-color: $danger);
+  color: rgba($danger, 0.6);
+  border-radius: $btn-border-radius-experimental;
+  border-width: 2px;
+  font-size: 1.2rem;
+  padding: 0.25rem 0.75rem;
+
+  &.btn-sm {
+    font-size: 1.2rem;
+    padding: 0.05rem 0.64rem;
+  }
+
+  &.btn-xs {
+    font-size: 1rem;
+    padding: 0.05rem 0.3rem;
+  }
+}
+
+.btn-back {
+  @include button-variant(desaturate(lighten($primary, 50%), 10%), desaturate(lighten($primary, 50%), 10%));
+  border-radius: $btn-border-radius-experimental;
+  border: 0;
+  color: $primary;
+
+  &:hover,
+  &:active,
+  &:disabled,
+  &.active {
+    color: $primary !important;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.btn-gesture-left {
+
+  i,
+  svg {
+    transition: all 0.2s ease;
+  }
+
+  &:hover i,
+  &:hover svg {
+    transform: translate(-3px);
+  }
+}
+
+.btn-gesture-right {
+
+  i,
+  svg {
+    transition: all 0.2s ease;
+  }
+
+  &:hover i,
+  &:hover svg {
+    transform: translate(3px);
+  }
+}
+
+.btn-primary.rounded-experiment {
+  border-radius: $border-radius-lg-experimental;
+}
+
+.dropdown.show>.btn-secondary.dropdown-toggle {
+  color: $dark;
+  background-color: rgba($btn-secondary-bg, 0.15);
+}
+
+.btn-secondary {
+  @include button-variant($btn-secondary-bg, $btn-secondary-bg);
+  border-radius: $btn-border-radius;
+  border: 0;
+  white-space: nowrap;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  // default/dark
+  color: $dark;
+
+  &:hover,
+  &:active,
+  &:disabled,
+  &.active {
+    color: inherit !important;
+    background-color: rgba($btn-secondary-bg, 0.15) !important;
+  }
+
+  // danger
+  &.text-danger {
+    color: $danger;
+
+    &:hover,
+    &:active,
+    &:disabled,
+    &.active {
+      color: darken($danger, 5%) !important;
+    }
+  }
+
+  // primary
+  &.text-primary {
+    color: $primary;
+
+    &:hover,
+    &:active,
+    &:disabled,
+    &.active {
+      color: darken($primary, 5%);
+    }
+  }
+
+  &.transparent {
+    background: rgba($dark, 0.05);
+  }
+}
+
+.draggable-handle {
+  color: $gray-400 !important;
+  transition: color 0.2s;
+  cursor: grab;
+
+  &:hover {
+    color: $gray-600 !important;
+  }
+}
+
+a {
+  color: $primary;
+  transition: color 0.5s;
+
+  &:hover {
+    color: darken($primary, 10%);
+  }
+}
+
+.btn-secondary {
+  @include button-variant($btn-secondary-bg, $btn-secondary-bg);
+  border-radius: $btn-border-radius;
+  border: 0;
+  white-space: nowrap;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  // default/dark
+  color: $dark;
+
+  &:hover,
+  &:active,
+  &:disabled,
+  &.active {
+    color: inherit !important;
+    background-color: rgba($btn-secondary-bg, 0.15) !important;
+  }
+
+  // danger
+  &.text-danger {
+    color: $danger;
+
+    &:hover,
+    &:active,
+    &:disabled,
+    &.active {
+      color: darken($danger, 5%) !important;
+    }
+  }
+
+  // primary
+  &.text-primary {
+    color: $primary;
+
+    &:hover,
+    &:active,
+    &:disabled,
+    &.active {
+      color: darken($primary, 5%);
+    }
+  }
+
+  &.transparent {
+    background: rgba($dark, 0.05);
+  }
+}
+
+// .btn-stacked {
+//   padding: 0.3rem 0.5rem;
+//   font-size: 10px; //0.7rem
+//
+//   svg:first-child {
+//     margin: auto;
+//     margin-bottom: 0.25rem;
+//     display: block;
+//     font-size: 18px;
+//
+//     &.fa-paint-brush {
+//       font-size: 20px;
+//     }
+//   }
+// }
+
+.toolbar>*>.toggle,
+.toolbar-toggle {
+
+  .switch {
+    font-size: 8px;
+    padding: 0.3rem 0.5rem;
+    border-radius: $btn-border-radius-experimental;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba($btn-secondary-bg, 0.1) !important;
+    }
+  }
+
+  .slider {
+    background-color: transparent;
+    border: 1px solid $gray-500;
+    margin-left: 1em;
+
+    &::before {
+      background-color: $gray-500;
+      left: 0.15em;
+      height: 1.5em;
+      width: 1.5em;
+    }
+
+    &.on {
+      background-color: $primary !important;
+      border-color: $primary !important;
+
+      &::before {
+        background-color: $white;
+        transform: translateX(1.95em);
+      }
+    }
+  }
+
+  label {
+    font-size: 12px;
+    cursor: pointer;
+  }
+}
+
+.toolbar>*>.select-menu select:hover+button {
+  background-color: rgba($btn-secondary-bg, 0.1) !important;
+}
+
+.toolbar>button,
+.toolbar>*>button,
+.toolbar>*>.dropdown>button,
+.toolbar>*>.select-menu>button,
+.toolbar-btn {
+  padding: 0.3rem 0.5rem;
+  font-size: 13px; //0.7rem
+  border-radius: $btn-border-radius-experimental;
+
+  &.btn-secondary {
+    background: transparent;
+    color: $gray-700 !important;
+
+    &:hover {
+      background-color: rgba($btn-secondary-bg, 0.10) !important;
+    }
+
+    &.disabled {
+      background-color: transparent !important;
+    }
+
+    // background: $gray-100 !important;
+    // border: 1px solid $gray-400 !important;
+    // border-radius: 100px !important;
+  }
+
+
+  svg:first-child {
+    // margin: auto;
+    margin-right: 0.25rem;
+    // display: block;
+    font-size: 11px;
+
+    // &.fa-paint-brush {
+    //   font-size: 11px;
+    // }
+
+    &.fa-faEllipsisV {
+      font-size: 18px;
+      margin-right: 0;
+    }
+  }
+}
+
+
+.btn-group>.btn:not(:last-child):not(.dropdown-toggle),
+.btn-group>.btn-group:not(:last-child)>.btn {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.btn-group.rounded-pill {
+  border-radius: 0;
+
+  &>:first-child.btn {
+    border-top-left-radius: 50em;
+    border-bottom-left-radius: 50em;
+  }
+
+  &>:first-child.dropdown>.btn {
+    border-top-left-radius: 50em;
+    border-bottom-left-radius: 50em;
+  }
+
+  &>:last-child.btn {
+    border-top-right-radius: 50em;
+    border-bottom-right-radius: 50em;
+  }
+
+  &>:last-child.dropdown>.btn {
+    border-top-right-radius: 50em;
+    border-bottom-right-radius: 50em;
+  }
+}
+
+// new buttons
+
+.btn.prompt-btn {
+  border-radius: $border-radius;
+  border: 1px solid rgba($dark, 0.2);
+  padding: 0.25rem 1rem;
+  font-size: 14px;
+  font-weight: 600;
+
+  &.btn-secondary,
+  &.btn-outline-danger,
+  &.btn-outline-primary {
+    background-color: $gray-100;
+
+    &:hover {
+      background-color: $gray-150 !important;
+    }
+  }
+
+  &.btn-outline-danger:disabled {
+    color: $gray-600;
+    font-weight: normal;
+  }
+
+}

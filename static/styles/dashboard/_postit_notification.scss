@@ -1,0 +1,40 @@
+.alert {
+  &.alert-notice {
+    position: relative;
+    background: #fff7d7;
+    box-shadow: -1px 2px 3px -3px rgba(0, 0, 0, 0.76), 0 1px 13px -10px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transform: scale(0);
+    max-width: 560px;
+    margin: 2rem auto;
+    animation: alert-notice-popout 0.2s forwards;
+    animation-delay: 0.2s;
+    border: 0;
+
+    h4 {
+      margin-top: 0.5rem;
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      border-width: 0 16px 16px 0;
+      border-style: solid;
+      border-color: rgba(0, 0, 0, 0.1) $body-bg;
+    }
+  }
+}
+
+
+@keyframes alert-notice-popout {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(1deg);
+  }
+} 

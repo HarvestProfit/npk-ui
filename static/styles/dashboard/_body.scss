@@ -1,0 +1,56 @@
+$dashboard-content-min-width: 745px;
+
+html { // http://bit.ly/1qk2tVR
+  box-sizing: border-box;
+
+  // By default, mobile browsers add a 300-350ms delay between pressEnd and click events.
+  // This is so it can listen for double tap gestures for zooming in.
+  // This disables that which makes our UI snappier on touch interfaces. Pinch Zoom still works.
+  touch-action: manipulation;
+}
+
+html {
+
+}
+
+* {
+  &,
+  &::after,
+  &::before {
+    box-sizing: inherit;
+  }
+}
+
+#harvestprofit {
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: stretch;
+  flex-direction: row;
+
+  & > main {
+    flex: 1;
+    min-width: $dashboard-content-min-width;
+
+    margin-bottom: 100px; // makes room for the bottom bar
+  }
+}
+
+body {
+
+  background-color: $body-bg;
+  color: $body-color;
+  font-family: $font-family-sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  padding: 0;
+
+  .app-root {
+    padding: 0;
+    min-height: 100vh;
+  }
+}
+
+body.onboarding .app-root .dashboard-content {
+  min-width: auto;
+}

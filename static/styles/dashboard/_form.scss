@@ -1,0 +1,107 @@
+.form .form-section,
+form .form-section {
+  max-width: 600px;
+  margin: auto;
+}
+
+form label,
+.form label {
+  color: $form-label-color;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding-bottom: 0.5rem;
+
+  & small {
+    color: $form-label-addition-color;
+    display: block;
+    font-size: 0.7rem;
+    font-weight: normal;
+  }
+}
+
+.input-group-append,
+.input-group-prepend {
+  .input-group-button {
+    background-color: $gray-200 !important;
+
+    &:hover {
+      background-color: $gray-300 !important;
+    }
+  }
+}
+
+// Modifies the labels in a form group to add the padding below it.
+.form-group {
+  & > label {
+    padding-bottom: 0.5rem;
+    display: block;
+  }
+}
+
+
+.input-group {
+  flex-wrap: nowrap !important;
+}
+
+.input-group-text {
+  font-size: 0.875rem !important;
+}
+
+
+.custom-date-picker-w-100 {
+  .react-datepicker-wrapper,
+  .react-datepicker__input-container,
+  .react-datepicker__input-container > input {
+    width: 100%;
+  }
+}
+
+.input-group-append > .btn-outline-secondary,
+.input-group-prepend > .btn-outline-secondary,
+.input-group-append > .input-group-text,
+.input-group-prepend > .input-group-text {
+  border-color: $input-border-color !important;
+}
+
+.form-group > label {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.form-control {
+  border: $input-border-width solid $input-border-color;
+  border-radius: $input-border-radius;
+  color: $input-color;
+  outline: inherit !important;
+  padding: $input-padding-y $input-padding-x;
+
+  &:disabled,
+  &[readonly] {
+    border: 1px solid $input-disabled-border-color;
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    color: $input-focus-color !important;
+    background-color: $input-focus-bg !important;
+    border-color: $input-focus-border-color !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+
+  &.display {
+    color: $input-color !important;
+    border: $input-border-width solid $input-border-color !important;
+    background-color: $input-focus-bg !important;
+    cursor: default !important;
+  }
+
+  &.transparent {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  &.emphasize {
+    border-color: $orange;
+  }
+}

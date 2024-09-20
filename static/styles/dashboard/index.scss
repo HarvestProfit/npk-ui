@@ -1,0 +1,408 @@
+// Overwrite any bootstrap defaults here to make them apply to the
+// entire application, or before you @import this file
+// https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
+
+//
+// BOOTSTRAP VARIABLES
+// Any variables you want bootstrap to use across the app can should go in this file
+//
+@import './variables';
+
+//
+// MIXIN OVERRIDES
+// Some of these use the shadow classes, so be careful!
+//
+@import './mixins/index';
+
+//
+// BOOTSTRAP
+//
+@import '~bootstrap/scss/alert';
+@import '~bootstrap/scss/buttons';
+@import '~bootstrap/scss/badge';
+@import '~bootstrap/scss/button-group';
+@import '~bootstrap/scss/breadcrumb';
+@import '~bootstrap/scss/card';
+@import '~bootstrap/scss/alert';
+@import '~bootstrap/scss/dropdown';
+@import '~bootstrap/scss/forms';
+@import '~bootstrap/scss/grid';
+@import '~bootstrap/scss/images';
+@import '~bootstrap/scss/input-group';
+@import '~bootstrap/scss/jumbotron';
+@import '~bootstrap/scss/list-group';
+@import '~bootstrap/scss/nav';
+@import '~bootstrap/scss/navbar';
+@import '~bootstrap/scss/popover';
+@import '~bootstrap/scss/tables';
+@import '~bootstrap/scss/transitions';
+@import '~bootstrap/scss/tooltip';
+@import '~bootstrap/scss/modal';
+@import '~bootstrap/scss/close';
+@import '~bootstrap/scss/utilities';
+@import '~bootstrap/scss/custom-forms';
+
+// CUSTOM CHANGES
+@import '../shared/normalize';
+@import '../shared/readability';
+
+
+@import './badges';
+@import './body';
+@import './borders';
+@import './boundary_svg';
+@import './buttons_and_clickable';
+@import './card';
+@import './color_swatch';
+@import './divider';
+@import './dropdowns';
+@import './form';
+@import './input';
+@import './modal';
+@import './native';
+@import './navigation';
+@import './position';
+@import './popover';
+@import './progress_bar';
+@import './tables';
+@import './text';
+@import './transitions';
+@import './visibility';
+@import './postit_notification';
+@import './tooltip';
+@import './paper';
+@import './background';
+@import './spreadsheets';
+
+@import './responsive-main/index';
+@import './responsive-immersive/index';
+
+hr {
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.bg-dark>hr {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+@media print {
+  .d-print-active-pdf {
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    line-height: 18px;
+  }
+}
+
+.select-menu {
+  select:focus+.btn {
+    outline: 1px solid $primary;
+    outline-style: auto;
+  }
+
+  select:hover+.btn.bg-light {
+    background-color: darken($light, 5%) !important;
+  }
+
+  select:hover+.btn.bg-white {
+    background-color: darken(white, 5%) !important;
+  }
+}
+
+.pb-2_5 {
+  padding-bottom: 0.375rem + 0.25rem;
+}
+
+.toolbar {
+  margin-top: 0.5rem;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  padding: 0.5rem;
+  background-color: $body-bg;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid $gray-300;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.statsbar {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  padding: 0.4rem 0.6rem;
+  background-color: $gray-200;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: $border-radius;
+  color: $gray-700;
+  font-size: 12px;
+
+  &>svg {
+    font-size: 14px;
+    color: $gray-500;
+    width: 0.9rem;
+    margin-right: 1rem;
+
+    &+* {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      &>* {
+        margin-left: 0.3rem;
+      }
+    }
+  }
+}
+
+.new-feature-tool-bar-alert {
+  margin-top: 1rem;
+  margin-bottom: 0;
+  padding: 0rem 0.6rem;
+  background-color: $gray-200;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: $border-radius;
+  color: $gray-700;
+  font-size: 14px;
+  height: 36px;
+
+  &>svg {
+    font-size: 18px;
+    color: $orange;
+    width: 0.9rem;
+    margin-right: 0.5rem;
+  }
+
+  p {
+    flex: 1;
+    margin: 0;
+  }
+
+  .btn-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-right: -0.6rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+.products-importing-alert {
+  @extend .new-feature-tool-bar-alert;
+  background-color: #fff3cd;
+}
+
+.products-importing-alert-success {
+  @extend .new-feature-tool-bar-alert;
+  background-color: #d4edda;
+}
+
+.products-importing-alert-error {
+  @extend .new-feature-tool-bar-alert;
+  background-color: #eecfcf;
+}
+
+
+progress {
+  appearance: none;
+  color: $gray-600;
+  border-radius: 100rem;
+
+  width: 120px;
+  height: 0.5rem;
+  border: 1px solid $gray-600;
+  background-color: transparent;
+
+  &::-webkit-progress-bar {
+    background-color: transparent;
+    border-radius: 100rem;
+  }
+
+  &::-webkit-progress-value {
+    background-color: $gray-600;
+    border-radius: 100rem;
+  }
+
+  &::-moz-progress-bar {
+    background-color: $gray-600;
+    border-radius: 100rem;
+  }
+}
+
+.animate-in {
+  animation: animate-in 0.5s both;
+}
+
+.modal-content.modal-animate-in {
+  overflow-x: hidden;
+
+  .modal-header,
+  .modal-footer,
+  .modal-body {
+    animation: animate-in 0.5s both;
+  }
+
+  .react-select__menu {
+    position: absolute;
+  }
+}
+
+@keyframes animate-in {
+  0% {
+    opacity: 0;
+  }
+
+  40% {
+    transform: translateX(320px);
+    opacity: 0;
+  }
+
+  80% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast {
+  // Make appear above bootstrap modal
+  z-index: 1060;
+
+  &.toast--visible {
+    animation: toast-in 0.5s both;
+  }
+
+  &.toast--hidden {
+    animation: toast-out 0.5s both;
+  }
+
+  .toast--timeout {
+    background: rgba(white, 0.1);
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    display: block;
+    width: 0%;
+
+    &.toast--timeout--active {
+      transition: width 10s linear;
+      width: 100%;
+    }
+  }
+}
+
+@keyframes toast-in {
+  0% {
+    opacity: 0;
+    transform: translateY(320px);
+  }
+
+  30% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-out {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(320px);
+    opacity: 0;
+  }
+}
+
+.loading--items {
+  animation: loading-block-pulse 1.25s infinite;
+}
+
+.loading--block {
+  background: rgba(black, 0.05);
+  animation: loading-block-pulse 1.25s infinite;
+  border-radius: 4px;
+  height: 1.37em;
+}
+
+.loading--block--dark {
+  background: rgba(white, 0.08);
+  animation: loading-block-pulse 1.25s infinite;
+  border-radius: 4px;
+  height: 1.37em;
+}
+
+.machine-data-tab:hover {
+  background-color: #dee2e6;
+}
+
+.machine-data-tab-clicked {
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.25);
+  background-color: white;
+}
+
+@keyframes loading-block-pulse {
+  0% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.reference-dropdown-item {
+  border-bottom: 0.5px solid black;
+  cursor: pointer;
+}
+
+.reference-dropdown-item:hover {
+  background-color: #dedede;
+}
+
+.contracts-level-bar-green {
+  background-color: #3f9142 !important;
+}
+
+.contracts-level-bar-yellow {
+  background-color: #ffc107 !important;
+}
+
+.contracts-level-bar-green:hover {
+  background-color: #0f7012 !important;
+}
+
+.contracts-level-bar-yellow:hover {
+  background-color: #c49509 !important;
+}

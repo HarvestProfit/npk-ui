@@ -1,5 +1,5 @@
 import { themes, create } from '@storybook/theming';
-import '../static/styles/index.scss';
+import '../static/styles/dashboard/index.scss';
 
 const lightTheme = create({
   ...themes.normal,

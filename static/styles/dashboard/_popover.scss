@@ -1,0 +1,104 @@
+.popover {
+  --popover-bg: #{$gray-100};
+  --popover-border-color: #{$gray-400};
+  --popover-text-color: #{$dark};
+  max-width: 100%;
+  border: 1px solid var(--popover-border-color);
+  background-color: var(--popover-bg);
+  border-radius: $border-radius-experimental;
+  @extend .shadow-sm;
+
+  &.popover-primary {
+    --popover-bg: #{$primary};
+    --popover-border-color: #{$primary};
+    --popover-text-color: white;
+  }
+
+  .popover-body {
+    color: var(--popover-text-color);
+  }
+
+  .arrow {
+
+    &::after,
+    &::before {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      margin: auto 0;
+      width: 18px;
+      height: 18px;
+      background-color: var(--popover-bg);
+      border-color: transparent !important;
+      transform: rotate(-45deg) skewY(7deg) skewX(7deg);
+      /*clip-path: polygon(100% 0, 0% 100%, 100% 100%);*/
+      clip-path: polygon(100% 2%,
+          2% 100%,
+          100% 100%);
+      /* firefox fix changed 0% to 2%*/
+      border-radius: 0 0 5px 0;
+    }
+
+    /* add a shadow if you want */
+    &::before {
+      background: var(--popover-border-color);
+      opacity: 1;
+    }
+  }
+
+  &[x-placement="left"] {
+    .arrow {
+
+      &::after,
+      &::before {
+        bottom: 0;
+        transform: rotate(-45deg) skewY(7deg) skewX(7deg);
+      }
+
+      &::before {
+        margin-left: 3px;
+      }
+    }
+  }
+
+  &[x-placement="right"] {
+    .arrow {
+
+      &::after,
+      &::before {
+        bottom: 0;
+        transform: rotate(135deg) skewY(7deg) skewX(7deg);
+      }
+
+      &::before {
+        margin-right: 3px;
+      }
+    }
+  }
+
+  &[x-placement="top"] {
+    .arrow {
+
+      &::after,
+      &::before {
+        bottom: 13px;
+        transform: rotate(45deg) skewY(7deg) skewX(7deg);
+      }
+
+      &::before {
+        bottom: 10px;
+      }
+    }
+  }
+
+  &[x-placement="bottom"] {
+    .arrow {
+
+      &::after,
+      &::before {
+        transform: rotate(-135deg) skewY(7deg) skewX(7deg);
+      }
+    }
+  }
+}

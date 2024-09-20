@@ -1,0 +1,74 @@
+
+.bg-body {
+  background-color: $body-bg;
+}
+.bg-black { background-color: black !important; }
+.bg-gray-100 { background-color: $gray-100 !important; }
+.bg-gray-150 { background-color: $gray-150 !important; }
+.bg-gray-200 { background-color: $gray-200 !important; }
+.bg-grey, .bg-gray-300 { background-color: $gray-300 !important; }
+.bg-gray-400 { background-color: $gray-400 !important; }
+.bg-gray-500 { background-color: $gray-500 !important; }
+.bg-gray-600 { background-color: $gray-600 !important; }
+.bg-gray-700 { background-color: $gray-700 !important; }
+.bg-gray-800 { background-color: $gray-800 !important; }
+.bg-gray-900 { background-color: $gray-900 !important; }
+.bg-inherit { background-color: inherit !important; }
+.bg-brown { background-color: $brown !important; }
+.bg-yellow { background-color: $yellow !important; }
+.bg-orange { background-color: $orange !important; }
+
+.bg-light-red { background-color: $light-red; }
+.bg-light-yellow { background-color: $light-yellow; }
+
+.bg-transparent-dark { background-color: rgba($dark, 0.08) !important; }
+.focused-bg-transparent-darker {
+  transition: background-color 0.2s ease;
+  &:focus {
+    background-color: rgba($dark, 0.1) !important;
+  }
+}
+
+.focused-bg-gray-150 {
+  transition: background-color 0.2s ease;
+
+  &:focus {
+    background-color: $gray-150 !important;
+  }
+}
+
+.bg-radial-transparent-to-light {
+  background: radial-gradient(rgba($light, 0.9) 35%, rgba($light, 0) 65%) !important;
+}
+
+.focused-bg-gray-200:focus,
+.form-control.focused-bg-gray-200:focus { background-color: $gray-200 !important; }
+
+
+.bg-application { background-color: $field-application-color !important;}
+.bg-planting { background-color: $field-planting-color !important;}
+.bg-harvest { background-color: $field-harvest-color !important;}
+
+.bg-body-transparent {
+  background-color: rgba($body-bg, 0.96);
+}
+
+.bg-light-transparent {
+  background-color: rgba(darken($light, 2%), 0.6);
+}
+
+.bg-white-transparent {
+  background-color: rgba($white, 0.6);
+}
+
+.bg-black-transparent {
+  background-color: rgba($black, 0.6);
+}
+
+.bg-black-transparent-25 {
+  background-color: rgba($black, 0.25);
+}
+
+.blur-filter {
+  backdrop-filter: blur(8px);
+}

@@ -1,0 +1,18 @@
+$nav-bar-expanded: 235;
+$nav-bar-collapsed: 72;
+$nav-bar-difference: $nav-bar-expanded - $nav-bar-collapsed;
+
+$immersive-breakpoint-sm: $breakpoint-sm - $nav-bar-difference;
+$immersive-breakpoint-md: $breakpoint-md - $nav-bar-difference;
+$immersive-breakpoint-lg: $breakpoint-lg - $nav-bar-difference;
+$immersive-breakpoint-xl: $breakpoint-xl - $nav-bar-difference;
+$immersive-breakpoint-xxl: $breakpoint-xl - $nav-bar-difference + 200;
+
+$immersive-grid-breakpoints: (
+  xs: 0,
+  sm: $immersive-breakpoint-sm,
+  md: $immersive-breakpoint-md,
+  lg: $immersive-breakpoint-lg,
+  xl: $immersive-breakpoint-xl,
+  xxl: $immersive-breakpoint-xxl
+);

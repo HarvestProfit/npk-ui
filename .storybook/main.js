@@ -7,25 +7,26 @@ module.exports = {
     '@storybook/addon-mdx-gfm',
     '@storybook/addon-webpack5-compiler-babel',
     'storybook-dark-mode',
-    {
+    ({
       name: '@storybook/addon-styling-webpack',
       options: {
         rules: [
           // Replaces any existing Sass rules with given rules
           {
             test: /\.s[ac]ss$/i,
+            sideEffects: true,
             use: [
-              "style-loader",
-              "css-loader",
+              require.resolve("style-loader"),
+              require.resolve("css-loader"),
               {
-                loader: "sass-loader",
+                loader: require.resolve("sass-loader"),
                 options: { implementation: require.resolve("sass") }
               },
             ],
           },
         ]
       }
-    }
+    })
   ],
 
   staticDirs: ['../static'],

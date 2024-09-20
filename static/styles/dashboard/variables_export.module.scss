@@ -1,0 +1,81 @@
+@import './variables';
+
+// EXPOSE WEBPACK
+// Lets you import variables into Javascript
+//
+// import variables from 'variables.scss';
+// variables.primary => $primary
+//
+
+$primaryShade1: desaturate(lighten($primary, 13%), 5%);
+$primaryShade2: desaturate(lighten($primary, 26%), 7%);
+$primaryShade3: desaturate(lighten($primary, 40%), 10%);
+$primaryShade4: desaturate(lighten($primary, 50%), 10%);
+
+$primaryShade5: desaturate(darken($primary, 6%), 2%);
+$primaryShade6: desaturate(darken($primary, 14%), 5%);
+$primaryShade7: desaturate(darken($primary, 18%), 10%);
+$primaryShade8: desaturate(darken($primary, 22%), 10%);
+$primaryShade9: desaturate(darken($primary, 28%), 10%);
+$primaryShade10: desaturate(darken($primary, 34%), 10%);
+
+$orangeShade1: desaturate(lighten($orange, 13%), 5%);
+$orangeShade2: desaturate(lighten($orange, 26%), 7%);
+$orangeShade3: desaturate(lighten($orange, 40%), 10%);
+$orangeShade4: desaturate(darken($orange, 6%), 2%);
+$orangeShade5: desaturate(darken($orange, 14%), 5%);
+
+:export {
+  shapesWork: #f2825a;
+  shapesBoundary: $pink;
+  shapesSeeding: #9ebf54;
+  shapesApplication: #5abce8;
+  primary: $primary;
+  primaryChart1: $primary;
+  primaryChart2: $primaryShade1;
+  primaryChart3: $primaryShade2;
+  primaryChart4: $primaryShade3;
+  primaryChart5: $primaryShade4;
+  primaryChart6: $primaryShade5;
+  primaryChart7: $primaryShade6;
+  primaryChart8: $primaryShade7;
+  primaryChart9: $primaryShade8;
+  primaryChart10: $primaryShade9;
+  primaryChart11: $primaryShade10;
+  secondaryChart1: $orange;
+  secondaryChart2: $orangeShade1;
+  secondaryChart3: $orangeShade2;
+  secondaryChart4: $orangeShade3;
+  secondaryChart5: $orangeShade4;
+  red: $red;
+  orange: $orange;
+  blue: $blue;
+  pink: $pink;
+  svg: $gray-500;
+  gray100: $gray-100;
+  gray150: $gray-150;
+  gray200: $gray-200;
+  gray300: $gray-300;
+  gray400: $gray-400;
+  gray500: $gray-500;
+  gray600: $gray-600;
+  gray700: $gray-700;
+  gray800: $gray-800;
+  dark: $dark;
+  light: $light;
+
+  heatmapVeryGood: $heatmap-very-good;
+  heatmapGood: $heatmap-good;
+  heatmapDecent: $heatmap-decent;
+  heatmapAverage: $heatmap-average;
+  heatmapPoor: $heatmap-poor;
+  heatmapBad: $heatmap-bad;
+  heatmapVeryBad: $heatmap-very-bad;
+  accessibleHeatmapVeryGood: $accessible-heatmap-very-good;
+  accessibleHeatmapGood: $accessible-heatmap-good;
+  accessibleHeatmapDecent: $accessible-heatmap-decent;
+  accessibleHeatmapAverage: $accessible-heatmap-average;
+  accessibleHeatmapPoor: $accessible-heatmap-poor;
+  accessibleHeatmapBad: $accessible-heatmap-bad;
+  accessibleHeatmapVeryBad: $accessible-heatmap-very-bad;
+}

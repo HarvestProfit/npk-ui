@@ -1,0 +1,166 @@
+:root {
+  --progress-bar-outline: white;
+}
+
+.progress-bar {
+  background-color: $gray-300;
+  border-radius: $border-radius-experimental;
+  position: relative;
+  height: 28px;
+  transition: all 0.2s ease;
+
+  &.progress-bar-toggle-legend .progress-bar-legend {
+    opacity: 0;
+  }
+
+  .progress-bar-legend {
+    position: absolute;
+    top: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 2px;
+    transition: opacity 0.2s ease;
+  }
+
+  .progress-bar--bar {
+    position: absolute;
+    border-radius: $border-radius-experimental + 2px;
+    top: -3px;
+    bottom: -3px;
+    left: -3px;
+    border: 3px solid var(--progress-bar-outline);
+    width: calc(var(--percent) + 6px);
+    background-color: $primary;
+
+    &.empty {
+      width: 0px;
+      left: 0px;
+      border: 0;
+      bottom: 0px;
+    }
+
+    & > * {
+      transition: opacity 0.2s ease;
+      font-size: 14px;
+      bottom: 5px;
+      position: absolute;
+      white-space: nowrap;
+
+      &.inside {
+        color: white !important;
+        left: 6px;
+      }
+
+      &.outside {
+        left: calc(100% + 6px);
+        font-weight: bold;
+      }
+
+      &.right {
+        right: 6px;
+        left: auto;
+      }
+
+      &.hidden {
+        display: none;
+      }
+    }
+  }
+
+  &:hover {
+    &.progress-bar-toggle-legend {
+      margin-bottom: 17px;
+
+      .progress-bar-legend {
+        opacity: 1;
+      }
+  
+      .progress-bar--bar > * {
+        opacity: 0;
+      }
+    }
+  }
+
+  &.progress-bar-sm {
+    height: 10px;
+
+    .progress-bar--bar > * {
+      display: none !important;
+    }
+  }
+}
+
+
+.allocation-bar {
+  background-color: transparent;
+  border-radius: $border-radius-experimental;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 22px;
+  margin-bottom: 20px;
+
+  & > * {
+    position: relative;
+    height: 100%;
+    margin-right: 2px;
+
+    & > *:first-child {
+      font-size: 14px;
+      position: absolute;
+      top: -22px;
+      right: 0;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    & > *:last-child {
+      font-size: 12px;
+      position: absolute;
+      bottom: -20px;
+      right: 0;
+      white-space: nowrap;
+      text-align: right;
+      color: $gray-600;
+    }
+
+    &:first-child {
+      border-top-left-radius: $border-radius-experimental;
+      border-bottom-left-radius: $border-radius-experimental;
+    }
+
+    &:last-child {
+      border-top-right-radius: $border-radius-experimental;
+      border-bottom-right-radius: $border-radius-experimental;
+      margin-right: 0;
+    }
+
+    &:nth-child(1) {
+      background-color: $gray-300;
+    }
+
+    &:nth-child(2) {
+      background-color: $gray-400;
+    }
+
+    &:nth-child(3) {
+      background-color: $gray-500;
+    }
+
+    &:nth-child(4) {
+      background-color: $gray-600;
+    }
+
+    
+  }
+
+  &.compact > * > *:last-child {
+    transform-origin: 100%;
+    transform: rotate(-30deg);
+  }
+}

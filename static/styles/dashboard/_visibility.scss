@@ -1,0 +1,68 @@
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+.isolated-z-index { isolation: isolate; }
+.opacity-0 { opacity: 0; }
+.opacity-20 { opacity: 0.2; }
+.opacity-30 { opacity: 0.3; }
+.opacity-40 { opacity: 0.4; }
+.opacity-50 { opacity: 0.5; }
+.opacity-60 { opacity: 0.6; }
+.opacity-70 { opacity: 0.7; }
+.opacity-80 { opacity: 0.8; }
+.opacity-100 { opacity: 1 !important; }
+
+.visibility-hidden { visibility: hidden; }
+
+.higher-1 { z-index: 1; }
+.higher-2 { z-index: 2; }
+.higher-3 { z-index: 3; }
+.higher-4 { z-index: 4; }
+.higher-5 { z-index: 5; }
+.higher-6 { z-index: 6; }
+.higher-7 { z-index: 7; }
+.higher-8 { z-index: 8; }
+.higher-9 { z-index: 9; }
+.higher-10 { z-index: 10; }
+
+.higher-1000 { z-index: 1000; }
+
+thead.sticky {
+   &.higher-1 th { z-index: 1; }
+   &.higher-2 th { z-index: 2; }
+   &.higher-3 th { z-index: 3; }
+   &.higher-4 th { z-index: 4; }
+   &.higher-8 th { z-index: 8; }
+   &.higher-9 th { z-index: 9; }
+   &.higher-10 th { z-index: 10; }
+}
+
+.show-child-on-hover .show-on-parent-hover {
+  opacity: 0;
+}
+
+.show-child-on-hover:hover .show-on-parent-hover {
+  opacity: 1;
+}
+
+.visible-on-hover {
+
+  .visible-on-hover--item {
+    opacity: 0;
+    transition: all 0.2s ease;
+  }
+
+  .invisible-on-hover--item {
+    transition: all 0.2s ease;
+  }
+
+  &:hover {
+    .invisible-on-hover--item {
+      opacity: 0;
+    }
+    .visible-on-hover--item {
+      opacity: 1;
+    }
+  }
+}

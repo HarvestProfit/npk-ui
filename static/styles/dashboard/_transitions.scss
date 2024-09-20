@@ -1,0 +1,33 @@
+
+.transition {
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+.no-transition {
+  transition: none;
+}
+
+.transition-slow {
+  transition-duration: 0.6s !important;
+}
+
+.transition-slower {
+  transition-duration: 1s !important;
+}
+
+.transition-linear {
+  transition-timing-function: linear !important;
+}
+
+
+.slide-in {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  opacity: 1;
+  transition: left 200ms ease-out;
+  box-shadow: 30px 0px 100px 30px rgba(0, 0, 0, 0.5), 5px 0px 12px rgba(0, 0, 0, 1);
+}

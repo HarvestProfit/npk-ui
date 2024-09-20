@@ -1,0 +1,127 @@
+$boundary-svg-boundary: $pink;
+$boundary-svg-work: #f2825a;
+$boundary-svg-overhead: #603813;
+$boundary-svg-harvest: #f2825a;
+$boundary-svg-seeding: #9ebf54;
+$boundary-svg-application: #5abce8;
+
+
+.svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+
+  svg,
+  &.loading--block {
+    height: inherit;
+    width: inherit;
+  }
+}
+
+.boundary-svg-swatch {
+  &.boundary {
+    background-color: $boundary-svg-boundary;
+  }
+
+  &.work {
+    background-color: $boundary-svg-work;
+  }
+
+  &.tillage {
+    background-color: $boundary-svg-overhead;
+  }
+
+  &.cost {
+    background-color: $boundary-svg-overhead;
+  }
+
+  &.harvest,
+  &.harvested {
+    background-color: $boundary-svg-harvest;
+  }
+
+  &.seeding,
+  &.seeded {
+    background-color: $boundary-svg-seeding;
+  }
+
+  &.application,
+  &.sprayed {
+    background-color: $boundary-svg-application;
+  }
+}
+
+.boundary-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg,
+  &.loading--block {
+    height: 40px;
+    width: 40px;
+  }
+
+  &.boundary-svg-boundary {
+    color: $boundary-svg-boundary;
+  }
+
+  &.boundary-svg-work {
+    color: $boundary-svg-work;
+  }
+
+  &.boundary-svg-cost {
+    color: $boundary-svg-overhead;
+  }
+
+  &.boundary-svg-harvest,
+  &.boundary-svg-harvested {
+    color: $boundary-svg-harvest;
+  }
+
+  &.boundary-svg-seeding,
+  &.boundary-svg-seeded {
+    color: $boundary-svg-seeding;
+  }
+
+  &.boundary-svg-application,
+  &.boundary-svg-sprayed {
+    color: $boundary-svg-application;
+  }
+
+  &.boundary-svg-type {
+    .boundary-svg-boundary {
+      color: $boundary-svg-boundary;
+    }
+  
+    .boundary-svg-work {
+      color: $boundary-svg-work;
+    }
+  
+    .boundary-svg-cost {
+      color: $boundary-svg-overhead;
+    }
+  
+    .boundary-svg-harvest {
+      color: $boundary-svg-harvest;
+    }
+  
+    .boundary-svg-seeding {
+      color: $boundary-svg-seeding;
+    }
+  
+    .boundary-svg-application {
+      color: $boundary-svg-application;
+    }
+  }
+
+  &.boundary-svg-white svg {
+    color: white;
+
+    [fill-opacity] {
+      fill-opacity: 0.9;
+    }
+  }
+}
