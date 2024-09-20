@@ -1,0 +1,12 @@
+body {
+  --sb-background-color: white;
+  background-color: var(--sb-background-color);
+
+  .sbdocs-wrapper {
+    background-color: var(--sb-background-color);
+  }
+}
+
+body.dark {
+  --sb-background-color: #1B1C1D;
+}

@@ -1,0 +1,57 @@
+{
+  "parser": "@babel/eslint-parser",
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:css-modules/recommended"
+  ],
+  "plugins": [
+    "css-modules"
+  ],
+  "rules": {
+    // We are okay with import statements
+    "import/no-import-module-exports": 0,
+    // We like arrow function for functional components, as they should remain simple
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/function-component-definition.md#rule-options
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function"
+      }
+    ],
+    // We don't care about multiple function arguments being on new lines. Just be consistent
+    "function-paren-newline": [
+      "error",
+      "consistent"
+    ],
+    // We don't care about multiple object keys being on new lines. Just be consistent
+    "object-curly-newline": [
+      "error",
+      {
+        "consistent": true
+      }
+    ],
+    // We don't care how you destrucure your props in React components
+    "react/destructuring-assignment": 0,
+    // We prefer ".js" file names to ".jsx"
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "17.0.2"
+    }
+  }
+}
