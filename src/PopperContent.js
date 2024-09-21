@@ -12,7 +12,7 @@ import {
 } from './utils';
 import Fade from './Fade';
 
-function noop() {}
+function noop() { }
 
 const propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
@@ -197,6 +197,7 @@ class PopperContent extends React.Component {
               style={style}
               className={popperClassName}
               data-popper-placement={popperPlacement}
+              x-placement={popperPlacement}
               data-popper-reference-hidden={
                 isReferenceHidden ? 'true' : undefined
               }
@@ -223,9 +224,9 @@ class PopperContent extends React.Component {
       return this.props.container === 'inline'
         ? this.renderChildren()
         : ReactDOM.createPortal(
-            <div ref={this.getRef}>{this.renderChildren()}</div>,
-            this.getContainerNode(),
-          );
+          <div ref={this.getRef}>{this.renderChildren()}</div>,
+          this.getContainerNode(),
+        );
     }
 
     return null;

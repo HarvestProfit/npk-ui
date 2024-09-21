@@ -43,9 +43,9 @@ function ModalHeader(props) {
       <button
         type="button"
         onClick={toggle}
-        className={mapToCssModules('btn-close', cssModule)}
+        className={mapToCssModules('close', cssModule)}
         aria-label={closeAriaLabel}
-      />
+      ><span aria-hidden="true">×</span></button>
     );
   }
 
