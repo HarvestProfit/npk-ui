@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tooltip } from 'reactstrap';
+import { Tooltip } from '@harvest-profit/npk';
 
 function Example(args) {
   const [tooltipOpen, setTooltipOpen] = useState(false);

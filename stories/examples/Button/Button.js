@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'reactstrap';
+import { Button } from '@harvest-profit/npk';
 import { colors } from '../options';
 
 function Example(args) {

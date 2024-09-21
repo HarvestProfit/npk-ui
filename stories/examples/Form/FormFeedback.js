@@ -6,7 +6,7 @@ import {
   Input,
   FormFeedback,
   FormText,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function Example(props) {
   return (

@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/blocks';
-import { Button } from 'reactstrap';
+import { Button } from '@harvest-profit/npk';
 
 <Meta title="Home/Installation" />
 
@@ -48,7 +48,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 ```jsx
 import React from 'react';
-import { Button } from 'reactstrap';
+import { Button } from '@harvest-profit/npk';
 
 export default (props) => {
   return <Button color="danger">Danger!</Button>;
@@ -90,7 +90,7 @@ You can use:
 
 ```jsx
 // React
-import { Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { Modal, ModalBody, ModalHeader } from '@harvest-profit/npk';
 ...
 <Modal isOpen={open} toggle={() => setOpen(false)}>
   <ModalHeader>
@@ -121,7 +121,7 @@ so that Button renders with `.hyperspeed-btn` instead of `.btn`.
 You can use `setGlobalCssModule` function to set custom classes globally.
 
 ```jsx
-import { Util } from 'reactstrap';
+import { Util } from '@harvest-profit/npk';
 
 Util.setGlobalCssModule({
   btn: 'hyperspeed-btn',

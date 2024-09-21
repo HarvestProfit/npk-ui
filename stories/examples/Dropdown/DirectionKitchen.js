@@ -4,7 +4,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 const directions = ['up', 'down', 'end', 'start'];
 

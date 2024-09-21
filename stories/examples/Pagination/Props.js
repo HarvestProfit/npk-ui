@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Pagination, PaginationItem, PaginationLink } from '@harvest-profit/npk';
 import Props from '../Props';
 
 function Example() {

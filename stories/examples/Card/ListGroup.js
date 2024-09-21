@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardHeader, ListGroup, ListGroupItem } from 'reactstrap';
+import { Card, CardHeader, ListGroup, ListGroupItem } from '@harvest-profit/npk';
 
 function Example(args) {
   return (

@@ -12,7 +12,7 @@ import {
   DropdownMenu,
   DropdownItem,
   NavbarText,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function Example(args) {
   const [isOpen, setIsOpen] = useState(false);

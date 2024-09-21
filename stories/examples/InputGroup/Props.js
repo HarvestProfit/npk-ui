@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputGroup, InputGroupText } from 'reactstrap';
+import { InputGroup, InputGroupText } from '@harvest-profit/npk';
 import Props from '../Props';
 
 function Example() {

@@ -4,7 +4,7 @@ import {
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function Example(args) {
   return (

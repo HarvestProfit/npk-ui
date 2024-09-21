@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Toast, ToastBody, ToastHeader } from '@harvest-profit/npk';
 import Props from './Props';
 
 function Example() {

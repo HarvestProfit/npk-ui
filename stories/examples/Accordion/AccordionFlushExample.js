@@ -4,7 +4,7 @@ import {
   AccordionBody,
   AccordionHeader,
   AccordionItem,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function Example(props) {
   const [open, setOpen] = useState('');

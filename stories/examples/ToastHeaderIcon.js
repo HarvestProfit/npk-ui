@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toast, ToastBody, ToastHeader, Spinner } from 'reactstrap';
+import { Toast, ToastBody, ToastHeader, Spinner } from '@harvest-profit/npk';
 
 function Example(props) {
   return (

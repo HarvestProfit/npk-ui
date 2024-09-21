@@ -6,7 +6,7 @@ import {
   CardLink,
   CardTitle,
   CardSubtitle,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function Example(props) {
   return (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Fade } from 'reactstrap';
+import { Button, Fade } from '@harvest-profit/npk';
 
 function Example(props) {
   const [fadeIn, setFadeIn] = useState(true);

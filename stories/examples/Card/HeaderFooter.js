@@ -7,7 +7,7 @@ import {
   CardBody,
   CardTitle,
   CardText,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function Example(props) {
   return (

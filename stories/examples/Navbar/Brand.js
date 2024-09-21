@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
+import { Navbar, NavbarBrand } from '@harvest-profit/npk';
 
 function Example(args) {
   return (

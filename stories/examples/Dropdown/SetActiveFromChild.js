@@ -8,7 +8,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 export default function Example(args) {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
+import { ListGroup, ListGroupItem, Badge } from '@harvest-profit/npk';
 
 function Example(props) {
   return (

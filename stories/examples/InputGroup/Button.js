@@ -7,7 +7,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function Example(props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);

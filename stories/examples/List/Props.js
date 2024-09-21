@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, ListInlineItem } from 'reactstrap';
+import { List, ListInlineItem } from '@harvest-profit/npk';
 import Props from '../Props';
 
 function Example() {

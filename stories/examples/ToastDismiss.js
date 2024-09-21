@@ -1,7 +1,7 @@
 /* eslint react/no-multi-comp: 0, react/prop-types: 0 */
 
 import React, { useState } from 'react';
-import { Button, Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Button, Toast, ToastBody, ToastHeader } from '@harvest-profit/npk';
 
 function ToastDismissExample(props) {
   const [show, setShow] = useState(false);

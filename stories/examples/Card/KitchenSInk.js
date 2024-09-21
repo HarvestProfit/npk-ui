@@ -7,7 +7,7 @@ import {
   ListGroup,
   ListGroupItem,
   CardLink,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function Example(args) {
   return (

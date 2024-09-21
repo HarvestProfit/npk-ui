@@ -7,7 +7,7 @@ import {
   Nav,
   NavItem,
   NavLink,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function Example(props) {
   const [collapsed, setCollapsed] = useState(true);

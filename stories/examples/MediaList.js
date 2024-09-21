@@ -1,5 +1,5 @@
 import React from 'react';
-import { Media } from 'reactstrap';
+import { Media } from '@harvest-profit/npk';
 
 function Example(props) {
   return (

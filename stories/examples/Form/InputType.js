@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Form, FormGroup, Label, Input, FormText } from '@harvest-profit/npk';
 
 function Example(props) {
   const [value, setValue] = useState('Some plain text/ static value');

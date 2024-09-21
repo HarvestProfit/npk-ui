@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge } from 'reactstrap';
+import { Badge } from '@harvest-profit/npk';
 import { colors } from '../options';
 
 function Example(args) {

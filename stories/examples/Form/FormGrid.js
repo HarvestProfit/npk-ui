@@ -7,7 +7,7 @@ import {
   Label,
   Input,
   FormText,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function Example(props) {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Offcanvas, OffcanvasBody, OffcanvasHeader } from 'reactstrap';
+import { Offcanvas, OffcanvasBody, OffcanvasHeader } from '@harvest-profit/npk';
 import Props from '../Props';
 
 function Example() {

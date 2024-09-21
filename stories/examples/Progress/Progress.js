@@ -1,5 +1,5 @@
 import React from 'react';
-import { Progress } from 'reactstrap';
+import { Progress } from '@harvest-profit/npk';
 import { colors } from '../options';
 
 function Example(args) {

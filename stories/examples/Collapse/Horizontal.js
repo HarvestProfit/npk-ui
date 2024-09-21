@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Collapse, Button } from 'reactstrap';
+import { Alert, Collapse, Button } from '@harvest-profit/npk';
 
 function Example(props) {
   const [isOpen, setIsOpen] = useState(false);

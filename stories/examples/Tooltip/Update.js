@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, UncontrolledTooltip } from 'reactstrap';
+import { Button, UncontrolledTooltip } from '@harvest-profit/npk';
 import PropTypes from 'prop-types';
 
 const shortText = 'Hi';

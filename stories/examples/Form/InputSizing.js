@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input } from 'reactstrap';
+import { Form, Input } from '@harvest-profit/npk';
 
 function Example(props) {
   return (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from 'reactstrap';
+import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from '@harvest-profit/npk';
 
 function Example(args) {
   const [open, setOpen] = useState();

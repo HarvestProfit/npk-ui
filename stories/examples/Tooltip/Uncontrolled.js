@@ -1,6 +1,6 @@
 /* eslint react/no-multi-comp: 0, react/prop-types: 0 */
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
+import { UncontrolledTooltip } from '@harvest-profit/npk';
 
 export default function Example(props) {
   return (

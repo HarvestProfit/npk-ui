@@ -86,7 +86,7 @@ import {
   Spinner,
   UncontrolledPopover,
   Util,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 // --------------- Alert
 const Examplea = (props: any) => {
@@ -2980,7 +2980,7 @@ class Example75 extends React.Component<any, any> {
                   Github
                 </NavLink>
               </NavItem>
-              <UncontrolledDropdown nav inNavbar onToggle={() => {}} a11y>
+              <UncontrolledDropdown nav inNavbar onToggle={() => { }} a11y>
                 <DropdownToggle nav caret>
                   Options
                 </DropdownToggle>
@@ -3384,7 +3384,7 @@ class Example85 extends React.Component<any, any> {
           isOpen={this.state.popoverOpen}
           target="Popover1"
           toggle={this.toggle}
-          onClick={() => {}}
+          onClick={() => { }}
         >
           <PopoverHeader>Popover Title</PopoverHeader>
           <PopoverBody>
@@ -4721,7 +4721,7 @@ const Example116 = (props: any) => {
 };
 
 function Example117() {
-  const ref = (e: any) => {};
+  const ref = (e: any) => { };
 
   <Button ref={ref} />;
   <Carousel ref={ref} next={null as any} previous={null as any} />;
@@ -4860,8 +4860,8 @@ function AnyPropExample() {
         foo={1}
         bar={false}
         foobar="example"
-        next={() => {}}
-        previous={() => {}}
+        next={() => { }}
+        previous={() => { }}
       />
       <CarouselItem_ foo={1} bar={false} foobar="example" />
       <CarouselControl_
@@ -4869,7 +4869,7 @@ function AnyPropExample() {
         bar={false}
         foobar="example"
         direction="next"
-        onClickHandler={() => {}}
+        onClickHandler={() => { }}
         directionText=""
       />
       <CarouselIndicators_
@@ -4878,7 +4878,7 @@ function AnyPropExample() {
         foobar="example"
         items={[]}
         activeIndex={-1}
-        onClickHandler={() => {}}
+        onClickHandler={() => { }}
       />
       <CarouselCaption_ foo={1} bar={false} foobar="example" captionText="" />
       <Col_ foo={1} bar={false} foobar="example" />
@@ -5122,7 +5122,7 @@ function Example127() {
         </ToastBody>
       </Toast>
       <Toast fade={false}>
-        <ToastHeader icon={<Spinner />} toggle={() => {}}>
+        <ToastHeader icon={<Spinner />} toggle={() => { }}>
           Reactstrap
         </ToastHeader>
         <ToastBody>
@@ -5202,92 +5202,92 @@ class Example130 extends React.Component {
       <>
         <Carousel
           activeIndex={1}
-          next={() => {}}
-          previous={() => {}}
+          next={() => { }}
+          previous={() => { }}
           enableTouch={false}
         >
           <CarouselIndicators
             items={[]}
             activeIndex={1}
-            onClickHandler={() => {}}
+            onClickHandler={() => { }}
           />
           <CarouselControl
             direction="prev"
             directionText="Previous"
-            onClickHandler={() => {}}
+            onClickHandler={() => { }}
           />
           <CarouselControl
             direction="next"
             directionText="Next"
-            onClickHandler={() => {}}
+            onClickHandler={() => { }}
           />
         </Carousel>
         <Carousel
           activeIndex={1}
-          next={() => {}}
-          previous={() => {}}
+          next={() => { }}
+          previous={() => { }}
           enableTouch={true}
         >
           <CarouselIndicators
             items={[]}
             activeIndex={1}
-            onClickHandler={() => {}}
+            onClickHandler={() => { }}
           />
           <CarouselControl
             direction="prev"
             directionText="Previous"
-            onClickHandler={() => {}}
+            onClickHandler={() => { }}
           />
           <CarouselControl
             direction="next"
             directionText="Next"
-            onClickHandler={() => {}}
+            onClickHandler={() => { }}
           />
         </Carousel>
         <UncontrolledCarousel
           activeIndex={1}
-          next={() => {}}
-          previous={() => {}}
+          next={() => { }}
+          previous={() => { }}
           enableTouch={false}
           items={[]}
         >
           <CarouselIndicators
             items={[]}
             activeIndex={1}
-            onClickHandler={() => {}}
+            onClickHandler={() => { }}
           />
           <CarouselControl
             direction="prev"
             directionText="Previous"
-            onClickHandler={() => {}}
+            onClickHandler={() => { }}
           />
           <CarouselControl
             direction="next"
             directionText="Next"
-            onClickHandler={() => {}}
+            onClickHandler={() => { }}
           />
         </UncontrolledCarousel>
         <UncontrolledCarousel
           activeIndex={1}
-          next={() => {}}
-          previous={() => {}}
+          next={() => { }}
+          previous={() => { }}
           enableTouch={true}
           items={[]}
         >
           <CarouselIndicators
             items={[]}
             activeIndex={1}
-            onClickHandler={() => {}}
+            onClickHandler={() => { }}
           />
           <CarouselControl
             direction="prev"
             directionText="Previous"
-            onClickHandler={() => {}}
+            onClickHandler={() => { }}
           />
           <CarouselControl
             direction="next"
             directionText="Next"
-            onClickHandler={() => {}}
+            onClickHandler={() => { }}
           />
         </UncontrolledCarousel>
       </>
@@ -5342,7 +5342,7 @@ const ScheduleUpdate = () => {
   );
 };
 
-const noop = () => {};
+const noop = () => { };
 
 const htmlProps: Pick<
   React.HTMLAttributes<HTMLElement>,

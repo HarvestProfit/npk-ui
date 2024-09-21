@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Tooltip } from 'reactstrap';
+import { Button, Tooltip } from '@harvest-profit/npk';
 import PropTypes from 'prop-types';
 
 function TooltipItem(props) {

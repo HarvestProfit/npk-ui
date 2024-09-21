@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert } from 'reactstrap';
+import { Alert } from '@harvest-profit/npk';
 
 function AlertExample(props) {
   const [visible, setVisible] = useState(true);

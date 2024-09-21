@@ -8,7 +8,7 @@ import {
   Input,
   FormGroup,
   Form,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function ModalFocusAfterClose(props) {
   const [open, setOpen] = useState(false);

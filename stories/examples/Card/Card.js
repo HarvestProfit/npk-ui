@@ -6,7 +6,7 @@ import {
   CardTitle,
   CardSubtitle,
   Button,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 import { colors } from '../options';
 
 function Example(args) {

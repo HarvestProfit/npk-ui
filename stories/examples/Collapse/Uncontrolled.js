@@ -1,5 +1,5 @@
 import React from 'react';
-import { UncontrolledCollapse, Button, CardBody, Card } from 'reactstrap';
+import { UncontrolledCollapse, Button, CardBody, Card } from '@harvest-profit/npk';
 
 function Example(props) {
   return (

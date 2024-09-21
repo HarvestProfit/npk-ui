@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup, ListGroupItem } from '@harvest-profit/npk';
 
 function Example(props) {
   return (

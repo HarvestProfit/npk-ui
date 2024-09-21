@@ -1,5 +1,5 @@
 import React from 'react';
-import { CloseButton } from 'reactstrap';
+import { CloseButton } from '@harvest-profit/npk';
 
 function Example(args) {
   return (

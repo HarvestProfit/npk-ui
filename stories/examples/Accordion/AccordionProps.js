@@ -4,7 +4,7 @@ import {
   AccordionBody,
   AccordionHeader,
   AccordionItem,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 import Props from '../Props';
 
 function Example() {

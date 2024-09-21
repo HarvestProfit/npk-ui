@@ -5,7 +5,7 @@ import {
   PopoverHeader,
   PopoverBody,
   Collapse,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 import PropTypes from 'prop-types';
 
 function PopoverContent({ scheduleUpdate }) {

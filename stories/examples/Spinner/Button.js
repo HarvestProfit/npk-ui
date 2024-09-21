@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner, Button } from 'reactstrap';
+import { Spinner, Button } from '@harvest-profit/npk';
 
 function Example(args) {
   return (

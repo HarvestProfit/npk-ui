@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonGroup, ButtonToolbar } from 'reactstrap';
+import { ButtonGroup, ButtonToolbar } from '@harvest-profit/npk';
 import Props from '../Props';
 
 function Example() {

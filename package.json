@@ -1,6 +1,6 @@
 {
-  "name": "npk",
-  "version": "9.2.2",
+  "name": "@harvest-profit/npk",
+  "version": "0.0.1",
   "description": "NPK UI Design System",
   "source": "src/index.js",
   "main": "lib/index.js",
@@ -12,8 +12,8 @@
     "cover": "jest --coverage",
     "start": "storybook dev -p 8080",
     "build:docs": "storybook build -o ./build",
-    "build": "yarn clean && concurrently \"yarn:build:*(!docs)\"",
-    "clean": "rm -rf esm lib",
+    "build": "babel src -d dist --source-maps",
+    "clean": "rm -rf ./dist",
     "prepublishOnly": "npm run build",
     "create-release": "npm run cover && sh ./scripts/release",
     "lint": "eslint src stories --fix",
@@ -32,11 +32,8 @@
   "files": [
     "LICENSE",
     "README.md",
-    "CHANGELOG.md",
     "dist",
     "src",
-    "lib",
-    "esm",
     "types"
   ],
   "keywords": [

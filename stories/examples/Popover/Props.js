@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
+import { Popover, PopoverHeader, PopoverBody } from '@harvest-profit/npk';
 import Props from '../Props';
 
 function Example() {

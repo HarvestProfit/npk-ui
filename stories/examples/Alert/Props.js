@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from 'reactstrap';
+import { Alert } from '@harvest-profit/npk';
 import Props from '../Props';
 
 function Example() {

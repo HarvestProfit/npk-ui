@@ -7,7 +7,7 @@ import {
   CardText,
   PlaceholderButton,
   CardImg,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function Example(args) {
   return (

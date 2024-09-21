@@ -9,7 +9,7 @@ import {
   Label,
   Form,
   FormGroup,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 import PropTypes from 'prop-types';
 
 function Example(props) {

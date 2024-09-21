@@ -4,7 +4,7 @@ import {
   ListGroupItem,
   ListGroupItemHeading,
   ListGroupItemText,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 import Props from '../Props';
 
 function Example() {

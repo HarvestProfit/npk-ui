@@ -1,5 +1,5 @@
 import React from 'react';
-import { Placeholder } from 'reactstrap';
+import { Placeholder } from '@harvest-profit/npk';
 import Props from '../Props';
 
 function Example() {

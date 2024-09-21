@@ -11,7 +11,7 @@ import {
   CardText,
   Row,
   Col,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 import classnames from 'classnames';
 
 function Example(props) {

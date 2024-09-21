@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, ButtonGroup } from 'reactstrap';
+import { Button, ButtonGroup } from '@harvest-profit/npk';
 
 function Example(props) {
   const [cSelected, setCSelected] = useState([]);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { List } from 'reactstrap';
+import { List } from '@harvest-profit/npk';
 
 function Example(props) {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Collapse, UncontrolledCollapse } from 'reactstrap';
+import { Collapse, UncontrolledCollapse } from '@harvest-profit/npk';
 import Props from '../Props';
 
 function Example() {

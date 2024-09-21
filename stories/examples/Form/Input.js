@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'reactstrap';
+import { Input } from '@harvest-profit/npk';
 
 function Example({ ...args }) {
   return (

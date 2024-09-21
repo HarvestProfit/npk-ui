@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, NavItem, NavLink } from 'reactstrap';
+import { Nav, NavItem, NavLink } from '@harvest-profit/npk';
 import Props from '../Props';
 
 function Example() {

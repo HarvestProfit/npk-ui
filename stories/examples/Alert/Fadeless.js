@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UncontrolledAlert } from 'reactstrap';
+import { UncontrolledAlert } from '@harvest-profit/npk';
 import Alert from '../../../src/Alert';
 
 export function AlertFadelessExample(props) {

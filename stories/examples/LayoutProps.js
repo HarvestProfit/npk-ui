@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col } from '@harvest-profit/npk';
 import Props from './Props';
 
 function Example() {

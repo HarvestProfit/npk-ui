@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner } from 'reactstrap';
+import { Spinner } from '@harvest-profit/npk';
 
 function Example(props) {
   return <Spinner className="m-5" color="primary" />;

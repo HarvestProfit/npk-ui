@@ -9,7 +9,7 @@ import {
   Label,
   Form,
   FormGroup,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 function ModalExample(props) {
   const [modal, setModal] = useState(false);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Form, FormGroup, Label, Input } from '@harvest-profit/npk';
 
 function Example(props) {
   return (

@@ -5,7 +5,7 @@ import {
   CarouselControl,
   CarouselIndicators,
   CarouselCaption,
-} from 'reactstrap';
+} from '@harvest-profit/npk';
 
 const items = [
   {

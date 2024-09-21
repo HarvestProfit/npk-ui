@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { Dropdown, DropdownMenu, DropdownToggle } from '@harvest-profit/npk';
 
 function Example(props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardTitle, CardText, CardBody, CardHeader } from 'reactstrap';
+import { Card, CardTitle, CardText, CardBody, CardHeader } from '@harvest-profit/npk';
 import { colors } from '../options';
 
 function Example(props) {

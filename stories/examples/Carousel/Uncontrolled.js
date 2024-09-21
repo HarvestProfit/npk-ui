@@ -1,5 +1,5 @@
 import React from 'react';
-import { UncontrolledCarousel } from 'reactstrap';
+import { UncontrolledCarousel } from '@harvest-profit/npk';
 
 const items = [
   {
