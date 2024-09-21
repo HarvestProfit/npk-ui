@@ -12,8 +12,8 @@ $btn-border-radius-sm: $border-radius;
 $modal-lg-title-font-size: 1.6rem;
 $modal-title-font-size: 1.4rem;
 
-$card-spacer-y:  .5rem;
-$card-spacer-x:  1rem;
+$card-spacer-y: .5rem;
+$card-spacer-x: 1rem;
 
 $border-radius-experimental: 8px;
 $border-radius-lg-experimental: $border-radius-experimental + 2px;
@@ -44,7 +44,7 @@ $input-disabled-border-color: $gray-500;
 // Focused Inputs
 $input-focus-bg: #fff;
 $input-focus-border-color: lighten($primary, 10%);
-$input-focus-box-shadow:  none;
+$input-focus-box-shadow: none;
 
 $table-hover-bg: $gray-150;
 $table-dark-hover-bg: $gray-900;
@@ -76,17 +76,17 @@ $grid-breakpoints: (
 );
 
 // Modals
-$modal-fade-transform:              translate(0, -50px);
-$modal-show-transform:              none;
-$modal-transition:                  transform .3s cubic-bezier(0.105, 0.780, 0.250, 0.955);
+$modal-fade-transform: translate(0, -50px);
+$modal-show-transform: none;
+$modal-transition: transform .3s cubic-bezier(0.105, 0.780, 0.250, 0.955);
 
 // $card-spacer-x: 1.5rem;  Not doing this yet cuz it mess up a bunch of stuff
 
 
 
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
+@import '~bootstrap-scss/functions';
+@import '~bootstrap-scss/variables';
+@import '~bootstrap-scss/mixins';
 
 //
 // CUSTOM VARIABLES / OVERRIDES
