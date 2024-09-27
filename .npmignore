@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+.idea
+.history
+npm-debug.log
+src/**/*.spec.js
+src/**/*.stories.jsx
+src/**/*.stories.js
+dist/**/*.stories.jsx
+dist/**/*.stories.js
+dist/**/*.spec.js

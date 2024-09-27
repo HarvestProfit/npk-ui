@@ -1,6 +1,6 @@
 {
   "name": "@harvest-profit/npk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "NPK UI Design System",
   "source": "src/index.js",
   "main": "dist/index.js",
@@ -34,11 +34,14 @@
   "files": [
     "LICENSE",
     "README.md",
-    "dist/ApplicationAlert",
-    "dist/ThemeContext",
-    "src/ApplicationAlert",
-    "src/ThemeContext",
-    "types"
+    "dist",
+    "src",
+    "types",
+    "!src/**/*.stories.*",
+    "!dist/**/*.stories.*",
+    "!src/**/*.spec.*",
+    "!dist/**/*.spec.*",
+    "!.eslintrc"
   ],
   "keywords": [
     "reactstrap",
