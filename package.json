@@ -34,7 +34,8 @@
   "files": [
     "LICENSE",
     "README.md",
-    "dist",
+    "dist/ApplicationAlert",
+    "dist/ThemeContext",
     "src/ApplicationAlert",
     "src/ThemeContext",
     "types"
@@ -66,8 +67,8 @@
     "react-transition-group": "^4.4.2"
   },
   "peerDependencies": {
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.4",
