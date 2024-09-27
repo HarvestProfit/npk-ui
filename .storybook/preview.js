@@ -1,5 +1,7 @@
+import React from 'react';
 import { themes, create } from '@storybook/theming';
 import '../static/styles/dashboard/index.scss';
+import { ThemeContextProvider } from '../src/ThemeContext';
 
 const lightTheme = create({
   ...themes.normal,
@@ -17,29 +19,42 @@ const darkTheme = create({
   brandTarget: '_self',
 });
 
-export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    hideNoControlsWarning: true,
-    matchers: {
-      date: /Date$/
+export default {
+  parameters: {
+    actions: { argTypesRegex: "^on[A-Z].*" },
+    controls: {
+      hideNoControlsWarning: true,
+      matchers: {
+        date: /Date$/
+      },
     },
-  },
-  options: {
-    storySort: {
-      order: ['Home', ['Installation', 'GitHub', 'Upgrading', 'Themes'], '*']
+    options: {
+      storySort: {
+        order: ['Home', ['Installation', 'GitHub', 'Upgrading', 'Themes'], '*']
+      }
+    },
+    viewMode: 'docs',
+    previewTabs: {
+      canvas: { hidden: true },
+    },
+    darkMode: {
+      stylePreview: true,
+      // Override the default dark theme
+      dark: darkTheme,
+      // Override the default light theme
+      light: lightTheme
     }
   },
-  viewMode: 'docs',
-  previewTabs: {
-    canvas: { hidden: true },
-  },
-  darkMode: {
-    stylePreview: true,
-    // Override the default dark theme
-    dark: darkTheme,
-    // Override the default light theme
-    light: lightTheme
-  }
+  tags: ['autodocs'],
+  decorators: [
+    (Story, { id }) => {
+      return (
+        <div id={`${id}_prependRoot`}>
+          <ThemeContextProvider config={{ prependRootId: `${id}_prependRoot` }}>
+            <Story />
+          </ThemeContextProvider>
+        </div>
+      )
+    },
+  ]
 }
-export const tags = ['autodocs'];

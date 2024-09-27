@@ -1,12 +1,20 @@
 module.exports = {
-  stories: ['../stories/**/*.mdx', '../stories/**/*.stories.js'],
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
 
   addons: [
+    {
+      name: '@storybook/addon-essentials',
+      options: {
+        backgrounds: false,
+      },
+    },
     '@storybook/addon-links',
+    '@storybook/addon-storysource',
     '@storybook/addon-docs',
     '@storybook/addon-mdx-gfm',
     '@storybook/addon-webpack5-compiler-babel',
     'storybook-dark-mode',
+    "storybook-css-modules",
     ({
       name: '@storybook/addon-styling-webpack',
       options: {

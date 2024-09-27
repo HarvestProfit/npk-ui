@@ -1,4 +1,4 @@
-$white:    #ffffff;
+$white: #ffffff;
 $gray-100: #f8f9fa;
 $gray-150: #f1f2f5; // Custom color
 $gray-200: #e9ecef;
@@ -9,35 +9,35 @@ $gray-600: #6a747f;
 $gray-700: #495057;
 $gray-800: #343a40;
 $gray-900: #212529;
-$black:    #000;
+$black: #000;
 
-$blue:     #5abce8;
-$indigo:   #6610f2;
-$purple:   #6f42c1;
-$pink:     #FF00FF;
-$red:      #d63b49;
-$orange:   #F4801F;
-$yellow:   #E8A809; //E8A809
-$green:    #3f9142;
-$teal:     #20c997;
-$cyan:     #17a2b8;
-$brown:    #8C602C;
+$blue: #5abce8;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #FF00FF;
+$red: #d63b49;
+$orange: #F4801F;
+$yellow: #E8A809; //E8A809
+$green: #3f9142;
+$teal: #20c997;
+$cyan: #17a2b8;
+$brown: #8C602C;
 
 
-$primary:       $green;
-$secondary:     $gray-600;
-$success:       lighten($primary, 5%);
-$info:          $cyan;
-$warning:       $yellow;
-$danger:        $red;
-$light:         $gray-100;
-$dark:          $gray-800;
+$primary: $green;
+$secondary: $gray-600;
+$success: lighten($primary, 5%);
+$info: $cyan;
+$warning: $yellow;
+$danger: $red;
+$light: $gray-100;
+$dark: $gray-800;
 
 $light-red: lighten($red, 37%);
 $light-yellow: lighten($yellow, 42%);
 
 // Custom colors
-$help-color:    $blue;
+$help-color: $blue;
 $field-application-color: #5ABCE8;
 $field-planting-color: #9EBF54;
 $field-harvest-color: #F3845C;
@@ -47,10 +47,16 @@ $body-color: $dark;
 
 // Request a color level
 // Set a specific jump point for requesting color jumps
-$theme-color-interval:      8% !default;
+$theme-color-interval: 8% !default;
+
 @function color-level($color: $primary, $level: 0) {
   $color-base: if($level > 0, $black, $white);
   $level: abs($level);
 
   @return mix($color-base, $color, $level * $theme-color-interval);
+}
+
+:root {
+  --primary-bg-color: #{$primary};
+  --primary-fg-color: white;
 }

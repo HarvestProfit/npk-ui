@@ -1,0 +1,40 @@
+.ApplicationAlert {
+  width: 100%;
+  background-color: var(--application-alert-bg-color, var(--warning-bg-color, #fceca2));
+  color: var(--application-alert-fg-color, var(--warning-fg-color, #776618));
+  padding: 0.375rem;
+  border-bottom: 2px solid;
+  border-top: 2px solid;
+  border-color: rgb(from var(--border-highlight-color, #000000) r g b / 10%);
+  /* Places the border on the inside allowing for borders to not impact button sizes */
+  box-sizing: border-box;
+  text-decoration: none;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  transition: background-color 100ms ease-in-out;
+
+  &:hover {
+    color: var(--application-alert-fg-color, var(--warning-fg-color, #776618));
+  }
+
+  .ApplicationAlertText {
+    margin: 0;
+    font-size: var(--text-size-14, 0.875rem);
+  }
+
+  .ApplicationAlertIcon {
+    margin-right: var(--text-size-6, 0.375rem);
+    line-height: 0.9;
+  }
+
+  &:where([data-variant="primary"]) {
+    --application-alert-bg-color: var(--primary-bg-color);
+    --application-alert-fg-color: var(--primary-fg-color);
+  }
+
+  &:where(a[href], button):hover {
+    background-color: rgb(from var(--application-alert-bg-color, var(--warning-bg-color, #fceca2)) r g b / 95%);
+  }
+}
