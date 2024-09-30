@@ -45,7 +45,6 @@ export default {
       light: lightTheme
     }
   },
-  tags: ['autodocs'],
   decorators: [
     (Story, { id }) => {
       return (

@@ -1,0 +1,22 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as ApplicationAlertStories from './ApplicationAlert.stories.jsx';
+ 
+<Meta of={ApplicationAlertStories} />
+ 
+# Application Alert
+
+*You must have the `ThemeContextProvider` in the parent tree and configure the `prependRootId` option for this to work (attaches to the app through a React Portal).*
+ 
+Used to display a banner across the top of the screen with some information, for example to alert users of an upcoming maintenance window.
+ 
+<Canvas of={ApplicationAlertStories.WithIcon} />
+
+Additionally, this banner is used for notifying a user of their upcoming end of their demo. You can change the "as" prop
+to an achor tag and provide an href prop to turn the whole banner into a clickable thing.
+
+<Canvas of={ApplicationAlertStories.DemoUpgrade} />
+
+## Props
+
+<Controls />
