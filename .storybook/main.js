@@ -11,7 +11,6 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-storysource',
     '@storybook/addon-docs',
-    '@storybook/addon-mdx-gfm',
     '@storybook/addon-webpack5-compiler-babel',
     'storybook-dark-mode',
     "storybook-css-modules",
