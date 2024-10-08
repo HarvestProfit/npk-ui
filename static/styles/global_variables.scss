@@ -56,7 +56,4 @@ $theme-color-interval: 8% !default;
   @return mix($color-base, $color, $level * $theme-color-interval);
 }
 
-:root {
-  --primary-bg-color: #{$primary};
-  --primary-fg-color: white;
-}
+@import '../../src/theme.scss';

@@ -1,0 +1,25 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as TooltipStories from './Tooltip.stories.jsx';
+ 
+<Meta of={TooltipStories} />
+ 
+# Tooltips
+
+*You must have the `ThemeContextProvider` in the parent tree and configure the `prependRootId` option for this to work (attaches to the app through a React Portal).*
+ 
+Tooltips are attached via a portal and uses `@floating-ui` (previously popper) to position the tooltip in the correct position.
+
+You can attach a tooltip to an element via a ref or by simply providing an id to the tooltip. The ID needs to match the `aria-describedby` attribute
+on the element you want the tooltip to connect to.
+ 
+<Canvas of={TooltipStories.Default} />
+
+Tooltips can also be rendered on bodies of text.
+
+<Canvas of={TooltipStories.TextBlock} />
+
+
+## Props
+
+<Controls />

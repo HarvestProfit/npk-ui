@@ -1,0 +1,19 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as PlaceholderStories from './Placeholder.stories.jsx';
+ 
+<Meta of={PlaceholderStories} />
+ 
+# Placeholder
+ 
+Used to render a loading skeleton view by replacing content with loading blocks.
+
+Placeholders will automatically assume the height of the parent element via its text size and text color. Width is based on the
+`width` prop you give it. You can specify an array where the first integer is the min value and the second is the max value to 
+generate a random value.
+ 
+<Canvas of={PlaceholderStories.Example} />
+
+## Props
+
+<Controls />

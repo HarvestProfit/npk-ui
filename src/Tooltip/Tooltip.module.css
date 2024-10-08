@@ -1,0 +1,18 @@
+.Tooltip {
+  width: max-content;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--tooltip-bg-color);
+  color: var(--tooltip-fg-color);
+  font-weight: normal;
+  padding: var(--size-6) var(--size-10);
+  border-radius: var(--control-radius);
+  font-size: var(--size-13);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+
+  &[data-visibility="true"] {
+    opacity: 1;
+  }
+}
