@@ -11,7 +11,7 @@
     "test:ci": "jest",
     "cover": "jest --coverage",
     "start": "npm run build:svgr && storybook dev -p 8080",
-    "build:docs": "storybook build -o ./build",
+    "build:docs": "npm run build:svgr && storybook build -o ./build",
     "preview-doc-build": "npx http-server build/",
     "build:font": "svgtofont --sources ./icons/regular --output ./tmp/font --fontName npkicons && node ./scripts/prepareFont",
     "build:icons": "npm run build:svgr && BUILD_ENV=release babel tmp/icons -d dist/icons",
