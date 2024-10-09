@@ -2,7 +2,7 @@ import React from 'react'
 import Placeholder from '@harvest-profit/npk/Placeholder';
 
 export default {
-  title: 'Components/Placeholder',
+  title: 'Loading/Placeholder',
   component: Placeholder,
   argTypes: {
     width: {

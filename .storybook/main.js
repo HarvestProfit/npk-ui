@@ -8,10 +8,7 @@ module.exports = {
         backgrounds: false,
       },
     },
-    '@storybook/addon-links',
     '@storybook/addon-storysource',
-    '@storybook/addon-docs',
-    '@storybook/addon-webpack5-compiler-babel',
     'storybook-dark-mode',
     "storybook-css-modules",
     ({
@@ -33,7 +30,8 @@ module.exports = {
           },
         ]
       }
-    })
+    }),
+    '@storybook/addon-webpack5-compiler-babel',
   ],
 
   staticDirs: ['../static'],

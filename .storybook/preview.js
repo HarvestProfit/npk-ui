@@ -30,7 +30,13 @@ export default {
     },
     options: {
       storySort: {
-        order: ['Home', ['Installation', 'GitHub', 'Upgrading', 'Themes'], '*']
+        order: [
+          'Home',
+          'Components',
+          'Loading',
+          '*',
+          'WIP'
+        ]
       }
     },
     viewMode: 'docs',

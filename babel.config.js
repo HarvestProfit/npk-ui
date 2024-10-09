@@ -20,7 +20,7 @@ module.exports = function (api) {
     "@babel/plugin-proposal-export-namespace-from"
   ];
 
-  if (process.env["NODE_ENV"] === "production") {
+  if (process.env["BUILD_ENV"] === "release") {
     plugins.push("@babel/plugin-transform-modules-commonjs");
   }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import ApplicationAlert from '@harvest-profit/npk/ApplicationAlert';
-import MaintenanceIcon from '../../icons/regular/MaintenanceIcon.svg';
+import { MaintenanceIcon } from '@harvest-profit/npk/icons';
 
 const icons = { None: null, MaintenanceIcon }
 

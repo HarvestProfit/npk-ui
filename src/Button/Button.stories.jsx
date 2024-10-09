@@ -1,11 +1,11 @@
 import React from 'react'
 import Button from '@harvest-profit/npk/Button';
-import MaintenanceIcon from '../../icons/regular/MaintenanceIcon.svg';
+import { MaintenanceIcon } from '@harvest-profit/npk/icons/regular';
 
 const icons = { None: null, MaintenanceIcon }
 
 export default {
-  title: 'Components/Button',
+  title: 'WIP/Buttons',
   component: Button,
   argTypes: {
     icon: {

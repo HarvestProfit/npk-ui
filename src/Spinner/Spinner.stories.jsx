@@ -2,7 +2,7 @@ import React from 'react'
 import Spinner from '@harvest-profit/npk/Spinner';
 
 export default {
-  title: 'Components/Spinner',
+  title: 'Loading/Spinner',
   component: Spinner,
   argTypes: {
     size: {
