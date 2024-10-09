@@ -10,3 +10,4 @@ node_modules
 .history
 npm-debug.log
 /tmp
+/font

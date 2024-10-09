@@ -10,3 +10,4 @@ dist/**/*.stories.jsx
 dist/**/*.stories.js
 dist/**/*.spec.js
 tmp
+font
