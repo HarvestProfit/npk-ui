@@ -8,12 +8,14 @@ const Button = ({
   trailingVisual: ProvidedTrailingVisual,
   trailingAction: TrailingAction,
   block,
+  elevated,
+  invisible,
   disabled: providedDisabled,
   loading,
   size = 'md',
   align = 'center',
   as: Component = 'button',
-  count,
+  chip,
   children,
   ...props
 }) => {
@@ -27,8 +29,8 @@ const Button = ({
 
   if (disabled) state = 'disabled';
 
-  if (Number.isFinite(count)) {
-    TrailingVisual = <span aria-hidden="true" data-component="ButtonCounter">{count}</span>;
+  if (chip) {
+    TrailingVisual = <span aria-hidden="true" data-component="ButtonChip">{chip}</span>;
   }
 
   if (loading) {
@@ -44,14 +46,14 @@ const Button = ({
   }
 
   return (
-    <Component className={classes.Button} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-state={state} data-variant={variant} {...props}>
+    <Component className={classes.Button} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-elevated={elevated} data-invisible={invisible} data-state={state} data-variant={variant} {...props}>
       <span data-component="contents" data-icon={!!(!children && (TrailingVisual || LeadingVisual))}>
         {LeadingVisual && <span data-component="leadingVisual">{React.isValidElement(LeadingVisual) ? LeadingVisual : <LeadingVisual />}</span>}
         {textLoading}
         {children && <span data-component="text">{children}</span>}
         {TrailingVisual && <span data-component="trailingVisual">{React.isValidElement(TrailingVisual) ? TrailingVisual : <TrailingVisual />}</span>}
       </span>
-      {TrailingAction && <span data-component="trailingAction">{React.isValidElement(TrailingVisual) ? TrailingVisual : <TrailingAction />}</span>}
+      {TrailingAction && <span data-component="trailingAction">{React.isValidElement(TrailingAction) ? TrailingAction : <TrailingAction />}</span>}
     </Component>
   )
 }

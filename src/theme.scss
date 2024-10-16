@@ -70,9 +70,9 @@
 /* controls (buttons, inputs, etc) */
 :root {
   --control-bg-color: var(--color-neutral-95);
-  --control-bg-color--hover: var(--color-neutral-92);
-  --control-bg-color--active: var(--color-neutral-90);
-  --control-bg-color--disabled: #f3f4f5aa;
+  --control-bg-color--hover: #00000009;
+  --control-bg-color--active: #0000000B;
+  --control-bg-color--disabled: #0000000F;
   --control-fg-color--disabled: #191b1eaa;
   --control-fg-color: var(--color-neutral-10);
   --control-icon-color: var(--color-fg-muted);
@@ -89,6 +89,7 @@
   --control-button-weight: 600;
   --control-border-color: #00000022;
   --control-border-color--disabled: #00000011;
+  --control-surface-color: #00000010;
 
   --button-danger-fg-color: var(--color-red);
   --button-primary-fg-color: white;
@@ -97,9 +98,8 @@
   --button-primary-bg-color--active: var(--color-green--active);
   --button-primary-bg-color--disabled: var(--color-green--disabled);
 
-  --button-cta-fg-color: var(--color-neutral-10);
-  --button-cta-bg-color: white;
-  --button-cta-bg-color--hover: var(--color-neutral-98);
-  --button-cta-bg-color--active: var(--color-neutral-95);
-  --button-cta-bg-color--disabled: #f3f4f5aa;
+  --button-white-bg-color: white;
+  --button-white-bg-color--hover: var(--color-neutral-98);
+  --button-white-bg-color--active: var(--color-neutral-95);
+  --button-white-bg-color--disabled: #f3f4f5aa;
 }

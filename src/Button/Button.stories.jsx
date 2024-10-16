@@ -48,6 +48,14 @@ export default {
       type: 'boolean',
       table: { defaultValue: { summary: "false" } }
     },
+    elevated: {
+      type: 'boolean',
+      table: { defaultValue: { summary: "false" } }
+    },
+    invisible: {
+      type: 'boolean',
+      table: { defaultValue: { summary: "false" } }
+    },
     as: {
       type: 'string',
       description: 'The html tag or component to be used.',
@@ -57,7 +65,7 @@ export default {
       control: {
         type: 'radio',
       },
-      options: ['default', 'primary', 'danger', 'cta-primary', 'cta'],
+      options: ['default', 'primary', 'danger'],
       table: { defaultValue: { summary: "default" } }
     },
     size: {
@@ -74,8 +82,8 @@ export default {
       options: ['start', 'center', 'end'],
       table: { defaultValue: { summary: "center" } }
     },
-    count: {
-      type: 'number',
+    chip: {
+      type: 'string',
     },
     children: {
       type: 'string',
@@ -91,7 +99,9 @@ export default {
     block: false,
     disabled: false,
     loading: false,
-    count: null
+    elevated: false,
+    invisible: false,
+    chip: null
   }
 }
 

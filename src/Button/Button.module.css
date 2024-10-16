@@ -1,3 +1,7 @@
+a.Button:hover {
+  color: var(--control-fg-color);
+}
+
 .Button {
   cursor: pointer;
   appearance: none;
@@ -7,7 +11,7 @@
   transition: 180ms cubic-bezier(0.65, 0, 0.35, 1);
   transition-property: color, fill, background-color, border-color, box-shadow;
 
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -23,6 +27,8 @@
   background-color: var(--control-bg-color);
   color: var(--control-fg-color);
   border-radius: var(--control-radius);
+
+  --internal-btn-fg: var(--control-fg-color);
 
   &:hover {
     background-color: var(--control-bg-color--hover);
@@ -52,13 +58,17 @@
     display: grid;
     grid-template-areas: "leadingVisual text trailingVisual";
     grid-template-columns: min-content minmax(0px, auto) min-content;
-    gap: var(--control-gap);
     align-items: center;
     align-content: center;
     justify-content: center;
 
-    &[data-icon="true"] {
-      display: flex;
+    &[data-icon="true"]>[data-component="leadingVisual"] {
+      margin-right: 0;
+    }
+
+    &>[data-component="loading"] {
+      align-self: center;
+      justify-self: center;
     }
 
     &>[data-component="loading"],
@@ -70,11 +80,13 @@
     &>[data-component="leadingVisual"] {
       grid-row: leadingVisual;
       grid-column: leadingVisual;
+      margin-right: var(--control-gap);
     }
 
     &>[data-component="trailingVisual"] {
       grid-row: trailingVisual;
       grid-column: trailingVisual;
+      margin-left: var(--control-gap);
     }
 
     &>[data-component="text"] {
@@ -88,25 +100,21 @@
     }
   }
 
-  [data-component="ButtonCounter"] {
-    font-size: 12px;
+  [data-component="ButtonChip"] {
+    font-size: 85%;
     display: inline-block;
-    padding: 2px 5px;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 0.25em 0.55em;
+    font-weight: 500;
     line-height: 1;
     border-radius: 20px;
-    color: var(--control-fg-color);
-    background-color: var(--control-border-color);
+    background-color: var(--control-surface-color);
   }
 
   [data-component="loading"],
   [data-component="leadingVisual"],
-  [data-component="trailingVisual"] {
+  [data-component="trailingVisual"],
+  [data-component="trailingAction"] {
     line-height: 0.9;
-    color: var(--control-icon-color);
-    transition: 180ms cubic-bezier(0.65, 0, 0.35, 1);
-    transition-property: color;
 
     svg {
       display: inline-block;
@@ -116,17 +124,7 @@
   }
 
   [data-component="trailingAction"] {
-    margin-right: -4px;
-
-    color: var(--control-icon-color);
-    transition: 180ms cubic-bezier(0.65, 0, 0.35, 1);
-    transition-property: color;
-
-    svg {
-      display: inline-block;
-      vertical-align: text-bottom;
-      overflow: visible;
-    }
+    margin-right: calc(var(--control-gap) / -2);
   }
 
   /* Sizing */
@@ -154,6 +152,29 @@
     justify-content: flex-end;
   }
 
+  &[data-elevated="true"] {
+    --control-bg-color: var(--button-white-bg-color);
+    --control-bg-color--hover: var(--button-white-bg-color--hover);
+    --control-bg-color--active: var(--button-white-bg-color--active);
+    --control-bg-color--disabled: var(--button-white-bg-color--disabled);
+
+    box-shadow: 1px 2px 3px -3px rgba(0, 0, 0, .76), 0 1px 13px -10px rgba(0, 0, 0, .35);
+
+    &[data-size="lg"] {
+      border-color: transparent;
+    }
+  }
+
+  &[data-invisible="true"] {
+    --control-bg-color: transparent;
+    border-color: transparent;
+
+    &[data-variant="primary"] {
+      --control-fg-color: var(--button-primary-bg-color);
+      --control-fg-color--disabled: var(--button-primary-bg-color--disabled);
+    }
+  }
+
   /* variants */
   &[data-variant="danger"] {
     --control-fg-color: var(--button-danger-fg-color);
@@ -161,7 +182,7 @@
     --control-fg-color--disabled: rgb(from var(--button-danger-fg-color) r g b / 50%);
   }
 
-  &[data-variant="primary"] {
+  &[data-variant="primary"]:not([data-invisible="true"]) {
     --control-fg-color: var(--button-primary-fg-color);
     --control-icon-color: var(--button-primary-fg-color);
     --control-fg-color--disabled: var(--button-primary-fg-color);
@@ -169,26 +190,5 @@
     --control-bg-color--hover: var(--button-primary-bg-color--hover);
     --control-bg-color--active: var(--button-primary-bg-color--active);
     --control-bg-color--disabled: var(--button-primary-bg-color--disabled);
-  }
-
-  &[data-variant="cta-primary"] {
-    --control-fg-color: var(--button-primary-fg-color);
-    --control-icon-color: var(--button-primary-fg-color);
-    --control-fg-color--disabled: var(--button-primary-fg-color);
-    --control-bg-color: var(--button-primary-bg-color);
-    --control-bg-color--hover: var(--button-primary-bg-color--hover);
-    --control-bg-color--active: var(--button-primary-bg-color--active);
-    --control-bg-color--disabled: var(--button-primary-bg-color--disabled);
-    border-color: transparent;
-    box-shadow: 1px 2px 3px -3px rgba(0, 0, 0, .76), 0 1px 13px -10px rgba(0, 0, 0, .35);
-  }
-
-  &[data-variant="cta"] {
-    --control-bg-color: var(--button-cta-bg-color);
-    --control-bg-color--hover: var(--button-cta-bg-color--hover);
-    --control-bg-color--active: var(--button-cta-bg-color--active);
-    --control-bg-color--disabled: var(--button-cta-bg-color--disabled);
-    border-color: transparent;
-    box-shadow: 1px 2px 3px -3px rgba(0, 0, 0, .76), 0 1px 13px -10px rgba(0, 0, 0, .35);
   }
 }
