@@ -1,37 +1,112 @@
-.ApplicationAlert {
-  /* Vars */
-  --application-alert-bg-color: var(--warning-bg-color);
-  --application-alert-fg-color: var(--warning-fg-color);
-
-
-  width: 100%;
-  background-color: var(--application-alert-bg-color);
-  color: var(--application-alert-fg-color);
-  padding: 0.375rem;
-  border-bottom: 2px solid;
-  border-top: 2px solid;
-  border-color: rgb(from var(--border-highlight-color) r g b / 10%);
+.Button {
+  cursor: pointer;
+  appearance: none;
+  user-select: none;
   /* Places the border on the inside allowing for borders to not impact button sizes */
   box-sizing: border-box;
-  text-decoration: none;
+  transition: 180ms cubic-bezier(0.65, 0, 0.35, 1);
+  transition-property: color, fill, background-color, border-color, box-shadow;
 
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  transition: background-color 100ms ease-in-out;
+  align-items: center;
+  justify-content: space-between;
+  min-width: max-content;
+  -webkit-user-select: none;
+  text-decoration-line: none;
+  gap: var(--control-gap);
+  padding: 0 var(--control-padding);
+  font-size: var(--control-font-size);
+  font-weight: var(--control-button-weight);
+  height: var(--control-size);
+  border: 1px solid var(--control-border-color);
+  background-color: var(--control-bg-color);
+  color: var(--control-fg-color);
+  border-radius: var(--control-radius);
 
   &:hover {
-    color: var(--application-alert-fg-color);
+    background-color: var(--control-bg-color--hover);
   }
 
-  .ApplicationAlertText {
-    margin: 0;
-    font-size: var(--size-14);
+  &:active {
+    background-color: var(--control-bg-color--active);
   }
 
-  .ApplicationAlertIcon {
-    margin-right: var(--size-6);
+  &:disabled,
+  &[data-state="disabled"],
+  &[data-state="loading"] {
+    cursor: not-allowed;
+    background-color: var(--control-bg-color--disabled);
+    color: var(--control-fg-color--disabled);
+    border-color: var(--control-border-color--disabled);
+  }
+
+  &[data-state="loading"] {
+    cursor: progress;
+  }
+
+  &>[data-component="contents"] {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: auto;
+    display: grid;
+    grid-template-areas: "leadingVisual text trailingVisual";
+    grid-template-columns: min-content minmax(0px, auto) min-content;
+    gap: var(--control-gap);
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+
+    &[data-icon="true"] {
+      display: flex;
+    }
+
+    &>[data-component="loading"],
+    &>[data-component="text"] {
+      grid-row: text;
+      grid-column: text;
+    }
+
+    &>[data-component="leadingVisual"] {
+      grid-row: leadingVisual;
+      grid-column: leadingVisual;
+    }
+
+    &>[data-component="trailingVisual"] {
+      grid-row: trailingVisual;
+      grid-column: trailingVisual;
+    }
+
+    &>[data-component="text"] {
+      line-height: calc(1.428571);
+      white-space-collapse: collapse;
+      text-wrap-mode: nowrap;
+    }
+
+    &>[data-component="loading"]+[data-component="text"] {
+      visibility: hidden;
+    }
+  }
+
+  [data-component="ButtonCounter"] {
+    font-size: 12px;
+    display: inline-block;
+    padding: 2px 5px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    border-radius: 20px;
+    color: var(--control-fg-color);
+    background-color: var(--control-border-color);
+  }
+
+  [data-component="loading"],
+  [data-component="leadingVisual"],
+  [data-component="trailingVisual"] {
     line-height: 0.9;
+    color: var(--control-icon-color);
+    transition: 180ms cubic-bezier(0.65, 0, 0.35, 1);
+    transition-property: color;
 
     svg {
       display: inline-block;
@@ -40,12 +115,80 @@
     }
   }
 
-  &:where([data-variant="primary"]) {
-    --application-alert-bg-color: var(--primary-bg-color);
-    --application-alert-fg-color: var(--primary-fg-color);
+  [data-component="trailingAction"] {
+    margin-right: -4px;
+
+    color: var(--control-icon-color);
+    transition: 180ms cubic-bezier(0.65, 0, 0.35, 1);
+    transition-property: color;
+
+    svg {
+      display: inline-block;
+      vertical-align: text-bottom;
+      overflow: visible;
+    }
   }
 
-  &:where(a[href], button):hover {
-    background-color: rgb(from var(--application-alert-bg-color) r g b / 95%);
+  /* Sizing */
+  &[data-size="sm"] {
+    --control-font-size: var(--control-small-font-size);
+    --control-size: var(--control-small-size);
+    --control-gap: var(--control-small-gap);
+    --control-padding: var(--control-small-padding);
+  }
+
+  &[data-size="lg"] {
+    --control-size: var(--control-large-size);
+  }
+
+  &[data-block="true"] {
+    width: 100%;
+  }
+
+  /* Alignment */
+  &[data-alignment="start"]>[data-component="contents"] {
+    justify-content: flex-start;
+  }
+
+  &[data-alignment="end"]>[data-component="contents"] {
+    justify-content: flex-end;
+  }
+
+  /* variants */
+  &[data-variant="danger"] {
+    --control-fg-color: var(--button-danger-fg-color);
+    --control-icon-color: var(--button-danger-fg-color);
+    --control-fg-color--disabled: rgb(from var(--button-danger-fg-color) r g b / 50%);
+  }
+
+  &[data-variant="primary"] {
+    --control-fg-color: var(--button-primary-fg-color);
+    --control-icon-color: var(--button-primary-fg-color);
+    --control-fg-color--disabled: var(--button-primary-fg-color);
+    --control-bg-color: var(--button-primary-bg-color);
+    --control-bg-color--hover: var(--button-primary-bg-color--hover);
+    --control-bg-color--active: var(--button-primary-bg-color--active);
+    --control-bg-color--disabled: var(--button-primary-bg-color--disabled);
+  }
+
+  &[data-variant="cta-primary"] {
+    --control-fg-color: var(--button-primary-fg-color);
+    --control-icon-color: var(--button-primary-fg-color);
+    --control-fg-color--disabled: var(--button-primary-fg-color);
+    --control-bg-color: var(--button-primary-bg-color);
+    --control-bg-color--hover: var(--button-primary-bg-color--hover);
+    --control-bg-color--active: var(--button-primary-bg-color--active);
+    --control-bg-color--disabled: var(--button-primary-bg-color--disabled);
+    border-color: transparent;
+    box-shadow: 1px 2px 3px -3px rgba(0, 0, 0, .76), 0 1px 13px -10px rgba(0, 0, 0, .35);
+  }
+
+  &[data-variant="cta"] {
+    --control-bg-color: var(--button-cta-bg-color);
+    --control-bg-color--hover: var(--button-cta-bg-color--hover);
+    --control-bg-color--active: var(--button-cta-bg-color--active);
+    --control-bg-color--disabled: var(--button-cta-bg-color--disabled);
+    border-color: transparent;
+    box-shadow: 1px 2px 3px -3px rgba(0, 0, 0, .76), 0 1px 13px -10px rgba(0, 0, 0, .35);
   }
 }

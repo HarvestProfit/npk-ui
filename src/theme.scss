@@ -1,6 +1,10 @@
 /* color theme */
 :root {
   --color-green: #3f9142;
+  --color-green--hover: #3C8A3F;
+  --color-green--active: #37803A;
+  --color-green--disabled: #77BA7A;
+
   --color-orange: #F4801F;
   --color-red: #d63b49;
   --color-brown: #8C602C;
@@ -10,6 +14,7 @@
   --color-neutral-99: #fefefe;
   --color-neutral-98: #fbfcfc;
   --color-neutral-95: #f3f4f5;
+  --color-neutral-92: #EEEFF0;
   --color-neutral-90: #e5e7ea;
   --color-neutral-80: #c9ced3;
   --color-neutral-70: #adb4bc;
@@ -32,6 +37,8 @@
 
   --primary-bg-color: var(--color-green);
   --primary-fg-color: white;
+
+  --color-fg-muted: var(--color-neutral-35);
 
   --warning-bg-color: #fceca2;
   --warning-fg-color: #776618;
@@ -57,6 +64,42 @@
   --size-18: 1.125rem;
   --size-20: 1.25rem;
 
-  --control-radius: var(--size-6);
   --container-radius: var(--size-8);
+}
+
+/* controls (buttons, inputs, etc) */
+:root {
+  --control-bg-color: var(--color-neutral-95);
+  --control-bg-color--hover: var(--color-neutral-92);
+  --control-bg-color--active: var(--color-neutral-90);
+  --control-bg-color--disabled: #f3f4f5aa;
+  --control-fg-color--disabled: #191b1eaa;
+  --control-fg-color: var(--color-neutral-10);
+  --control-icon-color: var(--color-fg-muted);
+  --control-small-size: 1.75rem;
+  --control-size: 2rem;
+  --control-large-size: 2.5rem;
+  --control-radius: var(--size-6);
+  --control-small-gap: var(--size-4);
+  --control-gap: var(--size-8);
+  --control-small-font-size: var(--size-12);
+  --control-font-size: var(--size-14);
+  --control-small-padding: var(--size-8);
+  --control-padding: var(--size-12);
+  --control-button-weight: 600;
+  --control-border-color: #00000022;
+  --control-border-color--disabled: #00000011;
+
+  --button-danger-fg-color: var(--color-red);
+  --button-primary-fg-color: white;
+  --button-primary-bg-color: var(--color-green);
+  --button-primary-bg-color--hover: var(--color-green--hover);
+  --button-primary-bg-color--active: var(--color-green--active);
+  --button-primary-bg-color--disabled: var(--color-green--disabled);
+
+  --button-cta-fg-color: var(--color-neutral-10);
+  --button-cta-bg-color: white;
+  --button-cta-bg-color--hover: var(--color-neutral-98);
+  --button-cta-bg-color--active: var(--color-neutral-95);
+  --button-cta-bg-color--disabled: #f3f4f5aa;
 }
