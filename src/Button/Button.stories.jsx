@@ -34,7 +34,7 @@ export default {
         type: 'select'
       },
       table: { defaultValue: { summary: "None" } },
-      description: "Icon at the end of the button"
+      description: "Icon at end of button even when full width. Used for dropdown indicators"
     },
     block: {
       type: 'boolean',
@@ -47,15 +47,18 @@ export default {
     },
     loading: {
       type: 'boolean',
-      table: { defaultValue: { summary: "false" } }
+      table: { defaultValue: { summary: "false" } },
+      description: 'Sets loading spinner and disables the button'
     },
     elevated: {
       type: 'boolean',
-      table: { defaultValue: { summary: "false" } }
+      table: { defaultValue: { summary: "false" } },
+      description: 'Make the button float with a shadow'
     },
     invisible: {
       type: 'boolean',
-      table: { defaultValue: { summary: "false" } }
+      table: { defaultValue: { summary: "false" } },
+      description: 'Makes the button appear as just a line of text'
     },
     as: {
       type: 'string',
@@ -85,9 +88,14 @@ export default {
     },
     chip: {
       type: 'string',
+      description: 'Used to add a chip on the trailing edge of the button, like a counter'
     },
     children: {
       type: 'string',
+    },
+    'aria-label': {
+      type: 'string',
+      description: 'Used to set a tooltip on the button. You can also use aria-describedby to link to a tooltip.',
     }
   },
   args: {
@@ -102,7 +110,8 @@ export default {
     loading: false,
     elevated: false,
     invisible: false,
-    chip: null
+    chip: null,
+    'aria-label': null
   }
 }
 

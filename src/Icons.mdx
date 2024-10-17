@@ -1,0 +1,36 @@
+import Button from './Button';
+import * as Icons from '@harvest-profit/npk/icons/regular';
+
+# NPKIcons
+
+Each icon has an intended use and come in specific sizes. *Do not try to resize icons*. 
+Regular icons have a 16x16 size and large have a 24x24 size. The strict sizes are meant to prevent
+excessive use of adjusting fontsizes and restricting uses is intended to standardize icons to prevent
+confusion.
+
+By restricting the sizes, this also allows specific icons to be sized for their purpose. For example,
+the `DropdownIndicatorIcon` is sized to appear smaller for its indicator use in buttons.
+
+### Actions
+* <Button icon={Icons.AddIcon} /> `AddIcon` used to indicate creating or adding something.
+* <Button icon={Icons.EditIcon} /> `EditIcon` indicate editing something.
+* <Button icon={Icons.CloseIcon} /> `CloseIcon` dismiss icon on modals.
+* <Button icon={Icons.ExportIcon} /> `ExportIcon` for exporting the page. Usually this is a dropdown that contains a list of different export formats.
+* <Button icon={Icons.SelectIcon} /> `SelectIcon` for exporting the page. Usually this is a dropdown that contains a list of different export formats.
+* <Button icon={Icons.FilterIcon} /> `FilterIcon` icon used to indicate a button displays filter options.
+* <Button icon={Icons.ArchiveIcon} /> `ArchiveIcon` action to archive an item.
+* <Button icon={Icons.CopyIcon} /> `CopyIcon` icon to indicate copy action.
+
+### Indicators
+* <Button icon={Icons.SearchIcon} /> `SearchIcon` icon on the search input field.
+* <Button icon={Icons.DropdownIndicatorIcon} /> `DropdownIndicatorIcon` indicate the item is a dropdown/popup. Used in the `trailingAction` prop on buttons.
+* <Button icon={Icons.MaintenanceIcon} /> `MaintenanceIcon` icon used in UI alerting the user of maintenance happening.
+* <Button icon={Icons.RightIndicatorIcon} /> `RightIndicatorIcon` icon on a table row or list to indicate that something can be clicked to view more.
+* <Button icon={Icons.DownIndicatorIcon} /> `DownIndicatorIcon` icon to dismiss a mobile modal or to show an expanded content section that can be closed.
+* <Button icon={Icons.ForwardIndicatorIcon} /> `ForwardIndicatorIcon` indicates a next item or forward action.
+* <Button icon={Icons.BackwardIndicatorIcon} /> `BackwardIndicatorIcon` indicates a previous item or backward action.
+
+### Features
+* <Button leadingVisual={Icons.HomeFeatureIcon} trailingVisual={Icons.HomeFeatureFilledIcon} /> `HomeFeatureIcon` & `HomeFeatureFilledIcon` icon for the home/dashboard feature.
+* <Button leadingVisual={Icons.CropPlannerFeatureIcon} trailingVisual={Icons.CropPlannerFeatureFilledIcon} /> `CropPlannerFeatureIcon` & `CropPlannerFeatureFilledIcon` icon for the crop planner feature.
+* <Button icon={Icons.InputUsageFeatureIcon}/> `InputUsageFeatureIcon` icon for the input usage & inventory feature.
