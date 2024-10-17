@@ -1,0 +1,58 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as ButtonStories from './Button.stories.jsx';
+ 
+<Meta of={ButtonStories} />
+ 
+# Buttons
+
+
+### Default
+<small>Use: General</small>
+
+Default buttons should be used for everything by default. These are made to look clickable.
+<Canvas of={ButtonStories.Default} />
+
+### Primary
+<small>Use: Primary Actions</small>
+
+Primary buttons should be used to indicate a call to action, indicating to the user that it is the
+main way to interact with the content.
+<Canvas of={ButtonStories.Primary} />
+
+### Danger
+<small>Use: Destructive Actions</small>
+
+Danger buttons should be used to indicate a destructive action. 
+<Canvas of={ButtonStories.Danger} />
+
+### Elevated
+<small>Use: Bulk Actions, Main CTA</small>
+
+Elevated buttons are used to display actions on tables for things like bulk actions as well as 
+`size="lg"` buttons which are used for the main CTA set of buttons on the top right of the page.
+**Do not mix invisible and elevated.**
+
+These buttons have a little shadow and is intended for them to stick out just a little bit more.
+<Canvas of={ButtonStories.Elevated} />
+
+### Invisible
+<small>Use: Minor Actions</small>
+
+Invisible buttons are used as clickable elements while remaining minimal in the UI. This is good for
+minor features and clickable items within blocks of text. **Do not mix invisible and elevated.**
+<Canvas of={ButtonStories.Invisible} />
+
+### Icon Buttons
+**All icons buttons should use `aria-label` to specify a tooltip.**. These are great for buttons that take up minimal
+amount of size. A warning will be logged to the console if the tooltip is missing.
+<Canvas of={ButtonStories.IconButtons} />
+
+### Tooltips & Buttons
+You can specify the `aria-label` prop to add a tooltip to a button. You can also use the `aria-describedby`
+prop and a tooltip with an id to link them together.
+<Canvas of={ButtonStories.WithTooltip} />
+
+## Props
+
+<Controls />
