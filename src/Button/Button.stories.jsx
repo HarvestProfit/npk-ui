@@ -143,7 +143,7 @@ export const Danger = () => <div style={{ display: 'flex', flexDirection: 'row',
   <Button variant="danger">danger</Button>
   <Button variant="danger" loading>danger</Button>
   <Button variant="danger" disabled>Disabled</Button>
-  <Button variant="danger" leadingVisual={Icons.ExportIcon}>Leading Vis</Button>
+  <Button variant="danger" leadingVisual={Icons.DeleteIcon}>Leading Vis</Button>
   <Button variant="danger" leadingVisual={Icons.ExportIcon} loading>Leading Vis</Button>
   <Button variant="danger" trailingVisual={Icons.ExportIcon}>Trailing Vis</Button>
   <Button variant="danger" leadingVisual={Icons.ExportIcon} trailingAction={Icons.DropdownIndicatorIcon}>Dropdown</Button>
@@ -154,7 +154,7 @@ export const Danger = () => <div style={{ display: 'flex', flexDirection: 'row',
 export const Elevated = () => <div>
 
   <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-    <Button variant="danger" elevated>Delete Selected</Button>
+    <Button variant="danger" leadingVisual={Icons.DeleteIcon} elevated>Delete Selected</Button>
     <Button elevated leadingVisual={Icons.EditIcon}>Bulk Edit</Button>
     <Button elevated leadingVisual={Icons.ExportIcon} trailingAction={Icons.DropdownIndicatorIcon} chip="12">Export</Button>
   </div>
