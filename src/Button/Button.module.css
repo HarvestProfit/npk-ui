@@ -1,162 +1,9 @@
-a.Button:hover {
-  color: var(--control-fg-color);
-}
-
 .Button {
-  cursor: pointer;
-  appearance: none;
-  user-select: none;
-  /* Places the border on the inside allowing for borders to not impact button sizes */
-  box-sizing: border-box;
-  transition: 180ms cubic-bezier(0.65, 0, 0.35, 1);
-  transition-property: color, fill, background-color, border-color, box-shadow;
-
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  min-width: max-content;
-  -webkit-user-select: none;
-  text-decoration-line: none;
-  gap: var(--control-gap);
-  padding: 0 var(--control-padding);
-  font-size: var(--control-font-size);
-  font-weight: var(--control-button-weight);
-  height: var(--control-size);
-  border: 1px solid var(--control-border-color);
-  background-color: var(--control-bg-color);
-  color: var(--control-fg-color);
-  border-radius: var(--control-radius);
-
-  --internal-btn-fg: var(--control-fg-color);
-
-  &:hover {
-    background-color: var(--control-bg-color--hover);
-  }
-
-  &:active {
-    background-color: var(--control-bg-color--active);
-  }
-
-  &:disabled,
-  &[data-state="disabled"],
-  &[data-state="loading"] {
-    cursor: not-allowed;
-    background-color: var(--control-bg-color--disabled);
-    color: var(--control-fg-color--disabled);
-    border-color: var(--control-border-color--disabled);
-  }
-
-  &[data-state="loading"] {
-    cursor: progress;
-  }
-
-  &>[data-component="contents"] {
-    flex-grow: 1;
-    flex-shrink: 0;
-    flex-basis: auto;
-    display: grid;
-    grid-template-areas: "leadingVisual text trailingVisual";
-    grid-template-columns: min-content minmax(0px, auto) min-content;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-
-    &[data-icon="true"]>[data-component="leadingVisual"] {
-      margin-right: 0;
-    }
-
-    &>[data-component="loading"] {
-      align-self: center;
-      justify-self: center;
-    }
-
-    &>[data-component="loading"],
-    &>[data-component="text"] {
-      grid-row: text;
-      grid-column: text;
-    }
-
-    &>[data-component="leadingVisual"] {
-      grid-row: leadingVisual;
-      grid-column: leadingVisual;
-      margin-right: var(--control-gap);
-    }
-
-    &>[data-component="trailingVisual"] {
-      grid-row: trailingVisual;
-      grid-column: trailingVisual;
-      margin-left: var(--control-gap);
-    }
-
-    &>[data-component="text"] {
-      line-height: calc(1.428571);
-      white-space-collapse: collapse;
-      text-wrap-mode: nowrap;
-    }
-
-    &>[data-component="loading"]+[data-component="text"] {
-      visibility: hidden;
-    }
-  }
-
-  [data-component="ButtonChip"] {
-    font-size: 85%;
-    display: inline-block;
-    padding: 0.25em 0.55em;
-    font-weight: 500;
-    line-height: 1;
-    border-radius: 20px;
-    background-color: var(--control-surface-color);
-  }
-
-  [data-component="loading"],
-  [data-component="leadingVisual"],
-  [data-component="trailingVisual"],
-  [data-component="trailingAction"] {
-    line-height: 0.9;
-
-    svg {
-      display: inline-block;
-      vertical-align: text-bottom;
-      overflow: visible;
-    }
-  }
-
-  [data-component="trailingAction"] {
-    margin-right: calc(var(--control-gap) / -2);
-  }
-
-  /* Sizing */
-  &[data-size="sm"] {
-    --control-font-size: var(--control-small-font-size);
-    --control-size: var(--control-small-size);
-    --control-gap: var(--control-small-gap);
-    --control-padding: var(--control-small-padding);
-  }
-
-  &[data-size="lg"] {
-    --control-size: var(--control-large-size);
-  }
-
-  &[data-block="true"] {
-    width: 100%;
-  }
-
-  /* Alignment */
-  &[data-alignment="start"]>[data-component="contents"] {
-    justify-content: flex-start;
-  }
-
-  &[data-alignment="end"]>[data-component="contents"] {
-    justify-content: flex-end;
-  }
-
   &[data-elevated="true"] {
-    --control-bg-color: var(--button-white-bg-color);
-    --control-bg-color--hover: var(--button-white-bg-color--hover);
-    --control-bg-color--active: var(--button-white-bg-color--active);
-    --control-bg-color--disabled: var(--button-white-bg-color--disabled);
+    --btn-bg-color: var(--button-white-bg-color);
+    --btn-bg-color--hover: var(--button-white-bg-color--hover);
+    --btn-bg-color--active: var(--button-white-bg-color--active);
+    --btn-bg-color--disabled: var(--button-white-bg-color--disabled);
 
     box-shadow: 1px 2px 3px -3px rgba(0, 0, 0, .76), 0 1px 13px -10px rgba(0, 0, 0, .35);
 
@@ -166,8 +13,8 @@ a.Button:hover {
   }
 
   &[data-invisible="true"] {
-    --control-bg-color: transparent;
-    border-color: transparent;
+    --btn-bg-color: transparent;
+    --btn-border-color: transparent;
 
     &[data-variant="primary"] {
       --control-fg-color: var(--button-primary-bg-color);
@@ -177,18 +24,18 @@ a.Button:hover {
 
   /* variants */
   &[data-variant="danger"] {
-    --control-fg-color: var(--button-danger-fg-color);
-    --control-icon-color: var(--button-danger-fg-color);
-    --control-fg-color--disabled: rgb(from var(--button-danger-fg-color) r g b / 50%);
+    --btn-fg-color: var(--button-danger-fg-color);
+    --btn-icon-color: var(--button-danger-fg-color);
+    --btn-fg-color--disabled: rgb(from var(--button-danger-fg-color) r g b / 50%);
   }
 
   &[data-variant="primary"]:not([data-invisible="true"]) {
-    --control-fg-color: var(--button-primary-fg-color);
-    --control-icon-color: var(--button-primary-fg-color);
-    --control-fg-color--disabled: var(--button-primary-fg-color);
-    --control-bg-color: var(--button-primary-bg-color);
-    --control-bg-color--hover: var(--button-primary-bg-color--hover);
-    --control-bg-color--active: var(--button-primary-bg-color--active);
-    --control-bg-color--disabled: var(--button-primary-bg-color--disabled);
+    --btn-fg-color: var(--button-primary-fg-color);
+    --btn-icon-color: var(--button-primary-fg-color);
+    --btn-fg-color--disabled: var(--button-primary-fg-color);
+    --btn-bg-color: var(--button-primary-bg-color);
+    --btn-bg-color--hover: var(--button-primary-bg-color--hover);
+    --btn-bg-color--active: var(--button-primary-bg-color--active);
+    --btn-bg-color--disabled: var(--button-primary-bg-color--disabled);
   }
 }

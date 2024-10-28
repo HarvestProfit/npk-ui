@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as ButtonStories from './SegmentedControl.stories.jsx';
+ 
+<Meta of={ButtonStories} />
+ 
+# Segmented Control
+
+Used to toggle between a few limited options. <b>Do not use a segmented control for more than 5 options</b>
+<Canvas of={ButtonStories.Default} />
+
+### With Icons
+Segmented Controls work similar to buttons, you can include a `leadingVisual` to include an icon in the button.
+
+<small>Be consistent with your use of icons, either include them or don't include them</small>
+<Canvas of={ButtonStories.WithIcons} />
+
+### Icons
+Or only use icons using the `<IconButton>` component. An `aria-label` is required which will add tooltips.
+<Canvas of={ButtonStories.IconButtons} />
+
+
+### Small
+Segmented control also supports a smaller size to be used for smaller minor controls.
+<Canvas of={ButtonStories.Small} />
+
+
+## Props
+
+<Controls />

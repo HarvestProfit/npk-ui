@@ -1,0 +1,69 @@
+.SegmentedControl {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-width: max-content;
+  -webkit-user-select: none;
+  user-select: none;
+  text-decoration-line: none;
+  border: 1px solid var(--control-border-color);
+  background-color: var(--control-bg-color);
+  border-radius: var(--control-radius);
+  height: var(--control-size);
+  /* Places the border on the inside allowing for borders to not impact button sizes */
+  box-sizing: border-box;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  &[data-size="sm"] {
+    --control-font-size: var(--control-small-font-size);
+    --control-size: var(--control-small-size);
+    --control-gap: var(--control-small-gap);
+    --control-padding: var(--control-small-padding);
+  }
+
+  &>li {
+    position: relative;
+
+    &[data-selected="true"] .SegmentedControlButton {
+      --btn-font-weight: var(--control-button-weight);
+      --btn-border-color: var(--control-dark-border-color);
+      --btn-bg-color: var(--button-white-bg-color);
+      --btn-bg-color--hover: var(--button-white-bg-color--hover);
+      --btn-bg-color--active: var(--button-white-bg-color--active);
+      --btn-bg-color--disabled: var(--button-white-bg-color--disabled);
+    }
+
+    &:not(:last-child):not([data-selected="true"])::after {
+      background-color: var(--control-border-color);
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+    }
+  }
+}
+
+.SegmentedControlButton {
+  --btn-bg-color: transparent;
+  --btn-border-color: transparent;
+  --btn-font-weight: normal;
+  margin: -1px;
+
+  [data-component="text"]::after {
+    content: attr(data-text-contents);
+    display: block;
+    font-weight: 600;
+    height: 0px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
+    visibility: hidden;
+  }
+}
