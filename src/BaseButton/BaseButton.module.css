@@ -114,6 +114,7 @@ a.ControlButton:hover {
   [data-component="leadingVisual"],
   [data-component="trailingVisual"],
   [data-component="trailingAction"] {
+    color: var(--btn-visual-color, var(--control-icon-color));
     line-height: 0.9;
 
     svg {
