@@ -11,6 +11,7 @@
   background-color: var(--control-bg-color);
   border-radius: var(--control-radius);
   height: var(--control-size);
+  font-size: var(--control-font-size);
   /* Places the border on the inside allowing for borders to not impact button sizes */
   box-sizing: border-box;
   list-style: none;
