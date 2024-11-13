@@ -80,7 +80,7 @@ const Tooltip = ({
         {children}
       </Component>
     ),
-    document.getElementById(theme.prependRootId),
+    document.getElementById(theme.appendRootId),
   );
 }
 

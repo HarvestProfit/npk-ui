@@ -1,7 +1,8 @@
 import React, { createContext } from "react";
 
 const defaultConfig = {
-  prependRootId: 'app-prepend-root'
+  prependRootId: 'app-prepend-root',
+  appendRootId: 'app-append-root',
 }
 
 const ThemeContext = createContext(defaultConfig);
