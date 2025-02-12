@@ -41,4 +41,18 @@
     --btn-bg-color--active: var(--button-primary-bg-color--active);
     --btn-bg-color--disabled: var(--button-primary-bg-color--disabled);
   }
+
+  &[data-variant="select"] {
+    width: 100%;
+    border-radius: 0;
+    --btn-font-weight: normal;
+
+    [data-component="leadingVisual"] {
+      opacity: 0;
+    }
+
+    &[data-active="true"] [data-component="leadingVisual"] {
+      opacity: 1;
+    }
+  }
 }

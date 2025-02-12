@@ -49,6 +49,12 @@
 
   --tooltip-bg-color: var(--color-neutral-20);
   --tooltip-fg-color: var(--color-neutral-95);
+
+  --menu-bg-color: var(--color-neutral-100);
+  --menu-divider-color: var(--color-neutral-80);
+  --menu-fg-color: var(--color-neutral-10);
+  --menu-option-divider-color: var(--color-neutral-90);
+  --menu-section-bg-color: var(--color-neutral-92);
 }
 
 /* Sizes */
@@ -65,6 +71,7 @@
   --size-20: 1.25rem;
 
   --container-radius: var(--size-8);
+  --shadow-floating-small: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f
 }
 
 /* controls (buttons, inputs, etc) */

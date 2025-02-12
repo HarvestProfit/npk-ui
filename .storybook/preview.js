@@ -55,7 +55,7 @@ export default {
     (Story, { id }) => {
       return (
         <div id={`${id}_prependRoot`}>
-          <ThemeContextProvider config={{ prependRootId: `${id}_prependRoot` }}>
+          <ThemeContextProvider config={{ prependRootId: `${id}_prependRoot`, appendRootId: `${id}_prependRoot` }}>
             <Story />
           </ThemeContextProvider>
         </div>

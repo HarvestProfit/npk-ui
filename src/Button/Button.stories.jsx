@@ -178,9 +178,9 @@ export const IconButtons = () => <div style={{ display: 'flex', flexDirection: '
 
 export const Invisible = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
   <Button variant="primary" invisible>Primary</Button>
-  <Button variant="danger" invisible>Primary</Button>
-  <Button invisible>Primary</Button>
-  <Button invisible loading>Primary</Button>
+  <Button variant="danger" invisible>Danger</Button>
+  <Button icon={Icons.ExportIcon} invisible>Export</Button>
+  <Button invisible loading>Loading</Button>
   <Button invisible disabled>Disabled</Button>
   <Button invisible chip="Beta">With Chip</Button>
 </div>
