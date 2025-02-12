@@ -11,14 +11,12 @@ export const useMenuContext = () => {
 
   if (!context) {
     return {
-      popover: {
-        refs: {
-          setReference: () => null
-        },
-        floatingStyles: {},
-        getFloatingProps: () => ({}),
-        getReferenceProps: () => {},
+      refs: {
+        setReference: () => null
       },
+      floatingStyles: {},
+      getFloatingProps: () => ({}),
+      getReferenceProps: () => {},
       useMergeRefs
     }
   }

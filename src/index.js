@@ -1,6 +1,7 @@
 import ApplicationAlert from './ApplicationAlert';
 import BaseButton from './BaseButton';
 import Button from './Button';
+import Menu from './Menu';
 import SegmentedControl from './SegmentedControl';
 import Placeholder from './Placeholder';
 import Spinner from './Spinner';
@@ -17,5 +18,6 @@ export {
   Placeholder,
   SegmentedControl,
   Spinner,
+  Menu,
   Tooltip
 }

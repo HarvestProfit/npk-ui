@@ -7,27 +7,31 @@ import * as MenuStories from './Menu.stories.jsx';
 # Buttons
 
 
-### Default
-Default buttons should be used for everything by default. These are made to look clickable.
-<Canvas of={MenuStories.Default} />
+### Basic Dialog
+<small>variant: <code>dialog</code></small>
+
+Produces a dialog menu that has more robust buttons and icons for more visual communication.
+<Canvas of={MenuStories.BasicDialog} />
+
+### Basic Menu
+<small>variant: <code>menu</code></small>
+
+Smaller menu that is better for fewer actions.
+<Canvas of={MenuStories.BasicMenu} />
+
+### Basic Select
+<small>variant: <code>select</code></small>
+
+Produces a select menu useful for selecting an option from a list.
+<Canvas of={MenuStories.BasicSelect} />
 
 ### Plain Menu
-<small>Use: General</small>
-
 You don't need to have a list of buttons in a menu, it can contain anything you want.
-<Canvas of={MenuStories.GenericMenu} />
+<Canvas of={MenuStories.CustomMenu} />
 
 ### Sub Menus
-<small>Use: General</small>
-
 Allows you to create more complicated menu structures by nesting options.
 <Canvas of={MenuStories.SubMenus} />
-
-### Select Dropdowns and Sections
-<small>Use: General</small>
-
-You can create sections and select dropdowns for use with option dropdowns
-<Canvas of={MenuStories.BasicSelect} />
 
 ## Props
 

@@ -14,39 +14,51 @@
   font-size: var(--size-13);
   box-shadow: var(--shadow-floating-small);
 
+  --btn-font-weight: normal;
+
   &[data-component="submenu"] {
     min-width: 150px;
   }
 
-  &[data-variant="select"] {
-    padding: 0;
+  & > [data-component="menu-contents"] {
+    display: flex;
+    flex-direction: column;
+  }
 
-    & > *:first-child {
-      border-top-right-radius: var(--control-radius);
-      border-top-left-radius: var(--control-radius);
-      border-top: none;
-    }
+  & > [data-component="menu-arrow"] {
+    color: var(--menu-bg-color);
+  }
 
-    & > * {
-      border-top: 1px solid var(--menu-option-divider-color);
-    }
+  &[data-variant="menu"] {
+    min-width: 150px;
+    --menu-select-option-divider-color: none;
+  }
 
-    & > *:last-child {
-      border-bottom-right-radius: var(--control-radius);
-      border-bottom-left-radius: var(--control-radius);
-    }
+  &[data-variant="select"],
+  &[data-variant="menu"] {
+    padding: var(--size-6) 0;
 
-    .Divider + *:not(.Divider) {
-      border-top: 0;
+    & > [data-component="menu-contents"] {
+      & > * {
+        border-top: var(--menu-select-option-divider-color, 1px solid var(--menu-option-divider-color));
+      }
+      
+      & > *:first-child:not(.Section) {
+        --menu-select-option-divider-color: none;
+      }
     }
   }
 
   .Divider {
     height: 1px;
-    background: var(--menu-divider-color);
+    background: var(--menu-border-color);
     margin: 6px 0px;
     border: none;
     padding: 0;
+
+    & + * {
+      --menu-select-option-divider-color: none;
+    }
   }
 
   .Section {
@@ -57,8 +69,9 @@
     font-size: var(--size-12);
     border-top: 1px solid var(--menu-option-divider-color);
     border-bottom: 1px solid var(--menu-option-divider-color);
-    + *:not(.Divider, .Section) {
-      border-top: 0;
+
+    & + * {
+      --menu-select-option-divider-color: none;
     }
   }
 }

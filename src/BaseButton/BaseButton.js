@@ -29,14 +29,14 @@ const BaseButton = ({
   let popoverProps = {};
   if (menuContentsContext.inMenu) {
     const menuDismisableOnClick = (e) => {
-      if (menuContentsContext.onDismiss) menuContentsContext.onDismiss();
       if (props.onClick) props.onClick(e);
+      if (menuContentsContext.onDismiss) menuContentsContext.onDismiss(e);
     }
 
     popoverProps = { onClick: menuDismisableOnClick };
   } else {
-    popoverProps = {...menuContext.popover.getReferenceProps(props)};
-    ref = menuContext.useMergeRefs([menuContext.popover.refs.setReference, internalRef]);
+    popoverProps = {...menuContext.getReferenceProps(props)};
+    ref = menuContext.useMergeRefs([menuContext.refs.setReference, internalRef]);
   }
 
   let LeadingVisual = ProvidedLeadingVisual;

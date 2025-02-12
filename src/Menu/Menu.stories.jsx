@@ -8,7 +8,7 @@ export default {
   component: Menu,
   argTypes: {
     placement: {
-      options: ['bottom', 'bottom-start', 'bottom-end', 'top', 'top-start', 'top-end', 'right', 'left'],
+      options: ['bottom', 'bottom-start', 'bottom-end', 'top', 'top-start', 'top-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'],
       control: {
         type: 'select'
       },
@@ -16,7 +16,7 @@ export default {
       description: "Placement of the menu"
     },
     variant: {
-      options: ['dialog', 'select'],
+      options: ['dialog', 'menu', 'select'],
       control: {
         type: 'select'
       },
@@ -30,6 +30,14 @@ export default {
       },
       table: { defaultValue: { summary: true } },
       description: "If the menu dismisses on click. 'menu' will dismiss just the current menu."
+    },
+    arrow: {
+      options: [true, false],
+      control: {
+        type: 'select'
+      },
+      table: { defaultValue: { summary: false } },
+      description: "Show an arrow on the menu"
     }
   },
   args: {
@@ -37,8 +45,8 @@ export default {
   }
 }
 
-export const Default = (props) => <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
-  <Menu {...props}>
+export const BasicDialog = (props) => <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
+  <Menu  variant="dialog" {...props}>
     <Button aria-label="This opens a menu" leadingVisual={Icons.AddIcon} trailingAction={Icons.DropdownIndicatorIcon} variant="primary">Add</Button>
     <Menu.Overlay>
       <Menu.Button>Email</Menu.Button>
@@ -50,6 +58,20 @@ export const Default = (props) => <div style={{ display: 'flex', justifyContent:
   </Menu>
 </div>
 
+export const BasicMenu = (props) => (
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
+    <Menu variant="menu" {...props}>
+      <Button aria-label="This opens a menu" icon={Icons.MenuIcon}></Button>
+      <Menu.Overlay>
+        <Menu.Button>Edit</Menu.Button>
+        <Menu.Button>Copy</Menu.Button>
+        <Menu.Divider />
+        <Menu.Button>Delete</Menu.Button>
+      </Menu.Overlay>
+    </Menu>
+  </div>
+)
+
 export const BasicSelect = (props) => {
   const [selected, setSelected] = useState(1)
   return (
@@ -57,6 +79,7 @@ export const BasicSelect = (props) => {
       <Menu variant="select" {...props}>
         <Button trailingAction={Icons.DropdownIndicatorIcon}>Select</Button>
         <Menu.Overlay>
+          <Menu.Section>Section</Menu.Section>
           <Menu.Button selected={selected === 1} onClick={() => setSelected(1)}>Item 1</Menu.Button>
           <Menu.Button selected={selected === 2} onClick={() => setSelected(2)}>Item 2</Menu.Button>
           <Menu.Section>Section</Menu.Section>
@@ -95,9 +118,9 @@ export const SubMenus = (props) => <div style={{ display: 'flex', justifyContent
   </Menu>
 </div>;
 
-export const GenericMenu = (props) => (
+export const CustomMenu = (props) => (
   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
-    <Menu {...props}>
+    <Menu arrow {...props}>
       <Button trailingAction={Icons.DropdownIndicatorIcon}>Show Menu</Button>
       <Menu.Overlay>
         <h3>Some random content</h3>

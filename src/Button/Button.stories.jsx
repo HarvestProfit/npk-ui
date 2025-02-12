@@ -69,7 +69,7 @@ export default {
       control: {
         type: 'radio',
       },
-      options: ['default', 'primary', 'danger'],
+      options: ['default', 'primary', 'danger', 'full'],
       table: { defaultValue: { summary: "default" } }
     },
     size: {
