@@ -78,26 +78,6 @@ Menu.Overlay = forwardRef(({ children, style, ...props }, forwardedRef) => {
 
 Menu.Overlay.displayName = "Menu.Overlay";
 
-Menu.Button = ({ selected, selectedIcon = Icons.CheckedIcon, ...props}) => {
-  const menuContext = useMenuContext();
-  const menuContentsContext = useContext(MenuContentsContext);
-  const menuButtonProps = {};
-  let menuVariant = menuContext.variant;
-  if (menuContentsContext.inMenu) {
-    menuVariant = menuContentsContext.variant;
-  }
-
-  if (menuVariant === 'select' || menuVariant === 'menu') menuButtonProps.plain = true;
-  if (menuVariant === 'select') menuButtonProps.leadingVisual = selectedIcon;
-  if (menuVariant === 'select') menuButtonProps.active = selected;
-
-  return (
-    <Button tabIndex={1} invisible align="start" {...menuButtonProps} {...props} />
-  )
-}
-
-Menu.Button.displayName = "Menu.Button";
-
 Menu.Divider = ({className = '', ...props}) => (
   <hr className={`${classes.Divider} ${className}`} {...props} />
 );

@@ -50,6 +50,24 @@ export default {
       table: { defaultValue: { summary: "false" } },
       description: 'Sets loading spinner and disables the button'
     },
+    active: {
+      type: 'boolean',
+      table: { defaultValue: { summary: "false" } }
+    },
+    selected: {
+      type: 'boolean',
+      table: { defaultValue: { summary: "false" } },
+      description: 'alias for active for use in menus'
+    },
+    selectedIcon: {
+      options: Object.keys(icons),
+      mapping: icons,
+      control: {
+        type: 'select'
+      },
+      table: { defaultValue: { summary: "CheckedIcon" } },
+      description: "When selected is true, unless leadingVisual, this icon will be used"
+    },
     elevated: {
       type: 'boolean',
       table: { defaultValue: { summary: "false" } },
@@ -74,7 +92,7 @@ export default {
       control: {
         type: 'radio',
       },
-      options: ['default', 'primary', 'danger', 'full'],
+      options: ['default', 'primary', 'danger'],
       table: { defaultValue: { summary: "default" } }
     },
     size: {

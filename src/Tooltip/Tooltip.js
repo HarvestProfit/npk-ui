@@ -22,7 +22,6 @@ const Tooltip = ({
   const [isOpen, setIsOpen] = useState(false);
 
   const openTooltip = useCallback(() => {
-    console.log('open?')
     clearTimeout(animationTimeout.current);
     setIsMounted(true);
     animationTimeout.current = setTimeout(() => setIsOpen(true), ANIMATION_TIMING);
@@ -34,16 +33,12 @@ const Tooltip = ({
     animationTimeout.current = setTimeout(() => setIsMounted(false), ANIMATION_TIMING);
   }, []);
 
-  console.log('tooltip')
-
   useEffect(() => {
     if (targetRef?.current) {
       elementRef.current = targetRef.current;
     } else if (id) {
       elementRef.current = document.querySelector(`[aria-describedby="${id}"]`);
     }
-
-    console.log(elementRef, targetRef);
 
     elementRef.current?.addEventListener("mouseenter", openTooltip);
     elementRef.current?.addEventListener("mouseleave", closeTooltip);
