@@ -10,7 +10,8 @@ function usePopover({
   onOpenChange: setControlledOpen,
   showArrow,
   autoDismiss = true,
-  submenu = false
+  submenu = false,
+  variant = 'dialog'
 }) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen);
   const [labelId, setLabelId] = useState();
@@ -59,9 +60,11 @@ function usePopover({
       setDescriptionId,
       showArrow,
       autoDismiss,
-      useMergeRefs
+      useMergeRefs,
+      placement,
+      variant
     }),
-    [open, setOpen, interactions, data, modal, labelId, descriptionId, arrowRef, showArrow, autoDismiss, submenu]
+    [open, setOpen, interactions, data, modal, labelId, descriptionId, arrowRef, showArrow, autoDismiss, submenu, placement, variant]
   );
 }
 

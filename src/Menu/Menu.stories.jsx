@@ -84,7 +84,7 @@ export const BasicSelect = (props) => {
           <Menu.Button selected={selected === 2} onClick={() => setSelected(2)}>Item 2</Menu.Button>
           <Menu.Section>Section</Menu.Section>
           <Menu.Button selected={selected === 3} onClick={() => setSelected(3)}>Item 3</Menu.Button>
-          <Menu.Button selected={selected === 4} onClick={() => setSelected(4)}>Item 4</Menu.Button>
+          <Menu.Button selectedIcon={Icons.LogoIcon} selected={selected === 4} onClick={() => setSelected(4)}>Item 4</Menu.Button>
         </Menu.Overlay>
       </Menu>
     </div>
@@ -92,7 +92,7 @@ export const BasicSelect = (props) => {
 }
 
 export const SubMenus = (props) => <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
-  <Menu {...props}>
+  <Menu variant="dialog" {...props}>
     <Button trailingAction={Icons.DropdownIndicatorIcon}>Actions</Button>
     <Menu.Overlay>
       <Menu.Button leadingVisual={Icons.CopyIcon}>Copy</Menu.Button>
@@ -105,14 +105,30 @@ export const SubMenus = (props) => <div style={{ display: 'flex', justifyContent
           <Menu.Button>PDF</Menu.Button>
         </Menu.Overlay>
       </Menu>
-      <Menu placement="right-start" autoDismiss="menu">
+      <Menu autoDismiss="menu">
         <Menu.Button leadingVisual={Icons.ExportIcon} trailingAction={Icons.DropdownIndicatorIcon}>Dismiss SubMenu</Menu.Button>
         <Menu.Overlay>
           <Menu.Button>Excel</Menu.Button>
-          <Menu.Button>PDF</Menu.Button>
+          <Menu autoDismiss="menu">
+            <Menu.Button leadingVisual={Icons.ExportIcon} trailingAction={Icons.DropdownIndicatorIcon}>Deeper</Menu.Button>
+            <Menu.Overlay>
+              <Menu.Button>Excel</Menu.Button>
+              <Menu.Button>PDF</Menu.Button>
+            </Menu.Overlay>
+          </Menu>
         </Menu.Overlay>
       </Menu>
       <Menu.Divider />
+      <Menu variant="select">
+        <Menu.Button trailingAction={Icons.DropdownIndicatorIcon}>Select</Menu.Button>
+        <Menu.Overlay>
+          <Menu.Button selected>Item 1</Menu.Button>
+          <Menu.Button>Item 2</Menu.Button>
+          <Menu.Section>Section</Menu.Section>
+          <Menu.Button>Item 3</Menu.Button>
+          <Menu.Button>Item 4</Menu.Button>
+        </Menu.Overlay>
+      </Menu>
       <Menu.Button leadingVisual={Icons.DeleteIcon} variant="danger">Delete Something</Menu.Button>
     </Menu.Overlay>
   </Menu>

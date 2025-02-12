@@ -60,6 +60,11 @@ export default {
       table: { defaultValue: { summary: "false" } },
       description: 'Makes the button appear as just a line of text'
     },
+    plain: {
+      type: 'boolean',
+      table: { defaultValue: { summary: "false" } },
+      description: 'None rounded plain button'
+    },
     as: {
       type: 'string',
       description: 'The html tag or component to be used.',
@@ -110,6 +115,7 @@ export default {
     loading: false,
     elevated: false,
     invisible: false,
+    plain: false,
     chip: null,
     'aria-label': null
   }

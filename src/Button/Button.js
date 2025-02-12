@@ -7,10 +7,11 @@ const Button = ({
   elevated,
   invisible,
   active,
+  plain,
   className,
   ...props
 }) => (
-  <BaseButton {...props} data-elevated={elevated} data-invisible={invisible} data-variant={variant} data-active={active} className={`${classes.Button} ${className || ''}`} />
+  <BaseButton {...props} data-elevated={elevated} data-invisible={invisible} data-variant={variant} data-active={active} data-plain={plain} className={`${classes.Button} ${className || ''}`} />
 )
 
 export default Button;

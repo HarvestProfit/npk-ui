@@ -7,13 +7,20 @@ import { FloatingArrow, FloatingFocusManager, FloatingPortal } from '@floating-u
 import * as Icons from '@harvest-profit/npk/icons/regular';
 import usePopover from './usePopover';
 
-const Menu = ({ children, variant = "dialog", arrow = null, autoDismiss = true, ...restOptions }) => {
+function placementFromContextPlacement(placement) {
+  if (!placement) return 'bottom-start';
+  return placement.includes('end') ? 'left-start' : 'right-start';
+}
+
+const Menu = ({ children, variant = null, arrow = null, autoDismiss = true, placement, ...restOptions }) => {
   const menuContentsContext = useContext(MenuContentsContext);
 
   const popover = usePopover({ 
     showArrow: arrow || (variant === 'menu' ? true : false), 
     autoDismiss, 
-    submenu: menuContentsContext.inMenu, 
+    submenu: menuContentsContext.inMenu,
+    placement: placement || placementFromContextPlacement(menuContentsContext.placement),
+    variant: menuContentsContext.variant,
     ...restOptions
   });
 
@@ -26,7 +33,7 @@ const Menu = ({ children, variant = "dialog", arrow = null, autoDismiss = true, 
   }
 
   return (
-    <MenuContentsContext.Provider value={{ inMenu: false, variant, ...menuContentsOptions }}>
+    <MenuContentsContext.Provider value={{ inMenu: false, ...menuContentsOptions, variant: variant || menuContentsContext.variant }}>
       <MenuContext.Provider value={popover}>
         {children}
       </MenuContext.Provider>
@@ -59,7 +66,7 @@ Menu.Overlay = forwardRef(({ children, style, ...props }, forwardedRef) => {
 
           {menuContext.showArrow && <FloatingArrow data-component="menu-arrow" fill="currentColor" stroke="var(--menu-border-color)" strokeWidth={1} tipRadius={1} ref={menuContext.arrowRef} context={menuContext.context} />}
           <div data-component="menu-contents">
-            <MenuContentsContext.Provider value={{ ...menuContentsContext, inMenu: true }}>
+            <MenuContentsContext.Provider value={{ ...menuContentsContext, variant: menuContentsContext.variant, placement: menuContext.placement, inMenu: true }}>
               {children}
             </MenuContentsContext.Provider>
           </div>
@@ -67,28 +74,42 @@ Menu.Overlay = forwardRef(({ children, style, ...props }, forwardedRef) => {
       </FloatingFocusManager>
     </FloatingPortal>
   )
-})
+});
+
+Menu.Overlay.displayName = "Menu.Overlay";
 
 Menu.Button = ({ selected, selectedIcon = Icons.CheckedIcon, ...props}) => {
+  const menuContext = useMenuContext();
   const menuContentsContext = useContext(MenuContentsContext);
   const menuButtonProps = {};
-  if (menuContentsContext.variant === 'select' || menuContentsContext.variant === 'menu') menuButtonProps.variant = 'full';
-  if (menuContentsContext.variant === 'select') menuButtonProps.leadingVisual = selectedIcon;
-  if (menuContentsContext.variant === 'select') menuButtonProps.active = selected;
+  let menuVariant = menuContext.variant;
+  if (menuContentsContext.inMenu) {
+    menuVariant = menuContentsContext.variant;
+  }
+
+  if (menuVariant === 'select' || menuVariant === 'menu') menuButtonProps.plain = true;
+  if (menuVariant === 'select') menuButtonProps.leadingVisual = selectedIcon;
+  if (menuVariant === 'select') menuButtonProps.active = selected;
 
   return (
     <Button tabIndex={1} invisible align="start" {...menuButtonProps} {...props} />
   )
 }
 
+Menu.Button.displayName = "Menu.Button";
+
 Menu.Divider = ({className = '', ...props}) => (
   <hr className={`${classes.Divider} ${className}`} {...props} />
 );
+
+Menu.Divider.displayName = "Menu.Divider";
 
 Menu.Section = ({className = '', children, ...props}) => (
   <div className={`${classes.Section} ${className}`} {...props}>
     {children}
   </div>
 );
+
+Menu.Section.displayName = "Menu.Section";
 
 export default Menu;

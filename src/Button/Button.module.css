@@ -42,7 +42,7 @@
     --btn-bg-color--disabled: var(--button-primary-bg-color--disabled);
   }
 
-  &[data-variant="full"] {
+  &[data-plain="true"] {
     width: 100%;
     border-radius: 0;
     --btn-font-weight: normal;
