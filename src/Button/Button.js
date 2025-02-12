@@ -6,9 +6,10 @@ const Button = ({
   variant = 'default',
   elevated,
   invisible,
+  active,
   ...props
 }) => (
-  <BaseButton {...props} data-elevated={elevated} data-invisible={invisible} data-variant={variant} className={classes.Button} />
+  <BaseButton {...props} data-elevated={elevated} data-invisible={invisible} data-variant={variant} data-active={active} className={classes.Button} />
 )
 
 export default Button;

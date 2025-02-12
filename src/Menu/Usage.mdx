@@ -1,0 +1,34 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as MenuStories from './Menu.stories.jsx';
+ 
+<Meta of={MenuStories} />
+ 
+# Buttons
+
+
+### Default
+Default buttons should be used for everything by default. These are made to look clickable.
+<Canvas of={MenuStories.Default} />
+
+### Plain Menu
+<small>Use: General</small>
+
+You don't need to have a list of buttons in a menu, it can contain anything you want.
+<Canvas of={MenuStories.GenericMenu} />
+
+### Sub Menus
+<small>Use: General</small>
+
+Allows you to create more complicated menu structures by nesting options.
+<Canvas of={MenuStories.SubMenus} />
+
+### Select Dropdowns and Sections
+<small>Use: General</small>
+
+You can create sections and select dropdowns for use with option dropdowns
+<Canvas of={MenuStories.BasicSelect} />
+
+## Props
+
+<Controls />

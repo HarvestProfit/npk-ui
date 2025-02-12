@@ -1,6 +1,9 @@
-import React, { useRef } from 'react';
+import React, { forwardRef, useContext, useEffect, useRef } from 'react';
 import classes from './BaseButton.module.css';
 import { Spinner, Tooltip } from '..';
+import { MenuContext, useMenuContext } from '../Menu';
+import { MenuContentsContext } from '../Menu/MenuContext';
+import { mergeRefs } from '../utils';
 
 const BaseButton = ({
   icon,
@@ -8,6 +11,7 @@ const BaseButton = ({
   trailingVisual: ProvidedTrailingVisual,
   trailingAction: TrailingAction,
   block,
+  full,
   disabled: providedDisabled,
   loading,
   size = 'md',
@@ -18,8 +22,23 @@ const BaseButton = ({
   className,
   ...props
 }) => {
+  const menuContext = useMenuContext();
+  const menuContentsContext = useContext(MenuContentsContext);
+  const internalRef = useRef();
+  let ref = internalRef;
+  let popoverProps = {};
+  if (menuContentsContext.inMenu) {
+    const menuDismisableOnClick = (e) => {
+      if (menuContentsContext.onDismiss) menuContentsContext.onDismiss();
+      if (props.onClick) props.onClick(e);
+    }
 
-  const ref = useRef();
+    popoverProps = { onClick: menuDismisableOnClick };
+  } else {
+    popoverProps = {...menuContext.popover.getReferenceProps(props)};
+    ref = menuContext.useMergeRefs([menuContext.popover.refs.setReference, internalRef]);
+  }
+
   let LeadingVisual = ProvidedLeadingVisual;
   let TrailingVisual = ProvidedTrailingVisual;
   let textLoading;
@@ -53,7 +72,7 @@ const BaseButton = ({
 
   return (
     <>
-      <Component ref={ref} className={`${classes.ControlButton} ${className || ''}`} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-state={state} {...props}>
+      <Component ref={ref} className={`${classes.ControlButton} ${className || ''}`} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-state={state} {...props} {...popoverProps}>
         <span data-component="contents" data-icon={!!(!children && (TrailingVisual || LeadingVisual))}>
           {LeadingVisual && <span data-component="leadingVisual">{React.isValidElement(LeadingVisual) ? LeadingVisual : <LeadingVisual />}</span>}
           {textLoading}
@@ -63,7 +82,7 @@ const BaseButton = ({
         {TrailingAction && <span data-component="trailingAction">{React.isValidElement(TrailingAction) ? TrailingAction : <TrailingAction />}</span>}
       </Component>
       {props['aria-label'] && (
-        <Tooltip targetRef={ref}>
+        <Tooltip targetRef={internalRef}>
           {props['aria-label']}
         </Tooltip>
       )}

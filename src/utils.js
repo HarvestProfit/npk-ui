@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 
 // https://github.com/twbs/bootstrap/blob/v4.0.0-alpha.4/js/src/modal.js#L436-L443
 export function getScrollbarWidth() {
@@ -381,3 +382,37 @@ export const focusableElements = [
   'video[controls]',
   '[contenteditable]:not([contenteditable="false"])',
 ];
+
+
+export function useOnClickOutside(ref, handler) {
+  useEffect(() => {
+    const listener = (event) => {
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
+      }
+      handler(event);
+    };
+
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
+
+    return () => {
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
+    };
+  }, [ref, handler]);
+}
+
+
+
+export function mergeRefs(...refs) {
+  return (instance) => {
+    refs.forEach((ref) => {
+      if (typeof ref === "function") {
+        ref(instance);
+      } else if (ref != null) {
+        ref.current = instance;
+      }
+    });
+  };
+}
