@@ -1,14 +1,14 @@
 {
   "name": "@harvest-profit/npk",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "NPK UI Design System",
   "source": "src/index.js",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
-    "./icons": "./dist/icons",
-    "./icons/regular": "./dist/icons/regular"
+    "./icons": "./dist/icons/index.js",
+    "./icons/regular": "./dist/icons/regular/index.js"
   },
   "sideEffects": false,
   "scripts": {
