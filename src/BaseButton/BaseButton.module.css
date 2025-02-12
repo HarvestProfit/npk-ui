@@ -38,6 +38,10 @@ a.ControlButton:hover {
     background-color: var(--btn-bg-color--active, var(--control-bg-color--active));
   }
 
+  &[aria-expanded="true"] {
+    background-color: var(--btn-bg-color--active, var(--control-bg-color--active));
+  }
+
   &:disabled,
   &[data-state="disabled"],
   &[data-state="loading"] {
