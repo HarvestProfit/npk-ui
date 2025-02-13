@@ -46,7 +46,7 @@ export default {
 }
 
 export const BasicDialog = (props) => <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
-  <Menu  variant="dialog" {...props}>
+  <Menu variant="dialog" {...props}>
     <Button aria-label="This opens a menu" leadingVisual={Icons.AddIcon} trailingAction={Icons.DropdownIndicatorIcon} variant="primary">Add</Button>
     <Menu.Overlay>
       <Button>Email</Button>
@@ -85,6 +85,41 @@ export const BasicSelect = (props) => {
           <Menu.Section>Section</Menu.Section>
           <Button selected={selected === 3} onClick={() => setSelected(3)}>Item 3</Button>
           <Button selectedIcon={Icons.LogoIcon} selected={selected === 4} onClick={() => setSelected(4)}>Item 4</Button>
+        </Menu.Overlay>
+      </Menu>
+    </div>
+  )
+}
+
+export const SelectWithHeaderAndFooter = (props) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState(1);
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
+      <small>State: {isOpen ? 'Open' : 'Close'}</small>
+      <Menu variant="select" onOpen={() => setIsOpen(true)} onClose={() => setIsOpen(false)} {...props}>
+        <Button trailingAction={Icons.DropdownIndicatorIcon}>Select</Button>
+        <Menu.Overlay>
+          <Menu.Header>Select an option</Menu.Header>
+          <Menu.Item>
+            <input autoFocus type="text" placeholder="Search..." style={{ width: '100%', borderRadius: 6, padding: 4, border: '1px solid var(--control-border-color)', appearance: 'none' }} />
+          </Menu.Item>
+          <Menu.Item block>
+            <Button variant="primary" invisible block align="start">Clear Filter</Button>
+          </Menu.Item>
+          <Menu.List>
+            {[1,2,3,4,5,6,7,8,9,10].map(item => (
+              <Button selected={selected === item} onClick={() => setSelected(item)}>Item {item}</Button>
+            ))}
+            <Menu.Section>Section</Menu.Section>
+            {[11,12,13,14,15,16,17,18,19,20].map(item => (
+              <Button selected={selected === item} onClick={() => setSelected(item)}>Item {item}</Button>
+            ))}
+          </Menu.List>
+          <Menu.Footer>There are 20 items</Menu.Footer>
+          <Menu.Footer block>
+            <Button variant="primary" invisible block align="start">Clear Filter</Button>
+          </Menu.Footer>
         </Menu.Overlay>
       </Menu>
     </div>

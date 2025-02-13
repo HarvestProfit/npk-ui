@@ -34,7 +34,7 @@ const BaseButton = ({
     }
 
     popoverProps = { onClick: menuDismisableOnClick };
-  } else {
+  } else if (menuContext.menu) {
     popoverProps = {...menuContext.getReferenceProps(props)};
     ref = menuContext.useMergeRefs([menuContext.refs.setReference, internalRef]);
   }

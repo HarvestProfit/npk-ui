@@ -11,6 +11,7 @@ export const useMenuContext = () => {
 
   if (!context) {
     return {
+      menu: false,
       refs: {
         setReference: () => null
       },

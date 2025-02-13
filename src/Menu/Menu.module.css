@@ -1,7 +1,7 @@
 .Overlay {
   display: flex;
   flex-direction: column;
-  min-width: 200px;
+  min-width: var(--menu-min-width, 200px);
   width: max-content;
   position: absolute;
   top: 0;
@@ -17,10 +17,15 @@
   --btn-font-weight: normal;
 
   &[data-component="submenu"] {
-    min-width: 150px;
+    min-width: var(--menu-menu-min-width, 150px);
   }
 
-  & > [data-component="menu-contents"] {
+  &[data-variant="select"] {
+    min-width: var(--menu-select-min-width, 225px);
+  }
+
+  & > [data-component="menu-contents"],
+  & > * > .List {
     display: flex;
     flex-direction: column;
   }
@@ -30,7 +35,7 @@
   }
 
   &[data-variant="menu"] {
-    min-width: 150px;
+    min-width: var(--menu-menu-min-width, 150px);
     --menu-select-option-divider-color: none;
   }
 
@@ -38,7 +43,8 @@
   &[data-variant="menu"] {
     padding: var(--size-6) 0;
 
-    & > [data-component="menu-contents"] {
+    & > [data-component="menu-contents"],
+    & > * > .List {
       & > * {
         border-top: var(--menu-select-option-divider-color, 1px solid var(--menu-option-divider-color));
       }
@@ -46,6 +52,33 @@
       & > *:first-child:not(.Section) {
         --menu-select-option-divider-color: none;
       }
+    }
+  }
+
+  .Header, .Footer, .Item {
+    display: block;
+    padding: var(--size-6) var(--size-12);
+    --btn-font-weight: var(--control-button-weight);
+
+    &[data-block="true"] {
+      padding: 0;
+    }
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+
+  .List {
+    max-height: var(--menu-list-height, 350px);
+    overflow-y: scroll;
+
+    & > * {
+      flex-shrink: 0;
     }
   }
 

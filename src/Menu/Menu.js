@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext } from 'react';
+import React, { forwardRef, useContext, useEffect } from 'react';
 import ThemeContext from '../ThemeContext';
 import classes from './Menu.module.css';
 import MenuContext, { MenuContentsContext, useMenuContext } from './MenuContext';
@@ -12,17 +12,25 @@ function placementFromContextPlacement(placement) {
   return placement.includes('end') ? 'left-start' : 'right-start';
 }
 
-const Menu = ({ children, variant = null, arrow = null, autoDismiss = true, placement, ...restOptions }) => {
+const Menu = ({ children, variant = null, arrow = null, autoDismiss = true, placement, initialFocus = 0, onOpen, onClose, ...restOptions }) => {
   const menuContentsContext = useContext(MenuContentsContext);
 
   const popover = usePopover({ 
     showArrow: arrow || (variant === 'menu' ? true : false), 
     autoDismiss, 
+    initialFocus,
     submenu: menuContentsContext.inMenu,
     placement: placement || placementFromContextPlacement(menuContentsContext.placement),
     variant: menuContentsContext.variant,
     ...restOptions
   });
+
+  useEffect(() => {
+    if (popover.refs?.reference?.current) {
+      if (onOpen && popover.open) onOpen();
+      if (onClose && !popover.open) onClose();
+    }
+  }, [popover.open]);
 
   const menuContentsOptions = {};
   if (autoDismiss === true || autoDismiss === 'menu') {
@@ -52,7 +60,7 @@ Menu.Overlay = forwardRef(({ children, style, ...props }, forwardedRef) => {
 
   return (
     <FloatingPortal id={theme.appendRootId}>
-      <FloatingFocusManager context={menuContext.context} modal={menuContext.context.modal}>
+      <FloatingFocusManager context={menuContext.context} modal={menuContext.context.modal} initialFocus={menuContext.initialFocus}>
         <div 
           ref={ref}
           style={{...menuContext.floatingStyles, ...style}}
@@ -81,7 +89,6 @@ Menu.Overlay.displayName = "Menu.Overlay";
 Menu.Divider = ({className = '', ...props}) => (
   <hr className={`${classes.Divider} ${className}`} {...props} />
 );
-
 Menu.Divider.displayName = "Menu.Divider";
 
 Menu.Section = ({className = '', children, ...props}) => (
@@ -89,7 +96,33 @@ Menu.Section = ({className = '', children, ...props}) => (
     {children}
   </div>
 );
-
 Menu.Section.displayName = "Menu.Section";
+
+Menu.List = ({className = '', ...props}) => (
+  <div className={`${classes.List} ${className}`} {...props} />
+);
+Menu.List.displayName = "Menu.List";
+
+Menu.Item = ({ as: Tag = 'div', block, className = '', ...props}) => {
+  return (
+    <MenuContentsContext.Provider value={{ inMenu: false }}>
+      <MenuContext.Provider value={{ menu: false }}>
+        <Tag data-block={block} className={`${classes.Item} ${className}`} {...props} />
+      </MenuContext.Provider>
+    </MenuContentsContext.Provider>
+    
+  );
+}
+Menu.Item.displayName = "Menu.Item";
+
+Menu.Header = ({ className = '', ...props }) => (
+  <Menu.Item as="header" className={`${classes.Header} ${className}`} {...props} />
+);
+Menu.Header.displayName = "Menu.Header";
+
+Menu.Footer = ({ className = '', ...props }) => (
+  <Menu.Item as="footer" className={`${classes.Footer} ${className}`} {...props} />
+);
+Menu.Footer.displayName = "Menu.Footer";
 
 export default Menu;

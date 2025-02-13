@@ -9,6 +9,7 @@ function usePopover({
   open: controlledOpen,
   onOpenChange: setControlledOpen,
   showArrow,
+  initialFocus,
   autoDismiss = true,
   submenu = false,
   variant = 'dialog'
@@ -47,8 +48,10 @@ function usePopover({
 
   return useMemo(
     () => ({
+      menu: true,
       open,
       setOpen,
+      initialFocus,
       ...interactions,
       ...data,
       modal,
@@ -64,7 +67,7 @@ function usePopover({
       placement,
       variant
     }),
-    [open, setOpen, interactions, data, modal, labelId, descriptionId, arrowRef, showArrow, autoDismiss, submenu, placement, variant]
+    [open, setOpen, interactions, data, modal, labelId, descriptionId, arrowRef, showArrow, autoDismiss, submenu, placement, variant, initialFocus]
   );
 }
 
