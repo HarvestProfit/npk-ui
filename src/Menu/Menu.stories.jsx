@@ -91,6 +91,28 @@ export const BasicSelect = (props) => {
   )
 }
 
+export const LongerSelect = (props) => {
+  const [selected, setSelected] = useState(1)
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
+      <Menu variant="select" {...props}>
+        <Button trailingAction={Icons.DropdownIndicatorIcon}>Select</Button>
+        <Menu.Overlay>
+          <Menu.List>
+            <Menu.Section>Section</Menu.Section>
+            {[11,12,13,14,15,16,17,18,19,20].map(item => (
+              <Button selected={selected === item} onClick={() => setSelected(item)}>Item {item}</Button>
+            ))}
+            <Menu.Section>Section</Menu.Section>
+            <Button selected={selected === 3} onClick={() => setSelected(3)}>Item 3</Button>
+            <Button selectedIcon={Icons.LogoIcon} selected={selected === 4} onClick={() => setSelected(4)}>Item 4</Button>
+          </Menu.List>
+        </Menu.Overlay>
+      </Menu>
+    </div>
+  )
+}
+
 export const SelectWithHeaderAndFooter = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(1);

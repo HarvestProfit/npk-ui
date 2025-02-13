@@ -44,13 +44,13 @@
     padding: var(--size-6) 0;
 
     & > [data-component="menu-contents"],
-    & > * > .List {
+    & > [data-component="menu-contents"] > .List {
       & > * {
         border-top: var(--menu-select-option-divider-color, 1px solid var(--menu-option-divider-color));
       }
       
       & > *:first-child:not(.Section) {
-        --menu-select-option-divider-color: none;
+        border-top: none;
       }
     }
   }
