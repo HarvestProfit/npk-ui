@@ -12,7 +12,8 @@ function usePopover({
   initialFocus,
   autoDismiss = true,
   submenu = false,
-  variant = 'dialog'
+  variant = 'dialog',
+  offset: offsetAmount = 5
 }) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen);
   const [labelId, setLabelId] = useState();
@@ -28,11 +29,10 @@ function usePopover({
     onOpenChange: setOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(5),
+      offset(offsetAmount),
       flip({
         crossAxis: placement.includes("-"),
         fallbackAxisSideDirection: "end",
-        padding: 5
       }),
       shift({ padding: 5 }),
       arrow({

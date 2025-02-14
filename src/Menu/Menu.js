@@ -1,10 +1,8 @@
-import React, { forwardRef, useContext, useEffect } from 'react';
+import React, { forwardRef, useContext, useEffect, useRef } from 'react';
 import ThemeContext from '../ThemeContext';
 import classes from './Menu.module.css';
 import MenuContext, { MenuContentsContext, useMenuContext } from './MenuContext';
-import Button from '../Button';
 import { FloatingArrow, FloatingFocusManager, FloatingPortal } from '@floating-ui/react';
-import * as Icons from '@harvest-profit/npk/icons/regular';
 import usePopover from './usePopover';
 
 function placementFromContextPlacement(placement) {
@@ -83,6 +81,20 @@ Menu.Overlay = forwardRef(({ children, style, ...props }, forwardedRef) => {
     </FloatingPortal>
   )
 });
+
+Menu.useAnchor = (props = {}) => {
+  const menuContext = useMenuContext();
+  return [menuContext.refs.setReference, {...menuContext.getReferenceProps(props)}]
+}
+
+Menu.Anchor = ({ render }) => {
+  const [ref, props] = Menu.useAnchor();
+  if (render) {
+    return render([ref, props]);
+  }
+
+  return (<span ref={ref} />)
+}
 
 Menu.Overlay.displayName = "Menu.Overlay";
 

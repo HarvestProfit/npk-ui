@@ -38,7 +38,14 @@ export default {
       },
       table: { defaultValue: { summary: false } },
       description: "Show an arrow on the menu"
-    }
+    },
+    offset: {
+      control: {
+        type: 'text'
+      },
+      table: { defaultValue: { summary: "5" } },
+      description: "Offset of the menu"
+    },
   },
   args: {
     placement: 'bottom-start',
@@ -85,6 +92,43 @@ export const BasicSelect = (props) => {
           <Menu.Section>Section</Menu.Section>
           <Button selected={selected === 3} onClick={() => setSelected(3)}>Item 3</Button>
           <Button selectedIcon={Icons.LogoIcon} selected={selected === 4} onClick={() => setSelected(4)}>Item 4</Button>
+        </Menu.Overlay>
+      </Menu>
+    </div>
+  )
+}
+
+export const CustomAnchors = (props) => {
+  const MyButton = ({ children }) => {
+    const [ref, menuProps] = Menu.useAnchor();
+    return <div ref={ref} {...menuProps}>{children}</div>
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'row', gap: 20, justifyContent: 'center', alignItems: 'center', height: 300 }}>
+      <div style={{ border: '1px solid red' }}>
+        <small>Hidden Element<br />used as anchor</small>
+        <Menu placement="left" variant="menu" arrow initialOpen>
+          <Menu.Anchor />
+          <Menu.Overlay>
+            <Button>Email</Button>
+            <Button aria-label="Create a new event!">Event</Button>
+          </Menu.Overlay>
+        </Menu>
+      </div>
+      <Menu variant="menu" {...props} arrow>
+        <Menu.Anchor render={([ref, menuProps]) => <button ref={ref} {...menuProps}>Render from anchor</button>}/>
+        <Menu.Overlay>
+          <Button>Email</Button>
+          <Button aria-label="Create a new event!">Event</Button>
+        </Menu.Overlay>
+      </Menu>
+
+      <Menu variant="menu" {...props} arrow>
+        <MyButton>Anchor through hook</MyButton>
+        <Menu.Overlay>
+          <Button>Email</Button>
+          <Button aria-label="Create a new event!">Event</Button>
         </Menu.Overlay>
       </Menu>
     </div>
