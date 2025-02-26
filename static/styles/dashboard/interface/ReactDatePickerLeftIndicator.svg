@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="13px" height="42px" viewBox="0 0 13 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>ReactDatePickerLeftIndicator</title>
-    <g id="ReactDatePickerLeftIndicator" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Assets/Misc/Indicator" transform="translate(6.500000, 21.000000) scale(-1, 1) rotate(270.000000) translate(-6.500000, -21.000000) translate(-14.500000, 14.500000)" fill="#FFFFFF" fill-rule="nonzero">
-            <path d="M21,0 C26.7719526,0 28.7486654,13 42,13 C31.5,13 10.5,13 0,13 C13.2513346,13 15.2280474,0 21,0 Z" id="Triangle" transform="translate(21.000000, 6.500000) scale(-1, 1) rotate(-180.000000) translate(-21.000000, -6.500000) "></path>
-        </g>
-    </g>
-</svg>

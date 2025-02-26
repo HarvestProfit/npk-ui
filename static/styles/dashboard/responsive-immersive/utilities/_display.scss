@@ -1,9 +1,0 @@
-@each $breakpoint in map-keys($immersive-grid-breakpoints) {
-  @include media-breakpoint-up($breakpoint, $immersive-grid-breakpoints) {
-    $infix: breakpoint-infix($breakpoint, $immersive-grid-breakpoints);
-
-    @each $value in $displays {
-      .d#{$infix}-#{$value} { display: $value !important; }
-    }
-  }
-}

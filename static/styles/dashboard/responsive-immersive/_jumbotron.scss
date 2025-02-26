@@ -1,5 +1,0 @@
-.jumbotron {
-  @include media-breakpoint-up(sm, $immersive-grid-breakpoints) {
-    padding: ($jumbotron-padding * 2) $jumbotron-padding;
-  }
-}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { themes, create } from '@storybook/theming';
-import '../static/styles/dashboard/index.scss';
+import '../static/preview-styles.scss';
 import { ThemeContextProvider } from '../src/ThemeContext';
 
 const lightTheme = create({
@@ -54,10 +54,12 @@ export default {
   decorators: [
     (Story, { id }) => {
       return (
-        <div id={`${id}_prependRoot`}>
-          <ThemeContextProvider config={{ prependRootId: `${id}_prependRoot`, appendRootId: `${id}_prependRoot` }}>
+        <div>
+          <div id={`${id}_prependRoot`} />
+          <ThemeContextProvider config={{ prependRootId: `${id}_prependRoot`, appendRootId: `${id}_appendRoot` }}>
             <Story />
           </ThemeContextProvider>
+          <div id={`${id}_appendRoot`} />
         </div>
       )
     },

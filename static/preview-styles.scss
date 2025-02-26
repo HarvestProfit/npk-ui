@@ -1,0 +1,25 @@
+/* These styles set the font and a few other minor things that our main app will already set. (including setting a theme) */
+/* Styling a component should be done with css modules and css variables */
+@import '../src/theme.css';
+
+
+$dashboard-content-min-width: 745px;
+$font-family-sans-serif: "Open Sans", sans-serif;
+
+html, body { 
+  box-sizing: border-box;
+  background-color: var(--body-bg-color);
+  color: var(--body-fg-color);
+  font-family: $font-family-sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  padding: 0;
+}
+
+* {
+  &,
+  &::after,
+  &::before {
+    box-sizing: inherit;
+  }
+}
