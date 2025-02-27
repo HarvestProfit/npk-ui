@@ -1,0 +1,22 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as TabNavStories from './TabNav.stories.jsx';
+ 
+<Meta of={TabNavStories} />
+ 
+# Tab Navs
+
+### Default
+<small>Use: General</small>
+
+<Canvas of={TabNavStories.Default} />
+
+### Cards also play nice with tab navs
+<small>Use: cards</small>
+
+Cards and Tab Navs are built to work together.
+<Canvas of={TabNavStories.WithCard} />
+
+## Props
+
+<Controls />

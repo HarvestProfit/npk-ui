@@ -1,0 +1,40 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as CardStories from './Card.stories.jsx';
+ 
+<Meta of={CardStories} />
+ 
+# Cards
+
+
+### Default
+<small>Use: General</small>
+
+Cards are a great way to group related information together. You should remember to set the <code>as</code> prop
+on the <code>Card.Header</code> component to set the header element in accordance with the importance on the page. 
+It will not change the size, use the <code>size</code> prop to change the size of the header.
+<Canvas of={CardStories.Default} />
+
+### Plain Header
+<small>Use: minimalistic cards</small>
+
+Not every card needs a border, the plain header allows you to create a minimalistic card.
+<Canvas of={CardStories.PlainHeader} />
+
+### Sizes
+<small>Use: General</small>
+
+Change the <code>size</code> prop to change the size of the header. The default is <code>md</code>.
+Change the <code>as</code> prop to change the header element. The default is <code>h3</code>.
+<Canvas of={CardStories.Large} />
+
+### Cards also play nice with tab navs
+<small>Use: toggling between different states</small>
+
+To simplify a feature, you can use tab navs to jump between different screens in a card. Cards and Tab Navs are built to
+work together.
+<Canvas of={CardStories.PlainWithTabNav} />
+
+## Props
+
+<Controls />

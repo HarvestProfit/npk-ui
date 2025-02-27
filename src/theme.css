@@ -114,4 +114,10 @@
   --button-white-bg-color--hover: var(--color-neutral-98);
   --button-white-bg-color--active: var(--color-neutral-95);
   --button-white-bg-color--disabled: #f3f4f5aa;
+
+  --card-radius: var(--size-10);
+  --card-variant-normal-border-color: var(--color-neutral-90);
+  --card-variant-normal-bg: var(--color-neutral-100);
+  --card-variant-muted-bg: var(--color-neutral-90);
+  --card-variant-muted-border-color: var(--color-neutral-85, var(--color-neutral-90));
 }

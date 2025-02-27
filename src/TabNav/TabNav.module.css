@@ -1,0 +1,53 @@
+.TabNav {
+  --default--tab-nav-border-color: var(--tab-nav-border-color, var(--color-neutral-80));
+  --default--tab-nav-parent-color: var(--tab-nav-parent-color, var(--body-bg-color));
+  
+  display: flex;
+  border-bottom: 1px solid var(--default--tab-nav-border-color);
+  margin: 8px 0;
+
+  ul,li {
+    list-style: none;
+  }
+
+  &[data-block="true"] > ul > li {
+    flex: 1;
+  }
+}
+
+.TabNavList {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  & > li {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 6px;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    border: 1px solid transparent;
+    margin-bottom: -1px;
+    color: var(--color-fg-muted);
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--control-bg-color--hover);
+      cursor: pointer;
+    }
+
+    &[data-active="true"] {
+      border-top-color: var(--default--tab-nav-border-color);
+      border-right-color: var(--default--tab-nav-border-color);
+      border-left-color: var(--default--tab-nav-border-color);
+      border-bottom-color: var(--default--tab-nav-parent-color);
+      color: var(--body-fg-color);
+      font-weight: 600;
+    }
+  }
+}
