@@ -1,6 +1,8 @@
 import ApplicationAlert from './ApplicationAlert';
 import BaseButton from './BaseButton';
 import Button from './Button';
+import Card from './Card';
+import TabNav from './TabNav';
 import Menu from './Menu';
 import SegmentedControl from './SegmentedControl';
 import Placeholder from './Placeholder';
@@ -15,6 +17,8 @@ export {
   ApplicationAlert,
   BaseButton,
   Button,
+  Card,
+  TabNav,
   Placeholder,
   SegmentedControl,
   Spinner,
