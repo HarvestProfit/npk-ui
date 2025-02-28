@@ -28,7 +28,8 @@ export const Default = () => <div style={{ display: 'flex', flexDirection: 'row'
         <Button invisible variant="primary">See More</Button>
       </Card.HeaderLeadingActions>
       <Card.HeaderTrailingActions>
-        <Button leadingVisual={Icons.ExportIcon}>Export</Button>
+        <Button invisible leadingVisual={Icons.ExportIcon}>Export</Button>
+        <Button invisible leadingVisual={Icons.ExportIcon}>Export</Button>
       </Card.HeaderTrailingActions>
     </Card.Header>
 

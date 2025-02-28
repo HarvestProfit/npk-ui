@@ -81,6 +81,10 @@
       flex: 1;
       margin-top: calc(var(--card-pad-y) / 2 * -1);
       margin-bottom: calc(var(--card-pad-y) / 2 * -1);
+
+      & > [data-invisible="true"]:last-child {
+        margin-right: calc(var(--card-pad-x) / 2 * -1);
+      }
     }
 
     &[data-variant="inset"] {
