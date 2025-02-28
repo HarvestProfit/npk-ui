@@ -1,7 +1,9 @@
+const postcssPresetEnv = require('postcss-preset-env');
+
 const config = {
   plugins: [
-    require('autoprefixer'),
-    require('postcss-nesting')
+    require('postcss-nesting'),
+    postcssPresetEnv({ stage: 3 }),
   ]
 }
 

@@ -1,9 +1,8 @@
-import React, { forwardRef, useContext, useEffect, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import classes from './BaseButton.module.css';
 import { Spinner, Tooltip } from '..';
-import { MenuContext, useMenuContext } from '../Menu';
+import { useMenuContext } from '../Menu';
 import { MenuContentsContext } from '../Menu/MenuContext';
-import { mergeRefs } from '../utils';
 
 const BaseButton = ({
   icon,

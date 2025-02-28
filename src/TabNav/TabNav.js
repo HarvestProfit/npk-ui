@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useRef } from 'react';
-import styles from './TabNav.module.css';
+import classes from './TabNav.module.css';
 import { Tooltip } from '..';
 
 const TabNavContext = createContext({ active: null });
 
 const TabNav = ({ children, className = '', block = false, active = null, onChange= () => null }) => (
-  <nav className={`${styles.TabNav} ${className}`} data-component="tabnav" data-block={block}>
+  <nav className={`${classes.TabNav} ${className}`} data-component="tabnav" data-block={block}>
     <TabNavContext.Provider value={{ active: active?.toLowerCase(), onChange }}>
-      <ul className={styles.TabNavList}>
+      <ul className={classes.TabNavList}>
         {children}
       </ul>
     </TabNavContext.Provider>
