@@ -1,6 +1,6 @@
 .Card {
   background-color: var(--nested-card-bg, var(--card-variant-normal-bg));
-  border: 1px solid var(--card-variant-normal-border-color);
+  border: 1px solid var(--card-border-color, var(--card-variant-normal-border-color));
   --card-pad-x: 14px;
   --card-pad-y: 14px;
   padding: var(--card-pad-x) var(--card-pad-y);
@@ -11,10 +11,19 @@
     --nested-card-bg: transparent;
   }
 
+  &[data-block="true"] {
+    width: 100%;
+  }
+
 
   &[data-variant="muted"] {
-    background-color: var(--card-variant-muted-bg);
-    border-color: var(--card-variant-muted-border-color);
+    --nested-card-bg: var(--card-variant-muted-bg);
+    --card-border-color: var(--card-variant-muted-border-color);
+  }
+
+  &[data-variant="invisible"] {
+    --nested-card-bg: transparent;
+    --card-border-color: var(--card-variant-muted-border-color);
   }
   
 
@@ -30,7 +39,7 @@
     padding-bottom: var(--card-pad-y);
 
     &[data-variant="underlined"] {
-      border-bottom: 2px solid var(--card-variant-normal-border-color);
+      border-bottom: 2px solid var(--card-border-color, var(--card-variant-normal-border-color));
       margin-bottom: var(--card-pad-y);
     }
 

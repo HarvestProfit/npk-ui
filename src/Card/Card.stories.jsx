@@ -38,6 +38,52 @@ export const Default = () => <div style={{ display: 'flex', flexDirection: 'row'
   </Card>
 </div>
 
+export const Muted = () =>
+  <Card variant="muted" block style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
+    <span><b>Key</b> Value</span>
+    <span><b>Key</b> Value</span>
+    <span><b>Key</b> Value</span>
+    <span><b>Key</b> Value</span>
+    <span><b>Key</b> Value</span>
+    <span><b>Key</b> Value</span>
+  </Card>
+
+export const InsetForForms = () =>
+  <Card>
+    <Card.Header variant="plain" title="My Form" />
+
+    <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap', marginTop: 30 }}>
+    <Card>
+      <Card.Header variant="inset" title="User" />
+      <label>Name</label>
+      <input type="text" value="John Doe" />
+    </Card>
+
+    <Card>
+      <Card.Header variant="inset" title="Company" />
+      <label>Name</label>
+      <input type="text" value="John Deere" />
+    </Card>
+    </div>
+  </Card>
+
+export const Invisible = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+  <Card variant="invisible">
+    <Card.Header title="Summary" variant="plain">
+      <Card.HeaderTrailingActions>
+        <Button invisible icon={Icons.MenuIcon} />
+      </Card.HeaderTrailingActions>
+    </Card.Header>
+
+    <div style={{ fontSize: 20, fontWeight: 'bold'}}>
+      356 total items
+    </div>
+    <div style={{ marginTop: 6, maxWidth: 250 }}>
+      This shows how you can use this card to create summary report cards.
+    </div>
+  </Card>
+</div>
+
 export const Large = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
   <Card>
     <Card.Header title="Card Title" as="h6" size="lg" variant="plain">

@@ -1,8 +1,8 @@
 import React from 'react';
 import classes from './Card.module.css';
 
-const Card = ({ children, variant="normal", className = '', style = {} }) => (
-  <div className={`${classes.Card} ${className}`} style={style} data-component="card" data-variant={variant}>
+const Card = ({ children, variant="normal", block, className = '', style = {} }) => (
+  <div className={`${classes.Card} ${className}`} style={style} data-block={block} data-component="card" data-variant={variant}>
     {children}
   </div>
 )
