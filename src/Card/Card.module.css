@@ -82,7 +82,7 @@
       margin-top: calc(var(--card-pad-y) / 2 * -1);
       margin-bottom: calc(var(--card-pad-y) / 2 * -1);
 
-      & > [data-invisible="true"]:last-child {
+      & > [data-invisible="true"]:last-of-type {
         margin-right: calc(var(--card-pad-x) / 2 * -1);
       }
     }
