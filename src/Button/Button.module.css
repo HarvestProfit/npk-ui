@@ -1,3 +1,65 @@
+.ButtonGroup {
+  --button-group-bg-color: var(--control-bg-color);
+  --button-group-border-color: var(--control-border-color);
+  --btn-group-control-size: calc(var(--control-size) - 2px);
+
+  background-color: var(--button-group-bg-color);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-self: flex-start;
+  border-radius: var(--control-radius);
+  border: 1px solid var(--button-group-border-color);
+
+  /* variants */
+  &[data-variant="danger"] {
+    --btn-visual-color: var(--button-danger-fg-color);
+    --btn-fg-color: var(--button-danger-fg-color);
+    --btn-icon-color: var(--button-danger-fg-color);
+    --btn-fg-color--disabled: rgb(from var(--button-danger-fg-color) r g b / 50%);
+  }
+
+  &[data-variant="primary"] {
+    --btn-visual-color: var(--button-primary-fg-color);
+    --btn-fg-color: var(--button-primary-fg-color);
+    --btn-icon-color: var(--button-primary-fg-color);
+    --btn-fg-color--disabled: var(--button-primary-fg-color);
+    --btn-bg-color: var(--button-primary-bg-color);
+    --btn-bg-color--hover: var(--button-primary-bg-color--hover);
+    --btn-bg-color--active: var(--button-primary-bg-color--active);
+    --btn-bg-color--disabled: var(--button-primary-bg-color--disabled);
+
+    --button-group-bg-color: var(--button-primary-bg-color);
+  }
+
+  &[data-size="sm"] {
+    --btn-group-control-size: calc(var(--control-small-size) - 2px);
+    --control-font-size: var(--control-small-font-size);
+    --control-gap: var(--control-small-gap);
+    --control-padding: var(--control-small-padding);
+  }
+
+  &[data-size="lg"] {
+    --btn-group-control-size: calc(var(--control-large-size) - 2px);
+  }
+
+  & > .Button {
+    --btn-bg-color: var(--button-group-bg-color);
+    --btn-border-color: transparent;
+    --control-size: var(--btn-group-control-size);
+
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: 1px solid var(--button-group-border-color);
+    }
+  }
+}
+
 .Button {
   &[data-elevated="true"] {
     --btn-bg-color: var(--button-white-bg-color);

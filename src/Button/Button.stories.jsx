@@ -175,6 +175,27 @@ export const Danger = () => <div style={{ display: 'flex', flexDirection: 'row',
   <Button variant="danger" size="sm">Small</Button>
 </div>
 
+export const Groups = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+  <Button.Group>
+    <Button leadingVisual={Icons.AddIcon}>Add</Button>
+    <Button leadingVisual={Icons.EditIcon}>Edit</Button>
+    <Button leadingVisual={Icons.ExportIcon} trailingAction={Icons.DropdownIndicatorIcon}>Export</Button>
+  </Button.Group>
+  <Button leadingVisual={Icons.AddIcon}>Add</Button>
+
+  <Button.Group variant="primary">
+    <Button leadingVisual={Icons.AddIcon}>Add</Button>
+    <Button icon={Icons.DropdownIndicatorIcon} aria-label="More primary actions" />
+  </Button.Group>
+
+  <Button.Group variant="danger" size="sm">
+    <Button leadingVisual={Icons.AddIcon}>Add</Button>
+    <Button leadingVisual={Icons.EditIcon}>Edit</Button>
+    <Button leadingVisual={Icons.ExportIcon} trailingAction={Icons.DropdownIndicatorIcon}>Export</Button>
+  </Button.Group>
+  <Button leadingVisual={Icons.AddIcon} size="sm">Add</Button>
+</div>
+
 export const Elevated = () => <div>
 
   <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
