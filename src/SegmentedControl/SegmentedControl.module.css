@@ -53,6 +53,10 @@
   --btn-bg-color: transparent;
   --btn-border-color: transparent;
   --btn-font-weight: normal;
+  --btn-bg-color--hover: var(--button-invisible-bg-color--hover);
+  --btn-bg-color--active: var(--button-invisible-bg-color--active);
+  --btn-bg-color--disabled: var(--button-invisible-bg-color--disabled);
+
   margin: -1px;
 
   [data-component="text"]::after {
