@@ -48,11 +48,11 @@
     --btn-border-color: transparent;
     --control-size: var(--btn-group-control-size);
 
-    &:not(:first-child) {
+    &:not(:first-of-type) {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
-    &:not(:last-child) {
+    &:not(:last-of-type) {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
       border-right: 1px solid var(--button-group-border-color);
