@@ -77,6 +77,9 @@
   &[data-invisible="true"] {
     --btn-bg-color: transparent;
     --btn-border-color: transparent;
+    --btn-bg-color--hover: var(--button-invisible-bg-color--hover);
+    --btn-bg-color--active: var(--button-invisible-bg-color--active);
+    --btn-bg-color--disabled: var(--button-invisible-bg-color--disabled);
 
     &[data-variant="primary"] {
       --btn-visual-color: var(--button-primary-bg-color);

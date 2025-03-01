@@ -108,6 +108,16 @@
   --tab-nav-border-color: var(--card-variant-normal-border-color);
   --tab-nav-parent-color: var(--nested-card-bg, var(--card-variant-normal-bg));
 
+
+  &:not([data-variant="invisible"],[data-variant="muted"]) {
+    --control-bg-color: var(--control-on-surface-bg-color);
+    --control-bg-color--hover: var(--control-on-surface-bg-color--hover);
+    --control-bg-color--active: var(--control-on-surface-bg-color--active);
+    --control-bg-color--disabled: var(--control-on-surface-bg-color--disabled);
+  }
+
+  
+
   & > [data-component="tabnav"] {
     margin-top: 16px;
     margin-left: calc(var(--card-pad-x) * -1);

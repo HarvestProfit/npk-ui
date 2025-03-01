@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from '@harvest-profit/npk/Button';
 import Tooltip from '@harvest-profit/npk/Tooltip';
+import Card from '@harvest-profit/npk/Card';
 import * as Icons from '@harvest-profit/npk/icons/regular';
 
 const icons = { None: null, ...Icons }
@@ -194,6 +195,47 @@ export const Groups = () => <div style={{ display: 'flex', flexDirection: 'row',
     <Button leadingVisual={Icons.ExportIcon} trailingAction={Icons.DropdownIndicatorIcon}>Export</Button>
   </Button.Group>
   <Button leadingVisual={Icons.AddIcon} size="sm">Add</Button>
+</div>
+
+export const ColorsOnCards = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+  <Button leadingVisual={Icons.AddIcon}>On Background</Button>
+  <Button.Group>
+    <Button leadingVisual={Icons.AddIcon}>Add</Button>
+    <Button leadingVisual={Icons.EditIcon}>Edit</Button>
+    <Button leadingVisual={Icons.ExportIcon} trailingAction={Icons.DropdownIndicatorIcon}>Export</Button>
+  </Button.Group>
+  <Card>
+
+    <Button leadingVisual={Icons.AddIcon}>On Card</Button>
+
+    <Button.Group>
+      <Button leadingVisual={Icons.AddIcon}>Add</Button>
+      <Button leadingVisual={Icons.EditIcon}>Edit</Button>
+      <Button leadingVisual={Icons.ExportIcon} trailingAction={Icons.DropdownIndicatorIcon}>Export</Button>
+    </Button.Group>
+  </Card>
+
+  <Card variant="muted">
+
+    <Button leadingVisual={Icons.AddIcon}>On Card</Button>
+
+    <Button.Group>
+      <Button leadingVisual={Icons.AddIcon}>Add</Button>
+      <Button leadingVisual={Icons.EditIcon}>Edit</Button>
+      <Button leadingVisual={Icons.ExportIcon} trailingAction={Icons.DropdownIndicatorIcon}>Export</Button>
+    </Button.Group>
+  </Card>
+
+  <Card variant="invisible">
+
+    <Button leadingVisual={Icons.AddIcon}>On Card</Button>
+
+    <Button.Group>
+      <Button leadingVisual={Icons.AddIcon}>Add</Button>
+      <Button leadingVisual={Icons.EditIcon}>Edit</Button>
+      <Button leadingVisual={Icons.ExportIcon} trailingAction={Icons.DropdownIndicatorIcon}>Export</Button>
+    </Button.Group>
+  </Card>
 </div>
 
 export const Elevated = () => <div>
