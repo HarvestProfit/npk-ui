@@ -5,13 +5,16 @@ const sizeMap = {
   sm: 16,
   md: 32,
   lg: 64,
+};
+
+interface SpinnerProps extends React.SVGProps<SVGSVGElement> {
+  size?: 'sm' | 'md' | 'lg';
 }
 
-const Spinner = ({
+const Spinner: React.FC<SpinnerProps> = ({
   size: sizeKey = 'md',
   ...props
 }) => {
-
   const size = sizeMap[sizeKey];
 
   return (
@@ -44,7 +47,8 @@ const Spinner = ({
         />
       </svg>
     </span>
-  )
-}
+  );
+};
 
 export default Spinner;
+export type { SpinnerProps };

@@ -1,9 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 import ThemeContext from '../ThemeContext';
 import classes from './ApplicationAlert.module.css';
 
-const ApplicationAlert = ({ variant = 'default', icon: Icon, as: Component = 'div', children, ...props }) => {
+interface ApplicationAlertProps {
+  variant?: 'default' | 'primary'; // Add other variants as needed
+  icon?: any;
+  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
+  children: ReactNode;
+  [key: string]: any; // Allow other props
+}
+
+const ApplicationAlert: React.FC<ApplicationAlertProps> = ({
+  variant = 'default',
+  icon: Icon,
+  as: Component = 'div',
+  children,
+  ...props
+}) => {
   const theme = useContext(ThemeContext);
 
   const [mounted, setMounted] = useState(false);
@@ -12,8 +26,7 @@ const ApplicationAlert = ({ variant = 'default', icon: Icon, as: Component = 'di
     if (document.getElementById(theme.prependRootId)) {
       setMounted(true);
     }
-  }, [theme.prependRootId])
-
+  }, [theme.prependRootId]);
 
   if (!mounted) return null;
 
@@ -26,8 +39,9 @@ const ApplicationAlert = ({ variant = 'default', icon: Icon, as: Component = 'di
         </p>
       </Component>
     ),
-    document.getElementById(theme.prependRootId),
+    document.getElementById(theme.prependRootId) as HTMLElement,
   );
 }
 
 export default ApplicationAlert;
+export type { ApplicationAlertProps };

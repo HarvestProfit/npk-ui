@@ -1,17 +1,39 @@
-import React, { forwardRef, useContext, useEffect, useRef } from 'react';
-import ThemeContext from '../ThemeContext';
+import React, { forwardRef, useContext, useEffect, ReactNode, CSSProperties } from 'react';
+import ThemeContext, { ThemeContextType } from '../ThemeContext';
 import classes from './Menu.module.css';
-import MenuContext, { MenuContentsContext, useMenuContext } from './MenuContext';
+import MenuContext, { MenuContentsContext, useMenuContext, MenuContentsContextType } from './MenuContext';
 import { FloatingArrow, FloatingFocusManager, FloatingPortal } from '@floating-ui/react';
 import usePopover from './usePopover';
 
-function placementFromContextPlacement(placement) {
+interface MenuProps {
+  children: ReactNode;
+  variant?: 'select' | 'menu' | null;
+  arrow?: boolean | null;
+  autoDismiss?: boolean | 'menu';
+  placement?: 'bottom' | 'bottom-start' | 'bottom-end' | 'top' | 'top-start' | 'top-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
+  initialFocus?: number;
+  onOpen?: () => void;
+  onClose?: () => void;
+  [key: string]: any; // Allow other props
+}
+
+function placementFromContextPlacement(placement: string | undefined): string {
   if (!placement) return 'bottom-start';
   return placement.includes('end') ? 'left-start' : 'right-start';
 }
 
-const Menu = ({ children, variant = null, arrow = null, autoDismiss = true, placement, initialFocus = 0, onOpen, onClose, ...restOptions }) => {
-  const menuContentsContext = useContext(MenuContentsContext);
+const Menu: React.FC<MenuProps> & {
+  Overlay: React.FC<MenuOverlayProps>;
+  Divider: React.FC<MenuDividerProps>;
+  Section: React.FC<MenuSectionProps>;
+  List: React.FC<MenuListProps>;
+  Item: React.FC<MenuItemProps>;
+  Header: React.FC<MenuHeaderProps>;
+  Footer: React.FC<MenuFooterProps>;
+  useAnchor: (props?: Record<string, any>) => [React.Ref<any>, Record<string, any>];
+  Anchor: React.FC<MenuAnchorProps>;
+} = ({ children, variant = null, arrow = null, autoDismiss = true, placement, initialFocus = 0, onOpen, onClose, ...restOptions }) => {
+  const menuContentsContext = useContext<MenuContentsContextType>(MenuContentsContext);
 
   const popover = usePopover({ 
     showArrow: arrow || (variant === 'menu' ? true : false), 
@@ -30,7 +52,7 @@ const Menu = ({ children, variant = null, arrow = null, autoDismiss = true, plac
     }
   }, [popover.open]);
 
-  const menuContentsOptions = {};
+  const menuContentsOptions: Partial<MenuContentsContextType> = {};
   if (autoDismiss === true || autoDismiss === 'menu') {
     menuContentsOptions.onDismiss = () => {
       popover.setOpen(false);
@@ -47,8 +69,14 @@ const Menu = ({ children, variant = null, arrow = null, autoDismiss = true, plac
   )
 }
 
-Menu.Overlay = forwardRef(({ children, style, ...props }, forwardedRef) => {
-  const theme = useContext(ThemeContext);
+interface MenuOverlayProps {
+  children: ReactNode;
+  style?: CSSProperties;
+  [key: string]: any; // Allow other props
+}
+
+Menu.Overlay = forwardRef<HTMLDivElement, MenuOverlayProps>(({ children, style, ...props }, forwardedRef) => {
+  const theme = useContext<ThemeContextType>(ThemeContext);
 
   const menuContext = useMenuContext();
   const menuContentsContext = useContext(MenuContentsContext);
@@ -69,7 +97,6 @@ Menu.Overlay = forwardRef(({ children, style, ...props }, forwardedRef) => {
           aria-describedby={menuContext.descriptionId}
           {...menuContext.getFloatingProps(props)}
         >
-
           {menuContext.showArrow && <FloatingArrow data-component="menu-arrow" fill="currentColor" stroke="var(--menu-border-color)" strokeWidth={1} tipRadius={1} ref={menuContext.arrowRef} context={menuContext.context} />}
           <div data-component="menu-contents">
             <MenuContentsContext.Provider value={{ ...menuContentsContext, variant: menuContentsContext.variant, placement: menuContext.placement, inMenu: true }}>
@@ -87,7 +114,11 @@ Menu.useAnchor = (props = {}) => {
   return [menuContext.refs.setReference, {...menuContext.getReferenceProps(props)}]
 }
 
-Menu.Anchor = ({ render }) => {
+interface MenuAnchorProps {
+  render?: (args: [React.Ref<any>, any]) => ReactNode;
+}
+
+Menu.Anchor = ({ render }: MenuAnchorProps) => {
   const [ref, props] = Menu.useAnchor();
   if (render) {
     return render([ref, props]);
@@ -98,43 +129,77 @@ Menu.Anchor = ({ render }) => {
 
 Menu.Overlay.displayName = "Menu.Overlay";
 
-Menu.Divider = ({className = '', ...props}) => (
+interface MenuDividerProps {
+  className?: string;
+  [key: string]: any; // Allow other props
+}
+
+Menu.Divider = ({ className = '', ...props }: MenuDividerProps) => (
   <hr className={`${classes.Divider} ${className}`} {...props} />
 );
 Menu.Divider.displayName = "Menu.Divider";
 
-Menu.Section = ({className = '', children, ...props}) => (
+interface MenuSectionProps {
+  className?: string;
+  children: ReactNode;
+  [key: string]: any; // Allow other props
+}
+
+Menu.Section = ({ className = '', children, ...props }: MenuSectionProps) => (
   <div className={`${classes.Section} ${className}`} {...props}>
     {children}
   </div>
 );
 Menu.Section.displayName = "Menu.Section";
 
-Menu.List = ({className = '', ...props}) => (
+interface MenuListProps {
+  className?: string;
+  [key: string]: any; // Allow other props
+}
+
+Menu.List = ({ className = '', ...props }: MenuListProps) => (
   <div className={`${classes.List} ${className}`} {...props} />
 );
 Menu.List.displayName = "Menu.List";
 
-Menu.Item = ({ as: Tag = 'div', block, className = '', ...props}) => {
+interface MenuItemProps {
+  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
+  block?: boolean;
+  className?: string;
+  [key: string]: any; // Allow other props
+}
+
+Menu.Item = ({ as: Tag = 'div', block, className = '', ...props }: MenuItemProps) => {
   return (
     <MenuContentsContext.Provider value={{ inMenu: false }}>
       <MenuContext.Provider value={{ menu: false }}>
         <Tag data-block={block} className={`${classes.Item} ${className}`} {...props} />
       </MenuContext.Provider>
     </MenuContentsContext.Provider>
-    
   );
 }
 Menu.Item.displayName = "Menu.Item";
 
-Menu.Header = ({ className = '', ...props }) => (
+interface MenuHeaderProps {
+  className?: string;
+  [key: string]: any; // Allow other props
+}
+
+Menu.Header = ({ className = '', ...props }: MenuHeaderProps) => (
   <Menu.Item as="header" className={`${classes.Header} ${className}`} {...props} />
 );
 Menu.Header.displayName = "Menu.Header";
 
-Menu.Footer = ({ className = '', ...props }) => (
+interface MenuFooterProps {
+  className?: string;
+  [key: string]: any; // Allow other props
+}
+
+Menu.Footer = ({ className = '', ...props }: MenuFooterProps) => (
   <Menu.Item as="footer" className={`${classes.Footer} ${className}`} {...props} />
 );
 Menu.Footer.displayName = "Menu.Footer";
 
 export default Menu;
+
+export type { MenuProps, MenuOverlayProps, MenuDividerProps, MenuSectionProps, MenuListProps, MenuItemProps, MenuHeaderProps, MenuFooterProps };

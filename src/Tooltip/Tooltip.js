@@ -7,8 +7,8 @@ import { computePosition, flip, inline, offset, shift } from '@floating-ui/dom';
 const ANIMATION_TIMING = 500;
 
 const Tooltip = ({
-  id,
-  targetRef,
+  id = null,
+  targetRef = null,
   as: Component = 'div',
   inline: inlineOption = false, // honestly I haven't seen this work yet
   children

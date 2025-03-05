@@ -1,10 +1,28 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, ReactNode, ComponentType, MouseEvent, MutableRefObject, Ref } from 'react';
 import classes from './BaseButton.module.css';
 import { Spinner, Tooltip } from '..';
 import { useMenuContext } from '../Menu';
-import { MenuContentsContext } from '../Menu/MenuContext';
+import { MenuContentsContext, MenuContentsContextType } from '../Menu/MenuContext';
 
-const BaseButton = ({
+interface BaseButtonProps {
+  icon?: ComponentType;
+  leadingVisual?: any;
+  trailingVisual?: any;
+  trailingAction?: any;
+  block?: boolean;
+  full?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
+  size?: 'sm' | 'md' | 'lg'; // Add other sizes as needed
+  align?: 'start' | 'center' | 'end';
+  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
+  chip?: ReactNode;
+  children?: ReactNode;
+  className?: string;
+  [key: string]: any; // Allow other props
+}
+
+const BaseButton: React.FC<BaseButtonProps> = ({
   icon,
   leadingVisual: ProvidedLeadingVisual,
   trailingVisual: ProvidedTrailingVisual,
@@ -22,19 +40,20 @@ const BaseButton = ({
   ...props
 }) => {
   const menuContext = useMenuContext();
-  const menuContentsContext = useContext(MenuContentsContext);
-  const internalRef = useRef();
-  let ref = internalRef;
+  const menuContentsContext = useContext<MenuContentsContextType>(MenuContentsContext);
+  const internalRef = useRef(null);
+  let ref: any = internalRef;
   let popoverProps = {};
+
   if (menuContentsContext.inMenu) {
-    const menuDismisableOnClick = (e) => {
+    const menuDismisableOnClick = (e: MouseEvent<HTMLElement>) => {
       if (props.onClick) props.onClick(e);
       if (menuContentsContext.onDismiss) menuContentsContext.onDismiss(e);
-    }
+    };
 
     popoverProps = { onClick: menuDismisableOnClick };
   } else if (menuContext.menu) {
-    popoverProps = {...menuContext.getReferenceProps(props)};
+    popoverProps = { ...menuContext.getReferenceProps(props) };
     ref = menuContext.useMergeRefs([menuContext.refs.setReference, internalRef]);
   }
 
@@ -54,7 +73,7 @@ const BaseButton = ({
   if (icon) {
     LeadingVisual = icon;
 
-    if (!props['aria-label'] && !props['aria-describedby']) console.warn('Please provide a tooltip to this button.')
+    if (!props['aria-label'] && !props['aria-describedby']) console.warn('Please provide a tooltip to this button.');
   }
 
   if (loading) {
@@ -86,7 +105,8 @@ const BaseButton = ({
         </Tooltip>
       )}
     </>
-  )
-}
+  );
+};
 
 export default BaseButton;
+export type { BaseButtonProps };

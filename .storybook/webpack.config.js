@@ -6,6 +6,7 @@ module.exports = async ({ config }) => {
       "@harvest-profit/npk/icons": path.resolve(__dirname, '../tmp/icons/'),
       "@harvest-profit/npk": path.resolve(__dirname, '../src/')
     },
+    extensions: [ '.tsx', '.ts', '.js' ]
   };
 
   return config;

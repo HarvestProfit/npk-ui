@@ -1,9 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, ReactNode } from 'react';
 import classes from '../SegmentedControl.module.css';
 import { SegmentedControlContext } from '../SegmentedControl';
-import { BaseButton } from '../..';
+import BaseButton, { BaseButtonProps } from '../../BaseButton';
 
-const Button = ({
+interface ButtonProps extends BaseButtonProps {
+  leadingVisual?: any;
+  icon?: any;
+  loading?: boolean;
+  children: ReactNode;
+  chip?: ReactNode;
+  'aria-label'?: string;
+  [key: string]: any; // Allow other props
+}
+
+const Button: React.FC<ButtonProps> = ({
   leadingVisual,
   icon,
   loading,
@@ -22,9 +32,12 @@ const Button = ({
         loading={loading}
         chip={chip}
         aria-label={props['aria-label']}
-      >{children}</BaseButton>
+      >
+        {children}
+      </BaseButton>
     </li>
-  )
+  );
 }
 
 export default Button;
+export type { ButtonProps };

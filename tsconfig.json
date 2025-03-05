@@ -2,14 +2,12 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "es6",
+    "target": "es2021",
     "jsx": "react-jsx",
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist",
     "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true
+    "allowJs": true
   },
   "include": [
     "src/**/*.ts",
