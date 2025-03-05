@@ -26,6 +26,15 @@ module.exports = function (api) {
 
   return {
     presets,
-    plugins
+    plugins,
+    ignore: [
+      '**/__tests__',
+      '**/*.spec.js',
+      '**/*.test.js',
+      '**/__snapshots__',
+      '**/*.stories.js',
+      '**/*.stories.jsx',
+      '**/*.mdx'
+    ]
   };
 }

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "jsx": "react-jsx",
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

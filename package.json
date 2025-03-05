@@ -1,10 +1,10 @@
 {
   "name": "@harvest-profit/npk",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "description": "NPK UI Design System",
   "source": "src/index.js",
   "main": "dist/index.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
     "./icons": "./dist/icons/index.js",
@@ -22,8 +22,9 @@
     "build:icons": "npm run build:svgr && BUILD_ENV=release babel tmp/icons -d dist/icons",
     "build:svgr": "BUILD_ENV=release npx @svgr/cli --out-dir tmp/icons -- icons && cp icons/index.js tmp/icons/index.js",
     "build:src": "BUILD_ENV=release babel src -d dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__,stories.js,stories.jsx,.mdx",
+    "build:types": "tsc",
     "build:css": "postcss dist/**/*.css --replace",
-    "build": "npm run clean && npm run build:src && npm run build:css && npm run build:icons",
+    "build": "npm run clean && npm run build:src && npm run build:css && npm run build:icons && npm run build:types",
     "clean": "rm -rf ./tmp && rm -rf ./dist && rm -rf ./font",
     "prepublishOnly": "npm run build",
     "create-release": "npm run cover && sh ./scripts/release",

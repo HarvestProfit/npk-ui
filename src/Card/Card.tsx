@@ -3,7 +3,7 @@ import classes from './Card.module.css';
 
 interface CardProps {
   children: ReactNode;
-  variant?: 'normal' | 'otherVariant'; // Add other variants as needed
+  variant?: 'muted' | 'invisible' | 'normal'; // Add other variants as needed
   block?: boolean;
   className?: string;
   style?: CSSProperties;
@@ -12,9 +12,9 @@ interface CardProps {
 interface CardHeaderProps {
   title?: string;
   children: ReactNode;
-  variant?: 'underlined' | 'otherVariant'; // Add other variants as needed
+  variant?: 'underlined' | 'plain' | 'inset'; // Add other variants as needed
   as?: keyof JSX.IntrinsicElements;
-  size?: 'sm' | 'md' | 'lg'; // Add other sizes as needed
+  size?: 'md' | 'lg'; // Add other sizes as needed
 }
 
 interface CardHeaderActionsProps {
@@ -51,3 +51,4 @@ Card.HeaderTrailingActions = ({ children }) => (
 );
 
 export default Card;
+export type { CardProps, CardHeaderProps, CardHeaderActionsProps };
