@@ -31,7 +31,7 @@ export default {
     options: {
       storySort: {
         order: [
-          'Home',
+          'Overview',
           'Components',
           'Loading',
           '*',

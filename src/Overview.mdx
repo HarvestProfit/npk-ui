@@ -1,5 +1,99 @@
 # NPK UI Overview
 
-The design of this library is to move away from using lots of class names to describe common components.
+<a href="https://www.npmjs.com/package/@harvest-profit/npk" target="_blank">
+  <img alt="NPM Version" src="https://img.shields.io/npm/v/%40harvest-profit%2Fnpk" />
+</a>
+<a href="https://github.com/HarvestProfit/npk-ui" target="_blank">
+  <img alt="GitHub commit activity (branch)" src="https://img.shields.io/github/commit-activity/m/HarvestProfit/npk-ui/master" />
+</a>
 
-This will be expanded to include more details on design rules.
+
+## Introduction
+
+NPK UI is a modern UI library designed to simplify the process of building user interfaces. 
+By moving away from verbose class-based styling and embracing declarative components, NPK UI provides a 
+more intuitive and flexible approach to designing UI structures.
+
+## Key Features
+
+### Declarative Components
+
+NPK UI uses declarative components to design UI structures. This approach allows developers to define the 
+desired outcome without worrying about the underlying implementation details. By using declarative components, 
+we can create more readable and maintainable code.
+
+
+Here's an example of a Card component in NPK UI:
+```jsx
+<Card>
+  <Card.Header title="Summary" variant="plain">
+    <Card.HeaderTrailingActions>
+      <Button icon={MenuIcon} onClick={openMenu} />
+    </Card.HeaderTrailingActions>
+  </Card.Header>
+
+  Some contents
+</Card>
+```
+
+vs the equivalent in our current UI system:
+
+```jsx
+<Card className="shadow-sm">
+  <CardHeader className="border-0 d-flex flex-row justify-content-between">
+    <h5 className="mb-0">Summary</h5>
+    <Button className="btn-icon" onClick={openMenu}>
+      <Icon icon={MenuIcon} />
+    </Button>
+  </CardHeader>
+  <CardBody>
+    Some contents
+  </CardBody>
+</Card>
+```
+
+Overall the concept is the same, but the NPK UI version has a lot less variables (classNames) to keep track of. As a result,
+if we wanted to change the style of our cards, we wouldn't be able to easily tell if all of the card styles would change due to
+this verbosity.
+
+### Theming
+
+One of the significant advantages of using declarative components is the ease of controlling the theme of the software. 
+NPK UI allows for the creation of additional themes, such as high contrast or dark mode, with minimal effort. 
+This flexibility ensures that the UI can adapt to different user preferences and accessibility needs. This is all 
+thanks to the use of CSS variables which were not availble in bootstrap 4. Our CSS file as a whole should be significantly
+smaller as well.
+
+### Accessibility and Best Practices
+
+NPK UI components are designed with accessibility and best practices in mind. By incorporating features like tooltips,
+we can ensure that our components are accessible to all users, including those with disabilities, but maybe more importantly
+all our users can benefit from some good practices of helpful tooltips around the app. 
+This focus on accessibility helps create a better user experience.
+
+It's as simple as this!
+```jsx
+<Button icon={MenuIcon} onClick={openMenu} aria-label="Open Menu" />
+```
+
+or this!
+```jsx
+<div aria-describedby="tooltip-id">
+  Something obscure
+</div>
+<Tooltip id="tooltip-id" content="More info on that obscure thing!" />
+```
+
+### CSS Modules and CSS Variables
+
+NPK UI styles are built using CSS modules and CSS variables. This was chosen for the purpose of restricting styles to the
+specific components they are working with and master stylesheet styles will not impact them. This means all our buttons/cards/etc will
+be the same! And the use of CSS variables allows us to simply load in a new stylesheet of variables to change the entire look of the app.
+No more duplicating our entire bootstrap Grid system just to support a collapsed nav bar (yes that's actually how that currently works - literally doubles our CSS file size).
+
+## Conclusion
+
+NPK UI offers a modern and flexible approach to building user interfaces. By leveraging declarative components, theming capabilities, 
+accessibility features, and advanced styling techniques, NPK UI simplifies the development process and ensures a consistent and 
+accessible user experience.
+
