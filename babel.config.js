@@ -2,7 +2,13 @@ module.exports = function (api) {
   api.cache(true);
 
   const presets = [
-    "@babel/preset-typescript",
+    [
+      "@babel/preset-typescript",
+      {
+        "isTSX": true,
+        "allExtensions": true
+      }
+    ],
     [
       "@babel/preset-env",
       {
@@ -26,15 +32,6 @@ module.exports = function (api) {
 
   return {
     presets,
-    plugins,
-    ignore: [
-      '**/__tests__',
-      '**/*.spec.js',
-      '**/*.test.js',
-      '**/__snapshots__',
-      '**/*.stories.js',
-      '**/*.stories.jsx',
-      '**/*.mdx'
-    ]
+    plugins
   };
 }
