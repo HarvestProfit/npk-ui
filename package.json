@@ -1,10 +1,10 @@
 {
   "name": "@harvest-profit/npk",
-  "version": "0.0.34",
+  "version": "0.0.36",
   "description": "NPK UI Design System",
-  "source": "src/index.js",
+  "source": "src/index.ts",
   "main": "dist/index.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
     "./icons": "./dist/icons/index.js",
@@ -19,11 +19,12 @@
     "build:docs": "npm run build:svgr && storybook build -o ./build",
     "preview-doc-build": "npx http-server build/",
     "build:font": "svgtofont --sources ./icons/regular --output ./tmp/font --fontName npkicons && node ./scripts/prepareFont",
-    "build:icons": "npm run build:svgr && BUILD_ENV=release babel tmp/icons -d dist/icons",
-    "build:svgr": "BUILD_ENV=release npx @svgr/cli --out-dir tmp/icons -- icons && cp icons/index.js tmp/icons/index.js",
-    "build:src": "BUILD_ENV=release babel src -d dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__,stories.js,stories.jsx,.mdx",
+    "build:icons": "npm run build:svgr && BUILD_ENV=release babel tmp/icons -d dist/icons --extensions .ts,.js,.tsx,.jsx",
+    "build:svgr": "BUILD_ENV=release npx @svgr/cli --typescript --out-dir tmp/icons -- icons && cp icons/index.js tmp/icons/index.js",
+    "build:src": "BUILD_ENV=release babel src -d dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__,stories.js,stories.jsx,.mdx --extensions .ts,.js,.tsx,.jsx",
+    "build:types": "tsc",
     "build:css": "postcss dist/**/*.css --replace",
-    "build": "npm run clean && npm run build:src && npm run build:css && npm run build:icons",
+    "build": "npm run clean && npm run build:src && npm run build:css && npm run build:icons && npm run build:types",
     "clean": "rm -rf ./tmp && rm -rf ./dist && rm -rf ./font",
     "prepublishOnly": "npm run build",
     "create-release": "npm run cover && sh ./scripts/release",
@@ -121,6 +122,7 @@
     "@svgr/webpack": "^8.1.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.1",
+    "@types/react": "^18.3.1",
     "autoprefixer": "^10.4.20",
     "babel-eslint": "^10.1.0",
     "babel-jest": "29.7.0",
@@ -150,6 +152,8 @@
     "storybook-css-modules": "^1.0.8",
     "storybook-dark-mode": "^4.0.2",
     "style-loader": "^4.0.0",
-    "svgtofont": "^6.0.0"
+    "svgtofont": "^6.3.1",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.7.3"
   }
 }

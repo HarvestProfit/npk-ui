@@ -1,7 +1,7 @@
 import ApplicationAlert from './ApplicationAlert';
 import BaseButton from './BaseButton';
 import Button from './Button';
-import Card from './Card';
+import Card, { CardProps, CardHeaderProps, CardHeaderActionsProps } from './Card';
 import TabNav from './TabNav';
 import Menu from './Menu';
 import SegmentedControl from './SegmentedControl';
@@ -24,4 +24,10 @@ export {
   Spinner,
   Menu,
   Tooltip
+}
+
+export type {
+  CardProps,
+  CardHeaderProps,
+  CardHeaderActionsProps
 }

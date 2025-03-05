@@ -1,6 +1,21 @@
 import { useMemo, useRef, useState } from 'react';
 import { autoUpdate, flip, offset, shift } from '@floating-ui/dom';
 import { arrow, useClick, useDismiss, useFloating, useInteractions, useMergeRefs, useRole } from '@floating-ui/react';
+import { MenuContextType } from './MenuContext';
+
+interface UsePopoverProps {
+  initialOpen?: boolean;
+  placement?: any;
+  modal?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  showArrow?: boolean | null;
+  initialFocus?: number;
+  autoDismiss?: boolean | 'menu';
+  submenu?: boolean;
+  variant?: string;
+  offset?: number;
+}
 
 function usePopover({
   initialOpen = false,
@@ -14,11 +29,11 @@ function usePopover({
   submenu = false,
   variant = 'dialog',
   offset: offsetAmount = 5
-}) {
+}: UsePopoverProps): MenuContextType {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen);
-  const [labelId, setLabelId] = useState();
-  const [descriptionId, setDescriptionId] = useState();
-  const arrowRef = useRef();
+  const [labelId, setLabelId] = useState<string | undefined>();
+  const [descriptionId, setDescriptionId] = useState<string | undefined>();
+  const arrowRef = useRef<HTMLElement>(null);
 
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
@@ -46,7 +61,7 @@ function usePopover({
   const role = useRole(data.context);
   const interactions = useInteractions([click, dismiss, role]);
 
-  return useMemo(
+  return useMemo<MenuContextType>(
     () => ({
       menu: true,
       open,

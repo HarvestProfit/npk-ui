@@ -2,7 +2,13 @@ module.exports = function (api) {
   api.cache(true);
 
   const presets = [
-    "@babel/preset-typescript",
+    [
+      "@babel/preset-typescript",
+      {
+        "isTSX": true,
+        "allExtensions": true
+      }
+    ],
     [
       "@babel/preset-env",
       {
