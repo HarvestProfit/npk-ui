@@ -18,15 +18,15 @@
   }
 
   &[data-size="lg"] {
-    --control-padding: 16px;
-    --control-large-size: var(--control-size-root);
+    --control-size: var(--badge-lg-size);
   }
 
   &[data-size="md"],
   &:not([data-size="lg"]) {
     --control-font-size: var(--control-small-font-size);
-    --control-size: var(--control-small-size);
+    --control-size: var(--badge-size);
     --control-gap: var(--control-small-gap);
+    --control-padding: var(--control-small-padding);
   }
 
   &[data-color="red"] {

@@ -97,10 +97,11 @@
 
 
   --control-icon-color: var(--color-fg-muted);
+  --badge-size: 1.25rem;
+  --badge-lg-size: 1.75rem;
   --control-small-size: 1.75rem;
   --control-size: 2rem;
   --control-large-size: 2.5rem;
-  --control-size-root: var(--control-size);
   --control-radius: var(--size-6);
   --control-small-gap: var(--size-4);
   --control-gap: var(--size-8);
