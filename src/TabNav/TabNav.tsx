@@ -44,7 +44,7 @@ TabNav.NavItem = ({ children, value = null, leadingVisual: LeadingVisual = null,
 
   const name = children.toString().toLowerCase().replaceAll('[object object]', '');
 
-  const isActive = active || ctx.active === (value || name);
+  const isActive = active || `${ctx.active}`.toLowerCase() === `${(value || name)}`.toLowerCase();
 
   return (
     <>
