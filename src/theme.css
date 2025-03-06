@@ -8,7 +8,8 @@
   --color-orange: #F4801F;
   --color-red: #d63b49;
   --color-brown: #8C602C;
-  --color-blue: #5abce8;
+  --color-blue: #1470e1;
+  --color-purple: #960eeb;
 
   --color-neutral-100: white;
   --color-neutral-99: #fefefe;
@@ -99,6 +100,7 @@
   --control-small-size: 1.75rem;
   --control-size: 2rem;
   --control-large-size: 2.5rem;
+  --control-size-root: var(--control-size);
   --control-radius: var(--size-6);
   --control-small-gap: var(--size-4);
   --control-gap: var(--size-8);

@@ -1,0 +1,28 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as BadgeStories from './Badge.stories.jsx';
+ 
+<Meta of={BadgeStories} />
+ 
+# Badges
+
+### Default
+Badges are used to tag something visually like a status or a category. Usually they are not
+meant to be interactive or to have icons but can be used in the same way as buttons if needed. This includes
+the ability to be clickable and add leading/trailing visuals and loading states.
+<Canvas of={BadgeStories.Colors} />
+
+### Feature Previews
+
+To indicate to the user that they are using a preview feature, the color <code>preview</code> should be used. This
+is currently synonymous with the color <code>purple</code> but may change in the future.
+<Canvas of={BadgeStories.FeaturePreviews} />
+
+### Clickable
+
+When you provide an <code>onClick</code> prop, the badge will have hover and active states plus a pointer cursor.
+<Canvas of={BadgeStories.Clickable} />
+
+## Props
+
+<Controls />

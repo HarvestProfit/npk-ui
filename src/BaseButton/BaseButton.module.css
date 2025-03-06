@@ -3,7 +3,7 @@ a.ControlButton:hover {
 }
 
 .ControlButton {
-  cursor: pointer;
+  cursor: var(--btn-cursor, pointer);
   appearance: none;
   user-select: none;
   /* Places the border on the inside allowing for borders to not impact button sizes */
@@ -45,14 +45,14 @@ a.ControlButton:hover {
   &:disabled,
   &[data-state="disabled"],
   &[data-state="loading"] {
-    cursor: not-allowed;
+    --btn-cursor: not-allowed;
     background-color: var(--btn-bg-color--disabled, var(--control-bg-color--disabled));
     color: var(--btn-fg-color--disabled, var(--control-fg-color--disabled));
     border-color: var(--btn-border-color--disabled, var(--control-border-color--disabled));
   }
 
   &[data-state="loading"] {
-    cursor: progress;
+    --btn-cursor: progress;
   }
 
   &>[data-component="contents"] {

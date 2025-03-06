@@ -1,0 +1,51 @@
+.Badge {
+  border-radius: 100px !important;
+  --badge-fg-color: var(--color-neutral-10);
+  --btn-bg-color: transparent;
+  --btn-bg-color--hover: transparent;
+  --btn-bg-color--active: transparent;
+  --btn-bg-color--disabled: var(--button-invisible-bg-color--disabled);
+  --btn-border-color: var(--badge-fg-color);
+  --btn-visual-color: var(--badge-fg-color);
+  --btn-fg-color: var(--badge-fg-color);
+  --btn-icon-color: var(--badge-fg-color);
+  --btn-cursor: default;
+
+  &[data-actionable="true"] {
+    --btn-cursor: pointer;
+    --btn-bg-color--hover: var(--button-invisible-bg-color--hover);
+    --btn-bg-color--active: var(--button-invisible-bg-color--active);
+  }
+
+  &[data-size="lg"] {
+    --control-padding: 16px;
+    --control-large-size: var(--control-size-root);
+  }
+
+  &[data-size="md"],
+  &:not([data-size="lg"]) {
+    --control-font-size: var(--control-small-font-size);
+    --control-size: var(--control-small-size);
+    --control-gap: var(--control-small-gap);
+  }
+
+  &[data-color="red"] {
+    --badge-fg-color: var(--color-red);
+  }
+  &[data-color="green"] {
+    --badge-fg-color: var(--color-green);
+  }
+  &[data-color="orange"] {
+    --badge-fg-color: var(--color-orange);
+  }
+  &[data-color="blue"] {
+    --badge-fg-color: var(--color-blue);
+  }
+  &[data-color="brown"] {
+    --badge-fg-color: var(--color-brown);
+  }
+  &[data-color="preview"],
+  &[data-color="purple"] {
+    --badge-fg-color: var(--color-purple);
+  }
+}
