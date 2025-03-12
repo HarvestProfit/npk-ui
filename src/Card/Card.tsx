@@ -17,12 +17,18 @@ interface CardHeaderProps {
   size?: 'md' | 'lg'; // Add other sizes as needed
 }
 
+interface CardFooterProps {
+  children: ReactNode;
+  as?: keyof JSX.IntrinsicElements;
+}
+
 interface CardHeaderActionsProps {
   children: ReactNode;
 }
 
 const Card: FC<CardProps> & {
   Header: FC<CardHeaderProps>;
+  Footer: FC<CardFooterProps>;
   HeaderLeadingActions: FC<CardHeaderActionsProps>;
   HeaderTrailingActions: FC<CardHeaderActionsProps>;
 } = ({ children, variant = 'normal', block, className = '', style = {} }) => (
@@ -38,6 +44,12 @@ Card.Header = ({ title, children, variant = 'underlined', as: Tag = 'h3', size =
   </div>
 );
 
+Card.Footer = ({ children, as: Tag = 'div' }) => (
+  <Tag data-component="card-footer">
+    {children}
+  </Tag>
+);
+
 Card.HeaderLeadingActions = ({ children }) => (
   <div data-component="card-header-leadingActions">
     {children}
@@ -51,4 +63,4 @@ Card.HeaderTrailingActions = ({ children }) => (
 );
 
 export default Card;
-export type { CardProps, CardHeaderProps, CardHeaderActionsProps };
+export type { CardProps, CardHeaderProps, CardFooterProps, CardHeaderActionsProps };
