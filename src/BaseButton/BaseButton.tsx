@@ -90,7 +90,7 @@ const BaseButton: React.FC<BaseButtonProps> = ({
 
   return (
     <>
-      <Component ref={ref} className={`${classes.ControlButton} ${className || ''}`} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-state={state} {...props} {...popoverProps}>
+      <Component ref={ref} className={`${classes.ControlButton} ${className || ''}`} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-state={state} {...props} data-component="button" {...popoverProps}>
         <span data-component="contents" data-icon={!!(!children && (TrailingVisual || LeadingVisual))}>
           {LeadingVisual && <span data-component="leadingVisual">{React.isValidElement(LeadingVisual) ? LeadingVisual : <LeadingVisual />}</span>}
           {textLoading}
