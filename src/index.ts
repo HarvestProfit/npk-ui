@@ -2,7 +2,8 @@ import ApplicationAlert from './ApplicationAlert';
 import BaseButton from './BaseButton';
 import Button from './Button';
 import Badge from './Badge';
-import DateInput, { DateRangeInput } from './DateInput';
+import DateInput from './DateInput';
+import Input from './Input';
 import Card, { CardProps, CardHeaderProps, CardHeaderActionsProps } from './Card';
 import TabNav from './TabNav';
 import Menu from './Menu';
@@ -21,7 +22,7 @@ export {
   Button,
   Badge,
   DateInput,
-  DateRangeInput,
+  Input,
   Card,
   TabNav,
   Placeholder,

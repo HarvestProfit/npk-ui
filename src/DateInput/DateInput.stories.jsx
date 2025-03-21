@@ -1,6 +1,7 @@
 import React from 'react'
 import DateInput from '@harvest-profit/npk/DateInput';
 import Button from '@harvest-profit/npk/Button';
+import Card from '@harvest-profit/npk/Card';
 import * as Icons from '@harvest-profit/npk/icons/regular';
 
 const icons = { None: null, ...Icons }
@@ -84,12 +85,20 @@ export const Default = () => <div style={{ display: 'flex', flexDirection: 'row'
   <DateInput variant="invisible" trailingVisual={<Button invisible icon={Icons.CalendarIcon} />} /><Button>Save</Button>
 </div>
 
-export const Range = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <DateInput.Range trailingVisual={<Button invisible icon={Icons.QuestionIcon} aria-label="This sets the date range" />} /><Button>Save</Button>
+export const Range = (props) => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+  <DateInput.Range {...props} trailingVisual={<Button invisible icon={Icons.QuestionIcon} aria-label="This sets the date range" />} /><Button size={props.size}>Save</Button>
 </div>
 
 export const Time = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <DateInput.Time /><Button>Save</Button>
+  <Card>
+    <Card.Header title="Input in a Card" />
+    <div>
+      <DateInput.Time />
+      <Button>Save</Button>
+    </div>
+    
+  </Card>
+  
 </div>
 
 export const Plain = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>

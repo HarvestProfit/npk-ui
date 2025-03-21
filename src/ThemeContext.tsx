@@ -3,11 +3,13 @@ import React, { createContext, ReactNode } from "react";
 interface ThemeContextType {
   prependRootId: string;
   appendRootId: string;
+  currencySymbol: string;
 }
 
 const defaultConfig: ThemeContextType = {
   prependRootId: 'app-prepend-root',
   appendRootId: 'app-append-root',
+  currencySymbol: '$',
 };
 
 const ThemeContext = createContext<ThemeContextType>(defaultConfig);

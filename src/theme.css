@@ -87,6 +87,7 @@
   --control-bg-color--active: var(--color-neutral-85);
   --control-bg-color--disabled: var(--color-neutral-85);
   --control-fg-color--placeholder: var(--color-neutral-60);
+  --control-fg-color--placeholder--active: var(--color-neutral-50);
   --control-fg-color--disabled: var(--color-neutral-40);
   --control-fg-color: var(--color-neutral-10);
 
@@ -117,6 +118,7 @@
   --control-border-color: #00000022;
   --control-border-color--disabled: #00000011;
   --control-surface-color: #00000010;
+  --control-inset-shadow-color: #1f23280a;
   --control-dark-border-color: var(--color-neutral-60);
 
   --button-danger-fg-color: var(--color-red);

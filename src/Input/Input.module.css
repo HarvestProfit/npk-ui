@@ -1,0 +1,11 @@
+.Input {
+  font-size: inherit;
+  background: none;
+  border: 0;
+  text-align: inherit;
+  cursor: inherit;
+
+  &:focus {
+    outline: none;
+  }
+}

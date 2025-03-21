@@ -5,13 +5,14 @@ import { useDateSegment } from 'react-aria';
 const InputSegment = ({ segment, state }) => {
   let ref = React.useRef(null);
   let { segmentProps } = useDateSegment(segment, state, ref);
-  console.log(segment)
 
   return (
     <span
       {...segmentProps}
       ref={ref}
-      className={`${classes.InputSegment} ${segment.isPlaceholder ? 'placeholder' : ''}`}
+      data-component="input-segment"
+      data-placeholder={segment.isPlaceholder}
+      className={`${classes.InputSegment}`}
     >
       {segment.text}
     </span>
