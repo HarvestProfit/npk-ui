@@ -32,7 +32,7 @@ const DateInput = (preProps) => {
   );
 }
 
-export default ({ picker, ...props }) => {
+export default ({ picker, visibleMonths = 1, presets = false, ...props }) => {
   if (picker) {
     const ref = React.useRef(null);
     const state = useDatePickerState(props);
@@ -43,10 +43,10 @@ export default ({ picker, ...props }) => {
     } = useDatePicker(props, state, ref);
 
     const trailingVisual = (
-      <Menu autoDismiss={false}>
+      <Menu arrow placement="bottom" autoDismiss={false}>
         <Button invisible icon={CalendarIcon} aria-label="Pick a date" />
         <Menu.Overlay>
-          <Calendar {...calendarProps} />
+          <Calendar {...calendarProps} visibleMonths={visibleMonths} presets={presets} />
         </Menu.Overlay>
       </Menu>
     )

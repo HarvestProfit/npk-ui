@@ -1,5 +1,7 @@
 .Calendar {
   color: var(--control-fg-color);
+  --control-calendar-width: 275px;
+  min-width: var(--control-calendar-width);
 
   &>header {
     flex-grow: 1;
@@ -7,7 +9,7 @@
     flex-basis: auto;
     display: grid;
     grid-template-areas: "previous title next";
-    grid-template-columns: min-content minmax(0px, auto) min-content;
+    grid-template-columns: min-content minmax(0px, auto) min-content ;
     align-items: center;
     align-content: center;
     justify-content: space-between;
@@ -17,18 +19,39 @@
     &>[data-component="calendar-backwards"] {
       grid-row: previous;
       grid-column: previous;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+    }
+
+    &>[data-component="calendar-actions"] {
+      grid-column: 1 / 4;
+      grid-row: 2;
+      display: flex;
+      flex-direction: row;
+      gap: var(--control-gap);
+      margin-bottom: var(--control-gap);
+      overflow-x: scroll;
+      max-width: var(--control-calendar-width);
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
 
     &>[data-component="calendar-title"] {
       grid-row: title;
       grid-column: title;
-      font-size: 1rem;
+      font-size: 0.95rem;
       margin: 0;
+      text-align: center;
     }
 
     &>[data-component="calendar-forwards"] {
       grid-row: next;
       grid-column: next;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
     }
   }
 

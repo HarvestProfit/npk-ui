@@ -8,7 +8,7 @@ import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
 
-const DateRangeInput = ({ picker, ...preProps}) => {
+const DateRangeInput = ({ picker, visibleMonths = 2, ...preProps}) => {
   const props = useBaseInput(preProps);
   let state = useDateRangePickerState(props);
   let ref = React.useRef(null);
@@ -25,10 +25,10 @@ const DateRangeInput = ({ picker, ...preProps}) => {
 
   if (picker) {
     extraProps.trailingVisual = (
-      <Menu autoDismiss={false}>
+      <Menu arrow placement="bottom" autoDismiss={false}>
         <Button invisible icon={CalendarIcon} aria-label="Pick a date" />
         <Menu.Overlay>
-          <Calendar.Range {...calendarProps} />
+          <Calendar.Range {...calendarProps} visibleMonths={visibleMonths} />
         </Menu.Overlay>
       </Menu>
     )
