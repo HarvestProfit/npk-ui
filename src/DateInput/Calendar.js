@@ -156,7 +156,7 @@ const Calendar = ({ presets, ...props}) => {
         {presetButtons.length > 0 && (
         <span data-component="calendar-actions">
           {presetButtons.map((preset) => (
-            <Button key={preset.label} invisible={false} size="sm" onClick={() => presetOnClick(preset.date)}>{preset.label}</Button>
+            <Button key={preset.label} invisible variant="primary" size="sm" onClick={() => presetOnClick(preset.date)}>{preset.label}</Button>
           ))}
         </span>
         )}

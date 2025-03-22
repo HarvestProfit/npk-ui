@@ -29,8 +29,8 @@
       grid-row: 2;
       display: flex;
       flex-direction: row;
-      gap: var(--control-gap);
       margin-bottom: var(--control-gap);
+      margin-top: calc(var(--control-gap) * -1);
       overflow-x: scroll;
       max-width: var(--control-calendar-width);
       &::-webkit-scrollbar {
