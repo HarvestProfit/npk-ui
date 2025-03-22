@@ -32,6 +32,10 @@ export default {
       type: 'boolean',
       table: { defaultValue: { summary: "false" } }
     },
+    picker: {
+      type: 'boolean',
+      table: { defaultValue: { summary: "false" } }
+    },
     as: {
       type: 'string',
       description: 'The html tag or component to be used.',
@@ -76,13 +80,14 @@ export default {
     leadingVisual: null,
     trailingVisual: null,
     disabled: false,
+    picker: false,
     'aria-label': null
   }
 }
 
 export const Default = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <DateInput /><Button>Save</Button>
-  <DateInput variant="invisible" trailingVisual={<Button invisible icon={Icons.CalendarIcon} />} /><Button>Save</Button>
+  <DateInput aria-label="Generic date input" /><Button>Save</Button>
+  <DateInput aria-label="Generic date input with picker" variant="invisible" picker /><Button>Save</Button>
 </div>
 
 export const Range = (props) => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>

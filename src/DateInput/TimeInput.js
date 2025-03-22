@@ -1,5 +1,4 @@
 import React from 'react';
-import classes from './DateInput.module.css';
 import { useLocale, useTimeField} from 'react-aria';
 import {useTimeFieldState} from 'react-stately';
 import InputSegment from './InputSegment';
@@ -18,7 +17,7 @@ const TimeInput = ({ disabled, ...preProps }) => {
   let { fieldProps } = useTimeField(props, state, ref);
 
   return (
-    <BaseInput className={classes.DateInput} {...props} contentsProps={fieldProps} contentsRef={ref} containsSegments>
+    <BaseInput {...props} contentsProps={fieldProps} contentsRef={ref} containsSegments>
       {state.segments.map((segment, i) => (
         <InputSegment key={i} segment={segment} state={state} />
       ))}

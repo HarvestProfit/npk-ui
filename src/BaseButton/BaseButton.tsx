@@ -3,6 +3,7 @@ import classes from './BaseButton.module.css';
 import { Spinner, Tooltip } from '..';
 import { useMenuContext } from '../Menu';
 import { MenuContentsContext, MenuContentsContextType } from '../Menu/MenuContext';
+import { usePress } from 'react-aria';
 
 interface BaseButtonProps {
   icon?: ComponentType;
@@ -19,7 +20,21 @@ interface BaseButtonProps {
   chip?: ReactNode;
   children?: ReactNode;
   className?: string;
+  onPressStart?: (e: any) => void;
+  onPressEnd?: (e: any) => void;
+  onPress?: (e: any) => void;
+  onClick?: (e: any) => void;
   [key: string]: any; // Allow other props
+}
+
+const usePressHandlers = ({ onPress, onClick, ...props}: BaseButtonProps) => {
+  let { pressProps, isPressed } = usePress({
+    onPressStart: props.onPressStart,
+    onPressEnd: props.onPressEnd,
+    onPress: onPress || onClick
+  });
+
+  return { pressProps: { ...props, ...pressProps }, isPressed };
 }
 
 const BaseButton: React.FC<BaseButtonProps> = ({
@@ -45,13 +60,15 @@ const BaseButton: React.FC<BaseButtonProps> = ({
   let ref: any = internalRef;
   let popoverProps = {};
 
+  let onClick = props.onPress || props.onClick;
+
   if (menuContentsContext.inMenu) {
     const menuDismisableOnClick = (e: MouseEvent<HTMLElement>) => {
-      if (props.onClick) props.onClick(e);
+      if (onClick) onClick(e);
       if (menuContentsContext.onDismiss) menuContentsContext.onDismiss(e);
     };
 
-    popoverProps = { onClick: menuDismisableOnClick };
+    popoverProps = { onPress: menuDismisableOnClick };
   } else if (menuContext.menu) {
     popoverProps = { ...menuContext.getReferenceProps(props) };
     ref = menuContext.useMergeRefs([menuContext.refs.setReference, internalRef]);
@@ -88,9 +105,13 @@ const BaseButton: React.FC<BaseButtonProps> = ({
     }
   }
 
+  const { pressProps, isPressed } = usePressHandlers({ ...props , ...popoverProps });
+
+  if (!state && isPressed) state = 'active';
+
   return (
     <>
-      <Component ref={ref} className={`${classes.ControlButton} ${className || ''}`} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-state={state} {...props} data-component="button" {...popoverProps}>
+      <Component ref={ref} className={`${classes.ControlButton} ${className || ''}`} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-state={state} data-component="button" {...pressProps}>
         <span data-component="contents" data-icon={!!(!children && (TrailingVisual || LeadingVisual))}>
           {LeadingVisual && <span data-component="leadingVisual">{React.isValidElement(LeadingVisual) ? LeadingVisual : <LeadingVisual />}</span>}
           {textLoading}

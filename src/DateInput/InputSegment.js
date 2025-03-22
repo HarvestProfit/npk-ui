@@ -1,5 +1,4 @@
 import React from 'react';
-import classes from './DateInput.module.css';
 import { useDateSegment } from 'react-aria';
 
 const InputSegment = ({ segment, state }) => {
@@ -12,7 +11,6 @@ const InputSegment = ({ segment, state }) => {
       ref={ref}
       data-component="input-segment"
       data-placeholder={segment.isPlaceholder}
-      className={`${classes.InputSegment}`}
     >
       {segment.text}
     </span>

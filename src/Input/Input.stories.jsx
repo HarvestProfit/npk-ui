@@ -114,7 +114,7 @@ export const Groups = () => <div style={{ display: 'flex', flexDirection: 'row',
     <Input.Group aria-labelledby="size">
       <Input.Number placeholder="Weight" minValue={0} width={100} />
       <Menu arrow>
-        <Button tabindex={0} invisible trailingAction={Icons.DropdownIndicatorIcon}>LBS</Button>
+        <Button tabIndex={0} invisible trailingAction={Icons.DropdownIndicatorIcon}>LBS</Button>
         <Menu.Overlay>
           <Button>LBS</Button>
           <Button>KG</Button>

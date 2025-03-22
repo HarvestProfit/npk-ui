@@ -1,35 +1,30 @@
 import React from 'react';
-import classes from './DateInput.module.css';
-import {useDateField, useLocale} from 'react-aria';
-import {useDateFieldState} from 'react-stately';
-import {GregorianCalendar} from '@internationalized/date';
+import {useDateField, useLocale, useDatePicker} from 'react-aria';
+import {useDateFieldState, useDatePickerState} from 'react-stately';
 import InputSegment from './InputSegment';
 import BaseInput, { useBaseInput } from '../BaseInput';
+import Calendar, { createCalendar } from './Calendar'
+import Menu from '../Menu';
+import Button from '../Button';
+import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
 
-function createCalendar(identifier) {
-  switch (identifier) {
-    case 'gregory':
-      return new GregorianCalendar();
-    default:
-      throw new Error(`Unsupported calendar ${identifier}`);
-  }
-}
-
-const DateInput = ({ ...preProps }) => {
+const DateInput = (preProps) => {
   const props = useBaseInput(preProps);
-  let { locale } = useLocale();
-  let state = useDateFieldState({
+  const { locale } = useLocale();
+
+  const ref = React.useRef(null);
+  const state = useDateFieldState({
     ...props,
     shouldForceLeadingZeros: true,
     locale,
     createCalendar
   });
 
-  let ref = React.useRef(null);
-  let { fieldProps } = useDateField(props, state, ref);
+  const { fieldProps } = useDateField(props, state, ref);
+  
 
   return (
-    <BaseInput className={classes.DateInput} {...props} contentsProps={fieldProps} contentsRef={ref} containsSegments>
+    <BaseInput {...props} contentsProps={fieldProps} contentsRef={ref} containsSegments>
       {state.segments.map((segment, i) => (
         <InputSegment key={i} segment={segment} state={state} />
       ))}
@@ -37,4 +32,31 @@ const DateInput = ({ ...preProps }) => {
   );
 }
 
-export default DateInput;
+export default ({ picker, ...props }) => {
+  if (picker) {
+    const ref = React.useRef(null);
+    const state = useDatePickerState(props);
+    const {
+      groupProps,
+      fieldProps,
+      calendarProps
+    } = useDatePicker(props, state, ref);
+
+    const trailingVisual = (
+      <Menu autoDismiss={false}>
+        <Button invisible icon={CalendarIcon} aria-label="Pick a date" />
+        <Menu.Overlay>
+          <Calendar {...calendarProps} />
+        </Menu.Overlay>
+      </Menu>
+    )
+
+    return (
+      <BaseInput contentsProps={groupProps} contentsRef={ref} trailingVisual={trailingVisual}>
+        <DateInput {...fieldProps} />
+      </BaseInput>
+    );
+  }
+
+  return <DateInput {...props} />;
+};
