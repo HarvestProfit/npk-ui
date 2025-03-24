@@ -83,7 +83,7 @@
   },
   "homepage": "https://github.com/HarvestProfit/npk-ui#readme",
   "dependencies": {
-    "@babel/runtime": "^7.21.0",
+    "@babel/runtime": "^7.26.0",
     "@floating-ui/dom": "^1.6.11",
     "@floating-ui/react": "^0.26.24",
     "@internationalized/date": "^3.7.0",
