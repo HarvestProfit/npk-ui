@@ -1,0 +1,43 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as InputStories from './Input.stories.jsx';
+ 
+<Meta of={InputStories} />
+ 
+# Input
+
+Inputs require a label to be accessible. You'll get warnings if you do not add the `aria-label` prop or the `aria-labelledby` prop in conjunction with an `id` prop to a label node.
+
+### Default
+
+A styled input that can be used for text.
+You can also use the same `leadingVisual` and `trailingVisual` props as the `Button` component.
+The biggest change is that you can also put a button in as those visuals to allow for added actions.
+<Canvas of={InputStories.Default} />
+
+### Number
+
+<b>Numeric inputs only trigger the `onChange` event onBlur. This is due to partial input potentially being invalid.</b>
+<br />
+Under the hood, the `formatOptions` prop uses <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat">Intl.NumberFormat()</a>
+to format the number. This means that you can use any of the options that are available in the `NumberFormat` constructor.
+Numeric inputs only allow for numeric values to be entered in. You can use things like `minValue` and `maxValue` to limit 
+the range of values that can be entered.
+
+<br />
+Here's a few examples of how you can set up different inputs. I think the best looking are where you put the symbol
+in the `leadingVisual` or `trailingVisual` props. This way the symbol is always visible and the input contents
+aren't changing as much.
+<em>If you use the `type="currency"` prop, this will automatically pull the currency symbole from the theme context and set it as the leading visual.</em>
+<Canvas of={InputStories.Number} />
+
+### Groups
+
+You can group inputs together into segments by wrapping inputs in the `<Input.Group>` component. The rule of thumb is 
+to only be grouping things that are part of the same input. For example a price plus a unit can be grouped. I wouldn't do
+first and last name grouped together though as the UX is misleading since there is no visual separation between the two.
+<Canvas of={InputStories.Groups} />
+
+## Props
+
+<Controls />

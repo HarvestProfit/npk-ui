@@ -1,0 +1,34 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as DateInputStories from './DateInput.stories.jsx';
+ 
+<Meta of={DateInputStories} />
+ 
+# Date Input
+
+
+### Default
+
+Date Input allows you to type in a date in controlled segments.
+You can also use the same `leadingVisual` and `trailingVisual` props as the `Button` component.
+The biggest change is that you can also put a button in as those visuals to allow for a date picker and other things.
+<Canvas of={DateInputStories.Default} />
+
+### Date Range
+
+You can also do date ranges the same way
+<Canvas of={DateInputStories.Range} />
+
+### Time
+
+You can also enter in times using the same format
+<Canvas of={DateInputStories.Time} />
+
+### Granularity
+
+Using the granularity prop you can specify how precise the input should be
+<Canvas of={DateInputStories.Granularity} />
+
+## Props
+
+<Controls />

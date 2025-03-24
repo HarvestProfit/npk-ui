@@ -34,7 +34,7 @@ a.ControlButton:hover {
     background-color: var(--btn-bg-color--hover, var(--control-bg-color--hover));
   }
 
-  &:active {
+  &[data-state="active"] {
     background-color: var(--btn-bg-color--active, var(--control-bg-color--active));
   }
 

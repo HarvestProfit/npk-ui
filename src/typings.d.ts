@@ -5,5 +5,7 @@ declare module '*.module.css' {
 
 declare module '@harvest-profit/npk/icons/regular' {
   export const CheckedIcon: React.ComponentType;
-  
+  export const CalendarIcon: React.ComponentType;
+  export const BackwardIndicatorIcon: React.ComponentType;
+  export const ForwardIndicatorIcon: React.ComponentType;
 }

@@ -1,6 +1,8 @@
 /* color theme */
 :root {
   --color-green: #3f9142;
+  --color-green-80: #cae7cb;
+  --color-green-90: #e1f5e2;
   --color-green--hover: #3C8A3F;
   --color-green--active: #37803A;
   --color-green--disabled: #77BA7A;
@@ -65,6 +67,7 @@
 
 /* Sizes */
 :root {
+  --size-3: 0.1875rem;
   --size-4: 0.25rem;
   --size-6: 0.375rem;
   --size-8: 0.5rem;
@@ -86,8 +89,19 @@
   --control-bg-color--hover: var(--color-neutral-90);
   --control-bg-color--active: var(--color-neutral-85);
   --control-bg-color--disabled: var(--color-neutral-85);
+  --control-fg-color--placeholder: var(--color-neutral-60);
+  --control-fg-color--placeholder--active: var(--color-neutral-50);
   --control-fg-color--disabled: var(--color-neutral-40);
   --control-fg-color: var(--color-neutral-10);
+
+  --control-focus-color: var(--color-green);
+  --control-focus-bg-color: var(--color-neutral-100);
+
+  --control-bg-color--active-element: var(--color-green);
+  --control-fg-color--active-element: var(--color-neutral-100);
+  --control-bg-color--muted-hover-element: var(--color-green-90);
+  --control-bg-color--muted-active-element: var(--color-green-80);
+  --control-fg-color--muted-active-element: var(--color-neutral-10);
 
 
   --control-on-surface-bg-color: var(--color-neutral-95);
@@ -103,6 +117,7 @@
   --control-size: 2rem;
   --control-large-size: 2.5rem;
   --control-radius: var(--size-6);
+  --control-segment-radius: var(--size-3);
   --control-small-gap: var(--size-4);
   --control-gap: var(--size-8);
   --control-small-font-size: var(--size-12);
@@ -113,6 +128,7 @@
   --control-border-color: #00000022;
   --control-border-color--disabled: #00000011;
   --control-surface-color: #00000010;
+  --control-inset-shadow-color: #1f23280a;
   --control-dark-border-color: var(--color-neutral-60);
 
   --button-danger-fg-color: var(--color-red);
@@ -124,7 +140,7 @@
 
   --button-invisible-bg-color--hover: #0000000A;
   --button-invisible-bg-color--active: #00000015;
-  --button-invisible-bg-color--disabled: #00000019;
+  --button-invisible-bg-color--disabled: #14070719;
 
   --button-white-bg-color: white;
   --button-white-bg-color--hover: var(--color-neutral-98);
