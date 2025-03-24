@@ -42,10 +42,14 @@
       }
   
       &:focus-within {
-        color: var(--control-fg-color--placeholder--active);
         background: var(--control-bg-color--active);
         outline: none;
         border-radius: var(--control-segment-radius);
+
+        &[aria-valuetext="Empty"],
+        &[data-placeholder="true"] {
+          color: var(--control-fg-color--placeholder--active);
+        }
 
         input::placeholder {
           color: var(--control-fg-color--placeholder--active);
