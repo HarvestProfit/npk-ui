@@ -47,7 +47,6 @@ export const useFocusableContent = (
     if (!focusableElement || e.target === focusableElement) return;
     if ((e.target as Element).matches('[contentEditable="true"],[tabindex]:not([tabindex^="-"])')) return;
     if (!isFocused) {
-      console.log('do focus')
       setTimeout(() => {
         (focusableElement as HTMLElement).focus();
       }, 0);
@@ -81,6 +80,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
   containsSegments,
   onClick,
   onMouseDown,
+  style,
   ...props
 }) => {
   const inheritedContext = useContext(BaseInputContext);
@@ -100,6 +100,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
       aria-disabled={disabled}
       onClick={onClick}
       onMouseDown={onMouseDown}
+      style={style}
     >
       {LeadingVisual && (
         <span

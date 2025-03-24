@@ -1,6 +1,6 @@
 {
   "name": "@harvest-profit/npk",
-  "version": "0.0.43",
+  "version": "0.0.44",
   "description": "NPK UI Design System",
   "source": "src/index.ts",
   "main": "dist/index.js",
