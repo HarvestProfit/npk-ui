@@ -4,6 +4,7 @@
   border: 0;
   text-align: inherit;
   cursor: inherit;
+  width: 100%;
 
   &:focus {
     outline: none;

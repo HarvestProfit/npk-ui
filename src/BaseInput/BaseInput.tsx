@@ -38,6 +38,12 @@ export const useFocusableContent = (
       e.currentTarget.parentElement?.querySelector("[tabindex='0']") ||
       e.currentTarget.parentElement?.parentElement?.querySelector("[tabindex='0']");
 
+    if (props.disabled) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+
     if (!focusableElement || e.target === focusableElement) return;
     if ((e.target as Element).matches('[contentEditable="true"],[tabindex]:not([tabindex^="-"])')) return;
     if (!isFocused) {
@@ -144,6 +150,7 @@ interface UseFocusableContentProps extends HTMLAttributes<HTMLElement> {
   onFocusChange?: (any?) => void;
   onFocus?: (any?) => void;
   onBlur?: (any?) => void;
+  disabled?: boolean;
 }
 
 export interface BaseInputProps extends HTMLAttributes<HTMLElement> {
