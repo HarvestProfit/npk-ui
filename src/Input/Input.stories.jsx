@@ -82,17 +82,17 @@ export const Default = () => <div>
 
 
 export const Number = () => {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState();
   return (
     <div>
       <label id="number-inputs">Number Inputs</label>
       <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <Input.Number aria-label="how many" variant="invisible" trailingVisual={Icons.QuestionIcon} />
-        <Input.Number aria-labelledby="number-inputs" variant="invisible" leadingVisual="$" placeholder="400.00" minValue={-10} formatOptions={{ minimumFractionDigits: 3, maximumFractionDigits: 4 }} />
-        <Input.Number aria-labelledby="number-inputs" variant="invisible" type="currency" placeholder="400.00" />
-        <Input.Number aria-labelledby="number-inputs" variant="invisible" placeholder="400.00" formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 4 }} />
-        <Input.Number aria-labelledby="number-inputs" variant="invisible" align="end" trailingVisual="%" placeholder="67" width={40} />
-        <Input.Number aria-labelledby="number-inputs" variant="invisible" align="end" placeholder="67" width={50} value={value} onChange={setValue} formatOptions={{ style: 'percent', maximumFractionDigits: 2 }} />
+        {/* <Input.Number aria-label="how many" variant="invisible" trailingVisual={Icons.QuestionIcon} />
+        <Input.Number aria-labelledby="number-inputs" variant="invisible" leadingVisual="$" placeholder="400.00" minValue={-10} formatOptions={{ minimumFractionDigits: 3, maximumFractionDigits: 4 }} /> */}
+        <Input.Number aria-labelledby="number-inputs" name="currency-type" variant="invisible" value={value} onChange={setValue} type="currency" placeholder="400.00" />
+        <Input.Number aria-labelledby="number-inputs" name="currency-format" variant="invisible" value={value} onChange={setValue} placeholder="400.00" formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 4 }} />
+        {/* <Input.Number aria-labelledby="number-inputs" variant="invisible" align="end" trailingVisual="%" placeholder="67" width={40} />
+        <Input.Number aria-labelledby="number-inputs" variant="invisible" align="end" placeholder="67" width={50} formatOptions={{ style: 'percent', maximumFractionDigits: 2 }} /> */}
       </div>
       <Button>Save {value}</Button>
     </div>
