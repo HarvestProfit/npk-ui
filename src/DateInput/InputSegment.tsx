@@ -1,6 +1,6 @@
 import React from 'react';
-import { useDateSegment } from 'react-aria';
-import { DateFieldState, DateSegment } from 'react-stately';
+import { useDateSegment } from '@react-aria/datepicker';
+import { DateFieldState, DateSegment } from '@react-stately/datepicker';
 
 interface InputSegmentProps {
   segment: DateSegment;

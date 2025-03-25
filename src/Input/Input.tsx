@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './Input.module.css';
 import BaseInput, { useFocusableContent, useBaseInput, BaseInputProps } from '../BaseInput';
-import { AriaTextFieldOptions, useTextField } from 'react-aria';
+import { useTextField, AriaTextFieldOptions } from '@react-aria/textfield';
 
 interface InputProps extends BaseInputProps {
   [key: string]: any; // Allow other props

@@ -1,6 +1,6 @@
 import React from 'react';
-import { AriaDateRangePickerProps, useDateRangePicker } from 'react-aria';
-import { useDateRangePickerState, DateRangePickerState } from 'react-stately';
+import { AriaDateRangePickerProps, useDateRangePicker } from '@react-aria/datepicker';
+import { useDateRangePickerState, DateRangePickerState } from '@react-stately/datepicker';
 import { DateValue } from '@internationalized/date';
 import DateInput from './DateInput';
 import BaseInput, { BaseInputProps, useBaseInput } from '../BaseInput';

@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useMemo } from 'react';
 import classes from './Input.module.css';
 import BaseInput, { useFocusableContent, useBaseInput, BaseInputProps } from '../BaseInput';
-import { AriaNumberFieldProps, useLocale, useNumberField } from 'react-aria';
-import { useNumberFieldState, NumberFieldState, NumberFieldStateOptions } from 'react-stately';
+import { useLocale } from '@react-aria/i18n';
+import { useNumberField, AriaNumberFieldProps} from '@react-aria/numberfield';
+import { useNumberFieldState, NumberFieldState, NumberFieldStateOptions} from '@react-stately/numberfield';
 import ThemeContext from '../ThemeContext';
 
 interface NumberInputProps extends Omit<BaseInputProps, 'onChange'> {

@@ -1,9 +1,9 @@
-import React, { useContext, useRef, ReactNode, ComponentType, MouseEvent, MutableRefObject, Ref } from 'react';
+import React, { useContext, useRef, ReactNode, ComponentType, MouseEvent } from 'react';
 import classes from './BaseButton.module.css';
 import { Spinner, Tooltip } from '..';
 import { useMenuContext } from '../Menu';
 import { MenuContentsContext, MenuContentsContextType } from '../Menu/MenuContext';
-import { usePress } from 'react-aria';
+import { usePress } from '@react-aria/interactions';
 
 interface BaseButtonProps {
   icon?: ComponentType;

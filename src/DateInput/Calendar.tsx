@@ -1,20 +1,14 @@
-import React, { ReactNode, useRef } from 'react';
-import {
-  useCalendar,
+import React, { useRef } from 'react';
+import classes from './Calendar.module.css';
+import { useLocale } from '@react-aria/i18n';
+import { useCalendar,
   useCalendarGrid,
   useCalendarCell,
-  useLocale,
   useRangeCalendar,
   AriaCalendarProps,
-  AriaRangeCalendarProps,
-} from 'react-aria';
-import {
-  useCalendarState,
-  useRangeCalendarState,
-  CalendarState,
-  RangeCalendarState,
-} from 'react-stately';
-import classes from './Calendar.module.css';
+  AriaRangeCalendarProps
+} from '@react-aria/calendar';
+import { useCalendarState, useRangeCalendarState, CalendarState, RangeCalendarState } from '@react-stately/calendar';
 import {
   endOfMonth,
   getWeeksInMonth,

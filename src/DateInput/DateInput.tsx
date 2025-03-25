@@ -1,6 +1,7 @@
 import React from 'react';
-import { useDateField, useLocale, useDatePicker, AriaDateFieldProps } from 'react-aria';
-import { useDateFieldState, useDatePickerState } from 'react-stately';
+import { useLocale } from '@react-aria/i18n';
+import { useDateField, useDatePicker, AriaDateFieldProps } from '@react-aria/datepicker';
+import { useDateFieldState, useDatePickerState } from '@react-stately/datepicker';
 import { DateValue } from '@internationalized/date';
 import InputSegment from './InputSegment';
 import BaseInput, { BaseInputProps, useBaseInput } from '../BaseInput';

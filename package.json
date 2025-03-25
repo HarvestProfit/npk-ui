@@ -1,6 +1,6 @@
 {
   "name": "@harvest-profit/npk",
-  "version": "0.0.45",
+  "version": "0.0.46",
   "description": "NPK UI Design System",
   "source": "src/index.ts",
   "main": "dist/index.js",
@@ -88,12 +88,15 @@
     "@floating-ui/react": "^0.26.24",
     "@internationalized/date": "^3.7.0",
     "@popperjs/core": "^2.6.0",
+    "@react-aria/calendar": "^3.7.2",
     "@react-aria/datepicker": "^3.14.1",
+    "@react-aria/i18n": "^3.12.7",
+    "@react-aria/interactions": "^3.24.1",
+    "@react-aria/numberfield": "^3.11.12",
+    "@react-aria/textfield": "^3.17.1",
     "classnames": "^2.2.3",
     "prop-types": "^15.5.8",
-    "react-aria": "^3.38.1",
     "react-popper": "^2.2.4",
-    "react-stately": "^3.36.1",
     "react-transition-group": "^4.4.2"
   },
   "peerDependencies": {

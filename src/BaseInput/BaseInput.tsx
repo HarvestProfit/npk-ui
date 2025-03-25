@@ -1,6 +1,6 @@
-import React, { ReactNode, ComponentType, Ref, HTMLAttributes, useContext, useRef, useState } from 'react';
+import React, { ReactNode, ComponentType, Ref, HTMLAttributes, useContext, useState } from 'react';
 import classes from './BaseInput.module.css';
-import { useFocusWithin } from 'react-aria';
+import { useFocusWithin } from '@react-aria/interactions';
 
 const BaseInputContext = React.createContext<BaseInputContextType>({});
 

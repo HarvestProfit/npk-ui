@@ -1,6 +1,7 @@
 import React from 'react';
-import { TimeValue, useLocale, useTimeField } from 'react-aria';
-import { useTimeFieldState, TimeFieldState, TimeFieldStateOptions } from 'react-stately';
+import { useLocale } from '@react-aria/i18n';
+import { TimeValue, useTimeField } from '@react-aria/datepicker';
+import { useTimeFieldState, TimeFieldState, TimeFieldStateOptions } from '@react-stately/datepicker';
 import InputSegment from './InputSegment';
 import BaseInput, { BaseInputProps, useBaseInput } from '../BaseInput';
 
