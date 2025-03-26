@@ -15,7 +15,7 @@ export const useBaseInput = (preProps: BaseInputProps): BaseInputProps => {
 
 export const useFocusableContent = (
   props: UseFocusableContentProps,
-  ref: Ref<HTMLElement> | null = null
+  ref?: Ref<HTMLElement> | null
 ) => {
   const [isFocused, setFocused] = useState(false);
   const { focusWithinProps } = useFocusWithin({
@@ -32,6 +32,7 @@ export const useFocusableContent = (
   });
 
   const onMouseDown = (e: React.MouseEvent<HTMLElement>) => {
+    if (!ref) return;
     const focusableElement =
       (ref as React.RefObject<HTMLElement>)?.current ||
       e.currentTarget.querySelector("[tabindex='0']") ||
@@ -154,6 +155,7 @@ interface UseFocusableContentProps extends HTMLAttributes<HTMLElement> {
   onFocus?: (any?) => void;
   onBlur?: (any?) => void;
   disabled?: boolean;
+  [key: string]: any; // Allow additional props
 }
 
 export interface BaseInputProps extends HTMLAttributes<HTMLElement> {

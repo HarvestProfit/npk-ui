@@ -23,9 +23,15 @@ import {
   CalendarDate,
   DayOfWeek,
   getLocalTimeZone,
+  toCalendarDateTime,
+  toCalendarDate,
+  fromDate,
+  parseDateTime,
+  parseAbsoluteToLocal,
 } from '@internationalized/date';
 import { BackwardIndicatorIcon, ForwardIndicatorIcon } from '@harvest-profit/npk/icons/regular';
 import Button from '../Button';
+import { TimeValue } from '@react-aria/datepicker';
 
 export function createCalendar(identifier: string) {
   switch (identifier) {
@@ -40,6 +46,43 @@ interface CalendarCellProps {
   state: CalendarState | RangeCalendarState;
   startDate: DateValue;
   date: DateValue;
+}
+
+export function parseISOFormats(value: string): DateValue | null {
+  if (!value) return null;
+
+  try {
+    return parseAbsoluteToLocal(value);
+  } catch {}
+
+  try {
+    return parseDateTime(value);
+  } catch {}
+
+  return null;
+}
+
+export function calendarDateToISOValueString(value: DateValue | string): string | null {
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  return value?.toString();
+}
+
+export function stringISOToCalendarDate(valueISO: string | DateValue, granularity: string): DateValue | null {
+  if (typeof valueISO === 'string') {
+    const timeGranularities = ['hour', 'minute', 'second', 'millisecond'];
+    const dateValue = parseISOFormats(valueISO);
+    if (timeGranularities.includes(granularity)) {
+      const dateTime = toCalendarDateTime(dateValue);
+      return dateTime;
+    }
+    
+    return toCalendarDate(dateValue);
+  }
+
+  return valueISO;
 }
 
 const CalendarCell: React.FC<CalendarCellProps> = ({ state, startDate, date }) => {

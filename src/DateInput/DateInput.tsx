@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale } from '@react-aria/i18n';
 import { useDateField, useDatePicker, AriaDateFieldProps } from '@react-aria/datepicker';
 import { useDateFieldState, useDatePickerState } from '@react-stately/datepicker';
 import { DateValue } from '@internationalized/date';
 import InputSegment from './InputSegment';
-import BaseInput, { BaseInputProps, useBaseInput } from '../BaseInput';
-import Calendar, { createCalendar } from './Calendar';
+import BaseInput, { BaseInputProps, useBaseInput, useFocusableContent } from '../BaseInput';
+import Calendar, { calendarDateToISOValueString, createCalendar, stringISOToCalendarDate } from './Calendar';
 import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
@@ -22,11 +22,12 @@ interface DateInputInternalProps extends Omit<BaseInputProps, 'defaultValue'>, A
   [key: string]: any; // Allow additional props
 }
 
-const DateInputInternal: React.FC<DateInputInternalProps> = (preProps) => {
+export const DateInputInternal: React.FC<DateInputInternalProps> = ({ onExternalChange, setInternalValue, externalValue, inputFormat = 'DateValue', ...preProps}) => {
   const props = useBaseInput(preProps as unknown as BaseInputProps);
   const { locale } = useLocale();
 
-  const ref = React.useRef<HTMLDivElement>(null);
+  const ref = useRef(null);
+
   const state = useDateFieldState({
     ...props as unknown as AriaDateFieldProps<DateValue>,
     shouldForceLeadingZeros: true,
@@ -34,7 +35,33 @@ const DateInputInternal: React.FC<DateInputInternalProps> = (preProps) => {
     createCalendar,
   });
 
-  const { fieldProps } = useDateField(props, state, ref);
+  const { focusContentsProps, isFocused } = useFocusableContent(props as unknown);
+  const { fieldProps } = useDateField(focusContentsProps, state, ref);
+
+  if (onExternalChange) {
+    useEffect(() => {
+      if (isFocused) {
+        if (inputFormat === 'string') {
+          onExternalChange(state.dateValue?.toISOString());
+        } else if (state.value) {
+          onExternalChange(state.value);
+        }
+      }
+    }, [state.dateValue]);
+  }
+  
+  if (setInternalValue) {
+    useEffect(() => {
+      if (!isFocused) {
+        if (inputFormat === 'string') {
+          setInternalValue(stringISOToCalendarDate(externalValue, preProps.granularity));
+        } else if (state.value) {
+          setInternalValue(externalValue);
+        }
+      } 
+    }, [externalValue]);
+  }
+  
 
   return (
     <BaseInput {...props} contentsProps={fieldProps} contentsRef={ref} containsSegments>
@@ -56,12 +83,29 @@ const DateInput: React.FC<DateInputProps> = ({
   picker,
   visibleMonths = 1,
   presets = false,
+  onChange: onExternalChange,
+  value: externalValue,
+  inputFormat: defaultInputFormat = 'string',
   ...props
 }) => {
+
+  const inputFormat = defaultInputFormat || (typeof externalValue === 'string') ? 'string' : 'DateValue';
+  const [internalValue, setInternalValue] = useState(inputFormat === 'string' ? stringISOToCalendarDate(externalValue, props.granularity) : externalValue);
+  const onInternalChange = (newValue?: DateValue) => {
+    if (onExternalChange) onExternalChange(inputFormat === 'string' ? calendarDateToISOValueString(newValue) : newValue);
+    setInternalValue(newValue);
+  }
+
+  const inputProps = useMemo(() => ({
+    ...props,
+    onChange: onInternalChange,
+    value: internalValue
+  }), [internalValue]);
+
   if (picker) {
     const ref = React.useRef<HTMLDivElement>(null);
-    const state = useDatePickerState(props);
-    const { groupProps, fieldProps, calendarProps } = useDatePicker(props, state, ref);
+    const state = useDatePickerState(inputProps);
+    const { groupProps, fieldProps, calendarProps } = useDatePicker(inputProps, state, ref);
 
     const trailingVisual = (
       <Menu arrow placement="bottom" autoDismiss={false}>
@@ -74,12 +118,12 @@ const DateInput: React.FC<DateInputProps> = ({
 
     return (
       <BaseInput contentsProps={groupProps} contentsRef={ref} trailingVisual={trailingVisual}>
-        <DateInputInternal {...fieldProps} />
+        <DateInputInternal {...fieldProps} onExternalChange={onExternalChange} externalValue={externalValue} setInternalValue={setInternalValue} inputFormat={inputFormat} />
       </BaseInput>
     );
   }
 
-  return <DateInputInternal {...props} />;
+  return <DateInputInternal {...inputProps} onExternalChange={onExternalChange} externalValue={externalValue} setInternalValue={setInternalValue} inputFormat={inputFormat} />;
 };
 
 export default DateInput;

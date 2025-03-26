@@ -3,6 +3,7 @@ import DateInput from '@harvest-profit/npk/DateInput';
 import Button from '@harvest-profit/npk/Button';
 import Card from '@harvest-profit/npk/Card';
 import * as Icons from '@harvest-profit/npk/icons/regular';
+import { start } from '@popperjs/core';
 
 const icons = { None: null, ...Icons }
 
@@ -97,26 +98,51 @@ export default {
   }
 }
 
-export const Default = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <DateInput aria-label="Generic date input" /><Button>Save</Button>
-  <DateInput aria-label="Generic date input with picker" variant="invisible" picker presets /><Button>Save</Button>
-</div>
+export const Default = () => {
+  const [value, setValue] = React.useState(new Date().toISOString())
+  const [value2, setValue2] = React.useState(new Date().toISOString())
+  return (
+    <div>
+      <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+        <p>{value?.toString()}</p>
+        <p>{value2?.toString()}</p>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+        <DateInput aria-label="Generic date input" value={value} onChange={setValue} /><Button>Save</Button>
+        <DateInput aria-label="Generic date input with picker" picker presets value={value2} onChange={setValue2} granularity="minute" /><Button>Save</Button>
+      </div>
+    </div>
+  )
+}
 
-export const Range = (props) => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <DateInput.Range {...props} trailingVisual={<Button invisible icon={Icons.QuestionIcon} aria-label="This sets the date range" />} /><Button size={props.size}>Save</Button>
-</div>
+export const Range = (props) => {
+  const [value, setValue] = React.useState()
+  return (
+    <div>
+      <p>{value?.start?.toString()} TO {value?.end?.toString()}</p>
+      <DateInput.Range {...props} value={value} onChange={setValue} trailingVisual={<Button invisible icon={Icons.QuestionIcon} aria-label="This sets the date range" />} /><Button size={props.size}>Save</Button>
+    </div>
+  )
+}
 
-export const Time = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+export const Time = () => {
+  const [value, setValue] = React.useState(new Date().toISOString())
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
   <Card>
     <Card.Header title="Input in a Card" />
     <div>
-      <DateInput.Time />
+      <DateInput.Time value={value} onChange={setValue} />
       <Button>Save</Button>
+      <p>{value?.toString()}</p>
     </div>
     
   </Card>
   
 </div>
+  )
+}
 
 export const Plain = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
   <DateInput variant="plain" />

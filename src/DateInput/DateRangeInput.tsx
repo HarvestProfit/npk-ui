@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { AriaDateRangePickerProps, useDateRangePicker } from '@react-aria/datepicker';
 import { useDateRangePickerState, DateRangePickerState } from '@react-stately/datepicker';
 import { DateValue } from '@internationalized/date';
-import DateInput from './DateInput';
+import DateInput, { DateInputInternal } from './DateInput';
 import BaseInput, { BaseInputProps, useBaseInput } from '../BaseInput';
-import Calendar from './Calendar';
+import Calendar, { calendarDateToISOValueString, stringISOToCalendarDate } from './Calendar';
 import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
 
-interface DateRangeInputProps extends Omit<BaseInputProps, 'defaultValue' | 'onChange'>, Omit<AriaDateRangePickerProps<DateValue>, 'onChange'> {
-  defaultValue?: { start: DateValue; end: DateValue }; // Unified type for defaultValue
+interface DateRangeInputProps extends Omit<BaseInputProps, 'defaultValue' | 'onChange'>, Omit<AriaDateRangePickerProps<DateValue>, 'onChange'| 'value'> {
+  value?: { start: string; end: string }; // Unified type for defaultValue
   picker?: boolean;
   visibleMonths?: number;
-  onChange?: (range: { start: DateValue; end: DateValue }) => void;
+  onChange?: (range: { start: string; end: string }) => void;
   onBlur?: (any?) => void;
   onFocus?: (any?) => void;
   onKeyDown?: (any?) => void;
@@ -24,11 +24,39 @@ interface DateRangeInputProps extends Omit<BaseInputProps, 'defaultValue' | 'onC
 const DateRangeInput: React.FC<DateRangeInputProps> = ({
   picker,
   visibleMonths = 2,
+  value: externalValue,
+  onChange: onExternalChange,
+  granularity,
   ...preProps
 }) => {
+  
+  let value = {
+    start: stringISOToCalendarDate(externalValue?.start, granularity),
+    end: stringISOToCalendarDate(externalValue?.end, granularity)
+  };
+
+  console.log(value);
+
+  if (!value.start && !value.end) value = null;
+
+  const onChange = onExternalChange ? (newValues?: { start: DateValue; end: DateValue }) => {
+    onExternalChange({
+      start: calendarDateToISOValueString(newValues?.start),
+      end: calendarDateToISOValueString(newValues?.end),
+    });
+  } : null;
+
   const props = useBaseInput(preProps as unknown as BaseInputProps);
-  const state: DateRangePickerState = useDateRangePickerState(props as unknown as AriaDateRangePickerProps<DateValue>);
-  const ref = React.useRef<HTMLDivElement>(null);
+
+  const inputProps = useMemo(() => ({
+    ...props,
+    onChange,
+    value
+  }), [value?.start, value?.end]);
+
+
+  const state: DateRangePickerState = useDateRangePickerState(inputProps as unknown as AriaDateRangePickerProps<DateValue>);
+  const ref = React.useRef(null);
 
   const {
     groupProps,
@@ -36,7 +64,7 @@ const DateRangeInput: React.FC<DateRangeInputProps> = ({
     endFieldProps,
     calendarProps,
   } = useDateRangePicker(
-    props as unknown as AriaDateRangePickerProps<DateValue>,
+    inputProps as unknown as AriaDateRangePickerProps<DateValue>,
     state,
     ref
   );
@@ -62,9 +90,9 @@ const DateRangeInput: React.FC<DateRangeInputProps> = ({
       contentsRef={ref}
       containsSegments
     >
-      <DateInput {...startFieldProps} />
+      <DateInputInternal {...startFieldProps} inputFormat="DateValue" />
       <span style={{ padding: '0 10px' }}>–</span>
-      <DateInput {...endFieldProps} />
+      <DateInputInternal {...endFieldProps} inputFormat="DateValue" />
     </BaseInput>
   );
 };
