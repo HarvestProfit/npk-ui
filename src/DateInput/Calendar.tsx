@@ -25,13 +25,12 @@ import {
   getLocalTimeZone,
   toCalendarDateTime,
   toCalendarDate,
-  fromDate,
   parseDateTime,
   parseAbsoluteToLocal,
+  toZoned,
 } from '@internationalized/date';
 import { BackwardIndicatorIcon, ForwardIndicatorIcon } from '@harvest-profit/npk/icons/regular';
 import Button from '../Button';
-import { TimeValue } from '@react-aria/datepicker';
 
 export function createCalendar(identifier: string) {
   switch (identifier) {
@@ -62,12 +61,13 @@ export function parseISOFormats(value: string): DateValue | null {
   return null;
 }
 
-export function calendarDateToISOValueString(value: DateValue | string): string | null {
-  if (typeof value === 'string') {
+export function calendarDateToISOValueString(value: any): string | null {
+  if (typeof value === 'string' || !value) {
     return value;
   }
 
-  return value?.toString();
+  const zoned = toZoned(value, getLocalTimeZone());
+  return zoned.toAbsoluteString();
 }
 
 export function stringISOToCalendarDate(valueISO: string | DateValue, granularity: string): DateValue | null {

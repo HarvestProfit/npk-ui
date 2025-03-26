@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale } from '@react-aria/i18n';
 import { useDateField, useDatePicker, AriaDateFieldProps } from '@react-aria/datepicker';
 import { useDateFieldState, useDatePickerState } from '@react-stately/datepicker';
-import { DateValue } from '@internationalized/date';
+import { DateValue, fromDate, getLocalTimeZone } from '@internationalized/date';
 import InputSegment from './InputSegment';
 import BaseInput, { BaseInputProps, useBaseInput, useFocusableContent } from '../BaseInput';
 import Calendar, { calendarDateToISOValueString, createCalendar, stringISOToCalendarDate } from './Calendar';
@@ -40,9 +40,15 @@ export const DateInputInternal: React.FC<DateInputInternalProps> = ({ onExternal
 
   if (onExternalChange) {
     useEffect(() => {
-      if (isFocused) {
+      if (isFocused && !state.value) {
         if (inputFormat === 'string') {
-          onExternalChange(state.dateValue?.toISOString());
+          if (state.dateValue) {
+            const dateTimeObject = fromDate(state.dateValue, 'UTC');
+            const dateValue = new Date(dateTimeObject.year, dateTimeObject.month - 1, dateTimeObject.day, dateTimeObject.hour, dateTimeObject.minute, dateTimeObject.second);
+            onExternalChange(calendarDateToISOValueString(fromDate(dateValue, getLocalTimeZone())));
+          } else {
+            onExternalChange(null);
+          }
         } else if (state.value) {
           onExternalChange(state.value);
         }
@@ -92,7 +98,9 @@ const DateInput: React.FC<DateInputProps> = ({
   const inputFormat = defaultInputFormat || (typeof externalValue === 'string') ? 'string' : 'DateValue';
   const [internalValue, setInternalValue] = useState(inputFormat === 'string' ? stringISOToCalendarDate(externalValue, props.granularity) : externalValue);
   const onInternalChange = (newValue?: DateValue) => {
-    if (onExternalChange) onExternalChange(inputFormat === 'string' ? calendarDateToISOValueString(newValue) : newValue);
+    if (onExternalChange) {
+      onExternalChange(inputFormat === 'string' ? calendarDateToISOValueString(newValue) : newValue);
+    }
     setInternalValue(newValue);
   }
 

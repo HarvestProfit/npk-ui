@@ -3,7 +3,6 @@ import DateInput from '@harvest-profit/npk/DateInput';
 import Button from '@harvest-profit/npk/Button';
 import Card from '@harvest-profit/npk/Card';
 import * as Icons from '@harvest-profit/npk/icons/regular';
-import { start } from '@popperjs/core';
 
 const icons = { None: null, ...Icons }
 
@@ -104,8 +103,8 @@ export const Default = () => {
   return (
     <div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <p>{value?.toString()}</p>
-        <p>{value2?.toString()}</p>
+        <p>{value}</p>
+        <p>{value2}</p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
         <DateInput aria-label="Generic date input" value={value} onChange={setValue} /><Button>Save</Button>
