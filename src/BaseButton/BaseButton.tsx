@@ -111,7 +111,7 @@ const BaseButton: React.FC<BaseButtonProps> = ({
 
   return (
     <>
-      <Component ref={ref} className={`${classes.ControlButton} ${className || ''}`} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-state={state} data-component="button" {...pressProps}>
+      <Component ref={ref} className={`${classes.ControlButton} ${className || ''}`} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-state={state} data-component="button" type={Component === 'button' ? 'button' : undefined} {...pressProps}>
         <span data-component="contents" data-icon={!!(!children && (TrailingVisual || LeadingVisual))}>
           {LeadingVisual && <span data-component="leadingVisual">{React.isValidElement(LeadingVisual) ? LeadingVisual : <LeadingVisual />}</span>}
           {textLoading}

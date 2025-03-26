@@ -50,6 +50,8 @@ export const useFocusableContent = (
       setTimeout(() => {
         (focusableElement as HTMLElement).focus();
       }, 0);
+    } else {
+      e.preventDefault();
     }
   };
 
