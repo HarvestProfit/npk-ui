@@ -70,7 +70,7 @@ const isValidElement = (element: any): boolean => {
 
 const BaseInput: React.FC<BaseInputProps> = ({
   className = '',
-  variant,
+  variant = 'default',
   as: Tag = 'span',
   disabled,
   size,
@@ -142,7 +142,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
 export default BaseInput;
 
 interface BaseInputContextType {
-  variant?: string;
+  variant?: 'default' | 'invisible' | 'plain';
   size?: 'sm' | 'md' | 'lg';
   align?: 'start' | 'center' | 'end';
   disabled?: boolean;
@@ -160,7 +160,7 @@ interface UseFocusableContentProps extends HTMLAttributes<HTMLElement> {
 
 export interface BaseInputProps extends HTMLAttributes<HTMLElement> {
   className?: string;
-  variant?: string;
+  variant?: 'default' | 'invisible' | 'plain';
   as?: keyof JSX.IntrinsicElements | ComponentType<any>;
   disabled?: boolean;
   size?: 'sm' | 'md' | 'lg';

@@ -18,7 +18,7 @@ export default {
         type: 'select'
       },
       table: { defaultValue: { summary: "None" } },
-      description: "Icon at the start of the button"
+      description: "Text or Icon at the start of the button"
     },
     trailingVisual: {
       options: Object.keys(icons),
@@ -27,11 +27,21 @@ export default {
         type: 'select'
       },
       table: { defaultValue: { summary: "None" } },
-      description: "Icon at the end of the button"
+      description: "Text or Icon at the end of the button"
     },
     disabled: {
       type: 'boolean',
       table: { defaultValue: { summary: "false" } }
+    },
+    debounce: {
+      type: 'boolean | number',
+      description: "Allows you to debounce the onChange event. You can set it to a number or just true for 500ms",
+      table: { defaultValue: { summary: "false" } }
+    },
+    selectAllOnFocus: {
+      type: 'boolean',
+      description: "Auto select all contents of the input when it receives focus.",
+      table: { defaultValue: { summary: "true" } }
     },
     as: {
       type: 'string',
@@ -72,12 +82,15 @@ export default {
 
 export const Default = () => {
   const [value, setValue] = React.useState();
+  const [dvalue, setDValue] = React.useState();
   return (
     <div>
       <label id="generic-inputs">Generic Inputs</label>
       <p>{value}</p>
+      <p>{dvalue}</p>
       <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <Input aria-labelledby="generic-inputs"value={value} onChange={setValue} />
+        <Input aria-labelledby="generic-inputs" value={value} onChange={setValue} />
+        <Input aria-labelledby="generic-inputs" value={dvalue} onChange={setDValue} placeholder="Debounced" debounce />
         <Input aria-labelledby="generic-inputs" disabled variant="invisible" trailingVisual={Icons.CalendarIcon} />
         <Input aria-labelledby="generic-inputs" variant="invisible" leadingVisual="TEL" placeholder="111 1111" type="tel" />
       </div>
@@ -96,7 +109,7 @@ export const Number = () => {
         <Input.Number aria-label="how many" variant="invisible" trailingVisual={Icons.QuestionIcon} />
         <Input.Number aria-labelledby="number-inputs" variant="invisible" leadingVisual="$" placeholder="400.00" minValue={-10} formatOptions={{ minimumFractionDigits: 3, maximumFractionDigits: 4 }} />
         <Input.Number aria-labelledby="number-inputs" name="currency-type" variant="invisible" value={value} onChange={setValue} type="currency" placeholder="400.00" />
-        <Input.Number aria-labelledby="number-inputs" name="currency-format" variant="invisible" value={value} onChange={setValue} placeholder="400.00" formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 4 }} />
+        <Input.Number aria-labelledby="number-inputs" name="currency-format" variant="invisible" value={value} onChange={setValue} placeholder="Debounced" debounce formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 4 }} />
         <Input.Number aria-labelledby="number-inputs" variant="invisible" align="end" trailingVisual="%" placeholder="67" width={40} />
         <Input.Number aria-labelledby="number-inputs" variant="invisible" align="end" placeholder="67" width={50} formatOptions={{ style: 'percent', maximumFractionDigits: 2 }} />
       </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import classes from './Input.module.css';
 import BaseInput, { useFocusableContent, useBaseInput, BaseInputProps } from '../BaseInput';
 import { useTextField, AriaTextFieldOptions } from '@react-aria/textfield';
@@ -9,23 +9,46 @@ interface InputProps extends BaseInputProps {
   defaultValue?: string | number; // Unified type for defaultValue
   onBlur?: (any?) => void;
   onFocus?: (any?) => void;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (string) => void;
   value?: string;
   width?: string | number;
+  debounce?: boolean | number;
 }
 
-const Input: React.FC<InputProps> = ({ width, selectAllOnFocus = true, ...preProps }) => {
+const Input: React.FC<InputProps> = ({ width, selectAllOnFocus = true, value: externalValue, onChange: onExternalChange, debounce = false, ...preProps }) => {
   const props = useBaseInput(preProps);
-  const ref = React.useRef(null);
-  const { inputProps } = useTextField(props as unknown as AriaTextFieldOptions<"input">, ref);
+  const ref = useRef(null);
+  const debounceRef = useRef<any>();
+  const [internalValue, setInternalValue] = useState(externalValue);
+
+  const onInternalChange = (value) => {
+    setInternalValue(value);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      if (onExternalChange) onExternalChange(value);
+    }, debounce ? (typeof debounce === 'number' ? debounce : 500) : 0);
+  };
+
+  const inputFieldProps = useMemo(() => ({
+    ...props,
+    onChange: onInternalChange,
+    value: internalValue
+  }), [internalValue]);
+
+  const { inputProps } = useTextField(inputFieldProps as unknown as AriaTextFieldOptions<"input">, ref);
 
   const { 
     focusContentsProps, 
-    onMouseDown
+    onMouseDown,
+    isFocused,
   } = useFocusableContent(props, ref);
 
   const styles: any = {};
   if (width) styles.width = width;
+
+  useEffect(() => {
+    if (!isFocused) setInternalValue(externalValue);
+  }, [externalValue]);
 
   const onFocus = (e) => {
     if (inputProps.onFocus) inputProps.onFocus(e);
@@ -36,9 +59,16 @@ const Input: React.FC<InputProps> = ({ width, selectAllOnFocus = true, ...prePro
     }, 30);
   }
 
+  const onBlur = (e) => {
+    if (inputProps.onBlur) inputProps.onBlur(e);
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    if (onExternalChange) onExternalChange(internalValue);
+  }
+
   return (
     <BaseInput {...props} onMouseDown={onMouseDown} contentsProps={focusContentsProps}>
-      <input className={classes.Input} {...inputProps} ref={ref} style={styles} onFocus={onFocus} />
+      <input className={classes.Input} {...inputProps} ref={ref} style={styles} onFocus={onFocus} onBlur={onBlur} />
     </BaseInput>
   );
 }
