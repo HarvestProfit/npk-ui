@@ -70,7 +70,7 @@ const isValidElement = (element: any): boolean => {
 
 const BaseInput: React.FC<BaseInputProps> = ({
   className = '',
-  variant = 'default',
+  variant,
   as: Tag = 'span',
   disabled,
   size,
