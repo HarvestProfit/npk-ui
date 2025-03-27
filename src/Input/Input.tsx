@@ -14,12 +14,10 @@ interface InputProps extends BaseInputProps {
   width?: string | number;
 }
 
-const Input: React.FC<InputProps> = ({ width, ...preProps }) => {
+const Input: React.FC<InputProps> = ({ width, selectAllOnFocus = true, ...preProps }) => {
   const props = useBaseInput(preProps);
   const ref = React.useRef(null);
-  const {
-    inputProps,
-  } = useTextField(props as unknown as AriaTextFieldOptions<"input">, ref);
+  const { inputProps } = useTextField(props as unknown as AriaTextFieldOptions<"input">, ref);
 
   const { 
     focusContentsProps, 
@@ -29,9 +27,18 @@ const Input: React.FC<InputProps> = ({ width, ...preProps }) => {
   const styles: any = {};
   if (width) styles.width = width;
 
+  const onFocus = (e) => {
+    if (inputProps.onFocus) inputProps.onFocus(e);
+
+    if (!selectAllOnFocus) return;
+    setTimeout(() => {
+      ref.current.select();
+    }, 30);
+  }
+
   return (
     <BaseInput {...props} onMouseDown={onMouseDown} contentsProps={focusContentsProps}>
-      <input className={classes.Input} {...inputProps} ref={ref} style={styles} />
+      <input className={classes.Input} {...inputProps} ref={ref} style={styles} onFocus={onFocus} />
     </BaseInput>
   );
 }

@@ -70,15 +70,21 @@ export default {
   }
 }
 
-export const Default = () => <div>
-  <label id="generic-inputs">Generic Inputs</label>
-  <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-    <Input aria-labelledby="generic-inputs" />
-    <Input aria-labelledby="generic-inputs" disabled variant="invisible" trailingVisual={Icons.CalendarIcon} />
-    <Input aria-labelledby="generic-inputs" variant="invisible" leadingVisual="TEL" placeholder="111 1111" type="tel" />
-  </div>
-  <Button>Save</Button>
-</div>
+export const Default = () => {
+  const [value, setValue] = React.useState();
+  return (
+    <div>
+      <label id="generic-inputs">Generic Inputs</label>
+      <p>{value}</p>
+      <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+        <Input aria-labelledby="generic-inputs"value={value} onChange={setValue} />
+        <Input aria-labelledby="generic-inputs" disabled variant="invisible" trailingVisual={Icons.CalendarIcon} />
+        <Input aria-labelledby="generic-inputs" variant="invisible" leadingVisual="TEL" placeholder="111 1111" type="tel" />
+      </div>
+      <Button>Save</Button>
+    </div>
+  )
+}
 
 
 export const Number = () => {

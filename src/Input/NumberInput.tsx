@@ -15,7 +15,7 @@ interface NumberInputProps extends Omit<BaseInputProps, 'onChange'> {
   [key: string]: any; // Allow additional props
 }
 
-const NumberInput: React.FC<NumberInputProps> = ({ width, onChange: onExternalChange, value: externalValue, ...preProps }) => {
+const NumberInput: React.FC<NumberInputProps> = ({ width, onChange: onExternalChange, value: externalValue, selectAllOnFocus = true, ...preProps }) => {
   const props = useBaseInput(preProps as unknown as BaseInputProps);
   const ref = React.useRef<HTMLInputElement>(null);
 
@@ -52,9 +52,18 @@ const NumberInput: React.FC<NumberInputProps> = ({ width, onChange: onExternalCh
   const styles: any = {};
   if (width) styles.width = width;
 
+  const onFocus = (e) => {
+    if (inputProps.onFocus) inputProps.onFocus(e);
+
+    if (!selectAllOnFocus) return;
+    setTimeout(() => {
+      ref.current.select();
+    }, 30);
+  }
+
   return (
     <BaseInput {...props} onMouseDown={onMouseDown} contentsProps={focusContentsProps}>
-      <input className={classes.Input} {...inputProps} ref={ref} style={styles} />
+      <input className={classes.Input} {...inputProps} ref={ref} style={styles} onFocus={onFocus} />
     </BaseInput>
   );
 };
