@@ -13,10 +13,11 @@ interface NumberInputProps extends Omit<BaseInputProps, 'onChange'> {
   type?: 'currency' | 'number';
   formatOptions?: Intl.NumberFormatOptions;
   debounce?: boolean | number;
+  loading?: boolean;
   [key: string]: any; // Allow additional props
 }
 
-const NumberInput: React.FC<NumberInputProps> = ({ width, onChange: onExternalChange, value: externalValue, selectAllOnFocus = true, debounce = false, ...preProps }) => {
+const NumberInput: React.FC<NumberInputProps> = ({ onChange: onExternalChange, value: externalValue, selectAllOnFocus = true, debounce = false, ...preProps }) => {
   const props = useBaseInput(preProps as unknown as BaseInputProps);
   const ref = React.useRef<HTMLInputElement>(null);
   const debounceRef = useRef<any>();
@@ -58,9 +59,6 @@ const NumberInput: React.FC<NumberInputProps> = ({ width, onChange: onExternalCh
     if (!isFocused) setInternalValue(externalValue);
   }, [externalValue]);
 
-  const styles: any = {};
-  if (width) styles.width = width;
-
   const onFocus = (e) => {
     if (inputProps.onFocus) inputProps.onFocus(e);
 
@@ -78,7 +76,7 @@ const NumberInput: React.FC<NumberInputProps> = ({ width, onChange: onExternalCh
 
   return (
     <BaseInput {...props} onMouseDown={onMouseDown} contentsProps={focusContentsProps}>
-      <input className={classes.Input} {...inputProps} ref={ref} style={styles} onFocus={onFocus} onBlur={onBlur} />
+      <input className={classes.Input} {...inputProps} ref={ref} onFocus={onFocus} onBlur={onBlur} />
     </BaseInput>
   );
 };

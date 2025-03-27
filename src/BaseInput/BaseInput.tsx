@@ -1,6 +1,7 @@
 import React, { ReactNode, ComponentType, Ref, HTMLAttributes, useContext, useState } from 'react';
 import classes from './BaseInput.module.css';
 import { useFocusWithin } from '@react-aria/interactions';
+import Placeholder from '../Placeholder';
 
 const BaseInputContext = React.createContext<BaseInputContextType>({});
 
@@ -84,6 +85,8 @@ const BaseInput: React.FC<BaseInputProps> = ({
   onClick,
   onMouseDown,
   style,
+  width,
+  loading = false,
   ...props
 }) => {
   const inheritedContext = useContext(BaseInputContext);
@@ -94,6 +97,10 @@ const BaseInput: React.FC<BaseInputProps> = ({
   props['aria-label'] = props['aria-label'] || inheritedContext['aria-label'];
   props['aria-labelledby'] = props['aria-labelledby'] || inheritedContext['aria-labelledby'];
 
+  const widthStyles = width ? { width } : {};
+
+  if (loading) return <Placeholder className={classes.BaseInputPlaceholder} width={width || 210} data-size={size} />
+
   return (
     <Tag
       className={`${classes.BaseInput} ${containsSegments ? classes.SegmentedInput : ''} ${className}`}
@@ -103,7 +110,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
       aria-disabled={disabled}
       onClick={onClick}
       onMouseDown={onMouseDown}
-      style={style}
+      style={{...widthStyles, ...style}}
     >
       {LeadingVisual && (
         <span
@@ -171,4 +178,6 @@ export interface BaseInputProps extends HTMLAttributes<HTMLElement> {
   contentsProps?: HTMLAttributes<HTMLDivElement>;
   contentsRef?: Ref<HTMLDivElement>;
   containsSegments?: boolean;
+  loading?: boolean;
+  width?: string | number; // Allow width to be a string or number
 }

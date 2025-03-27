@@ -19,15 +19,18 @@ function selectWidth(value: number | string | Array<number> | null | undefined):
 
 interface PlaceholderProps {
   width?: number | string | Array<number>;
+  style?: React.CSSProperties;
+  className?: string;
 }
 
-const Placeholder: React.FC<PlaceholderProps> = ({ width = [70, 150] }) => {
+const Placeholder: React.FC<PlaceholderProps> = ({ className = '', width = [70, 150], style = {}, ...props }) => {
   return (
     <span
       title="loading..."
       aria-hidden="true"
-      className={classes.Placeholder}
-      style={{ width: selectWidth(width) || 100 }}
+      className={`${classes.Placeholder} ${className}`}
+      style={{ width: selectWidth(width) || 100, ...style }}
+      {...props}
     >
       &nbsp;
     </span>

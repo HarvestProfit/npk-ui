@@ -1,3 +1,15 @@
+.BaseInputPlaceholder {
+  height: var(--control-size);
+
+  &[data-size="sm"] {
+    height: var(--control-small-size);
+  }
+  
+  &[data-size="lg"] {
+    height: var(--control-large-size);
+  }
+}
+
 .BaseInput {
   border: 1px solid var(--control-border-color);
   background-color: var(--control-bg-color);

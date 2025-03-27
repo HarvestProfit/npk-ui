@@ -110,10 +110,23 @@ export const Number = () => {
         <Input.Number aria-labelledby="number-inputs" variant="invisible" leadingVisual="$" placeholder="400.00" minValue={-10} formatOptions={{ minimumFractionDigits: 3, maximumFractionDigits: 4 }} />
         <Input.Number aria-labelledby="number-inputs" name="currency-type" variant="invisible" value={value} onChange={setValue} type="currency" placeholder="400.00" />
         <Input.Number aria-labelledby="number-inputs" name="currency-format" variant="invisible" value={value} onChange={setValue} placeholder="Debounced" debounce formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 4 }} />
-        <Input.Number aria-labelledby="number-inputs" variant="invisible" align="end" trailingVisual="%" placeholder="67" width={40} />
-        <Input.Number aria-labelledby="number-inputs" variant="invisible" align="end" placeholder="67" width={50} formatOptions={{ style: 'percent', maximumFractionDigits: 2 }} />
+        <Input.Number aria-labelledby="number-inputs" variant="invisible" align="end" trailingVisual="%" placeholder="67" width={80} />
+        <Input.Number aria-labelledby="number-inputs" variant="invisible" align="end" placeholder="67" width={80} />
       </div>
       <Button>Save {value}</Button>
+    </div>
+  )
+}
+
+export const Loading = () => {
+  const [value, setValue] = React.useState();
+  return (
+    <div>
+      <label id="number-inputs">Number Inputs</label>
+      <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+        <Input aria-label="how many" variant="invisible" trailingVisual={Icons.QuestionIcon} loading value={value} onChange={setValue} />
+        <Input.Number aria-labelledby="number-inputs" variant="invisible" leadingVisual="$" loading />
+      </div>
     </div>
   )
 }

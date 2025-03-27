@@ -13,9 +13,10 @@ interface InputProps extends BaseInputProps {
   value?: string;
   width?: string | number;
   debounce?: boolean | number;
+  loading?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ width, selectAllOnFocus = true, value: externalValue, onChange: onExternalChange, debounce = false, ...preProps }) => {
+const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, value: externalValue, onChange: onExternalChange, debounce = false, ...preProps }) => {
   const props = useBaseInput(preProps);
   const ref = useRef(null);
   const debounceRef = useRef<any>();
@@ -43,9 +44,6 @@ const Input: React.FC<InputProps> = ({ width, selectAllOnFocus = true, value: ex
     isFocused,
   } = useFocusableContent(props, ref);
 
-  const styles: any = {};
-  if (width) styles.width = width;
-
   useEffect(() => {
     if (!isFocused) setInternalValue(externalValue);
   }, [externalValue]);
@@ -68,7 +66,7 @@ const Input: React.FC<InputProps> = ({ width, selectAllOnFocus = true, value: ex
 
   return (
     <BaseInput {...props} onMouseDown={onMouseDown} contentsProps={focusContentsProps}>
-      <input className={classes.Input} {...inputProps} ref={ref} style={styles} onFocus={onFocus} onBlur={onBlur} />
+      <input className={classes.Input} {...inputProps} ref={ref} onFocus={onFocus} onBlur={onBlur} />
     </BaseInput>
   );
 }
