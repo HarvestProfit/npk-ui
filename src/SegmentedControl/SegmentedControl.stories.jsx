@@ -58,11 +58,14 @@ export const Default = () => {
 export const Small = () => {
   const [selected, setSelected] = useState(0);
   return (
-    <SegmentedControl size="sm" selected={selected} onChange={setSelected}>
-      <SegmentedControl.Button>By Field</SegmentedControl.Button>
-      <SegmentedControl.Button>By Crop</SegmentedControl.Button>
-      <SegmentedControl.Button>By Season</SegmentedControl.Button>
-    </SegmentedControl>
+    <div className="d-flex flex-row">
+
+      <h4 style={{ display: 'inline-block', marginBottom: 0, marginRight: 10 }}>Grain Cart Level</h4>
+      <SegmentedControl size="sm" selected={selected} onChange={setSelected}>
+        <SegmentedControl.Button>Wet</SegmentedControl.Button>
+        <SegmentedControl.Button>Dry</SegmentedControl.Button>
+      </SegmentedControl>
+    </div>
   )
 }
 

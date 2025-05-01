@@ -179,5 +179,6 @@ export interface BaseInputProps extends HTMLAttributes<HTMLElement> {
   contentsRef?: Ref<HTMLDivElement>;
   containsSegments?: boolean;
   loading?: boolean;
+  type?: string; // Allow type to be specified, e.g., 'text', 'number', etc.
   width?: string | number; // Allow width to be a string or number
 }
