@@ -81,17 +81,17 @@ export default {
 }
 
 export const Default = () => {
-  const [value, setValue] = React.useState();
-  const [dvalue, setDValue] = React.useState();
+  const [valuemonth, setValueMonth] = React.useState();
+  const [valueday, setValueDay] = React.useState();
+  const [valueyear, setValueYear] = React.useState();
   return (
     <div>
       <label id="generic-inputs">Generic Inputs</label>
-      <p>{value}</p>
-      <p>{dvalue}</p>
+      <p>{valuemonth} / {valueday} / {valueyear}</p>
       <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <Input aria-labelledby="generic-inputs" value={value} onChange={setValue} />
-        <Input aria-labelledby="generic-inputs" value={dvalue} onChange={setDValue} placeholder="Debounced" debounce />
-        <Input aria-labelledby="generic-inputs" disabled variant="invisible" trailingVisual={Icons.CalendarIcon} />
+        <Input aria-labelledby="generic-inputs" placeholder="month" value={valuemonth} onChange={setValueMonth} mask="calendar-month" focusNextOnComplete />
+        <Input aria-labelledby="generic-inputs" placeholder="day" value={valueday} onChange={setValueDay} mask="calendar-day" focusNextOnComplete />
+        <Input aria-labelledby="generic-inputs" placeholder="year" value={valueyear} onChange={setValueYear} mask="calendar-year" focusNextOnComplete trailingVisual={Icons.CalendarIcon} />
         <Input aria-labelledby="generic-inputs" variant="invisible" leadingVisual="TEL" placeholder="111 1111" type="tel" />
       </div>
       <Button>Save</Button>

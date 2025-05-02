@@ -1,4 +1,5 @@
 const SPECIAL_KEYS = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Enter', 'Tab', 'Escape', 'Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'NumLock', 'ScrollLock', 'Insert', 'Home', 'End', 'PageUp', 'PageDown'];
+import { nextFocusableElement } from '../utils';
 
 function keyMatchesMask(key, match) {
   if (typeof match === 'string') {
@@ -16,9 +17,17 @@ export function rule(match, ruleCB) {
 
 export default (props) => {
   const { onKeyDown, mask } = props || {};
-  const rules = mask.mask || [];
+  const rules = mask?.mask || [];
 
-  const handleOnKeyDown = (event) => {  
+  const handleOnKeyDown = (event) => {
+
+    if (mask?.shiftFocusIf && event.target.value === '' && event.key === 'Backspace') {
+      setTimeout(() => {
+        nextFocusableElement({ activeElem: event.target, reverse: true }).focus();
+      }, 10);
+      return;
+    }
+
     if (SPECIAL_KEYS.includes(event.key)) return;
   
     const previousValue = event.target.value || '';
@@ -36,11 +45,17 @@ export default (props) => {
           break;
         }
 
-        if (rule({ key: event.key, previousValue, nextValue, cursorIndex: selectionStart })) {
+        if (rule({ key: event.key, previousValue, nextValue, cursorIndex: selectionStart, target: event.target })) {
           validInput = true;
           break;
         }
       }
+    }
+
+    if (mask?.shiftFocusIf && mask?.shiftFocusIf(nextValue, event.key)) {
+      setTimeout(() => {
+        nextFocusableElement({ activeElem: event.target }).focus();
+      }, 10);
     }
 
     if (!validInput) {
@@ -53,6 +68,6 @@ export default (props) => {
 
   return {
     onKeyDown: handleOnKeyDown,
-    formatter: mask.formatter || ((value) => value),
+    formatter: mask?.formatter || ((value) => value),
   };
 }

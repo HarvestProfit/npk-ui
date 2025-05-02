@@ -1,4 +1,5 @@
 import { rule } from '../hooks/useMask';
+import { nextFocusableElement } from '../utils';
 
 export const numericMask = (props = {}) => {
   const { maximumFractionDigits, minValue, maxValue } = props;
@@ -38,4 +39,91 @@ export const numericMask = (props = {}) => {
       return parts.join('.');
     }
   }
+}
+
+export const calendarDayMask = (props = {}) => {
+  const dateValue = props.dateValue || new Date();
+
+  const performRule = (nextInputValue) => {
+    if (nextInputValue === '0') return true;
+    if (nextInputValue.length > 2) return false; // max of 2 digits for day
+
+    const nextDateValue = new Date(dateValue.getFullYear(), dateValue.getMonth(), nextInputValue);
+    if (dateValue.getMonth() !== nextDateValue.getMonth()) return false;
+    if (dateValue.getYear() !== nextDateValue.getYear()) return false;
+    if (nextDateValue.getDate() !== parseInt(nextInputValue, 10)) return false;
+    return true;
+  }
+
+  return {
+    shiftFocusIf: (nextValue, key) => {
+      if (key == '/') return true;
+      if (nextValue === '0') return false;
+      return performRule(nextValue) && !performRule(`${nextValue}0`);
+    },
+    mask: [
+      rule(/^[0-9]$/, ({ nextValue }) => performRule(nextValue)),
+    ],
+    formatter: (value) => {
+      if (!value) return value;
+      if (value === '0') return '01'; // Special case for zero
+      return `${value}`.padStart(2, '0');
+    }
+  }
+}
+
+export const calendarMonthMask = (props = {}) => {
+  const dateValue = props.dateValue || new Date();
+
+  const performRule = (nextInputValue) => {
+    if (nextInputValue === '0') return true;
+    if (nextInputValue.length > 2) return false; // max of 2 digits for month
+    const monthNumber = parseInt(nextInputValue, 10) - 1; // Convert to zero-based month index
+    const nextDateValue = new Date(dateValue.getFullYear(), monthNumber, dateValue.getDate());
+    if (nextDateValue.getMonth() !== monthNumber) return false;
+    if (dateValue.getYear() !== nextDateValue.getYear()) return false;
+    if (dateValue.getDate() !== nextDateValue.getDate()) return false;
+    return true;
+  }
+
+  return {
+    shiftFocusIf: (nextValue, key) => {
+      if (key == '/') return true;
+      if (nextValue === '0') return false;
+      return performRule(nextValue) && !performRule(`${nextValue}0`);
+    },
+    mask: [
+      rule(/^[0-9]$/, ({ nextValue }) => performRule(nextValue)),
+    ],
+    formatter: (value) => {
+      if (!value) return value;
+      if (value === '0') return '01'; // Special case for zero
+      return `${value}`.padStart(2, '0');
+    }
+  }
+}
+
+export const calendarYearMask = (props = {}) => {
+  const performRule = (nextInputValue) => {
+    if (nextInputValue.length <= 4) return true; // needs at least 4 digits for year
+
+    return false;
+  }
+  return {
+    shiftFocusIf: (nextValue, key) => key == '/' || (performRule(nextValue) && !performRule(`${nextValue}0`)),
+    mask: [
+      rule(/^[0-9]$/, ({ nextValue }) => performRule(nextValue)),
+    ],
+    formatter: (value) => {
+      if (!value) return value;
+      return `${value}`.padStart(3, '0').padStart(4, '2');;
+    }
+  }
+}
+
+export default {
+  'number': numericMask,
+  'calendar-day': calendarDayMask,
+  'calendar-month': calendarMonthMask,
+  'calendar-year': calendarYearMask,
 }
