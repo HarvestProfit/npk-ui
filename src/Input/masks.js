@@ -1,5 +1,4 @@
 import { rule } from '../hooks/useMask';
-import { nextFocusableElement } from '../utils';
 
 export const numericMask = (props = {}) => {
   const { maximumFractionDigits, minValue, maxValue } = props;
@@ -121,9 +120,76 @@ export const calendarYearMask = (props = {}) => {
   }
 }
 
+export const calendarHourMask = (props = {}) => {
+  const militaryTime = props.militaryTime || false;
+  const performRule = (nextInputValue) => {
+    if (nextInputValue === '0') return true;
+    const numberValue = parseInt(nextInputValue, 10);
+    if (militaryTime) {
+      if (numberValue >= 0 && numberValue <= 23) return true; // 00-23 for military time
+    } else {
+      if (numberValue >= 1 && numberValue <= 12) return true; // 01-12 for standard time
+    }
+
+    return false;
+  }
+  return {
+    shiftFocusIf: (nextValue, key) => key == ':' || (performRule(nextValue) && !performRule(`${nextValue}0`)),
+    mask: [
+      rule(/^[0-9]$/, ({ nextValue }) => performRule(nextValue)),
+    ],
+    formatter: (value) => {
+      if (!value) return value;
+      if (value === '0' && !militaryTime) return '01'; // Special case for zero
+      return `${value}`.padStart(2, '0');
+    }
+  }
+}
+
+export const calendarMinuteMask = (props = {}) => {
+  const performRule = (nextInputValue) => {
+    if (nextInputValue === '0') return true;
+    const numberValue = parseInt(nextInputValue, 10);
+    if (numberValue >= 0 && numberValue <= 59) return true;
+    return false;
+  }
+  return {
+    shiftFocusIf: (nextValue, key) => key == ':' || (performRule(nextValue) && !performRule(`${nextValue}0`)),
+    mask: [
+      rule(/^[0-9]$/, ({ nextValue }) => performRule(nextValue)),
+    ],
+    formatter: (value) => {
+      if (!value) return value;
+      return `${value}`.padStart(2, '0');
+    }
+  }
+}
+
+export const calendarTimeOfDayMask = (props = {}) => {
+  return {
+    shiftFocusIf: (_nextValue, key) => {
+      const lowerKey = key.toLowerCase();
+      if (lowerKey == 'a' || lowerKey == 'p') return true;
+      return false;
+    },
+    mask: [
+      rule(/^[apAPmM]$/)
+    ],
+    formatter: (value) => {
+      if (!value) return value;
+      if (value.toLowerCase().startsWith('a')) return 'AM';
+      if (value.toLowerCase().startsWith('p')) return 'PM';
+      return value;
+    }
+  }
+}
+
 export default {
   'number': numericMask,
   'calendar-day': calendarDayMask,
   'calendar-month': calendarMonthMask,
   'calendar-year': calendarYearMask,
+  'time-hour': calendarHourMask,
+  'time-minute': calendarMinuteMask,
+  'time-tod': calendarTimeOfDayMask
 }

@@ -84,14 +84,31 @@ export const Default = () => {
   const [valuemonth, setValueMonth] = React.useState();
   const [valueday, setValueDay] = React.useState();
   const [valueyear, setValueYear] = React.useState();
+  const [valueHour, setValueHour] = React.useState();
+  const [valueMin, setValueMin] = React.useState();
+  const [valueTOD, setValueTOD] = React.useState();
+
+  const [dInput, setDInput] = React.useState();
+
   return (
     <div>
       <label id="generic-inputs">Generic Inputs</label>
       <p>{valuemonth} / {valueday} / {valueyear}</p>
       <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <Input aria-labelledby="generic-inputs" placeholder="month" value={valuemonth} onChange={setValueMonth} mask="calendar-month" focusNextOnComplete />
-        <Input aria-labelledby="generic-inputs" placeholder="day" value={valueday} onChange={setValueDay} mask="calendar-day" focusNextOnComplete />
-        <Input aria-labelledby="generic-inputs" placeholder="year" value={valueyear} onChange={setValueYear} mask="calendar-year" focusNextOnComplete trailingVisual={Icons.CalendarIcon} />
+        <Input.Group trailingVisual={Icons.CalendarIcon}>
+          <Input aria-labelledby="generic-inputs" placeholder="MM" value={valuemonth} onChange={setValueMonth} mask="calendar-month" focusNextOnComplete style={{ width: 30 }} />
+          <span data-component="input-segment">/</span>
+          <Input aria-labelledby="generic-inputs" placeholder="DD" value={valueday} onChange={setValueDay} mask="calendar-day" focusNextOnComplete style={{ width: 30 }} />
+          /
+          <Input aria-labelledby="generic-inputs" placeholder="YYYY" value={valueyear} onChange={setValueYear} mask="calendar-year" focusNextOnComplete style={{ width: 45 }}/>
+          &nbsp;
+          <Input aria-labelledby="generic-inputs" placeholder="--" value={valueHour} onChange={setValueHour} mask="time-hour" focusNextOnComplete style={{ width: 28 }}/>
+          :
+          <Input aria-labelledby="generic-inputs" placeholder="--" value={valueMin} onChange={setValueMin} mask="time-minute" focusNextOnComplete style={{ width: 30 }}/>
+          <Input aria-labelledby="generic-inputs" placeholder="AM" value={valueTOD} onChange={setValueTOD} mask="time-tod" focusNextOnComplete style={{ width: 30 }}/>
+        </Input.Group>
+
+        <DateInput.New value={dInput} onChange={setDInput} />
         <Input aria-labelledby="generic-inputs" variant="invisible" leadingVisual="TEL" placeholder="111 1111" type="tel" />
       </div>
       <Button>Save</Button>

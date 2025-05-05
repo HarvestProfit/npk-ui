@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classes from './Input.module.css';
-import BaseInput, { useFocusableContent, useBaseInput, BaseInputProps } from '../BaseInput';
-import { AriaTextFieldOptions } from '@react-aria/textfield';
+import BaseInput, { useBaseInput, BaseInputProps } from '../BaseInput';
 import useMask from '../hooks/useMask';
 import maskFetch from './masks';
 
 interface InputProps extends BaseInputProps {
   [key: string]: any; // Allow other props
-  autoCapitalize?: AriaTextFieldOptions<"input">['autoCapitalize']; // Resolve conflict
   defaultValue?: string | number; // Unified type for defaultValue
   onBlur?: (any?) => void;
   onFocus?: (any?) => void;
@@ -23,6 +21,7 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
   const ref = useRef(null);
   const debounceRef = useRef<any>();
   const [internalValue, setInternalValue] = useState(externalValue);
+  const [isFocused, setIsFocused] = useState(false);
 
 
   const maskFunction = maskFetch[mask] || (() => null);
@@ -40,17 +39,12 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
     }, debounce ? (typeof debounce === 'number' ? debounce : 500) : 0);
   };
 
-  const { 
-    focusContentsProps, 
-    onMouseDown,
-    isFocused,
-  } = useFocusableContent(props, ref);
-
   useEffect(() => {
     if (!isFocused) setInternalValue(externalValue);
   }, [externalValue]);
 
   const onFocus = () => {
+    setIsFocused(true);
     if (!selectAllOnFocus) return;
     setTimeout(() => {
       if (ref.current) ref.current.select();
@@ -58,6 +52,7 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
   }
 
   const onBlur = () => {
+    setIsFocused(false);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     onInternalChange(inputMask.formatter(internalValue));
     if (onExternalChange) onExternalChange(inputMask.formatter(internalValue));
@@ -73,8 +68,8 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
   }
 
   return (
-    <BaseInput {...props} onMouseDown={onMouseDown} contentsProps={focusContentsProps}>
-      <input className={classes.Input} value={internalValue} onChange={handleChangeEvent} onKeyDown={inputMask.onKeyDown} ref={ref} onFocus={onFocus} onBlur={onBlur} placeholder={placeholder} />
+    <BaseInput {...props}>
+      <input className={classes.Input} value={internalValue} onChange={handleChangeEvent} onFocus={onFocus} onBlur={onBlur} onKeyDown={inputMask.onKeyDown} ref={ref} placeholder={placeholder} />
     </BaseInput>
   );
 }

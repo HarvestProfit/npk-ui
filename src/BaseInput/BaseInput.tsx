@@ -5,13 +5,12 @@ import Placeholder from '../Placeholder';
 
 const BaseInputContext = React.createContext<BaseInputContextType>({});
 
-export const useBaseInput = (preProps: BaseInputProps): BaseInputProps => {
+export const useBaseInput = (preProps): BaseInputProps => {
   const inheritedContext = useContext(BaseInputContext);
-  const props = { ...preProps };
-  props['aria-label'] = preProps['aria-label'] || inheritedContext['aria-label'];
-  props['aria-labelledby'] = preProps['aria-labelledby'] || inheritedContext['aria-labelledby'];
-  props.disabled = preProps.disabled || inheritedContext.disabled;
-  return props;
+  return {
+    ...inheritedContext,
+    ...preProps
+  }
 };
 
 export const useFocusableContent = (
@@ -101,6 +100,9 @@ const BaseInput: React.FC<BaseInputProps> = ({
 
   if (loading) return <Placeholder className={classes.BaseInputPlaceholder} width={width || 210} data-size={size} />
 
+  const tagProps = {};
+  if (props['data-component']) tagProps['data-component'] = props['data-component']
+
   return (
     <Tag
       className={`${classes.BaseInput} ${containsSegments ? classes.SegmentedInput : ''} ${className}`}
@@ -111,6 +113,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
       onClick={onClick}
       onMouseDown={onMouseDown}
       style={{...widthStyles, ...style}}
+      {...tagProps}
     >
       {LeadingVisual && (
         <span

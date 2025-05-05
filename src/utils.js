@@ -1,6 +1,10 @@
-export function nextFocusableElement({ reverse = false, activeElem = null }) {
+export function nextFocusableElement({ reverse = false, activeElem = null, parent = null, repeat = false } = {}) {
   // check if an element is defined or use activeElement 
   activeElem = activeElem instanceof HTMLElement ? activeElem : document.activeElement;
+
+  let parentElem = null;
+  if (parent) parentElem = activeElem.closest(parent);
+  parentElem ||= document;
 
   const queryString = [
     'a:not([disabled]):not([tabindex="-1"])',
@@ -11,15 +15,18 @@ export function nextFocusableElement({ reverse = false, activeElem = null }) {
   ].join(',');
 
   // focusable+visible elements and the current active element
-  const queryResult = Array.prototype.filter.call(document.querySelectorAll(queryString), elem => elem.offsetWidth > 0 || elem.offsetHeight > 0 || elem === activeElem);
+  const queryResult = Array.prototype.filter.call(parentElem.querySelectorAll(queryString), elem => elem.offsetWidth > 0 || elem.offsetHeight > 0 || elem === activeElem);
 
   if (reverse) {
+    const lastElement = repeat ? queryResult[queryResult.length - 1] : null;
+    
     // previous element or last element
-    return queryResult[queryResult.indexOf(activeElem) - 1] || queryResult[queryResult.length - 1]
+    return queryResult[queryResult.indexOf(activeElem) - 1] || lastElement
   }
 
+  const firstElement = repeat ? queryResult[0] : null;
   // next element or first element
-  return (queryResult[queryResult.indexOf(activeElem) + 1] || queryResult[0]);
+  return queryResult[queryResult.indexOf(activeElem) + 1] || firstElement;
 }
 
 export function formatNumber(value) {

@@ -20,19 +20,38 @@ export default (props) => {
   const rules = mask?.mask || [];
 
   const handleOnKeyDown = (event) => {
-
-    if (mask?.shiftFocusIf && event.target.value === '' && event.key === 'Backspace') {
+    const previousValue = props.valueRef?.current || event.target.value || '';
+    if (mask?.shiftFocusIf && previousValue === '' && event.key === 'Backspace') {
       setTimeout(() => {
-        nextFocusableElement({ activeElem: event.target, reverse: true }).focus();
+        nextFocusableElement({ activeElem: event.target, reverse: true, parent: '[data-component=input-group]' })?.focus();
       }, 10);
+      if (onKeyDown) onKeyDown(event, true);
       return;
     }
 
-    if (SPECIAL_KEYS.includes(event.key)) return;
+    if (event.key === 'ArrowLeft' || event.key === 'Tab' && event.shiftKey) {
+      setTimeout(() => {
+        nextFocusableElement({ activeElem: event.target, reverse: true, parent: '[data-component=input-group]' })?.focus();
+      }, 10);
+      if (onKeyDown) onKeyDown(event, true);
+      return
+    }
+
+    if (event.key === 'ArrowRight' || event.key === 'Tab') {
+      setTimeout(() => {
+        nextFocusableElement({ activeElem: event.target, parent: '[data-component=input-group]' })?.focus();
+      }, 10);
+      if (onKeyDown) onKeyDown(event, true);
+      return
+    }
+
+    if (SPECIAL_KEYS.includes(event.key)) {
+      if (onKeyDown) onKeyDown(event, true);
+      return;
+    }
   
-    const previousValue = event.target.value || '';
-    const selectionStart = event.target.selectionStart || 0;
-    const selectionEnd = event.target.selectionEnd || 0;
+    const selectionStart = event.target.selectionStart || previousValue.length + 1;
+    const selectionEnd = event.target.selectionEnd || previousValue.length + 1;
     const nextValue = previousValue.slice(0, selectionStart) + event.key + previousValue.slice(selectionEnd);
 
     let validInput = false;
@@ -54,7 +73,7 @@ export default (props) => {
 
     if (mask?.shiftFocusIf && mask?.shiftFocusIf(nextValue, event.key)) {
       setTimeout(() => {
-        nextFocusableElement({ activeElem: event.target }).focus();
+        nextFocusableElement({ activeElem: event.target, parent: '[data-component=input-group]' })?.focus();
       }, 10);
     }
 
