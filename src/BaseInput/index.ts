@@ -1,2 +1,2 @@
-export { default, useFocusableContent, useBaseInput } from './BaseInput';
+export { default, useBaseInput } from './BaseInput';
 export type { BaseInputProps } from './BaseInput';

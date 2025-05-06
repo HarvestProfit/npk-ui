@@ -1,99 +1,95 @@
-import React, { useMemo } from 'react';
-import { AriaDateRangePickerProps, useDateRangePicker } from '@react-aria/datepicker';
-import { useDateRangePickerState, DateRangePickerState } from '@react-stately/datepicker';
-import { DateValue } from '@internationalized/date';
-import DateInput, { DateInputInternal } from './DateInput';
-import BaseInput, { BaseInputProps, useBaseInput } from '../BaseInput';
-import Calendar, { calendarDateToISOValueString, stringISOToCalendarDate } from './Calendar';
+import React, { useEffect, useRef, useState } from 'react';
+import DateInput from './DateInput';
+import Calendar from './Calendar';
 import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
+import Group from '../Input/Group';
 
-interface DateRangeInputProps extends Omit<BaseInputProps, 'defaultValue' | 'onChange'>, Omit<AriaDateRangePickerProps<DateValue>, 'onChange'| 'value'> {
-  value?: { start: string; end: string }; // Unified type for defaultValue
+interface DateRangeInputProps {
+  value?: { start: Date; end: Date }; // Unified type for defaultValue
   picker?: boolean;
   visibleMonths?: number;
-  onChange?: (range: { start: string; end: string }) => void;
-  onBlur?: (any?) => void;
-  onFocus?: (any?) => void;
-  onKeyDown?: (any?) => void;
-  onKeyUp?: (any?) => void;
+  onChange?: (range: { start: Date; end: Date }) => void;
   [key: string]: any; // Allow additional props
 }
 
-const DateRangeInput: React.FC<DateRangeInputProps> = ({
+const DateRangeInput = ({
   picker,
   visibleMonths = 2,
   value: externalValue,
   onChange: onExternalChange,
-  granularity,
-  ...preProps
+  granularity = 'day',
+  ...props
 }) => {
-  
-  let value = {
-    start: stringISOToCalendarDate(externalValue?.start, granularity),
-    end: stringISOToCalendarDate(externalValue?.end, granularity)
-  };
-
-  console.log(value);
-
+  // Ensure the value is in the correct format
+  let value = { start: externalValue?.start, end: externalValue?.end };
   if (!value.start && !value.end) value = null;
 
-  const onChange = onExternalChange ? (newValues?: { start: DateValue; end: DateValue }) => {
-    onExternalChange({
-      start: calendarDateToISOValueString(newValues?.start),
-      end: calendarDateToISOValueString(newValues?.end),
-    });
-  } : null;
+  const ref = useRef<HTMLDivElement>(null);
+  const [isFocused, setIsFocused] = useState(false);
 
-  const props = useBaseInput(preProps as unknown as BaseInputProps);
+  const onFocus = () => {
+    setTimeout(() => { // groups the onfocus and onblur events of the start and end inputs
+      if (ref.current && !isFocused && ref.current.contains(document.activeElement)) {
+        setIsFocused(true);
+        if (props.onFocus) props.onFocus({ target: ref.current });
+      }
+    }, 10);
+  }
 
-  const inputProps = useMemo(() => ({
-    ...props,
-    onChange,
-    value
-  }), [value?.start, value?.end]);
+  const onBlur = () => {
+    setTimeout(() => { // groups the onfocus and onblur events of the start and end inputs
+      if (ref.current && isFocused && !ref.current.contains(document.activeElement)) {
+        setIsFocused(false);
+        if (props.onFocus) props.onBlur({ target: ref.current });
+      }
+    }, 10);
+  }
 
+  useEffect(() => { // if not focused, swap the start and end dates if they are in the wrong order
+    if (!isFocused && value?.start && value?.end && value.start > value.end) {
+      if (onExternalChange) onExternalChange({ start: value.end, end: value.start });
+    }
+  }, [isFocused, value?.start, value?.end]);
 
-  const state: DateRangePickerState = useDateRangePickerState(inputProps as unknown as AriaDateRangePickerProps<DateValue>);
-  const ref = React.useRef(null);
+  const onChangeStart = (newValue) => {
+    if (onExternalChange) {
+      onExternalChange({
+        start: newValue,
+        end: value?.end,
+      });
+    }
+  };
+  const onChangeEnd = (newValue) => {
+    if (onExternalChange) {
+      onExternalChange({
+        start: value?.start,
+        end: newValue,
+      });
+    }
+  };
 
-  const {
-    groupProps,
-    startFieldProps,
-    endFieldProps,
-    calendarProps,
-  } = useDateRangePicker(
-    inputProps as unknown as AriaDateRangePickerProps<DateValue>,
-    state,
-    ref
-  );
-
+  // If you provide a "picker" prop, we will show a calendar
   const extraProps: { trailingVisual?: React.ReactNode } = {};
 
   if (picker) {
     extraProps.trailingVisual = (
       <Menu arrow placement="bottom" autoDismiss={false}>
-        <Button invisible icon={CalendarIcon} aria-label="Pick a date" />
+        <Button invisible icon={CalendarIcon} aria-label="Pick a date range" />
         <Menu.Overlay>
-          <Calendar.Range {...calendarProps} visibleMonths={visibleMonths} />
+          <Calendar visibleMonths={visibleMonths} range value={value} onChange={onExternalChange} {...props} />
         </Menu.Overlay>
       </Menu>
     );
   }
 
   return (
-    <BaseInput
-      {...props}
-      {...extraProps}
-      contentsProps={groupProps}
-      contentsRef={ref}
-      containsSegments
-    >
-      <DateInputInternal {...startFieldProps} inputFormat="DateValue" />
+    <Group containsSegments contentsRef={ref} {...extraProps} {...props}>
+      <DateInput excludeGroup onChange={onChangeStart} value={value?.start} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur} />
       <span style={{ padding: '0 10px' }}>–</span>
-      <DateInputInternal {...endFieldProps} inputFormat="DateValue" />
-    </BaseInput>
+      <DateInput excludeGroup onChange={onChangeEnd} value={value?.end} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur}/>
+    </Group>
   );
 };
 

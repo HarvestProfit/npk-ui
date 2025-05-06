@@ -2,7 +2,7 @@ import ApplicationAlert from './ApplicationAlert';
 import BaseButton from './BaseButton';
 import Button from './Button';
 import Badge from './Badge';
-import DateInput from './DateInput';
+import DateInput, { dateUtils } from './DateInput';
 import Input from './Input';
 import Card from './Card';
 import TabNav from './TabNav';
@@ -28,5 +28,6 @@ export {
   SegmentedControl,
   Spinner,
   Menu,
-  Tooltip
+  Tooltip,
+  dateUtils
 }

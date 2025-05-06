@@ -1,63 +1,28 @@
-import React, { ReactNode, ComponentType, Ref, HTMLAttributes, useContext, useState } from 'react';
+import React, { ReactNode, ComponentType, Ref, HTMLAttributes, useContext } from 'react';
 import classes from './BaseInput.module.css';
-import { useFocusWithin } from '@react-aria/interactions';
 import Placeholder from '../Placeholder';
 
 const BaseInputContext = React.createContext<BaseInputContextType>({});
 
-export const useBaseInput = (preProps: BaseInputProps): BaseInputProps => {
+export const useBaseInput = (props) => {
   const inheritedContext = useContext(BaseInputContext);
-  const props = { ...preProps };
-  props['aria-label'] = preProps['aria-label'] || inheritedContext['aria-label'];
-  props['aria-labelledby'] = preProps['aria-labelledby'] || inheritedContext['aria-labelledby'];
-  props.disabled = preProps.disabled || inheritedContext.disabled;
-  return props;
-};
-
-export const useFocusableContent = (
-  props: UseFocusableContentProps,
-  ref?: Ref<HTMLElement> | null
-) => {
-  const [isFocused, setFocused] = useState(false);
-  const { focusWithinProps } = useFocusWithin({
-    ...props,
-    onFocusWithin(e) {
-      setFocused(true);
-      if (props.onFocus) props.onFocus(e);
-    },
-    onBlurWithin(e) {
-      setFocused(false);
-      if (props.onBlur) props.onBlur(e);
-    },
-    onFocusWithinChange: props.onFocusChange,
-  });
-
-  const onMouseDown = (e: React.MouseEvent<HTMLElement>) => {
-    if (!ref) return;
-    const focusableElement =
-      (ref as React.RefObject<HTMLElement>)?.current ||
-      e.currentTarget.querySelector("[tabindex='0']") ||
-      e.currentTarget.parentElement?.querySelector("[tabindex='0']") ||
-      e.currentTarget.parentElement?.parentElement?.querySelector("[tabindex='0']");
-
-    if (props.disabled) {
-      e.preventDefault();
-      e.stopPropagation();
-      return;
-    }
-
-    if (!focusableElement || e.target === focusableElement) return;
-    if ((e.target as Element).matches('[contentEditable="true"],[tabindex]:not([tabindex^="-"])')) return;
-    if (!isFocused) {
-      setTimeout(() => {
-        (focusableElement as HTMLElement).focus();
-      }, 0);
-    } else {
-      e.preventDefault();
-    }
-  };
-
-  return { focusContentsProps: focusWithinProps, onMouseDown, isFocused };
+  return {
+    disabled: props.disabled || inheritedContext.disabled || props.loading || inheritedContext.loading,
+    'aria-label': props['aria-label'] || inheritedContext['aria-label'],
+    'aria-labelledby': props['aria-labelledby'] || inheritedContext['aria-labelledby'],
+    id: props.id,
+    placeholder: props.placeholder,
+    'aria-invalid': props['aria-invalid'],
+    'aria-required': props['aria-required'],
+    'aria-describedby': props['aria-describedby'],
+    'aria-controls': props['aria-controls'],
+    'aria-activedescendant': props['aria-activedescendant'],
+    'aria-autocomplete': props['aria-autocomplete'],
+    'autoComplete': props['autoComplete'],
+    'autoCorrect': props['autoCorrect'],
+    'autoCapitalize': props['autoCapitalize'],
+    type: props.type || 'text',
+  }
 };
 
 const isPlainContents = (element: any): boolean => {
@@ -101,6 +66,9 @@ const BaseInput: React.FC<BaseInputProps> = ({
 
   if (loading) return <Placeholder className={classes.BaseInputPlaceholder} width={width || 210} data-size={size} />
 
+  const tagProps = {};
+  if (props['data-component']) tagProps['data-component'] = props['data-component']
+
   return (
     <Tag
       className={`${classes.BaseInput} ${containsSegments ? classes.SegmentedInput : ''} ${className}`}
@@ -111,6 +79,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
       onClick={onClick}
       onMouseDown={onMouseDown}
       style={{...widthStyles, ...style}}
+      {...tagProps}
     >
       {LeadingVisual && (
         <span
@@ -124,6 +93,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
         <BaseInputContext.Provider
           value={{
             disabled,
+            loading,
             variant: 'plain',
             size,
             align,
@@ -153,16 +123,9 @@ interface BaseInputContextType {
   size?: 'sm' | 'md' | 'lg';
   align?: 'start' | 'center' | 'end';
   disabled?: boolean;
+  loading?: boolean;
   'aria-label'?: string;
   'aria-labelledby'?: string;
-}
-
-interface UseFocusableContentProps extends HTMLAttributes<HTMLElement> {
-  onFocusChange?: (any?) => void;
-  onFocus?: (any?) => void;
-  onBlur?: (any?) => void;
-  disabled?: boolean;
-  [key: string]: any; // Allow additional props
 }
 
 export interface BaseInputProps extends HTMLAttributes<HTMLElement> {
@@ -179,5 +142,6 @@ export interface BaseInputProps extends HTMLAttributes<HTMLElement> {
   contentsRef?: Ref<HTMLDivElement>;
   containsSegments?: boolean;
   loading?: boolean;
+  type?: string; // Allow type to be specified, e.g., 'text', 'number', etc.
   width?: string | number; // Allow width to be a string or number
 }

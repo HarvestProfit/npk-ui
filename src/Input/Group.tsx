@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import BaseInput, { BaseInputProps, useFocusableContent } from '../BaseInput';
+import BaseInput, { BaseInputProps } from '../BaseInput';
 
 interface GroupProps extends BaseInputProps {
   children?: ReactNode;
@@ -7,13 +7,8 @@ interface GroupProps extends BaseInputProps {
 }
 
 const Group: React.FC<GroupProps> = ({ children, ...props }) => {
-  const { 
-    focusContentsProps, 
-    onMouseDown 
-  } = useFocusableContent(props);
-
   return (
-    <BaseInput {...props} onMouseDown={onMouseDown} contentsProps={focusContentsProps}>
+    <BaseInput {...props} data-component="input-group">
       {children}
     </BaseInput>
   );
