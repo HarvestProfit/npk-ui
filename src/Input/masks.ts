@@ -40,12 +40,15 @@ export const numericMask: MaskType = (props: NumericMaskProps = {}) => {
     formatter: (value) => {
       if (!value || value.length === 0) return value;
       const numberValue = parseFloat(value.replace(/,/g, ''));
-      const parts = numberValue.toString().split('.');
+      const numberString = isFinite(maximumFractionDigits) ? numberValue.toFixed(maximumFractionDigits) : numberValue.toString();
+      const parts = numberString.split('.');
       parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      if (minimumFractionDigits) {
-        if (!parts[1]) parts.push('0');
+      if (isFinite(minimumFractionDigits)) {
+        const decimalNumber = parseFloat(`0.${parts[1] || '0'}`);
+        parts[1] = isNaN(decimalNumber) ? '0' : (`${decimalNumber}`.split('.')[1] || '0');
         parts[1] = parts[1].padEnd(minimumFractionDigits, '0')
       }
+      
       return parts.join('.');
     }
   }

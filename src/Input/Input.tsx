@@ -22,11 +22,6 @@ interface InputProps extends BaseInputProps {
 
 const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: externalValue, onChange: onExternalChange, debounce = false, readOnly = false, formatOptions = {}, ...props }) => {
   const inputProps = useBaseInput(props);
-  const ref = useRef(null);
-  const debounceRef = useRef<any>();
-  const [internalValue, setInternalValue] = useState(externalValue);
-  const [isFocused, setIsFocused] = useState(false);
-
 
   const maskFunction = (typeof mask === 'string') ? maskFetch[mask] : (mask || (() => null));
 
@@ -34,6 +29,11 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
     mask: maskFunction(formatOptions),
     ...props
   });
+
+  const ref = useRef(null);
+  const debounceRef = useRef<any>();
+  const [internalValue, setInternalValue] = useState(inputMask.formatter(externalValue));
+  const [isFocused, setIsFocused] = useState(false);
 
   const onInternalChange = (value) => {
     setInternalValue(value);
@@ -44,7 +44,7 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
   };
 
   useEffect(() => {
-    if (!isFocused) setInternalValue(externalValue);
+    if (!isFocused) setInternalValue(inputMask.formatter(externalValue));
   }, [externalValue]);
 
   const onFocus = () => {

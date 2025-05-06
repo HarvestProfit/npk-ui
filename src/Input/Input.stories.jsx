@@ -180,7 +180,7 @@ export const CustomInputs = () => {
 
 
 export const Number = () => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState(40.99890123);
   return (
     <div>
       <label id="number-inputs">Number Inputs</label>
@@ -188,7 +188,7 @@ export const Number = () => {
         <Input.Number placeholder="any number" trailingVisual={Icons.QuestionIcon} />
         <Input.Number placeholder="positive integers" formatOptions={{ maximumFractionDigits: 0, minValue: 0 }} />
         <Input.Number aria-labelledby="number-inputs" leadingVisual="$" placeholder="400.00" minValue={-10} formatOptions={{ minimumFractionDigits: 3, maximumFractionDigits: 4 }} />
-        <Input.Number aria-labelledby="number-inputs" name="currency-type" value={value} onChange={setValue} type="currency" placeholder="400.00" />
+        <Input.Number aria-labelledby="number-inputs" name="currency-type" value={value} onChange={setValue} type="currency" placeholder="400.00" formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 2 }} />
         <Input.Number aria-labelledby="number-inputs" name="currency-format" value={value} onChange={setValue} placeholder="Debounced" debounce formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 4 }} />
         <Input.Number aria-labelledby="number-inputs" align="end" trailingVisual="%" placeholder="67" width={80} />
         <Input.Number aria-labelledby="number-inputs" align="end" placeholder="67" width={80} />
