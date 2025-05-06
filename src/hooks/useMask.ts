@@ -11,9 +11,9 @@ function keyMatchesMask(key, match) {
   return false;
 }
 
-export function rule(match, ruleCB) {
+export const rule: RuleFunction = (match, ruleCB) => {
   return [match, ruleCB];
-}
+};
 
 export default (props) => {
   const { onKeyDown, mask, valueRef } = props || {};
@@ -31,7 +31,7 @@ export default (props) => {
 
     if (event.key === 'ArrowLeft' || event.key === 'Tab' && event.shiftKey) {
       setTimeout(() => {
-        nextFocusableElement({ activeElem: event.target, reverse: true, parent: '[data-component=input-group]' })?.focus();
+        nextFocusableElement({ activeElem: event.target, reverse: true, parent: '[data-component=input-group]', requireParentMatch: event.key === 'ArrowLeft' })?.focus();
       }, 10);
       if (onKeyDown) onKeyDown(event, true);
       return
@@ -39,7 +39,7 @@ export default (props) => {
 
     if (event.key === 'ArrowRight' || event.key === 'Tab') {
       setTimeout(() => {
-        nextFocusableElement({ activeElem: event.target, parent: '[data-component=input-group]' })?.focus();
+        nextFocusableElement({ activeElem: event.target, parent: '[data-component=input-group]', requireParentMatch: event.key === 'ArrowRight' })?.focus();
       }, 10);
       if (onKeyDown) onKeyDown(event, true);
       return
@@ -50,8 +50,8 @@ export default (props) => {
       return;
     }
   
-    const selectionStart = event.target.selectionStart || previousValue.length + 1;
-    const selectionEnd = event.target.selectionEnd || previousValue.length + 1;
+    const selectionStart = isFinite(event.target.selectionStart) ? event.target.selectionStart : previousValue.length + 1;
+    const selectionEnd = isFinite(event.target.selectionEnd) ? event.target.selectionEnd : previousValue.length + 1;
     const nextValue = previousValue.slice(0, selectionStart) + event.key + previousValue.slice(selectionEnd);
 
     let validInput = false;
@@ -86,7 +86,23 @@ export default (props) => {
   }
 
   return {
-    onKeyDown: handleOnKeyDown,
+    onKeyDown: mask ? handleOnKeyDown : onKeyDown,
     formatter: mask?.formatter || ((value) => value),
   };
 }
+
+type RuleType = [string | RegExp, ((params: { key: string; previousValue: string; nextValue: string; cursorIndex: number; target: EventTarget }) => boolean)?];
+
+interface RuleFunction {
+  (match: string | RegExp, ruleCB?: (params: { key: string; previousValue: string; nextValue: string; cursorIndex: number; target: EventTarget }) => boolean): RuleType;
+}
+
+interface MaskReturnType {
+  mask: RuleType[];
+  formatter: (value: string) => string;
+  shiftFocusIf?: (nextValue: string, key: string) => boolean;
+}
+
+type MaskType = (props?: any) => MaskReturnType;
+
+export type { MaskType, MaskReturnType, RuleType };

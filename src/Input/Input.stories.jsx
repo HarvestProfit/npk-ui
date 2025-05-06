@@ -29,10 +29,6 @@ export default {
       table: { defaultValue: { summary: "None" } },
       description: "Text or Icon at the end of the button"
     },
-    disabled: {
-      type: 'boolean',
-      table: { defaultValue: { summary: "false" } }
-    },
     debounce: {
       type: 'boolean | number',
       description: "Allows you to debounce the onChange event. You can set it to a number or just true for 500ms",
@@ -42,6 +38,24 @@ export default {
       type: 'boolean',
       description: "Auto select all contents of the input when it receives focus.",
       table: { defaultValue: { summary: "true" } }
+    },
+    readOnly: {
+      type: 'boolean',
+      description: "If true, the input will be read only.",
+      table: { defaultValue: { summary: "false" } }
+    },
+    disabled: {
+      type: 'boolean',
+      table: { defaultValue: { summary: "false" } }
+    },
+    loading: {
+      type: 'boolean',
+      table: { defaultValue: { summary: "false" } }
+    },
+    mask: {
+      type: 'string | function',
+      description: "Can be a prebuilt mask name or A function that returns an object with a mask and formatter function.",
+      table: { defaultValue: { summary: "null" } }
     },
     as: {
       type: 'string',
@@ -76,11 +90,64 @@ export default {
     leadingVisual: null,
     trailingVisual: null,
     disabled: false,
-    'aria-label': null
+    readOnly: false,
+    loading: false,
+    size: 'md',
+    align: 'start',
+    selectAllOnFocus: true,
+    debounce: false,
+    mask: null,
   }
 }
 
-export const Default = () => {
+export const Default = () => (
+  <div>
+    <label id="generic-inputs">Generic Inputs</label>
+    <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+      <Input placeholder="Placeholder" type="text" />
+      <Input leadingVisual="TEL" placeholder="111 1111" type="tel" />
+      <Input placeholder="Disabled" type="text" disabled />
+      <Input value="Readonly" type="text" readOnly />
+    </div>
+    <Button>Save</Button>
+  </div>
+)
+
+export const Masking = () => {
+  const mask = () => {
+    return {
+      mask: [
+        ['-', ({ nextValue, cursorIndex }) => {
+          if (nextValue[cursorIndex - 1] === '-') return false;
+          return nextValue.match(/\-/g).length < 3;
+        }],
+        [/\d/, ({ nextValue }) => {
+          if (nextValue.replaceAll('-', '').length > 10) return false;
+          return true;
+        }],
+      ],
+      formatter: (text) => {
+        if (!text) return '';
+        const value = text.replaceAll('-', '');
+        if (value.length < 10) return '';
+        return `${value.substr(0, 3)}-${value.substr(3, 3)}-${value.substr(6, 4)}`;
+      }
+    }
+  }
+
+  return (
+    <div>
+      <label id="generic-inputs">Custom Phone Number Mask. Only Allows numbers and a certain number of dashes</label>
+      <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+        <Input leadingVisual="TEL" placeholder="111-111-1111" type="tel" mask={mask} />
+      </div>
+      <Button>Save</Button>
+    </div>
+  )
+}
+
+
+export const CustomInputs = () => {
   const [valuemonth, setValueMonth] = React.useState();
   const [valueday, setValueDay] = React.useState();
   const [valueyear, setValueYear] = React.useState();
@@ -88,17 +155,14 @@ export const Default = () => {
   const [valueMin, setValueMin] = React.useState();
   const [valueTOD, setValueTOD] = React.useState();
 
-  const [dInput, setDInput] = React.useState(new Date());
-
   return (
     <div>
-      <label id="generic-inputs">Generic Inputs</label>
+      <label id="generic-inputs">Custom Built Date</label>
       <p>{valuemonth} / {valueday} / {valueyear}</p>
-      <p>{dInput.toISOString()}</p>
       <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
         <Input.Group trailingVisual={Icons.CalendarIcon}>
           <Input aria-labelledby="generic-inputs" placeholder="MM" value={valuemonth} onChange={setValueMonth} mask="calendar-month" focusNextOnComplete style={{ width: 30 }} />
-          <span data-component="input-segment">/</span>
+          /
           <Input aria-labelledby="generic-inputs" placeholder="DD" value={valueday} onChange={setValueDay} mask="calendar-day" focusNextOnComplete style={{ width: 30 }} />
           /
           <Input aria-labelledby="generic-inputs" placeholder="YYYY" value={valueyear} onChange={setValueYear} mask="calendar-year" focusNextOnComplete style={{ width: 45 }}/>
@@ -108,9 +172,6 @@ export const Default = () => {
           <Input aria-labelledby="generic-inputs" placeholder="--" value={valueMin} onChange={setValueMin} mask="time-minute" focusNextOnComplete style={{ width: 30 }}/>
           <Input aria-labelledby="generic-inputs" placeholder="AM" value={valueTOD} onChange={setValueTOD} mask="time-tod" focusNextOnComplete style={{ width: 30 }}/>
         </Input.Group>
-
-        <DateInput value={dInput} onChange={setDInput} />
-        <Input aria-labelledby="generic-inputs" variant="invisible" leadingVisual="TEL" placeholder="111 1111" type="tel" />
       </div>
       <Button>Save</Button>
     </div>
@@ -124,12 +185,13 @@ export const Number = () => {
     <div>
       <label id="number-inputs">Number Inputs</label>
       <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <Input.Number aria-label="how many" variant="invisible" trailingVisual={Icons.QuestionIcon} />
-        <Input.Number aria-labelledby="number-inputs" variant="invisible" leadingVisual="$" placeholder="400.00" minValue={-10} formatOptions={{ minimumFractionDigits: 3, maximumFractionDigits: 4 }} />
-        <Input.Number aria-labelledby="number-inputs" name="currency-type" variant="invisible" value={value} onChange={setValue} type="currency" placeholder="400.00" />
-        <Input.Number aria-labelledby="number-inputs" name="currency-format" variant="invisible" value={value} onChange={setValue} placeholder="Debounced" debounce formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 4 }} />
-        <Input.Number aria-labelledby="number-inputs" variant="invisible" align="end" trailingVisual="%" placeholder="67" width={80} />
-        <Input.Number aria-labelledby="number-inputs" variant="invisible" align="end" placeholder="67" width={80} />
+        <Input.Number placeholder="any number" trailingVisual={Icons.QuestionIcon} />
+        <Input.Number placeholder="positive integers" formatOptions={{ maximumFractionDigits: 0, minValue: 0 }} />
+        <Input.Number aria-labelledby="number-inputs" leadingVisual="$" placeholder="400.00" minValue={-10} formatOptions={{ minimumFractionDigits: 3, maximumFractionDigits: 4 }} />
+        <Input.Number aria-labelledby="number-inputs" name="currency-type" value={value} onChange={setValue} type="currency" placeholder="400.00" />
+        <Input.Number aria-labelledby="number-inputs" name="currency-format" value={value} onChange={setValue} placeholder="Debounced" debounce formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 4 }} />
+        <Input.Number aria-labelledby="number-inputs" align="end" trailingVisual="%" placeholder="67" width={80} />
+        <Input.Number aria-labelledby="number-inputs" align="end" placeholder="67" width={80} />
       </div>
       <Button>Save {value}</Button>
     </div>
@@ -149,31 +211,40 @@ export const Loading = () => {
   )
 }
 
-export const Groups = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <div>
-    <label id="you">Your Details</label>
-    <Input.Group aria-labelledby="you">
-      <Input placeholder="First"/>
-      <Input placeholder="Last" />
-      <DateInput />
-    </Input.Group>
-  </div>
-  
-  <div>
-    <label id="size">Size</label>
-    <Input.Group aria-labelledby="size">
-      <Input.Number placeholder="Weight" minValue={0} width={100} />
-      <Menu arrow>
-        <Button tabIndex={0} invisible trailingAction={Icons.DropdownIndicatorIcon}>LBS</Button>
-        <Menu.Overlay>
-          <Button>LBS</Button>
-          <Button>KG</Button>
-          <Button>MT</Button>
-        </Menu.Overlay>
-      </Menu>
-    </Input.Group>
-  </div>
-</div>
+export const Groups = () => {
+  const [firstName, setFirstName] = React.useState();
+  const [lastName, setLastName] = React.useState();
+  const [date, setDate] = React.useState();
+  const [weight, setWeight] = React.useState();
+  const [unit, setUnit] = React.useState('LBS');
+  return (
+    <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+      <div>
+        <label id="you">Your Details</label>
+        <Input.Group aria-labelledby="you">
+          <Input placeholder="First" value={firstName} onChange={setFirstName} />
+          <Input placeholder="Last" value={lastName} onChange={setLastName} />
+          <DateInput value={date} onChange={setDate} />
+        </Input.Group>
+      </div>
+      
+      <div>
+        <label id="size">Size</label>
+        <Input.Group aria-labelledby="size">
+          <Input.Number placeholder="Weight" minValue={0} width={100} value={weight} onChange={setWeight} />
+          <Menu arrow>
+            <Button tabIndex={0} invisible trailingAction={Icons.DropdownIndicatorIcon}>{unit}</Button>
+            <Menu.Overlay>
+              <Button onClick={() => setUnit('LBS')}>LBS</Button>
+              <Button onClick={() => setUnit('KG')}>KG</Button>
+              <Button onClick={() => setUnit('MT')}>MT</Button>
+            </Menu.Overlay>
+          </Menu>
+        </Input.Group>
+      </div>
+    </div>
+  )
+}
 
 
 export const Plain = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>

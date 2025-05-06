@@ -1,10 +1,14 @@
-export function nextFocusableElement({ reverse = false, activeElem = null, parent = null, repeat = false } = {}) {
+export function nextFocusableElement({ reverse = false, activeElem = null, parent = null, repeat = false, requireParentMatch = true } = {}) {
   // check if an element is defined or use activeElement 
   activeElem = activeElem instanceof HTMLElement ? activeElem : document.activeElement;
 
   let parentElem = null;
   if (parent) parentElem = activeElem.closest(parent);
-  parentElem ||= document;
+  if (!requireParentMatch) {
+    parentElem ||= document;
+  }
+
+  if (!parentElem) return null;
 
   const queryString = [
     'a:not([disabled]):not([tabindex="-1"])',

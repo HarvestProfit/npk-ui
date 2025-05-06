@@ -1,11 +1,18 @@
-import { rule } from '../hooks/useMask';
+import { rule, MaskType } from '../hooks/useMask';
 
-export const numericMask = (props = {}) => {
-  const { maximumFractionDigits, minValue, maxValue } = props;
+interface NumericMaskProps {
+  maximumFractionDigits?: number;
+  minimumFractionDigits?: number;
+  minValue?: number;
+  maxValue?: number;
+}
+
+export const numericMask: MaskType = (props: NumericMaskProps = {}) => {
+  const { maximumFractionDigits, minimumFractionDigits, minValue, maxValue } = props;
 
   return {
     mask: [
-      rule('-', ({ nextValue, cursorIndex }) => {
+      rule('-', ({ nextValue, cursorIndex, target }) => {
         if (Number.isFinite(minValue) && minValue >= 0) return false;
         if (nextValue.match(/-/g).length > 1 || cursorIndex !== 0) return false;
         return true;
@@ -35,21 +42,23 @@ export const numericMask = (props = {}) => {
       const numberValue = parseFloat(value.replace(/,/g, ''));
       const parts = numberValue.toString().split('.');
       parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      if (minimumFractionDigits) {
+        if (!parts[1]) parts.push('0');
+        parts[1] = parts[1].padEnd(minimumFractionDigits, '0')
+      }
       return parts.join('.');
     }
   }
 }
 
-export const calendarDayMask = (props = {}) => {
-  const dateValue = props.dateValue || new Date();
-
+export const calendarDayMask: MaskType = ({ dateValue = new Date() } = {}) => {
   const performRule = (nextInputValue) => {
     if (nextInputValue === '0') return true;
     if (nextInputValue.length > 2) return false; // max of 2 digits for day
 
     const nextDateValue = new Date(dateValue.getFullYear(), dateValue.getMonth(), nextInputValue);
     if (dateValue.getMonth() !== nextDateValue.getMonth()) return false;
-    if (dateValue.getYear() !== nextDateValue.getYear()) return false;
+    if (dateValue.getFullYear() !== nextDateValue.getFullYear()) return false;
     if (nextDateValue.getDate() !== parseInt(nextInputValue, 10)) return false;
     return true;
   }
@@ -71,8 +80,7 @@ export const calendarDayMask = (props = {}) => {
   }
 }
 
-export const calendarMonthMask = (props = {}) => {
-  const dateValue = props.dateValue || new Date();
+export const calendarMonthMask: MaskType = ({ dateValue = new Date() } = {}) => {
 
   const performRule = (nextInputValue) => {
     if (nextInputValue === '0') return true;
@@ -80,7 +88,7 @@ export const calendarMonthMask = (props = {}) => {
     const monthNumber = parseInt(nextInputValue, 10) - 1; // Convert to zero-based month index
     const nextDateValue = new Date(dateValue.getFullYear(), monthNumber, dateValue.getDate());
     if (nextDateValue.getMonth() !== monthNumber) return false;
-    if (dateValue.getYear() !== nextDateValue.getYear()) return false;
+    if (dateValue.getFullYear() !== nextDateValue.getFullYear()) return false;
     if (dateValue.getDate() !== nextDateValue.getDate()) return false;
     return true;
   }
@@ -102,7 +110,7 @@ export const calendarMonthMask = (props = {}) => {
   }
 }
 
-export const calendarYearMask = (props = {}) => {
+export const calendarYearMask: MaskType = (props = {}) => {
   const performRule = (nextInputValue) => {
     if (nextInputValue.length <= 4) return true; // needs at least 4 digits for year
 
@@ -120,8 +128,7 @@ export const calendarYearMask = (props = {}) => {
   }
 }
 
-export const calendarHourMask = (props = {}) => {
-  const militaryTime = props.militaryTime || false;
+export const calendarHourMask: MaskType = ({ militaryTime = false } = {}) => {
   const performRule = (nextInputValue) => {
     if (nextInputValue === '0') return true;
     const numberValue = parseInt(nextInputValue, 10);
@@ -146,7 +153,7 @@ export const calendarHourMask = (props = {}) => {
   }
 }
 
-export const calendarMinuteMask = (props = {}) => {
+export const calendarMinuteMask: MaskType = (props = {}) => {
   const performRule = (nextInputValue) => {
     if (nextInputValue === '0') return true;
     const numberValue = parseInt(nextInputValue, 10);
@@ -165,7 +172,7 @@ export const calendarMinuteMask = (props = {}) => {
   }
 }
 
-export const calendarTimeOfDayMask = (props = {}) => {
+export const calendarTimeOfDayMask: MaskType = (props = {}) => {
   return {
     shiftFocusIf: (_nextValue, key) => {
       const lowerKey = key.toLowerCase();

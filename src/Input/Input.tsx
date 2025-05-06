@@ -1,33 +1,37 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classes from './Input.module.css';
 import BaseInput, { useBaseInput, BaseInputProps } from '../BaseInput';
-import useMask from '../hooks/useMask';
+import useMask, { MaskType } from '../hooks/useMask';
 import maskFetch from './masks';
 
 interface InputProps extends BaseInputProps {
   [key: string]: any; // Allow other props
-  defaultValue?: string | number; // Unified type for defaultValue
   onBlur?: (any?) => void;
   onFocus?: (any?) => void;
   onChange?: (string) => void;
   value?: string;
   width?: string | number;
+  mask?: 'number' | 'calendar-day' | 'calendar-month' | 'calendar-year' | 'time-hour' | 'time-minute' | 'time-tod' | MaskType;
   debounce?: boolean | number;
   loading?: boolean;
+  disabled?: boolean;
+  formatOptions?: any;
+  type?: string;
+  readOnly?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: externalValue, onChange: onExternalChange, debounce = false, placeholder, ...preProps }) => {
-  const props = useBaseInput(preProps);
+const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: externalValue, onChange: onExternalChange, debounce = false, readOnly = false, formatOptions = {}, ...props }) => {
+  const inputProps = useBaseInput(props);
   const ref = useRef(null);
   const debounceRef = useRef<any>();
   const [internalValue, setInternalValue] = useState(externalValue);
   const [isFocused, setIsFocused] = useState(false);
 
 
-  const maskFunction = maskFetch[mask] || (() => null);
+  const maskFunction = (typeof mask === 'string') ? maskFetch[mask] : (mask || (() => null));
 
   const inputMask = useMask({
-    mask: maskFunction(props),
+    mask: maskFunction(formatOptions),
     ...props
   });
 
@@ -67,9 +71,17 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
     onInternalChange(e.target.value);
   }
 
+  if (readOnly) {
+    return (
+      <BaseInput {...props} variant="plain">
+        <span {...inputProps} className={classes.Input} ref={ref}>{internalValue || ''}</span>
+      </BaseInput>
+    )
+  }
+
   return (
     <BaseInput {...props}>
-      <input className={classes.Input} value={internalValue} onChange={handleChangeEvent} onFocus={onFocus} onBlur={onBlur} onKeyDown={inputMask.onKeyDown} ref={ref} placeholder={placeholder} />
+      <input {...inputProps} className={classes.Input} value={internalValue || ''} onChange={handleChangeEvent} onFocus={onFocus} onBlur={onBlur} onKeyDown={inputMask.onKeyDown} ref={ref} />
     </BaseInput>
   );
 }
