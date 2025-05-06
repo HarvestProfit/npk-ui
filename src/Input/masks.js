@@ -31,7 +31,7 @@ export const numericMask = (props = {}) => {
       }),
     ],
     formatter: (value) => {
-      if (!value) return value;
+      if (!value || value.length === 0) return value;
       const numberValue = parseFloat(value.replace(/,/g, ''));
       const parts = numberValue.toString().split('.');
       parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -64,7 +64,7 @@ export const calendarDayMask = (props = {}) => {
       rule(/^[0-9]$/, ({ nextValue }) => performRule(nextValue)),
     ],
     formatter: (value) => {
-      if (!value) return value;
+      if (!value || value.length === 0) return value;
       if (value === '0') return '01'; // Special case for zero
       return `${value}`.padStart(2, '0');
     }
@@ -95,7 +95,7 @@ export const calendarMonthMask = (props = {}) => {
       rule(/^[0-9]$/, ({ nextValue }) => performRule(nextValue)),
     ],
     formatter: (value) => {
-      if (!value) return value;
+      if (!value || value.length === 0) return value;
       if (value === '0') return '01'; // Special case for zero
       return `${value}`.padStart(2, '0');
     }
@@ -139,7 +139,7 @@ export const calendarHourMask = (props = {}) => {
       rule(/^[0-9]$/, ({ nextValue }) => performRule(nextValue)),
     ],
     formatter: (value) => {
-      if (!value) return value;
+      if (!value || value.length === 0) return value;
       if (value === '0' && !militaryTime) return '01'; // Special case for zero
       return `${value}`.padStart(2, '0');
     }
@@ -159,7 +159,7 @@ export const calendarMinuteMask = (props = {}) => {
       rule(/^[0-9]$/, ({ nextValue }) => performRule(nextValue)),
     ],
     formatter: (value) => {
-      if (!value) return value;
+      if (!value || value.length === 0) return value;
       return `${value}`.padStart(2, '0');
     }
   }
@@ -176,7 +176,7 @@ export const calendarTimeOfDayMask = (props = {}) => {
       rule(/^[apAPmM]$/)
     ],
     formatter: (value) => {
-      if (!value) return value;
+      if (!value || value.length === 0) return value;
       if (value.toLowerCase().startsWith('a')) return 'AM';
       if (value.toLowerCase().startsWith('p')) return 'PM';
       return value;

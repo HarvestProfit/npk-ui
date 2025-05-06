@@ -98,13 +98,13 @@ export default {
 }
 
 export const Default = () => {
-  const [value, setValue] = React.useState(new Date().toISOString())
-  const [value2, setValue2] = React.useState(new Date().toISOString())
+  const [value, setValue] = React.useState()
+  const [value2, setValue2] = React.useState(new Date())
   return (
     <div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <p>{value}</p>
-        <p>{value2}</p>
+        <p>{value?.toString()}</p>
+        <p>{value2.toString()}</p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
         <DateInput aria-label="Generic date input" value={value} onChange={setValue} /><Button>Save</Button>
@@ -115,24 +115,24 @@ export const Default = () => {
 }
 
 export const Range = (props) => {
-  const [value, setValue] = React.useState()
+  const [value, setValue] = React.useState({ start: new Date() })
   return (
     <div>
       <p>{value?.start?.toString()} TO {value?.end?.toString()}</p>
-      <DateInput.Range {...props} value={value} onChange={setValue} trailingVisual={<Button invisible icon={Icons.QuestionIcon} aria-label="This sets the date range" />} /><Button size={props.size}>Save</Button>
+      <DateInput.Range {...props} value={value} onChange={setValue} trailingVisual={<Button tabIndex={-1} invisible icon={Icons.QuestionIcon} aria-label="This sets the date range" />} /><Button size={props.size}>Save</Button>
     </div>
   )
 }
 
 export const Time = () => {
-  const [value, setValue] = React.useState(new Date().toISOString())
+  const [value, setValue] = React.useState(new Date())
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
   <Card>
     <Card.Header title="Input in a Card" />
     <div>
-      <DateInput.Time value={value} onChange={setValue} />
+      <DateInput granularity="time" value={value} onChange={setValue} />
       <Button>Save</Button>
       <p>{value?.toString()}</p>
     </div>
@@ -149,12 +149,11 @@ export const Plain = () => <div style={{ display: 'flex', flexDirection: 'row', 
 
 export const Granularity = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
   <div><label>Minute</label><DateInput granularity="minute" /></div>
-  <div><label>Hour</label><DateInput granularity="hour" /></div>
   <div><label>Day (Default)</label><DateInput granularity="day" /></div>
   <div><label>Month</label><DateInput granularity="month" /></div>
   <div><label>Year</label><DateInput granularity="year" /></div>
   <div><label>Month (Range)</label><DateInput.Range granularity="month" /></div>
-  <div><label>Second (Time)</label><DateInput.Time granularity="second" /></div>
+  <div><label>Time</label><DateInput granularity="time" /></div>
 </div>
 
 

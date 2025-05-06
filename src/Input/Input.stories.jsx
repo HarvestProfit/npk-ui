@@ -88,12 +88,13 @@ export const Default = () => {
   const [valueMin, setValueMin] = React.useState();
   const [valueTOD, setValueTOD] = React.useState();
 
-  const [dInput, setDInput] = React.useState();
+  const [dInput, setDInput] = React.useState(new Date());
 
   return (
     <div>
       <label id="generic-inputs">Generic Inputs</label>
       <p>{valuemonth} / {valueday} / {valueyear}</p>
+      <p>{dInput.toISOString()}</p>
       <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
         <Input.Group trailingVisual={Icons.CalendarIcon}>
           <Input aria-labelledby="generic-inputs" placeholder="MM" value={valuemonth} onChange={setValueMonth} mask="calendar-month" focusNextOnComplete style={{ width: 30 }} />
@@ -108,7 +109,7 @@ export const Default = () => {
           <Input aria-labelledby="generic-inputs" placeholder="AM" value={valueTOD} onChange={setValueTOD} mask="time-tod" focusNextOnComplete style={{ width: 30 }}/>
         </Input.Group>
 
-        <DateInput.New value={dInput} onChange={setDInput} />
+        <DateInput value={dInput} onChange={setDInput} />
         <Input aria-labelledby="generic-inputs" variant="invisible" leadingVisual="TEL" placeholder="111 1111" type="tel" />
       </div>
       <Button>Save</Button>

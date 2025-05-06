@@ -16,11 +16,11 @@ export function rule(match, ruleCB) {
 }
 
 export default (props) => {
-  const { onKeyDown, mask } = props || {};
+  const { onKeyDown, mask, valueRef } = props || {};
   const rules = mask?.mask || [];
 
   const handleOnKeyDown = (event) => {
-    const previousValue = props.valueRef?.current || event.target.value || '';
+    const previousValue = valueRef?.current || event.target.value || '';
     if (mask?.shiftFocusIf && previousValue === '' && event.key === 'Backspace') {
       setTimeout(() => {
         nextFocusableElement({ activeElem: event.target, reverse: true, parent: '[data-component=input-group]' })?.focus();
