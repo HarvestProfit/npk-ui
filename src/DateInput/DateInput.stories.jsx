@@ -144,6 +144,20 @@ export const CalendarButton = () => {
   )
 }
 
+export const CalendarInline = () => {
+  const [date, setDate] = React.useState('2023-01-01');
+
+  return (
+    <div>
+      <p>selected: {dateUtils.fromISO(date).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+      <Card style={{ width: 650 }}>
+      <Calendar visibleMonths={2} value={date} onChange={setDate} />
+      </Card>
+      
+    </div>
+  )
+}
+
 export const Range = (props) => {
   const [value, setValue] = React.useState({ start: new Date() })
   return (

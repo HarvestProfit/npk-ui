@@ -19,6 +19,7 @@ interface BaseButtonProps {
   chip?: ReactNode;
   children?: ReactNode;
   className?: string;
+  autoDismiss?: boolean;
   onPressStart?: (e: any) => void;
   onPressEnd?: (e: any) => void;
   onPress?: (e: any) => void;
@@ -54,7 +55,7 @@ const BaseButton: React.FC<BaseButtonProps> = ({
   if (menuContentsContext.inMenu) {
     const menuDismisableOnClick = (e: MouseEvent<HTMLElement>) => {
       if (onClick) onClick(e);
-      if (menuContentsContext.onDismiss) menuContentsContext.onDismiss(e);
+      if (menuContentsContext.onDismiss && props.autoDismiss !== false) menuContentsContext.onDismiss(e);
     };
 
     popoverProps = { onClick: menuDismisableOnClick };

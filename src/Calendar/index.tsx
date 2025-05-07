@@ -3,7 +3,7 @@ import classes from './Calendar.module.css';
 import { BackwardIndicatorIcon, ForwardIndicatorIcon } from '@harvest-profit/npk/icons/regular';
 import Button from '../Button';
 import Month from './Month';
-import { fromISO, fromTimestamp, lastMonth, lastYear, nameForVisibleDates, nextMonth, nextYear, today, toISO, toTimestamp, yesterday } from './utils';
+import { fromISO, fromTimestamp, lastMonth, lastYear, nameForVisibleDates, nextMonth, nextYear, today, toISO, toTimestamp } from './utils';
 import { MenuContext } from '../Menu';
 
 interface CalendarProps {
@@ -18,9 +18,8 @@ interface CalendarProps {
 
 const defaultPresets = [
   { label: 'Today', date: today() },
-  { label: 'Yesterday', date: yesterday() },
-  { label: 'Next Month', date: nextMonth() },
   { label: 'Last Month', date: lastMonth() },
+  { label: 'Next Month', date: nextMonth() },
   { label: 'Last Year', date: lastYear() },
   { label: 'Next Year', date: nextYear() },
 ]
@@ -109,10 +108,10 @@ const Calendar = ({
       <header>
         <h4 data-component="calendar-title">{nameForVisibleDates(visibleDate, visibleMonths)}</h4>
         <span data-component="calendar-backwards">
-          <Button onClick={() => setVisibleDate(new Date(new Date(visibleDate).setMonth(visibleDate.getMonth() - 1)))} icon={BackwardIndicatorIcon} aria-label="Previous month" />
+          <Button autoDismiss={false} onClick={() => setVisibleDate(new Date(new Date(visibleDate).setMonth(visibleDate.getMonth() - 1)))} icon={BackwardIndicatorIcon} aria-label="Previous month" />
         </span>
         <span data-component="calendar-forwards">
-          <Button onClick={() => setVisibleDate(new Date(new Date(visibleDate).setMonth(visibleDate.getMonth() + 1)))} icon={ForwardIndicatorIcon} aria-label="Next month"/>
+          <Button autoDismiss={false} onClick={() => setVisibleDate(new Date(new Date(visibleDate).setMonth(visibleDate.getMonth() + 1)))} icon={ForwardIndicatorIcon} aria-label="Next month"/>
         </span>
         {presetButtons.length > 0 && (
           <span data-component="calendar-actions">
@@ -123,6 +122,7 @@ const Calendar = ({
                   invisible
                   variant="primary"
                   size="sm"
+                  autoDismiss={false}
                   onClick={() => setVisibleDate(preset.date)}
                 >
                   {preset.label}
