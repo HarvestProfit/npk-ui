@@ -185,6 +185,7 @@ const DateInputInternal = ({
 
 const DateInput = ({
   visibleMonths = 1,
+  autoDismiss = true,
   presets = false,
   picker = false,
   output = 'ISO',
@@ -211,30 +212,36 @@ const DateInput = ({
       break;
   }
 
-  const input = <DateInputInternal onChange={onChange} value={value} granularity={granularity} excludeGroup={excludeGroup} includeYear={includeYear} monthAsName={monthAsName} {...props} />;
+  const extraProps: { trailingVisual?: React.ReactNode } = {};
 
   if (picker) {
-    const trailingVisual = (
+    extraProps.trailingVisual = (
       <Menu arrow placement="bottom" autoDismiss={false}>
         <Button invisible icon={CalendarIcon} aria-label="Pick a date" />
         <Menu.Overlay>
-          <Calendar visibleMonths={visibleMonths} presets={presets} value={value} onChange={onChange} />
+          <Calendar visibleMonths={visibleMonths} presets={presets} value={value} onChange={onChange} autoDismiss={autoDismiss} />
         </Menu.Overlay>
       </Menu>
     );
-
-    return (
-      <BaseInput trailingVisual={trailingVisual} {...props}>
-        {input}
-      </BaseInput>
-    );
   }
 
-  return input;
+  return (
+    <DateInputInternal 
+      onChange={onChange} 
+      value={value} 
+      granularity={granularity} 
+      excludeGroup={excludeGroup} 
+      includeYear={includeYear}
+      monthAsName={monthAsName}
+      {...props}
+      {...extraProps}
+    />
+  );
 }
 
 interface DateInputProps {
   picker?: boolean;
+  autoDismiss?: boolean;
   visibleMonths?: number;
   granularity?: 'day' | 'month' | 'year' | 'minute' | 'time';
   value?: Date;

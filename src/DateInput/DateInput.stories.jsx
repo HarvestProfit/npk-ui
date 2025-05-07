@@ -119,7 +119,7 @@ export const Default = () => {
         <p>3(Timestamp) {value3}</p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <DateInput aria-label="Generic date input" value={value} onChange={setValue} /><Button>Save</Button>
+        <DateInput aria-label="Generic date input" size="sm" picker presets value={value} onChange={setValue} /><Button>Save</Button>
         <DateInput aria-label="Generic date input with picker" picker presets value={value2} onChange={setValue2} output="date" granularity="minute" monthAsName />
         <DateInput aria-label="Generic date input with picker" value={value3} onChange={setValue3} output="timestamp" granularity="minute" /><Button>Save</Button>
       </div>

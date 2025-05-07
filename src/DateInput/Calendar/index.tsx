@@ -3,12 +3,13 @@ import classes from './Calendar.module.css';
 import { BackwardIndicatorIcon, ForwardIndicatorIcon } from '@harvest-profit/npk/icons/regular';
 import Button from '../../Button';
 import Month from './Month';
-import { lastMonth, lastYear, nameForVisibleDates, nextMonth, today, yesterday } from './utils';
+import { lastMonth, lastYear, nameForVisibleDates, nextMonth, nextYear, today, yesterday } from './utils';
 import { MenuContext } from '../../Menu';
 
 interface CalendarProps {
   presets?: boolean | Array<{ label: string; date: Date }>;
   value?: Date | { start: Date; end: Date };
+  autoDismiss?: boolean;
   onChange?: (date: Date | { start: Date; end: Date }) => void;
   range?: boolean;
   visibleMonths?: number;
@@ -20,11 +21,13 @@ const defaultPresets = [
   { label: 'Next Month', date: nextMonth() },
   { label: 'Last Month', date: lastMonth() },
   { label: 'Last Year', date: lastYear() },
+  { label: 'Next Year', date: nextYear() },
 ]
 
 const Calendar = ({
-  presets = false,
+  presets = true,
   value,
+  autoDismiss = true,
   onChange: onExternalChange,
   range = false,
   visibleMonths = 1
@@ -37,7 +40,7 @@ const Calendar = ({
   const onChange = (newValue) => {
     if (!range) {
       onExternalChange(newValue);
-      if (menuContext) menuContext.setOpen(false);
+      if (autoDismiss && menuContext) menuContext.setOpen(false);
       return;
     }
 
@@ -53,7 +56,7 @@ const Calendar = ({
         onExternalChange({ start: value?.start, end: newValue });
       }
 
-      if (menuContext) menuContext.setOpen(false);
+      if (autoDismiss && menuContext) menuContext.setOpen(false);
     }
   }
 
