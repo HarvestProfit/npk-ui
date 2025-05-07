@@ -187,6 +187,7 @@ export const Number = () => {
       <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
         <Input.Number placeholder="any number" trailingVisual={Icons.QuestionIcon} />
         <Input.Number placeholder="positive integers" formatOptions={{ maximumFractionDigits: 0, minValue: 0 }} />
+        <Input.Number placeholder="decimals or integers" formatOptions={{ maximumFractionDigits: 2 }} />
         <Input.Number aria-labelledby="number-inputs" leadingVisual="$" placeholder="400.00" minValue={-10} formatOptions={{ minimumFractionDigits: 3, maximumFractionDigits: 4 }} />
         <Input.Number aria-labelledby="number-inputs" name="currency-type" value={value} onChange={setValue} type="currency" placeholder="400.00" formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 2 }} />
         <Input.Number aria-labelledby="number-inputs" name="currency-format" value={value} onChange={setValue} placeholder="Debounced" debounce formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 4 }} />

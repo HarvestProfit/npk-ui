@@ -48,6 +48,8 @@ export const numericMask: MaskType = (props: NumericMaskProps = {}) => {
         const decimalNumber = parseFloat(`0.${parts[1] || '0'}`);
         parts[1] = isNaN(decimalNumber) ? '0' : (`${decimalNumber}`.split('.')[1] || '0');
         parts[1] = parts[1].padEnd(minimumFractionDigits, '0')
+      } else if (parseInt(parts[1]) === 0) {
+        parts.pop();
       }
       
       return parts.join('.');
