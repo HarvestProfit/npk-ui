@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import classes from './Calendar.module.css';
 import { BackwardIndicatorIcon, ForwardIndicatorIcon } from '@harvest-profit/npk/icons/regular';
 import Button from '../../Button';
 import Month from './Month';
 import { lastMonth, lastYear, nameForVisibleDates, nextMonth, today, yesterday } from './utils';
+import { MenuContext } from '../../Menu';
 
 interface CalendarProps {
   presets?: boolean | Array<{ label: string; date: Date }>;
@@ -31,9 +32,12 @@ const Calendar = ({
   const [selectingStart, setSelectingStart] = useState(true); // For range selection, true if we are selecting the start date
   const [hoveredDate, setHoveredDate] = useState(); // For range selection, the date that is currently hovered to show the potential range the user is selecting when setting the end date.
 
+  const menuContext = useContext(MenuContext);
+
   const onChange = (newValue) => {
     if (!range) {
       onExternalChange(newValue);
+      if (menuContext) menuContext.setOpen(false);
       return;
     }
 
@@ -48,6 +52,8 @@ const Calendar = ({
       } else {
         onExternalChange({ start: value?.start, end: newValue });
       }
+
+      if (menuContext) menuContext.setOpen(false);
     }
   }
 

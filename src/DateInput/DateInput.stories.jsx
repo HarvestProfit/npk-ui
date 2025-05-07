@@ -132,7 +132,7 @@ export const Range = (props) => {
   return (
     <div>
       <p>{value?.start?.toString()} TO {value?.end?.toString()}</p>
-      <DateInput.Range {...props} value={value} onChange={setValue} trailingVisual={<Button tabIndex={-1} invisible icon={Icons.QuestionIcon} aria-label="This sets the date range" />} /><Button size={props.size}>Save</Button>
+      <DateInput.Range {...props} picker presets value={value} onChange={setValue} trailingVisual={<Button tabIndex={-1} invisible icon={Icons.QuestionIcon} aria-label="This sets the date range" />} /><Button size={props.size}>Save</Button>
     </div>
   )
 }
