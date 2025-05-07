@@ -93,10 +93,11 @@ const DateInputInternal = ({
     }
   });
   const [hourValue, setHourValue] = useOnChangeState(hourAndTODfromDate(segmentTimeValue).hour, (hour) => {
-    if (todValue === 'AM' && hour === 12) { // hours are tricky because of the 12-hour format. Native date objects are 24-hour format
+    const intHours = parseInt(hour);
+    if (todValue === 'AM' && intHours === 12) { // hours are tricky because of the 12-hour format. Native date objects are 24-hour format
       onChange(new Date(new Date(updateValue).setHours(0)))
-    } else if (todValue === 'PM' && hour < 12) {
-      onChange(new Date(new Date(updateValue).setHours(hour + 12)))
+    } else if (todValue === 'PM' && intHours < 12) {
+      onChange(new Date(new Date(updateValue).setHours(intHours + 12)))
     } else {
       onChange(new Date(new Date(updateValue).setHours(hour)))
     }
