@@ -32,6 +32,16 @@ export default {
       type: 'boolean',
       table: { defaultValue: { summary: "false" } }
     },
+    monthAsName: {
+      type: 'boolean',
+      description: 'Show month as name instead of number',
+      table: { defaultValue: { summary: "false" } }
+    },
+    includeYear: {
+      type: 'boolean',
+      description: 'Include the year in the date input',
+      table: { defaultValue: { summary: "true" } }
+    },
     picker: {
       type: 'boolean',
       table: { defaultValue: { summary: "false" } }
@@ -100,15 +110,18 @@ export default {
 export const Default = () => {
   const [value, setValue] = React.useState()
   const [value2, setValue2] = React.useState(new Date())
+  const [value3, setValue3] = React.useState()
   return (
     <div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <p>{value?.toString()}</p>
-        <p>{value2.toString()}</p>
+        <p>1(ISO) {value}</p>
+        <p>2(Date) {value2.toString()}</p>
+        <p>3(Timestamp) {value3}</p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
         <DateInput aria-label="Generic date input" value={value} onChange={setValue} /><Button>Save</Button>
-        <DateInput aria-label="Generic date input with picker" picker presets value={value2} onChange={setValue2} granularity="minute" /><Button>Save</Button>
+        <DateInput aria-label="Generic date input with picker" picker presets value={value2} onChange={setValue2} output="date" granularity="minute" monthAsName />
+        <DateInput aria-label="Generic date input with picker" value={value3} onChange={setValue3} output="timestamp" granularity="minute" /><Button>Save</Button>
       </div>
     </div>
   )
@@ -148,11 +161,11 @@ export const Plain = () => <div style={{ display: 'flex', flexDirection: 'row', 
 </div>
 
 export const Granularity = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <div><label>Minute</label><DateInput granularity="minute" /></div>
-  <div><label>Day (Default)</label><DateInput granularity="day" /></div>
+  <div><label>Minute</label><DateInput granularity="minute" includeYear={false} /></div>
+  <div><label>Day (Default)</label><DateInput granularity="day" monthAsName /></div>
   <div><label>Month</label><DateInput granularity="month" /></div>
   <div><label>Year</label><DateInput granularity="year" /></div>
-  <div><label>Month (Range)</label><DateInput.Range granularity="month" /></div>
+  <div><label>Month (Range)</label><DateInput.Range granularity="month" monthAsName /></div>
   <div><label>Time</label><DateInput granularity="time" /></div>
 </div>
 

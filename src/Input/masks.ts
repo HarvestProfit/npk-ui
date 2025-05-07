@@ -1,3 +1,4 @@
+import { MONTH_ABBREVIATIONS } from '../DateInput/Calendar/utils';
 import { rule, MaskType } from '../hooks/useMask';
 
 interface NumericMaskProps {
@@ -73,7 +74,9 @@ export const calendarDayMask: MaskType = ({ dateValue = new Date() } = {}) => {
       return performRule(nextValue) && !performRule(`${nextValue}0`);
     },
     mask: [
-      rule(/^[0-9]$/, ({ nextValue }) => performRule(nextValue)),
+      rule(/^[0-9]$/, ({ nextValue }) => {
+        return performRule(nextValue)
+      }),
     ],
     formatter: (value) => {
       if (!value || value.length === 0) return value;
@@ -183,12 +186,56 @@ export const calendarTimeOfDayMask: MaskType = (props = {}) => {
       return false;
     },
     mask: [
-      rule(/^[apAPmM]$/)
+      rule(/^[aApP]$/)
     ],
+    autoComplete: (value, key) => {
+      if (key.toLowerCase() === 'a') return 'AM';
+      if (key.toLowerCase() === 'p') return 'PM';
+      return value;
+    },
     formatter: (value) => {
       if (!value || value.length === 0) return value;
       if (value.toLowerCase().startsWith('a')) return 'AM';
       if (value.toLowerCase().startsWith('p')) return 'PM';
+      return value;
+    }
+  }
+}
+
+export const calendarMonthNameMask: MaskType = (props = {}) => {
+  const autoComplete = (value, _key) => {
+    if (value.startsWith('f')) return 'Feb';
+    if (value.startsWith('n')) return 'Nov';
+    if (value.startsWith('d')) return 'Dec';
+    if (value.startsWith('s')) return 'Sep';
+    if (value.startsWith('o')) return 'Oct';
+    if (value.startsWith('ja')) return 'Jan';
+    if (value.startsWith('au')) return 'Aug';
+    if (value.startsWith('ap')) return 'Apr';
+    return value;
+  }
+  return {
+    shiftFocusIf: (nextValue, key) => {
+      if (autoComplete(nextValue, key) !== nextValue) return true;
+      if (nextValue.length >= 3) return true;
+      return false;
+    },
+    mask: [
+      rule(/^[a-zA-Z]$/, ({ nextValue }) => {
+        if (nextValue.length > 3) return false; // max of 3 letters for month name
+        for (let i = 0; i < MONTH_ABBREVIATIONS.length; i++) {
+          if (MONTH_ABBREVIATIONS[i].startsWith(nextValue.toLowerCase())) return true; // Check if the next value starts with a valid month abbreviation
+        }
+        return false; // If it doesn't match any month abbreviation, return false
+      })
+    ],
+    autoComplete,
+    formatter: (value) => {
+      if (!value || value.length === 0) return value;
+      for (let i = 0; i < MONTH_ABBREVIATIONS.length; i++) {
+        const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+        if (MONTH_ABBREVIATIONS[i].startsWith(value.toLowerCase())) return capitalize(MONTH_ABBREVIATIONS[i]); // Check if the next value starts with a valid month abbreviation
+      }
       return value;
     }
   }

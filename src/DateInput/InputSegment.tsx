@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useMask from '../hooks/useMask';
-import { calendarDayMask, calendarHourMask, calendarMinuteMask, calendarMonthMask, calendarTimeOfDayMask, calendarYearMask } from '../Input/masks';
+import { calendarDayMask, calendarHourMask, calendarMinuteMask, calendarMonthMask, calendarMonthNameMask, calendarTimeOfDayMask, calendarYearMask } from '../Input/masks';
 
 // Handles the individual segments of the date/time input
 const InputSegment = ({ segment, ...props }) => {
@@ -14,6 +14,10 @@ const InputSegment = ({ segment, ...props }) => {
     case 'month':
       mask = calendarMonthMask;
       placeholder = 'mm';
+      break;
+    case 'monthName':
+      mask = calendarMonthNameMask;
+      placeholder = 'mmm';
       break;
     case 'day':
       mask = calendarDayMask;
@@ -62,9 +66,9 @@ const InputSegment = ({ segment, ...props }) => {
       }
 
       if (segment === 'TOD') {
-        if (e.key.toLowerCase() === 'a') newValue = 'AM';
-        if (e.key.toLowerCase() === 'p') newValue = 'PM';
-        setValue(calendarTimeOfDayMask().formatter(newValue));
+        setValue(calendarTimeOfDayMask().autoComplete(newValue, e.key));
+      } else if (segment === 'monthName') {
+        setValue(calendarMonthNameMask().autoComplete(newValue, e.key));
       } else {
         setValue(newValue);
       }
@@ -80,6 +84,8 @@ const InputSegment = ({ segment, ...props }) => {
     if (['month', 'day', 'hour', 'minute'].includes(segment) && value.length === 2) {
       validatingValueRef.current = '';
     } else if (['year'].includes(segment) && value.length === 4) {
+      validatingValueRef.current = '';
+    } else if (['monthName'].includes(segment) && value.length >= 3) {
       validatingValueRef.current = '';
     } else {
       validatingValueRef.current = value;

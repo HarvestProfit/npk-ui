@@ -10,6 +10,8 @@ interface DateRangeInputProps {
   value?: { start: Date; end: Date }; // Unified type for defaultValue
   picker?: boolean;
   visibleMonths?: number;
+  includeYear?: boolean;
+  monthAsName?: boolean;
   onChange?: (range: { start: Date; end: Date }) => void;
   [key: string]: any; // Allow additional props
 }
@@ -20,6 +22,8 @@ const DateRangeInput = ({
   value: externalValue,
   onChange: onExternalChange,
   granularity = 'day',
+  includeYear = true,
+  monthAsName = false,
   ...props
 }) => {
   // Ensure the value is in the correct format
@@ -86,9 +90,9 @@ const DateRangeInput = ({
 
   return (
     <Group containsSegments contentsRef={ref} {...extraProps} {...props}>
-      <DateInput excludeGroup onChange={onChangeStart} value={value?.start} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur} />
+      <DateInput excludeGroup onChange={onChangeStart} value={value?.start} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur} includeYear={includeYear} monthAsName={monthAsName} />
       <span style={{ padding: '0 10px' }}>–</span>
-      <DateInput excludeGroup onChange={onChangeEnd} value={value?.end} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur}/>
+      <DateInput excludeGroup onChange={onChangeEnd} value={value?.end} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur} includeYear={includeYear} monthAsName={monthAsName} />
     </Group>
   );
 };

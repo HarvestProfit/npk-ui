@@ -99,7 +99,8 @@ interface RuleFunction {
 
 interface MaskReturnType {
   mask: RuleType[];
-  formatter: (value: string) => string;
+  formatter?: (value: string) => string;
+  autoComplete?: (value: string, key: string) => string;
   shiftFocusIf?: (nextValue: string, key: string) => boolean;
 }
 

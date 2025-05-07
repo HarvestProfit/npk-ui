@@ -6,8 +6,8 @@ import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
 import InputSegment from './InputSegment';
+import { fromISO, fromTimestamp, monthAbbrevToIndex, monthHumanToIndex, monthIndexToAbbrev, monthIndexToHuman, toISO, toTimestamp } from './Calendar/utils';
 
-const monthIndexToHuman = (monthIndex) => isFinite(monthIndex) ? monthIndex + 1 : null;
 const GranularityInclude = ({ children, active }) => active ? children : null;
 
 const hourAndTODfromDate = (date) => {
@@ -57,6 +57,8 @@ const useOnChangeState = (initialValue, cb) => {
 const DateInputInternal = ({
   onChange = (_value) => null,
   value,
+  includeYear = true,
+  monthAsName = false,
   granularity = 'day',
   excludeGroup = false,
   ...props
@@ -74,11 +76,11 @@ const DateInputInternal = ({
     segmentTimeValue = null;
   }
 
+  const toMonthValue = monthAsName ? monthIndexToAbbrev : monthIndexToHuman;
+  const fromMonthValue = monthAsName ? monthAbbrevToIndex : monthHumanToIndex;
+
   // Specify the rules of getting and setting the values of the segments
-  const [monthValue, setMonthValue] = useOnChangeState(monthIndexToHuman(segmentDateValue?.getMonth()), (month) => {
-    const monthIndex = (month || '').length > 0 ? (parseInt(month, 10) - 1) : null;
-    onChange(new Date(new Date(updateValue).setMonth(monthIndex)))
-  });
+  const [monthValue, setMonthValue] = useOnChangeState(toMonthValue(segmentDateValue?.getMonth()), (month) => onChange(new Date(new Date(updateValue).setMonth(fromMonthValue(month)))));
   const [dayValue, setDayValue] = useOnChangeState(segmentDateValue?.getDate(), (day => onChange(new Date(new Date(updateValue).setDate(day)))));
   const [yearValue, setYearValue] = useOnChangeState(segmentDateValue?.getFullYear(), (year => onChange(new Date(new Date(updateValue).setFullYear(year)))));
   const [minuteValue, setMinuteValue] = useOnChangeState(segmentTimeValue?.getMinutes(), (minutes => onChange(new Date(new Date(updateValue).setMinutes(minutes)))));
@@ -105,7 +107,7 @@ const DateInputInternal = ({
   const [isFocused, setIsFocused] = useState(false);
   useEffect(() => {
     if (!isFocused) { // if the input is out of focus, we will accept updates from outside changes
-      setMonthValue(monthIndexToHuman(segmentDateValue?.getMonth()));
+      setMonthValue(toMonthValue(segmentDateValue?.getMonth()));
       setDayValue(segmentDateValue?.getDate());
       setYearValue(segmentDateValue?.getFullYear());
       setHourValue(hourAndTODfromDate(segmentTimeValue).hour);
@@ -128,21 +130,27 @@ const DateInputInternal = ({
     }, 10);
   }, [isInputSegmentInFocus]);
 
+  const dateParts = [];
+  if (['day', 'month', 'minute'].includes(granularity)) {
+    dateParts.push(<InputSegment segment={monthAsName ? 'monthName' : 'month'} setIsFocused={setInputSegmentFocused} value={monthValue} onChange={setMonthValue} />);
+  }
+  if (['day', 'minute'].includes(granularity)) {
+    dateParts.push(<InputSegment segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} onOldChange={(day => onChange(new Date(new Date(updateValue).setDate(day))))} />);
+  }
+  if (includeYear && ['day', 'month', 'year', 'minute'].includes(granularity)) {
+    dateParts.push(<InputSegment segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} onOldChange={(year => onChange(new Date(new Date(updateValue).setFullYear(year))))} />);
+  }
+
   const contents = (
     <>
-      <GranularityInclude active={['day', 'month', 'minute'].includes(granularity)}>
-        <InputSegment segment="month" setIsFocused={setInputSegmentFocused} value={monthValue} onChange={setMonthValue} />
-        <span aria-hidden="true" data-component="input-segment">/</span>
-      </GranularityInclude>
-      
-      <GranularityInclude active={['day', 'minute'].includes(granularity)}>
-        <InputSegment segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} onOldChange={(day => onChange(new Date(new Date(updateValue).setDate(day))))} />
-        <span aria-hidden="true" data-component="input-segment">/</span>
-      </GranularityInclude>
-
-      <GranularityInclude active={['day', 'month', 'year', 'minute'].includes(granularity)}>
-        <InputSegment segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} onOldChange={(year => onChange(new Date(new Date(updateValue).setFullYear(year))))} />
-      </GranularityInclude>
+      {dateParts.map((part, index) => {
+        return (
+          <React.Fragment key={index}>
+            {index !== 0 && <span aria-hidden="true" data-component="input-segment">{monthAsName ? ' ' : '/'}</span>}
+            {part}
+          </React.Fragment>
+        )
+      })}
 
       <GranularityInclude active={['minute'].includes(granularity)}>
         <span aria-hidden="true" data-component="input-segment">, </span>
@@ -179,12 +187,32 @@ const DateInput = ({
   visibleMonths = 1,
   presets = false,
   picker = false,
-  onChange = (_value) => null,
-  value,
+  output = 'ISO',
+  includeYear = true,
+  monthAsName = false,
+  onChange: onExternalChange = (_value) => null,
+  value: externalValue,
   granularity = 'day',
   excludeGroup,
   ...props
 }) => {
+  let value = externalValue;
+  let onChange = onExternalChange;
+  switch (output) {
+    case 'ISO':
+      value = fromISO(value);
+      onChange = (newValue) => onExternalChange(toISO(newValue));
+      break;
+    case 'timestamp':
+      value = fromTimestamp(value);
+      onChange = (newValue) => onExternalChange(toTimestamp(newValue));
+      break;
+    default:
+      break;
+  }
+
+  const input = <DateInputInternal onChange={onChange} value={value} granularity={granularity} excludeGroup={excludeGroup} includeYear={includeYear} monthAsName={monthAsName} {...props} />;
+
   if (picker) {
     const trailingVisual = (
       <Menu arrow placement="bottom" autoDismiss={false}>
@@ -197,14 +225,12 @@ const DateInput = ({
 
     return (
       <BaseInput trailingVisual={trailingVisual} {...props}>
-        <DateInputInternal onChange={onChange} value={value} granularity={granularity} />
+        {input}
       </BaseInput>
     );
   }
 
-  return (
-    <DateInputInternal onChange={onChange} value={value} granularity={granularity} excludeGroup={excludeGroup} {...props} />
-  )
+  return input;
 }
 
 interface DateInputProps {
@@ -212,6 +238,9 @@ interface DateInputProps {
   visibleMonths?: number;
   granularity?: 'day' | 'month' | 'year' | 'minute' | 'time';
   value?: Date;
+  includeYear?: boolean;
+  monthAsName?: boolean;
+  output?: 'ISO' | 'timestamp' | 'Date';
   onChange?: (date: Date) => void;
   [key: string]: any; // Allow additional props
 }

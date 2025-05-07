@@ -12,6 +12,50 @@ export const endOfMonth = (date = today()) => new Date(new Date(date).setMonth(d
 export const startOfYear = (date = today()) => new Date(new Date(date).setMonth(0, 1));
 export const endOfYear = (date = today()) => new Date(new Date(date).setMonth(11, 31));
 
+export function fromISO(dateString) {
+  if (!dateString) return null;
+  if (dateString instanceof Date) return dateString;
+  if (dateString.includes('T')) return new Date(dateString);
+  const dateParts = dateString.split('-');
+  return new Date(dateParts[0], parseInt(dateParts[1]) - 1, dateParts[2]);
+}
+
+export function toISO(date) {
+  if (!date) return null;
+  return date.toISOString();
+}
+
+export function fromTimestamp(number) {
+  if (!number) return null;
+  return new Date(number);
+}
+
+export function toTimestamp(date) {
+  if (!date) return null;
+  return date.getTime();
+}
+
+export function monthIndexToHuman(monthIndex) {
+  return isFinite(monthIndex) ? monthIndex + 1 : null;
+}
+
+export function monthHumanToIndex(monthNumber) {
+  return (monthNumber || '').length > 0 ? (parseInt(monthNumber, 10) - 1) : null;
+}
+
+export const MONTH_ABBREVIATIONS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+export function monthIndexToAbbrev(monthIndex) {
+  return isFinite(monthIndex) ? MONTH_ABBREVIATIONS[monthIndex] : null;
+}
+
+export function monthAbbrevToIndex(monthAbbrev) {
+  if (!monthAbbrev) return null;
+  for (let i = 0; i < MONTH_ABBREVIATIONS.length; i++) {
+    if (MONTH_ABBREVIATIONS[i].startsWith(monthAbbrev.toLowerCase())) return i; // Check if the next value starts with a valid month abbreviation
+  }
+  return null;
+}
+
 export function isSameDay(one, two) {
   if (!one || !two) return false;
   return one.getFullYear() === two.getFullYear() && one.getMonth() === two.getMonth() && one.getDate() === two.getDate();
