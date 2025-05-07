@@ -2,6 +2,7 @@ import ApplicationAlert from './ApplicationAlert';
 import BaseButton from './BaseButton';
 import Button from './Button';
 import Badge from './Badge';
+import Calendar from './Calendar';
 import DateInput, { dateUtils } from './DateInput';
 import Input from './Input';
 import Card from './Card';
@@ -29,5 +30,6 @@ export {
   Spinner,
   Menu,
   Tooltip,
-  dateUtils
+  dateUtils,
+  Calendar
 }

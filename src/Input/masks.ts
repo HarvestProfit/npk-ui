@@ -1,4 +1,4 @@
-import { MONTH_ABBREVIATIONS } from '../DateInput/Calendar/utils';
+import { MONTH_ABBREVIATIONS } from '../Calendar/utils';
 import { rule, MaskType } from '../hooks/useMask';
 
 interface NumericMaskProps {

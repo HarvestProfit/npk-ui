@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import BaseInput from '../BaseInput';
 import Group from '../Input/Group';
-import Calendar from './Calendar';
+import Calendar from '../Calendar';
 import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
 import InputSegment from './InputSegment';
-import { fromISO, fromTimestamp, monthAbbrevToIndex, monthHumanToIndex, monthIndexToAbbrev, monthIndexToHuman, toISO, toTimestamp } from './Calendar/utils';
+import { fromISO, fromTimestamp, monthAbbrevToIndex, monthHumanToIndex, monthIndexToAbbrev, monthIndexToHuman, toISO, toTimestamp } from '../Calendar/utils';
 
 const GranularityInclude = ({ children, active }) => active ? children : null;
 
@@ -220,7 +220,7 @@ const DateInput = ({
       <Menu arrow placement="bottom" autoDismiss={false}>
         <Button invisible icon={CalendarIcon} aria-label="Pick a date" />
         <Menu.Overlay>
-          <Calendar visibleMonths={visibleMonths} presets={presets} value={value} onChange={onChange} autoDismiss={autoDismiss} />
+          <Calendar visibleMonths={visibleMonths} presets={presets} value={value} onChange={onChange} output="date" autoDismiss={autoDismiss} />
         </Menu.Overlay>
       </Menu>
     );

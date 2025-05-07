@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import DateInput from './DateInput';
-import Calendar from './Calendar';
+import Calendar from '../Calendar';
 import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
 import Group from '../Input/Group';
-import { fromISO, fromTimestamp, toISO, toTimestamp } from './Calendar/utils';
+import { fromISO, fromTimestamp, toISO, toTimestamp } from '../Calendar/utils';
 
 interface DateRangeInputProps {
   value?: { start: Date; end: Date }; // Unified type for defaultValue
@@ -100,7 +100,7 @@ const DateRangeInput = ({
       <Menu arrow placement="bottom" autoDismiss={false}>
         <Button invisible icon={CalendarIcon} aria-label="Pick a date range" />
         <Menu.Overlay>
-          <Calendar visibleMonths={visibleMonths} range value={value} onChange={onExternalChange} {...props} />
+          <Calendar visibleMonths={visibleMonths} range value={value} onChange={onExternalChange} output="date" {...props} />
         </Menu.Overlay>
       </Menu>
     );

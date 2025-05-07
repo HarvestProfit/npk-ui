@@ -1,6 +1,8 @@
 import React from 'react'
-import DateInput from '@harvest-profit/npk/DateInput';
+import DateInput, { dateUtils } from '@harvest-profit/npk/DateInput';
 import Button from '@harvest-profit/npk/Button';
+import Calendar from '@harvest-profit/npk/Calendar';
+import Menu from '@harvest-profit/npk/Menu';
 import Card from '@harvest-profit/npk/Card';
 import * as Icons from '@harvest-profit/npk/icons/regular';
 
@@ -123,6 +125,21 @@ export const Default = () => {
         <DateInput aria-label="Generic date input with picker" picker presets value={value2} onChange={setValue2} output="date" granularity="minute" monthAsName />
         <DateInput aria-label="Generic date input with picker" value={value3} onChange={setValue3} output="timestamp" granularity="minute" /><Button>Save</Button>
       </div>
+    </div>
+  )
+}
+
+export const CalendarButton = () => {
+  const [date, setDate] = React.useState('2023-01-01');
+
+  return (
+    <div>
+      <Menu arrow>
+        <Button>{dateUtils.fromISO(date).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' })}</Button>
+        <Menu.Overlay>
+          <Calendar value={date} onChange={setDate} />
+        </Menu.Overlay>
+      </Menu>
     </div>
   )
 }
