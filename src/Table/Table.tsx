@@ -23,14 +23,19 @@ interface LoadingProps {
   columns?: number;
 }
 
+interface MetricsProps {
+  [key: string]: any; // Allow other props
+}
+
 type TableType = React.FC<TableProps> & {
   Td: React.FC<TDProps>;
   Loading: React.FC<LoadingProps>;
+  Metrics: React.FC<MetricsProps>;
 }
 
 const Table: TableType = ({ children, layout = 'auto', truncate = false, height = null, minHeight = null, maxHeight = null, className = '', ...props }) => {
   return (
-    <div data-component="table" style={{ height, minHeight, maxHeight, overflow: 'auto' }}>
+    <div data-component="table" style={{ height, minHeight, maxHeight, overflow: (height || minHeight || maxHeight) ? 'auto': 'initial' }}>
       <table data-layout={layout} data-truncate={truncate} className={`${classes.Table} ${className}`} {...props}>
         {children}
       </table>
@@ -63,5 +68,11 @@ Table.Loading = ({ rows = 4, columns = 5, ...props }) => (
   </Table>
 );
 
+Table.Metrics = ({ children, ...props }) => (
+  <label className={classes.TableMetrics} {...props}>
+    {children}
+  </label>
+);
+
 export default Table;
-export type { TableType, TableProps, TDProps, LoadingProps };
+export type { TableType, TableProps, TDProps, LoadingProps, MetricsProps };
