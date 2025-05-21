@@ -218,7 +218,7 @@ const DateInput = ({
   if (picker) {
     extraProps.trailingVisual = (
       <Menu arrow placement="bottom" autoDismiss={false}>
-        <Button invisible icon={CalendarIcon} aria-label="Pick a date" />
+        <Button invisible icon={CalendarIcon} aria-label="Pick a date" tabIndex={-1} />
         <Menu.Overlay>
           <Calendar visibleMonths={visibleMonths} presets={presets} value={value} onChange={onChange} output="date" autoDismiss={autoDismiss} />
         </Menu.Overlay>

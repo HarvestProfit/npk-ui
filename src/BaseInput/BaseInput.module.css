@@ -14,10 +14,10 @@
   border: 1px solid var(--control-border-color);
   background-color: var(--control-bg-color);
   color: var(--control-fg-color);
-  height: var(--control-size);
+  height: var(--input-height, var(--control-size));
   border-radius: var(--control-radius);
   font-size: var(--control-font-size);
-  padding: 0 var(--control-padding);
+  padding: 0 var(--input-padding, var(--control-padding));
   align-items: center;
   align-content: center;
   display: grid;
@@ -26,6 +26,13 @@
   box-shadow: inset 0px 1px 0px 0px var(--control-inset-shadow-color);
   transition: 80ms cubic-bezier(0.33, 1, 0.68, 1);
   transition-property: color,background-color,box-shadow,border-color;
+
+  &[data-textarea="true"] {
+    height: auto;
+    padding-top: calc(var(--input-padding, var(--control-padding)) / 2);
+    padding-bottom: calc(var(--input-padding, var(--control-padding)) / 2);
+    min-height: var(--input-height, var(--control-size));
+  }
 
   &:not(.SegmentedInput) >[data-component="contents"] {
     gap: var(--control-gap)
@@ -145,13 +152,13 @@
 
   /* Sizes */
   &[data-size="sm"] {
-    height: var(--control-small-size);
-    padding: 0 var(--control-small-padding);
+    --input-height: var(--control-small-size);
+    --input-padding: var(--control-small-padding);
     font-size: var(--control-small-font-size);
   }
   
   &[data-size="lg"] {
-    height: var(--control-large-size);
+    --input-height: var(--control-large-size);
   }
 
 

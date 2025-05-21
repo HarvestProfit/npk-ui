@@ -37,6 +37,12 @@ export const Default = () => <div style={{ display: 'flex', flexDirection: 'row'
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo ipsa nesciunt aperiam adipisci, porro quas cumque accusamus. Inventore, nam quos. Quam iusto omnis laudantium amet quaerat sed inventore quos voluptatum.
     </p>
 
+    <Card.Divider />
+
+    <p>
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo ipsa nesciunt aperiam adipisci, porro quas cumque accusamus. Inventore, nam quos. Quam iusto omnis laudantium amet quaerat sed inventore quos voluptatum.
+    </p>
+
     <Card.Footer>
       <span><b>Key</b> Value</span>
       <span><b>Key</b> Value</span>

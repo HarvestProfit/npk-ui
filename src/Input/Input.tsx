@@ -79,9 +79,12 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
     )
   }
 
+  let InputComponent: keyof JSX.IntrinsicElements = 'input';
+  if (props.type === 'textarea') InputComponent = 'textarea';
+
   return (
     <BaseInput {...props}>
-      <input {...inputProps} className={classes.Input} value={internalValue || ''} onChange={handleChangeEvent} onFocus={onFocus} onBlur={onBlur} onKeyDown={inputMask.onKeyDown} ref={ref} />
+      <InputComponent {...inputProps} className={classes.Input} value={internalValue || ''} onChange={handleChangeEvent} onFocus={onFocus} onBlur={onBlur} onKeyDown={inputMask.onKeyDown} ref={ref} />
     </BaseInput>
   );
 }

@@ -16,7 +16,7 @@ export const rule: RuleFunction = (match, ruleCB) => {
 };
 
 export default (props) => {
-  const { onKeyDown, mask, valueRef } = props || {};
+  const { onKeyDown, mask, valueRef, navigateWithArrows } = props || {};
   const rules = mask?.mask || [];
 
   const handleOnKeyDown = (event) => {
@@ -29,7 +29,7 @@ export default (props) => {
       return;
     }
 
-    if (event.key === 'ArrowLeft' || event.key === 'Tab' && event.shiftKey) {
+    if ((navigateWithArrows && event.key === 'ArrowLeft') || event.key === 'Tab' && event.shiftKey) {
       setTimeout(() => {
         nextFocusableElement({ activeElem: event.target, reverse: true, parent: '[data-component=input-group]', requireParentMatch: event.key === 'ArrowLeft' })?.focus();
       }, 10);
@@ -37,7 +37,7 @@ export default (props) => {
       return
     }
 
-    if (event.key === 'ArrowRight' || event.key === 'Tab') {
+    if ((navigateWithArrows && event.key === 'ArrowRight') || event.key === 'Tab') {
       setTimeout(() => {
         nextFocusableElement({ activeElem: event.target, parent: '[data-component=input-group]', requireParentMatch: event.key === 'ArrowRight' })?.focus();
       }, 10);

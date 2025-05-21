@@ -1,0 +1,55 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as TableStories from './Table.stories.jsx';
+ 
+<Meta of={TableStories} />
+ 
+# Tables
+
+
+### Default
+
+Tables are built to work well with cards and other components. They support truncating values and clickable/expandable rows.
+
+Here's an example of a table with a few rows and columns including a table section.
+
+*Table Subsections* can be built using the `scope="row"` prop on the `th` element with the colSpan attribute.
+
+You can also use the `data-type="number"` attribute on `td` and `th` elements to indicate that the value is a number. This will align the values correctly.
+
+<Canvas of={TableStories.Default} />
+
+### Cards
+Tables can exist inside cards with or without a card header.
+<Canvas of={TableStories.InsideCard} />
+<Canvas of={TableStories.InsideCardWithoutHeader} />
+
+### Clickable and Expandable Rows
+Tables can have clickable rows and expandable rows. To make the entire table clickable, set the `aria-role="treegrid"` on the table.
+A treegrid is basically like a file explorer, it allows clicking to open or expand a row. 
+
+The table role sets each row to be clickable if they have an `aria-level="1"` (this is assumed if not provided). You can disable
+a row from being clickable by setting `aria-disabled="true"` on the row.
+
+When expanding a row, the `aria-expanded` attribute is set to `true` on the row which allows it to be clicked no matter its level.
+New expanded rows should be added as a new row with the `aria-level` incremented by 1. If this row can be expanded but is not,
+set the `aria-expanded` attribute to `false` on the row. This allows the user to click on the row to expand it.
+
+<Canvas of={TableStories.ClickableAndExpandable} />
+
+### Truncated Values
+You can either truncate all values in the table with the `truncate` prop, or you can use the `data-truncate` attribute on each table cell.
+This is shortcutted with the `truncate` prop on the `Table.Td` component. 
+
+<Canvas of={TableStories.TruncatedValues} />
+
+### Loading States
+
+Loading states in tables can easier be built by simply swapping the data values with the `Placeholder` component.
+You can also use the `Table.Loading` component with the `rows` and `columns` props to generate a basic loading table of that size.
+
+<Canvas of={TableStories.Loading} />
+
+## Props
+
+<Controls />

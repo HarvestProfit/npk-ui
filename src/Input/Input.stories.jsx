@@ -109,6 +109,8 @@ export const Default = () => (
       <Input placeholder="Disabled" type="text" disabled />
       <Input value="Readonly" type="text" readOnly />
     </div>
+    <Input value="A longer description of things" type="textarea" rows={4} />
+    <br />
     <Button>Save</Button>
   </div>
 )

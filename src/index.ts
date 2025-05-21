@@ -12,6 +12,7 @@ import SegmentedControl from './SegmentedControl';
 import Placeholder from './Placeholder';
 import Spinner from './Spinner';
 import Tooltip from './Tooltip';
+import Table from './Table';
 import ThemeContext, { ThemeContextProvider } from './ThemeContext';
 
 export {
@@ -30,6 +31,7 @@ export {
   Spinner,
   Menu,
   Tooltip,
+  Table,
   dateUtils,
   Calendar
 }

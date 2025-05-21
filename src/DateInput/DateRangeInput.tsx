@@ -98,7 +98,7 @@ const DateRangeInput = ({
   if (picker) {
     extraProps.trailingVisual = (
       <Menu arrow placement="bottom" autoDismiss={false}>
-        <Button invisible icon={CalendarIcon} aria-label="Pick a date range" />
+        <Button invisible icon={CalendarIcon} aria-label="Pick a date range" tabIndex={-1} />
         <Menu.Overlay>
           <Calendar visibleMonths={visibleMonths} range value={value} onChange={onExternalChange} output="date" {...props} />
         </Menu.Overlay>

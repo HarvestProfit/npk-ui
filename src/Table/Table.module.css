@@ -1,0 +1,146 @@
+
+.TableMetrics {
+  color: var(--color-neutral-50);
+  font-size: var(--size-12);
+  margin-top: 12px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.Table {
+  --table-cell-padding-x: 0.3rem;
+  --table-cell-padding-y: 0.35rem;
+  --table-header-padding: 0.3rem;
+  --table-header-height: 2.1rem;
+  --internal-table-border-color: var(--table-border-color, var(--control-border-color));
+  --internal-table-bg-color: var(--table-bg-color, var(--body-bg-color));
+  --table-zebra-bg-color: lch(from var(--internal-table-bg-color) calc(l - var(--table-zebra-brightness-adjustment, 2)) c h);
+
+  text-align: left;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin-bottom: 0rem;
+  font-size: 15px;
+
+  &[data-layout="fixed"] {
+    table-layout: fixed;
+  }
+
+  > tbody > tr:nth-child(even) > * {
+    --table-row-color: var(--table-zebra-bg-color, var(--internal-table-bg-color));
+  }
+
+
+  /* treegrids are clickable tables that may or may not expand */
+  &[aria-role="treegrid"] > tbody > tr {
+    /* level=1 (assumed if not specified), always clickable */
+    /* expandable, always clickable */
+    &:not([aria-disabled="true"]) {
+      &:not([aria-level]),
+      &[aria-level="1"],
+      &[aria-expanded] {
+        &:hover > td {
+          cursor: pointer;
+          transition: background-color 200ms ease-in-out;
+          --table-row-color: var(--control-bg-color--hover);
+        }
+
+        &:active > td {
+          cursor: pointer;
+          transition: background-color 200ms ease-in-out;
+          --table-row-color: var(--control-bg-color--active);
+        }
+      }
+    }
+    
+    &[aria-expanded="true"] > td {
+      --table-row-color: var(--internal-table-bg-color);
+      --table-border: none;
+    }
+
+    &[aria-expanded="true"] + tr > td {
+      --table-row-color: var(--internal-table-bg-color);
+    }
+  }
+
+  > * > tr > :is(td, th) {
+    background-color: var(--table-row-color, var(--internal-table-bg-color));
+  }
+
+  &[data-truncate="true"] > * > tr > :is(td, th),
+  > * > tr > :is(td, th)[data-truncate="true"] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  > thead > tr > th {
+    vertical-align: bottom;
+    border-bottom: 2px solid var(--color-neutral-90);
+    padding: var(--table-header-padding);
+    font-weight: bold;
+    font-size: var(--size-14);
+
+    small {
+      font-size: inherit;
+      font-weight: normal;
+    }
+
+    &:first-child {
+      padding-left: var(--table-cell-ends-padding-x, var(--table-cell-padding-x));
+    }
+
+    &:last-child {
+      padding-right: var(--table-cell-ends-padding-x, var(--table-cell-padding-x));
+    }
+  }
+
+  > tbody > tr > th[scope="row"] {
+    background: var(--control-bg-color--disabled);
+    font-size: var(--size-12);
+    color: var(--control-fg-color);
+    padding: var(--table-header-padding) var(--table-cell-ends-padding-x, var(--table-cell-padding-x));
+
+    position: sticky;
+    top: calc(var(--table-header-height) + var(--sticky-top, 0rem));
+  }
+
+  > tbody > tr > * {
+    vertical-align: middle;
+    padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
+    border-bottom: var(--table-border, 1px solid var(--color-neutral-90));
+
+    &:first-child {
+      padding-left: var(--table-cell-ends-padding-x, var(--table-cell-padding-x));
+    }
+
+    &:last-child {
+      padding-right: var(--table-cell-ends-padding-x, var(--table-cell-padding-x));
+    }
+  }
+
+  > tbody:last-child > tr:last-child {
+    --table-border: none;
+  }
+
+  > thead > tr > th {
+    background: var(--internal-table-bg-color);
+    position: sticky;
+    top: var(--sticky-top, 0);
+    height: var(--table-header-height);
+  }
+
+  [data-type="numeric"],
+  [data-type="number"] {
+    text-align: right;
+  }
+
+  [data-type="actions"] {
+    text-align: right;
+
+    [data-invisible="true"] {
+      margin-right: calc(var(--table-cell-ends-padding-x, var(--table-cell-padding-x)) / 2 * -1);
+    }
+  }
+}

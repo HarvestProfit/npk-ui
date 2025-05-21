@@ -51,6 +51,7 @@ const InputSegment = ({ segment, ...props }) => {
     mask: mask(props),
     // Since we are using a span[contentEditable] as the input, we need to use the valueRef to get the current value instead of relying on event.target.value.
     valueRef: validatingValueRef,
+    navigateWithArrows: true,
     // On top of input validation, we also need to process the key strokes to update the value since we are using a span[contentEditable] as the input.
     // This allows us to autocomplete certain values (e.g. a = AM, p = PM) and also handle backspace/delete.
     onKeyDown: (e, specialKey) => {

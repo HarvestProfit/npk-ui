@@ -11,6 +11,7 @@ export const useBaseInput = (props) => {
     'aria-label': props['aria-label'] || inheritedContext['aria-label'],
     'aria-labelledby': props['aria-labelledby'] || inheritedContext['aria-labelledby'],
     id: props.id,
+    autoFocus: props.autoFocus,
     placeholder: props.placeholder,
     'aria-invalid': props['aria-invalid'],
     'aria-required': props['aria-required'],
@@ -21,6 +22,8 @@ export const useBaseInput = (props) => {
     'autoComplete': props['autoComplete'],
     'autoCorrect': props['autoCorrect'],
     'autoCapitalize': props['autoCapitalize'],
+    form: props.form,
+    rows: props.rows,
     type: props.type || 'text',
   }
 };
@@ -79,6 +82,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
       onClick={onClick}
       onMouseDown={onMouseDown}
       style={{...widthStyles, ...style}}
+      data-textarea={props.type === 'textarea' ? 'true' : undefined}
       {...tagProps}
     >
       {LeadingVisual && (

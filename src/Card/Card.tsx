@@ -17,7 +17,7 @@ interface CardHeaderProps {
   size?: 'md' | 'lg'; // Add other sizes as needed
 }
 
-interface CardFooterProps {
+interface CardItemProps {
   children: ReactNode;
   as?: keyof JSX.IntrinsicElements;
 }
@@ -28,7 +28,8 @@ interface CardHeaderActionsProps {
 
 const Card: FC<CardProps> & {
   Header: FC<CardHeaderProps>;
-  Footer: FC<CardFooterProps>;
+  Footer: FC<CardItemProps>;
+  Divider: FC<CardItemProps>;
   HeaderLeadingActions: FC<CardHeaderActionsProps>;
   HeaderTrailingActions: FC<CardHeaderActionsProps>;
 } = ({ children, variant = 'normal', block, className = '', style = {} }) => (
@@ -62,5 +63,8 @@ Card.HeaderTrailingActions = ({ children }) => (
   </div>
 );
 
+Card.Divider = () => (
+  <div data-component="card-divider" />
+)
 export default Card;
-export type { CardProps, CardHeaderProps, CardFooterProps, CardHeaderActionsProps };
+export type { CardProps, CardHeaderProps, CardItemProps, CardHeaderActionsProps };
