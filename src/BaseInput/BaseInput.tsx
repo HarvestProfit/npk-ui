@@ -87,7 +87,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
 
   const renderResult = (
     <Tag
-      className={`${classes.BaseInput} ${containsSegments ? classes.SegmentedInput : ''} ${className}`}
+      className={`${classes.BaseInput} ${containsSegments ? classes.SegmentedInput : ''} ${label ? '' : className}`}
       data-variant={variant}
       data-size={size}
       data-align={align}
@@ -137,14 +137,14 @@ const BaseInput: React.FC<BaseInputProps> = ({
 
   if (label) {
     return (
-      <label className={classes.Label} onClick={(e) => {
+      <label className={`${classes.Label} ${className}`} onClick={(e) => {
         if (e.currentTarget.contains(document.activeElement)) {
           e.preventDefault();
           return;
         }
 
         const nextElem = nextFocusableElement({ parentElem: e.currentTarget });
-        nextElem.focus();
+        nextElem?.focus();
         e.preventDefault();
       }}>
         <span data-component="label-contents">{label}</span>
