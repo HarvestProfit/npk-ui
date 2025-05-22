@@ -226,6 +226,10 @@ export const Loading = () => {
         <Input aria-label="how many" variant="invisible" trailingVisual={Icons.QuestionIcon} loading value={value} onChange={setValue} />
         <Input.Number aria-labelledby="number-inputs" variant="invisible" leadingVisual="$" loading />
       </div>
+
+      <Input.Number label="Label" labelDescription="Description" info="Some info" loading />
+
+      <Input loading label="Notes" type="textarea" rows={4} />
     </div>
   )
 }

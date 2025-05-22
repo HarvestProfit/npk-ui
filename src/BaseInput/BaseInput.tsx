@@ -80,60 +80,68 @@ const BaseInput: React.FC<BaseInputProps> = ({
 
   const widthStyles = width ? { width } : {};
 
-  if (loading) return <Placeholder className={classes.BaseInputPlaceholder} width={width || 210} data-size={size} />
 
-  const tagProps = {};
-  if (props['data-component']) tagProps['data-component'] = props['data-component']
+  let renderResult = null;
+  if (loading) {
+    const style = { height: null };
+    if (props.type === 'textarea' && props.rows) {
+      style.height = `${props.rows * 24}px`;
+    }
+    renderResult = <Placeholder className={classes.BaseInputPlaceholder} width={width || 210} data-size={size} style={style} />
+  } else {
+    const tagProps = {};
+    if (props['data-component']) tagProps['data-component'] = props['data-component']
 
-  const renderResult = (
-    <Tag
-      className={`${classes.BaseInput} ${containsSegments ? classes.SegmentedInput : ''} ${label ? '' : className}`}
-      data-variant={variant}
-      data-size={size}
-      data-align={align}
-      data-block={block}
-      aria-disabled={disabled}
-      onClick={onClick}
-      onMouseDown={onMouseDown}
-      style={{...widthStyles, ...style}}
-      data-textarea={props.type === 'textarea' ? 'true' : undefined}
-      {...tagProps}
-    >
-      {LeadingVisual && (
-        <span
-          data-component="leadingVisual"
-          onMouseDown={preventFocusOnMouseDown}
-          data-visual={isPlainContents(LeadingVisual) ? 'text' : 'visual'}
-        >
-          {isValidElement(LeadingVisual) ? LeadingVisual : <LeadingVisual />}
-        </span>
-      )}
-      <div {...contentsProps} ref={contentsRef} data-component="contents">
-        <BaseInputContext.Provider
-          value={{
-            disabled,
-            loading,
-            variant: 'plain',
-            size,
-            align,
-            'aria-label': props['aria-label'],
-            'aria-labelledby': props['aria-labelledby'],
-          }}
-        >
-          {children}
-        </BaseInputContext.Provider>
-      </div>
-      {TrailingVisual && (
-        <span
-          data-component="trailingVisual"
-          onMouseDown={preventFocusOnMouseDown}
-          data-visual={isPlainContents(TrailingVisual) ? 'text' : 'visual'}
-        >
-          {isValidElement(TrailingVisual) ? TrailingVisual : <TrailingVisual />}
-        </span>
-      )}
-    </Tag>
-  )
+    renderResult = (
+      <Tag
+        className={`${classes.BaseInput} ${containsSegments ? classes.SegmentedInput : ''} ${label ? '' : className}`}
+        data-variant={variant}
+        data-size={size}
+        data-align={align}
+        data-block={block}
+        aria-disabled={disabled}
+        onClick={onClick}
+        onMouseDown={onMouseDown}
+        style={{...widthStyles, ...style}}
+        data-textarea={props.type === 'textarea' ? 'true' : undefined}
+        {...tagProps}
+      >
+        {LeadingVisual && (
+          <span
+            data-component="leadingVisual"
+            onMouseDown={preventFocusOnMouseDown}
+            data-visual={isPlainContents(LeadingVisual) ? 'text' : 'visual'}
+          >
+            {isValidElement(LeadingVisual) ? LeadingVisual : <LeadingVisual />}
+          </span>
+        )}
+        <div {...contentsProps} ref={contentsRef} data-component="contents">
+          <BaseInputContext.Provider
+            value={{
+              disabled,
+              loading,
+              variant: 'plain',
+              size,
+              align,
+              'aria-label': props['aria-label'],
+              'aria-labelledby': props['aria-labelledby'],
+            }}
+          >
+            {children}
+          </BaseInputContext.Provider>
+        </div>
+        {TrailingVisual && (
+          <span
+            data-component="trailingVisual"
+            onMouseDown={preventFocusOnMouseDown}
+            data-visual={isPlainContents(TrailingVisual) ? 'text' : 'visual'}
+          >
+            {isValidElement(TrailingVisual) ? TrailingVisual : <TrailingVisual />}
+          </span>
+        )}
+      </Tag>
+    )
+  }
 
   if (label) {
     return (
@@ -196,4 +204,5 @@ export interface BaseInputProps extends HTMLAttributes<HTMLElement> {
   error?: string | ReactNode;
   type?: string; // Allow type to be specified, e.g., 'text', 'number', etc.
   width?: string | number; // Allow width to be a string or number
+  [key: string]: any; // Allow other props
 }
