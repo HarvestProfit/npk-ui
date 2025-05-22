@@ -29,6 +29,22 @@ export default {
       table: { defaultValue: { summary: "None" } },
       description: "Text or Icon at the end of the button"
     },
+    label: {
+      type: 'string',
+      description: 'The label for the input',
+    },
+    labelDescription: {
+      type: 'string',
+      description: 'More details for the input',
+    },
+    info: {
+      type: 'string',
+      description: 'Additional information for the input',
+    },
+    error: {
+      type: 'string',
+      description: 'An error message for the input',
+    },
     debounce: {
       type: 'boolean | number',
       description: "Allows you to debounce the onChange event. You can set it to a number or just true for 500ms",
@@ -104,8 +120,8 @@ export const Default = () => (
   <div>
     <label id="generic-inputs">Generic Inputs</label>
     <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-      <Input placeholder="Placeholder" type="text" />
-      <Input leadingVisual="TEL" placeholder="111 1111" type="tel" />
+      <Input placeholder="Placeholder" type="text" label="My Input" />
+      <Input leadingVisual="TEL" placeholder="111 1111" type="tel" label="Phone"/>
       <Input placeholder="Disabled" type="text" disabled />
       <Input value="Readonly" type="text" readOnly />
     </div>
@@ -223,8 +239,7 @@ export const Groups = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
       <div>
-        <label id="you">Your Details</label>
-        <Input.Group aria-labelledby="you">
+        <Input.Group label="Your Details" labelDescription="A description of the input" info="You can quickly tab through each segment of the input">
           <Input placeholder="First" value={firstName} onChange={setFirstName} />
           <Input placeholder="Last" value={lastName} onChange={setLastName} />
           <DateInput value={date} onChange={setDate} />
@@ -232,8 +247,7 @@ export const Groups = () => {
       </div>
       
       <div>
-        <label id="size">Size</label>
-        <Input.Group aria-labelledby="size">
+        <Input.Group label={<><h5>Size</h5><p>Labels can be customized as well!</p></>}>
           <Input.Number placeholder="Weight" minValue={0} width={100} value={weight} onChange={setWeight} />
           <Menu arrow>
             <Button tabIndex={0} invisible trailingAction={Icons.DropdownIndicatorIcon}>{unit}</Button>

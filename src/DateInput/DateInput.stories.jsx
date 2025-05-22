@@ -30,6 +30,22 @@ export default {
       table: { defaultValue: { summary: "None" } },
       description: "Icon at the end of the button"
     },
+    label: {
+      type: 'string',
+      description: 'The label for the input',
+    },
+    labelDescription: {
+      type: 'string',
+      description: 'More details for the input',
+    },
+    info: {
+      type: 'string',
+      description: 'Additional information for the input',
+    },
+    error: {
+      type: 'string',
+      description: 'An error message for the input',
+    },
     disabled: {
       type: 'boolean',
       table: { defaultValue: { summary: "false" } }
@@ -121,9 +137,9 @@ export const Default = () => {
         <p>3(Timestamp) {value3}</p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <DateInput aria-label="Generic date input" size="sm" picker presets value={value} onChange={setValue} /><Button>Save</Button>
-        <DateInput aria-label="Generic date input with picker" picker presets value={value2} onChange={setValue2} output="date" granularity="minute" monthAsName />
-        <DateInput aria-label="Generic date input with picker" value={value3} onChange={setValue3} output="timestamp" granularity="minute" /><Button>Save</Button>
+        <DateInput label="Generic (sm)" size="sm" picker presets value={value} onChange={setValue} /><Button>Save</Button>
+        <DateInput label="With picker" picker presets value={value2} onChange={setValue2} output="date" granularity="minute" monthAsName />
+        <DateInput label="To Timestamp" value={value3} onChange={setValue3} output="timestamp" granularity="minute" /><Button>Save</Button>
       </div>
     </div>
   )

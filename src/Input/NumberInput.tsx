@@ -15,7 +15,7 @@ const NumberInput: React.FC<NumberInputProps> = ({ onChange = (_v) => null, valu
       mask="number"
       value={`${value || ''}`}
       onChange={(v) => {
-        const parsedValue = parseFloat(`${v}`.replace(',', ''));
+        const parsedValue = parseFloat(`${v}`.replaceAll(',', ''));
         onChange(isNaN(parsedValue) ? null : parsedValue);
       }}
       {...props}

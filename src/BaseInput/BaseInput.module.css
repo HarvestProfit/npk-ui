@@ -10,6 +10,52 @@
   }
 }
 
+.Label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--control-gap);
+
+  [data-component="label-contents"] {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--control-label-font-size);
+    font-weight: var(--control-label-weight);
+
+    h1,h2,h3,h4,h5,h6 {
+      margin: 0;
+      font-size: var(--control-font-size);
+      font-weight: var(--control-label-weight);
+    }
+
+    p {
+      font-weight: normal;
+      font-size: calc(var(--control-label-font-size) - 1px);
+      line-height: var(--control-label-font-size);
+      margin-top: calc(var(--control-gap) / 2);
+      margin-bottom: var(--control-gap);
+    }
+  }
+
+  [data-component="label-description"] {
+    margin-top: calc(var(--control-gap) / 2 * -1);
+    margin-bottom: var(--control-gap);
+    font-size: calc(var(--control-label-font-size) - 1px);
+    line-height: var(--control-label-font-size);
+  }
+
+  [data-component="label-info"] {
+    margin-top: calc(var(--control-gap) / 2 * -1);
+    margin-bottom: var(--control-gap);
+    color: var(--color-fg-muted);
+    font-size: calc(var(--control-label-font-size) - 2px);
+    line-height: var(--control-label-font-size);
+
+    &[data-error="true"] {
+      color: var(--color-fg-danger);
+    }
+  }
+}
+
 .BaseInput {
   border: 1px solid var(--control-border-color);
   background-color: var(--control-bg-color);
@@ -21,6 +67,7 @@
   align-items: center;
   align-content: center;
   display: grid;
+  width: fit-content;
   grid-template-areas: "leadingVisual input trailingVisual";
   grid-template-columns: min-content minmax(0px, auto) min-content;
   box-shadow: inset 0px 1px 0px 0px var(--control-inset-shadow-color);

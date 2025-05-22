@@ -43,6 +43,7 @@
   --primary-fg-color: white;
 
   --color-fg-muted: var(--color-neutral-35);
+  --color-fg-danger: var(--color-red);
 
   --warning-bg-color: #fceca2;
   --warning-fg-color: #776618;
@@ -125,6 +126,8 @@
   --control-small-padding: var(--size-8);
   --control-padding: var(--size-12);
   --control-button-weight: 600;
+  --control-label-font-size: var(--size-14);
+  --control-label-weight: 700;
   --control-border-color: #00000022;
   --control-border-color--disabled: #00000011;
   --control-surface-color: #00000010;

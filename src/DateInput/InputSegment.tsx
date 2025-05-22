@@ -119,6 +119,7 @@ const InputSegment = ({ segment, ...props }) => {
       tabIndex={0} 
       data-component="input-segment" 
       onKeyDown={inputMask.onKeyDown} 
+      onClick={e => e.preventDefault()} // Prevents refocus when input is wrapped in a label
       onBlur={onBlur} 
       onFocus={onFocus}
       enterKeyHint="next" 

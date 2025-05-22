@@ -1,6 +1,7 @@
-import React, { ReactNode, ComponentType, Ref, HTMLAttributes, useContext } from 'react';
+import React, { ReactNode, ComponentType, Ref, HTMLAttributes, useContext, useId } from 'react';
 import classes from './BaseInput.module.css';
 import Placeholder from '../Placeholder';
+import { nextFocusableElement } from '../utils';
 
 const BaseInputContext = React.createContext<BaseInputContextType>({});
 
@@ -36,12 +37,23 @@ const isValidElement = (element: any): boolean => {
   return typeof element === 'string' || React.isValidElement(element);
 };
 
+const preventFocusOnMouseDown = (event) => {
+  const targetNode = event.target as Node;
+  if (targetNode.parentNode && targetNode.parentNode.contains(document.activeElement)) {
+    event.preventDefault()
+  }
+}
+
 
 const BaseInput: React.FC<BaseInputProps> = ({
   className = '',
   variant,
   as: Tag = 'span',
   disabled,
+  label,
+  labelDescription,
+  info,
+  error,
   size,
   align,
   leadingVisual: LeadingVisual,
@@ -72,7 +84,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
   const tagProps = {};
   if (props['data-component']) tagProps['data-component'] = props['data-component']
 
-  return (
+  const renderResult = (
     <Tag
       className={`${classes.BaseInput} ${containsSegments ? classes.SegmentedInput : ''} ${className}`}
       data-variant={variant}
@@ -88,6 +100,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
       {LeadingVisual && (
         <span
           data-component="leadingVisual"
+          onMouseDown={preventFocusOnMouseDown}
           data-visual={isPlainContents(LeadingVisual) ? 'text' : 'visual'}
         >
           {isValidElement(LeadingVisual) ? LeadingVisual : <LeadingVisual />}
@@ -111,13 +124,40 @@ const BaseInput: React.FC<BaseInputProps> = ({
       {TrailingVisual && (
         <span
           data-component="trailingVisual"
+          onMouseDown={preventFocusOnMouseDown}
           data-visual={isPlainContents(TrailingVisual) ? 'text' : 'visual'}
         >
           {isValidElement(TrailingVisual) ? TrailingVisual : <TrailingVisual />}
         </span>
       )}
     </Tag>
-  );
+  )
+
+  if (label) {
+    return (
+      <label className={classes.Label} onClick={(e) => {
+        if (e.currentTarget.contains(document.activeElement)) {
+          e.preventDefault();
+          return;
+        }
+
+        const nextElem = nextFocusableElement({ parentElem: e.currentTarget });
+        nextElem.focus();
+        e.preventDefault();
+      }}>
+        <span data-component="label-contents">{label}</span>
+        {labelDescription && <span data-component="label-description">{labelDescription}</span>}
+        {renderResult}
+        {(info || error) && (
+          <span data-component="label-info" data-error={!!error}>
+            {error || info}
+          </span>
+        )}
+      </label>
+    )
+  }
+
+  return renderResult;
 };
 
 export default BaseInput;
@@ -128,6 +168,7 @@ interface BaseInputContextType {
   align?: 'start' | 'center' | 'end';
   disabled?: boolean;
   loading?: boolean;
+  id?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
 }
@@ -146,6 +187,10 @@ export interface BaseInputProps extends HTMLAttributes<HTMLElement> {
   contentsRef?: Ref<HTMLDivElement>;
   containsSegments?: boolean;
   loading?: boolean;
+  label?: string | ReactNode;
+  labelDescription?: string | ReactNode;
+  info?: string | ReactNode;
+  error?: string | ReactNode;
   type?: string; // Allow type to be specified, e.g., 'text', 'number', etc.
   width?: string | number; // Allow width to be a string or number
 }
