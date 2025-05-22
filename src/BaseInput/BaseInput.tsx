@@ -56,6 +56,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
   error,
   size,
   align,
+  block,
   leadingVisual: LeadingVisual,
   trailingVisual: TrailingVisual,
   children,
@@ -90,6 +91,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
       data-variant={variant}
       data-size={size}
       data-align={align}
+      data-block={block}
       aria-disabled={disabled}
       onClick={onClick}
       onMouseDown={onMouseDown}
@@ -187,6 +189,7 @@ export interface BaseInputProps extends HTMLAttributes<HTMLElement> {
   contentsRef?: Ref<HTMLDivElement>;
   containsSegments?: boolean;
   loading?: boolean;
+  block?: boolean;
   label?: string | ReactNode;
   labelDescription?: string | ReactNode;
   info?: string | ReactNode;
