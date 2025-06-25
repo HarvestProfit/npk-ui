@@ -230,6 +230,8 @@ export const Loading = () => {
       <Input.Number label="Label" labelDescription="Description" info="Some info" loading />
 
       <Input loading label="Notes" type="textarea" rows={4} />
+
+      <Input.Number label="Label" loading width={'50%'} />
     </div>
   )
 }

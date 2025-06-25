@@ -87,7 +87,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
     if (props.type === 'textarea' && props.rows) {
       style.height = `${props.rows * 24}px`;
     }
-    renderResult = <Placeholder className={classes.BaseInputPlaceholder} width={width || block ? 'auto' : 210} data-size={size} style={style} />
+    renderResult = <Placeholder className={classes.BaseInputPlaceholder} width={width || (block ? 'auto' : 210)} data-size={size} style={style} />
   } else {
     const tagProps = {};
     if (props['data-component']) tagProps['data-component'] = props['data-component']

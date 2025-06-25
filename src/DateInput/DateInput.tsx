@@ -24,8 +24,8 @@ const useDateGroupFocus = () => {
     if (document.activeElement === e.target) return;
     if (!e.target.ariaHidden && e.target.dataset.component === 'input-segment') return;
 
-    const rootNode = e.target.dataset.component === 'input-group' ? e.target : e.target.closest('[data-component="input-group"]');
-    if (rootNode.contains(document.activeElement)) {
+    const rootNode = e.target?.dataset?.component === 'input-group' ? e.target : e.target?.closest('[data-component="input-group"]');
+    if (rootNode && rootNode.contains(document.activeElement)) {
       e.preventDefault();
       return;
     }
