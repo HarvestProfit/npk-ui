@@ -106,7 +106,7 @@ const BaseButton: React.FC<BaseButtonProps> = ({
         </span>
         {TrailingAction && <span data-component="trailingAction">{React.isValidElement(TrailingAction) ? TrailingAction : <TrailingAction />}</span>}
       </Component>
-      {props['aria-label'] && (
+      {props['aria-label'] && popoverProps['aria-expanded'] !== 'true' && (
         <Tooltip targetRef={internalRef}>
           {props['aria-label']}
         </Tooltip>

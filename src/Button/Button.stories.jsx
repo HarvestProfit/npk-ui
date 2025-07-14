@@ -272,6 +272,18 @@ export const Invisible = () => <div style={{ display: 'flex', flexDirection: 'ro
   <Button invisible chip="Beta">With Chip</Button>
 </div>
 
+export const ContextDriven = () => {
+  const [count, setCount] = React.useState(0);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+      <Button.Context value={{ variant: 'primary', onClick: () => setCount(count + 1) }}>
+        <Button>Primary</Button>
+      </Button.Context>
+      <p>Count: {count}</p>
+    </div>
+  )
+}
+
 export const WithTooltip = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
   <Button aria-label="Hello!">I have a Tooltip</Button>
   <Button aria-describedby="btn-tooltip-id">Described By</Button>

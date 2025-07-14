@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import classes from './Button.module.css';
 import BaseButton, { BaseButtonProps } from '../BaseButton';
 import { CheckedIcon } from '@harvest-profit/npk/icons/regular';
@@ -17,6 +17,8 @@ interface ButtonProps extends BaseButtonProps {
   leadingVisual?: any;
   [key: string]: any; // Allow other props
 }
+
+const ButtonContext = createContext({} as ButtonProps);
 
 function isNotSet(value: any): boolean {
   return value === undefined || value === null;
@@ -42,14 +44,20 @@ const useButtonDefaults = (props: ButtonProps): ButtonProps => {
     if (menuVariant === 'select') otherProps.active = filteredProps.selected;
   }
 
+  const buttonContextDefaults = useContext(ButtonContext) || {};
+  filteredProps.variant ||= 'secondary';
+
   return {
     ...otherProps,
-    ...filteredProps
+    ...filteredProps,
+    ...buttonContextDefaults
   };
 }
 
-const Button: React.FC<ButtonProps> = ({
-  variant = 'default',
+const Button: React.FC<ButtonProps>  & {
+  Context: React.FC;
+ } = ({
+  variant: variantProp,
   elevated,
   invisible: invisibleProp,
   active: activeProp,
@@ -57,7 +65,8 @@ const Button: React.FC<ButtonProps> = ({
   className,
   ...props
 }) => {
-  const { invisible, plain, active, ...defaultProps } = useButtonDefaults({ ...props, invisible: invisibleProp, plain: plainProp, active: activeProp });
+  
+  const { invisible, plain, active, variant, ...defaultProps } = useButtonDefaults({ ...props, invisible: invisibleProp, plain: plainProp, active: activeProp, variant: variantProp });
 
   return (
     <BaseButton
@@ -71,6 +80,8 @@ const Button: React.FC<ButtonProps> = ({
     />
   );
 }
+
+Button.Context = ButtonContext.Provider;
 
 export default Button;
 
