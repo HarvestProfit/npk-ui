@@ -11,6 +11,11 @@ export const startOfMonth = (date = today()) => new Date(new Date(date).setDate(
 export const endOfMonth = (date = today()) => new Date(new Date(date).setMonth(date.getMonth() + 1, 0));
 export const startOfYear = (date = today()) => new Date(new Date(date).setMonth(0, 1));
 export const endOfYear = (date = today()) => new Date(new Date(date).setMonth(11, 31));
+export const startOfDay = (date = today()) => new Date(new Date(date).setHours(0, 0, 0, 0));
+export const endOfDay = (date = today()) => new Date(new Date(date).setHours(23, 59, 59, 999));
+export const addDays = (date, days) => new Date(new Date(date).setDate(date.getDate() + days)); 
+export const addMonths = (date, months) => new Date(new Date(date).setMonth(date.getMonth() + months));
+export const addYears = (date, years) => new Date(new Date(date).setFullYear(date.getFullYear() + years));
 
 export function fromISO(dateString) {
   if (!dateString) return null;
