@@ -108,8 +108,10 @@ const InputSegment = ({ segment, ...props }) => {
   }
 
   const onFocus = (e) => {
-    setIsFocused(true);
-    if (props.setIsFocused) props.setIsFocused(true);
+    setTimeout(() => { // Add a delay to allow setting the value before focusing when selecting from a date picker
+      setIsFocused(true);
+      if (props.setIsFocused) props.setIsFocused(true);
+    }, 100);
   }
 
   // Use a placeholder if the value is empty
