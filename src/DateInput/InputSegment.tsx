@@ -93,7 +93,8 @@ const InputSegment = ({ segment, ...props }) => {
     }
 
     // Publish the change to the parent component if the value is different
-    if (props.onChange && formatValue(props.value) !== formatValue(value)) props.onChange(value);
+    const emptyIfZero = (val) => val === '0' ? '' : val;
+    if (props.onChange && formatValue(props.value) !== formatValue(value)) props.onChange(emptyIfZero(value));
   }, [value]);
 
   useEffect(() => { // if out of focus, update the internal value to the external value
