@@ -16,6 +16,7 @@
   position: relative;
   flex-direction: row;
   align-items: center;
+  min-width: var(--switch-width);
 
   > input[type="checkbox"],
   > label > input[type="checkbox"] {
