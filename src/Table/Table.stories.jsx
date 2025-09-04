@@ -2,22 +2,21 @@ import React from 'react'
 import Card from '@harvest-profit/npk/Card';
 import Placeholder from '@harvest-profit/npk/Placeholder';
 import Table from '@harvest-profit/npk/Table';
-import * as Icons from '@harvest-profit/npk/icons/regular';
 
 export default {
   title: 'Components/Table',
   component: Table,
   argTypes: {
-    variant: {
+    role: {
       control: {
         type: 'radio',
       },
-      options: ['default', 'primary', 'danger'],
+      options: ['default', 'treegrid'],
       table: { defaultValue: { summary: "default" } }
     }
   },
   args: {
-    variant: 'default',
+    role: 'default',
   }
 }
 
@@ -72,6 +71,11 @@ export const Default = () => (
         </tr>
       ))}
     </tbody>
+    <tfoot data-sticky="false">
+      <tr>
+        <td colSpan="3">This is the table footer but it is not sticky because `data-sticky="false"`</td>
+      </tr>
+    </tfoot>
   </Table>
 );
 
@@ -80,7 +84,7 @@ export const ClickableAndExpandable = () => {
   const [expanded, setExpanded] = React.useState(false);
   const [expanded2, setExpanded2] = React.useState(false);
   return (
-  <Table aria-role="treegrid">
+  <Table role="treegrid">
     <thead>
       <tr>
         <th>Level</th>
@@ -119,6 +123,11 @@ export const ClickableAndExpandable = () => {
         <td data-type="number">25</td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr>
+        <td colSpan="3">This is the table footer</td>
+      </tr>
+    </tfoot>
   </Table>
 );
 }
@@ -155,6 +164,11 @@ export const InsideCard = () => (
             </tr>
           ))}
         </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan="3">This is the table footer</td>
+          </tr>
+        </tfoot>
       </Table>
   </Card>
 );

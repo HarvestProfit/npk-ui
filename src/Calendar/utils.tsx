@@ -1,3 +1,4 @@
+export const newDate = (date) => (date ? new Date(date) : new Date());
 export const today = () => new Date();
 export const yesterday = () => new Date(new Date().setDate(today().getDate() - 1));
 export const tomorrow = () => new Date(new Date().setDate(today().getDate() + 1));
@@ -16,6 +17,10 @@ export const endOfDay = (date = today()) => new Date(new Date(date).setHours(23,
 export const addDays = (date, days) => new Date(new Date(date).setDate(date.getDate() + days)); 
 export const addMonths = (date, months) => new Date(new Date(date).setMonth(date.getMonth() + months));
 export const addYears = (date, years) => new Date(new Date(date).setFullYear(date.getFullYear() + years));
+
+export function dayIsInFrontForCurrentLocale() {
+  return (new Date(2020, 11, 31).toLocaleDateString().indexOf('31') < 2);
+}
 
 export function fromISO(dateString) {
   if (!dateString) return null;

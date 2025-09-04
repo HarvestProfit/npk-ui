@@ -10,10 +10,14 @@
 .Table {
   --table-cell-padding-x: 0.3rem;
   --table-cell-padding-y: 0.35rem;
-  --table-header-padding: 0.3rem;
+  --table-section-padding: 0.3rem;
+  --internal-table-header-padding: var(--table-header-padding, var(--table-section-padding));
+  --internal-table-footer-padding: var(--table-footer-padding, var(--table-section-padding));
   --table-header-height: 2.1rem;
   --internal-table-border-color: var(--table-border-color, var(--control-border-color));
   --internal-table-bg-color: var(--table-bg-color, var(--body-bg-color));
+  --internal-table-section-bg-color: var(--table-section-bg-color, var(--color-neutral-90));
+  --internal-table-footer-bg-color: var(--table-footer-bg-color, var(--color-neutral-90));
   --table-zebra-bg-color: lch(from var(--internal-table-bg-color) calc(l - var(--table-zebra-brightness-adjustment, 2)) c h);
 
   text-align: left;
@@ -33,7 +37,7 @@
 
 
   /* treegrids are clickable tables that may or may not expand */
-  &[aria-role="treegrid"] > tbody > tr {
+  &[role="treegrid"] > tbody > tr {
     /* level=1 (assumed if not specified), always clickable */
     /* expandable, always clickable */
     &:not([aria-disabled="true"]) {
@@ -78,7 +82,9 @@
   > thead > tr > th {
     vertical-align: bottom;
     border-bottom: 2px solid var(--color-neutral-90);
-    padding: var(--table-header-padding);
+    padding: var(--internal-table-header-padding);
+    padding-left: var(--table-cell-padding-x);
+    padding-right: var(--table-cell-padding-x);
     font-weight: bold;
     font-size: var(--size-14);
 
@@ -97,13 +103,30 @@
   }
 
   > tbody > tr > th[scope="row"] {
-    background: var(--control-bg-color--disabled);
+    background: var(--internal-table-section-bg-color);
     font-size: var(--size-12);
+    font-weight: bold;
+    line-height: 1.6;
     color: var(--control-fg-color);
-    padding: var(--table-header-padding) var(--table-cell-ends-padding-x, var(--table-cell-padding-x));
+    padding: var(--table-section-padding);
+    padding-left: var(--table-cell-padding-x);
+    padding-right: var(--table-cell-padding-x);
 
     position: sticky;
     top: calc(var(--table-header-height) + var(--sticky-top, 0rem));
+
+    &[data-sticky="false"] {
+      position: static;
+      top: auto;
+    }
+
+    &:first-child {
+      padding-left: var(--table-cell-ends-padding-x, var(--table-cell-padding-x));
+    }
+
+    &:last-child {
+      padding-right: var(--table-cell-ends-padding-x, var(--table-cell-padding-x));
+    }
   }
 
   > tbody > tr > * {
@@ -141,6 +164,39 @@
 
     [data-invisible="true"] {
       margin-right: calc(var(--table-cell-ends-padding-x, var(--table-cell-padding-x)) / 2 * -1);
+    }
+  }
+
+  > tfoot {
+    > tr > td {
+      background: var(--internal-table-footer-bg-color);
+      position: sticky;
+      line-height: 1.6;
+      font-size: var(--size-14);
+      color: var(--control-fg-color);
+      bottom: var(--sticky-bottom, 0);
+      border-top: var(--table-border, 1px solid var(--color-neutral-90));
+      padding: var(--table-footer-padding);
+      padding-left: var(--table-cell-padding-x);
+      padding-right: var(--table-cell-padding-x);
+
+      &[data-sticky="false"] {
+        position: static;
+        bottom: auto;
+      }
+
+      &:first-child {
+        padding-left: var(--table-cell-ends-padding-x, var(--table-cell-padding-x));
+      }
+
+      &:last-child {
+        padding-right: var(--table-cell-ends-padding-x, var(--table-cell-padding-x));
+      }
+    }
+
+    &[data-sticky="false"] > tr > td {
+      position: static;
+      bottom: auto;
     }
   }
 }
