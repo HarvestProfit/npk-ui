@@ -1,5 +1,8 @@
 import React, { useRef } from 'react'
 import Tooltip from '@harvest-profit/npk/Tooltip';
+import Button from '@harvest-profit/npk/Button';
+import Menu from '@harvest-profit/npk/Menu';
+import * as Icons from '@harvest-profit/npk/icons/regular';
 
 export default {
   title: 'Components/Tooltip',
@@ -30,11 +33,22 @@ export default {
 
 export const Default = () => (
   <div>
-    <h4>All buttons should have one</h4>
     <button aria-describedby='tooltip-id'>My Button</button>
     <Tooltip id="tooltip-id">
       Here's some extra info! It can be a longer message that wraps onto multiple lines if needed.
     </Tooltip>
+    <h4>All Icon buttons should have one. Just provide the <code>aria-label="my tooltip text"</code> prop.</h4>
+    <Button icon={Icons.EditIcon} aria-label="Edit Something" />
+
+    <br />
+    <br />
+
+    <Menu>
+      <Button aria-label="Open the menu and hide the tooltip">Open Menu</Button>
+      <Menu.Overlay>
+        <Button>Menu Item</Button>
+      </Menu.Overlay>
+    </Menu>
   </div>
 );
 
