@@ -33,7 +33,7 @@ export const Default = () => (
     <h4>All buttons should have one</h4>
     <button aria-describedby='tooltip-id'>My Button</button>
     <Tooltip id="tooltip-id">
-      Here's some extra info!
+      Here's some extra info! It can be a longer message that wraps onto multiple lines if needed.
     </Tooltip>
   </div>
 );

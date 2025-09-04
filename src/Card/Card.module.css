@@ -167,15 +167,21 @@
 
   & > [data-component="table"],
   & > * > [data-component="table"] {
+    --table-header-padding: 0px var(--card-pad-x) calc(var(--card-pad-y) - 4px) var(--card-pad-x);
+    --table-footer-padding: calc(var(--card-pad-y) - 4px) var(--card-pad-x) 0px var(--card-pad-x);
+    margin-bottom: calc((var(--card-pad-y) - var(--card-radius)) * -1);
+    margin-top: calc((var(--card-pad-y) - var(--card-radius)) * -1);
     margin-left: calc(var(--card-pad-x) * -1);
     margin-right: calc(var(--card-pad-x) * -1);
     width: calc(100% + (var(--card-pad-x) * 2));
     --table-cell-ends-padding-x: var(--card-pad-x);
     --table-bg-color: var(--card-variant-normal-bg);
+    --table-footer-bg-color: var(--card-variant-normal-bg);
     --table-border-color: var(--card-border-color, var(--card-variant-normal-border-color));
   }
 
   & > [data-component="card-header"] + [data-component="table"] {
     margin-top: calc((var(--card-pad-y) * -1) - 1px);
+    --table-header-padding: 0.3rem;
   }
 }

@@ -11,6 +11,7 @@
   font-size: var(--size-13);
   opacity: 0;
   transition: opacity 0.2s ease;
+  max-width: 300px;
 
   &[data-visibility="true"] {
     opacity: 1;

@@ -6,7 +6,7 @@ import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
 import InputSegment from './InputSegment';
-import { fromISO, fromTimestamp, monthAbbrevToIndex, monthHumanToIndex, monthIndexToAbbrev, monthIndexToHuman, toISO, toTimestamp } from '../Calendar/utils';
+import { dayIsInFrontForCurrentLocale, fromISO, fromTimestamp, monthAbbrevToIndex, monthHumanToIndex, monthIndexToAbbrev, monthIndexToHuman, toISO, toTimestamp } from '../Calendar/utils';
 
 const GranularityInclude = ({ children, active }) => active ? children : null;
 
@@ -136,7 +136,8 @@ const DateInputInternal = ({
     dateParts.push(<InputSegment segment={monthAsName ? 'monthName' : 'month'} setIsFocused={setInputSegmentFocused} value={monthValue} onChange={setMonthValue} />);
   }
   if (['day', 'minute'].includes(granularity)) {
-    dateParts.push(<InputSegment segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} onOldChange={(day => onChange(new Date(new Date(updateValue).setDate(day))))} />);
+    const dayPart = (<InputSegment segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} onOldChange={(day => onChange(new Date(new Date(updateValue).setDate(day))))} />);
+    (dayIsInFrontForCurrentLocale() && !monthAsName) ? dateParts.unshift(dayPart) : dateParts.push(dayPart);
   }
   if (includeYear && ['day', 'month', 'year', 'minute'].includes(granularity)) {
     dateParts.push(<InputSegment segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} onOldChange={(year => onChange(new Date(new Date(updateValue).setFullYear(year))))} />);

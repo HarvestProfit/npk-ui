@@ -139,6 +139,7 @@ export const calendarYearMask: MaskType = (props = {}) => {
 export const calendarHourMask: MaskType = ({ militaryTime = false } = {}) => {
   const performRule = (nextInputValue) => {
     if (nextInputValue === '0') return true;
+    if (nextInputValue.length > 2) return false; // max of 2 digits for hour
     const numberValue = parseInt(nextInputValue, 10);
     if (militaryTime) {
       if (numberValue >= 0 && numberValue <= 23) return true; // 00-23 for military time
@@ -149,7 +150,11 @@ export const calendarHourMask: MaskType = ({ militaryTime = false } = {}) => {
     return false;
   }
   return {
-    shiftFocusIf: (nextValue, key) => key == ':' || (performRule(nextValue) && !performRule(`${nextValue}0`)),
+    shiftFocusIf: (nextValue, key) => {
+      if (key == ':') return true;
+      if (nextValue === '0') return false;
+      return (performRule(nextValue) && !performRule(`${nextValue}0`))
+    },
     mask: [
       rule(/^[0-9]$/, ({ nextValue }) => performRule(nextValue)),
     ],
@@ -164,12 +169,17 @@ export const calendarHourMask: MaskType = ({ militaryTime = false } = {}) => {
 export const calendarMinuteMask: MaskType = (props = {}) => {
   const performRule = (nextInputValue) => {
     if (nextInputValue === '0') return true;
+    if (nextInputValue.length > 2) return false; // max of 2 digits for minute
     const numberValue = parseInt(nextInputValue, 10);
     if (numberValue >= 0 && numberValue <= 59) return true;
     return false;
   }
   return {
-    shiftFocusIf: (nextValue, key) => key == ':' || (performRule(nextValue) && !performRule(`${nextValue}0`)),
+    shiftFocusIf: (nextValue, key) => {
+      if (key == ':') return true;
+      if (nextValue === '0') return false;
+      return (performRule(nextValue) && !performRule(`${nextValue}0`))
+    },
     mask: [
       rule(/^[0-9]$/, ({ nextValue }) => performRule(nextValue)),
     ],

@@ -39,7 +39,10 @@ const InputSegment = ({ segment, ...props }) => {
 
   const formatValue = (inputValue) => {
     if (inputValue === '0') return '';
-    return mask(props).formatter(`${inputValue || ''}`)
+
+    const strValue = inputValue instanceof Date ? inputValue.toISOString() : `${inputValue || ''}`;
+
+    return mask(props).formatter(`${strValue || ''}`)
   }
 
   const [value, setValue] = useState(formatValue(props.value) || '');
