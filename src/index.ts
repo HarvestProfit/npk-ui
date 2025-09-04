@@ -11,6 +11,7 @@ import Menu from './Menu';
 import SegmentedControl from './SegmentedControl';
 import Placeholder from './Placeholder';
 import Spinner from './Spinner';
+import Switch from './Switch';
 import Tooltip from './Tooltip';
 import Table from './Table';
 import ThemeContext, { ThemeContextProvider } from './ThemeContext';
@@ -30,6 +31,7 @@ export {
   SegmentedControl,
   Spinner,
   Menu,
+  Switch,
   Tooltip,
   Table,
   dateUtils,

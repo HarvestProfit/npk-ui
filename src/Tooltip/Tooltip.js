@@ -4,7 +4,7 @@ import ThemeContext from '../ThemeContext';
 import classes from './Tooltip.module.css';
 import { computePosition, flip, inline, offset, shift } from '@floating-ui/dom';
 
-const ANIMATION_TIMING = 500;
+const ANIMATION_TIMING = 800;
 
 const Tooltip = ({
   id = null,
@@ -33,6 +33,11 @@ const Tooltip = ({
     animationTimeout.current = setTimeout(() => setIsMounted(false), ANIMATION_TIMING);
   }, []);
 
+  const delayOpeningTooltip = useCallback(() => {
+    clearTimeout(animationTimeout.current);
+    animationTimeout.current = setTimeout(() => openTooltip(), 1000);
+  }, []);
+
   useEffect(() => {
     if (targetRef?.current) {
       elementRef.current = targetRef.current;
@@ -42,10 +47,12 @@ const Tooltip = ({
 
     elementRef.current?.addEventListener("mouseenter", openTooltip);
     elementRef.current?.addEventListener("mouseleave", closeTooltip);
+    elementRef.current?.addEventListener("click", delayOpeningTooltip);
 
     return () => {
       elementRef.current?.removeEventListener("mouseenter", openTooltip);
       elementRef.current?.removeEventListener("mouseleave", closeTooltip);
+      elementRef.current?.removeEventListener("click", delayOpeningTooltip);
     }
   }, []);
 
