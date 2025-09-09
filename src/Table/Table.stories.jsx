@@ -79,6 +79,29 @@ export const Default = () => (
   </Table>
 );
 
+export const WithCounterMetrics = () => (
+  <div>
+    <Table.Metrics>Total 4</Table.Metrics>
+    <Table maxHeight={400}>
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th data-type="number">Age</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((person, index) => (
+          <tr key={index}>
+            <td>{person.firstName}</td>
+            <td>{person.lastName}</td>
+            <td data-type="number">{person.age}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  </div>
+);
 
 export const ClickableAndExpandable = () => {
   const [expanded, setExpanded] = React.useState(false);
@@ -171,6 +194,83 @@ export const InsideCard = () => (
         </tfoot>
       </Table>
   </Card>
+);
+
+export const InvisibleAndMutedCards = () => (
+  <>
+  <Card variant="invisible">
+    <Card.Header title="Card Title" />
+      <Table maxHeight={300}>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th data-type="number">Age</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((person, index) => (
+            <tr key={index}>
+              <td>{person.firstName}</td>
+              <td>{person.lastName}</td>
+              <td data-type="number">{person.age}</td>
+            </tr>
+          ))}
+          <tr>
+            <th scope="row" colSpan="3">Section 2</th>
+          </tr>
+          {data.map((person, index) => (
+            <tr key={index}>
+              <td>{person.firstName}</td>
+              <td>{person.lastName}</td>
+              <td data-type="number">{person.age}</td>
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan="3">This is the table footer</td>
+          </tr>
+        </tfoot>
+      </Table>
+  </Card>
+  <Card variant="muted">
+    <Card.Header title="Card Title" />
+      <Table maxHeight={300}>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th data-type="number">Age</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((person, index) => (
+            <tr key={index}>
+              <td>{person.firstName}</td>
+              <td>{person.lastName}</td>
+              <td data-type="number">{person.age}</td>
+            </tr>
+          ))}
+          <tr>
+            <th scope="row" colSpan="3">Section 2</th>
+          </tr>
+          {data.map((person, index) => (
+            <tr key={index}>
+              <td>{person.firstName}</td>
+              <td>{person.lastName}</td>
+              <td data-type="number">{person.age}</td>
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan="3">This is the table footer</td>
+          </tr>
+        </tfoot>
+      </Table>
+  </Card>
+  </>
 );
 
 

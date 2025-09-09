@@ -2,7 +2,6 @@
 .TableMetrics {
   color: var(--color-neutral-50);
   font-size: var(--size-12);
-  margin-top: 12px;
   margin-bottom: 6px;
   display: block;
 }
@@ -14,7 +13,7 @@
   --internal-table-header-padding: var(--table-header-padding, var(--table-section-padding));
   --internal-table-footer-padding: var(--table-footer-padding, var(--table-section-padding));
   --table-header-height: 2.1rem;
-  --internal-table-border-color: var(--table-border-color, var(--control-border-color));
+  --internal-table-border-color: var(--table-border-color, var(--color-neutral-90));
   --internal-table-bg-color: var(--table-bg-color, var(--body-bg-color));
   --internal-table-section-bg-color: var(--table-section-bg-color, var(--color-neutral-90));
   --internal-table-footer-bg-color: var(--table-footer-bg-color, var(--color-neutral-90));
@@ -81,7 +80,7 @@
 
   > thead > tr > th {
     vertical-align: bottom;
-    border-bottom: 2px solid var(--color-neutral-90);
+    border-bottom: 2px solid var(--internal-table-border-color);
     padding: var(--internal-table-header-padding);
     padding-left: var(--table-cell-padding-x);
     padding-right: var(--table-cell-padding-x);
@@ -132,7 +131,7 @@
   > tbody > tr > * {
     vertical-align: middle;
     padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
-    border-bottom: var(--table-border, 1px solid var(--color-neutral-90));
+    border-bottom: var(--table-border, 1px solid var(--internal-table-border-color));
 
     &:first-child {
       padding-left: var(--table-cell-ends-padding-x, var(--table-cell-padding-x));
@@ -175,7 +174,7 @@
       font-size: var(--size-14);
       color: var(--control-fg-color);
       bottom: var(--sticky-bottom, 0);
-      border-top: var(--table-border, 1px solid var(--color-neutral-90));
+      border-top: var(--table-border, 1px solid var(--internal-table-border-color));
       padding: var(--table-footer-padding);
       padding-left: var(--table-cell-padding-x);
       padding-right: var(--table-cell-padding-x);
