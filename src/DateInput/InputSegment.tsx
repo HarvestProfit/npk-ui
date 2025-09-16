@@ -38,9 +38,11 @@ const InputSegment = ({ segment, ...props }) => {
   }
 
   const formatValue = (inputValue) => {
-    if (inputValue === '0') return '';
+    if (inputValue === '0' && segment !== 'minute') return '';
 
-    const strValue = inputValue instanceof Date ? inputValue.toISOString() : `${inputValue || ''}`;
+    let strValue = `${inputValue}`;
+    if (inputValue instanceof Date) strValue = inputValue.toISOString();
+    if (strValue === 'null' || strValue === 'undefined') strValue = '';
 
     return mask(props).formatter(`${strValue || ''}`)
   }

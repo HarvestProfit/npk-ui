@@ -127,7 +127,7 @@ export default {
 
 export const Default = () => {
   const [value, setValue] = React.useState()
-  const [value2, setValue2] = React.useState(new Date('2025-01-22T16:03:13.653-06:00'))
+  const [value2, setValue2] = React.useState(new Date('2025-01-22T16:00:00.653-06:00'))
   const [value3, setValue3] = React.useState()
   return (
     <div>
