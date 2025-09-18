@@ -52,6 +52,21 @@ export const Default = () => (
   </div>
 );
 
+export const Nested = () => (
+  <div>
+    <div aria-describedby='tooltip-top-section'>
+      <p>Here is a section with a tool tip. The button also has a tooltip.</p>
+      <button aria-describedby='tooltip-btn'>My Button</button>
+      <Tooltip id="tooltip-btn">
+        Button Tooltip!
+      </Tooltip>
+    </div>
+    <Tooltip id="tooltip-top-section">
+      Main section tooltip! This will not show if you are hovered over a nested tooltip.
+    </Tooltip>
+  </div>
+);
+
 export const WithRef = () => {
   const buttonRef = useRef();
   return (
