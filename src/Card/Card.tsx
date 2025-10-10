@@ -32,8 +32,8 @@ const Card: FC<CardProps> & {
   Divider: FC<CardItemProps>;
   HeaderLeadingActions: FC<CardHeaderActionsProps>;
   HeaderTrailingActions: FC<CardHeaderActionsProps>;
-} = ({ children, variant = 'normal', block, className = '', style = {} }) => (
-  <div className={`${classes.Card} ${className}`} style={style} data-block={block} data-component="card" data-variant={variant}>
+} = ({ children, variant = 'normal', block, className = '', style = {}, ...props }) => (
+  <div className={`${classes.Card} ${className}`} {...props} style={style} data-block={block} data-component="card" data-variant={variant}>
     {children}
   </div>
 );
