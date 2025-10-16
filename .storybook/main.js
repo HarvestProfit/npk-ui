@@ -13,53 +13,33 @@ module.exports = {
       },
     },
     '@storybook/addon-storysource',
-    'storybook-dark-mode',
-    "storybook-css-modules",
-    ({
-      name: '@storybook/addon-styling-webpack',
-      options: {
-        rules: [
-          // Replaces any existing Sass rules with given rules
-          {
-            test: /\.s[ac]ss$/i,
-            sideEffects: true,
-            use: [
-              require.resolve("style-loader"),
-              require.resolve("css-loader"),
-              {
-                loader: require.resolve("sass-loader"),
-                options: { implementation: require.resolve("sass") }
-              },
-            ],
-          },
-        ]
-      }
-    }),
-    '@storybook/addon-webpack5-compiler-babel',
   ],
 
   typescript: {
     reactDocgen: false
   },
 
-  staticDirs: ['../static'],
-
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {}
+  core: {
+    builder: '@storybook/builder-vite', // 👈 The builder enabled here.
   },
 
+  staticDirs: ['../static'],
+
+  framework: '@storybook/react-vite',
+
   docs: {},
-  webpackFinal: async (config) => {
-    config.module.rules.push({
-      test: /\.(ts|tsx)$/,
-      use: [
-        {
-          loader: require.resolve("ts-loader"),
+  async viteFinal(config) {
+    // Merge custom configuration into the default config
+    const { mergeConfig } = await import('vite');
+    const path = await import('path');
+ 
+    return mergeConfig(config, {
+      resolve: {
+        alias: {
+          "@harvest-profit/npk/icons": path.resolve(__dirname, '../tmp/icons/'),
+          "@harvest-profit/npk": path.resolve(__dirname, '../src/')
         },
-      ],
+      },
     });
-    config.resolve.extensions.push(".ts", ".tsx");
-    return config;
-  }
+  },
 };
