@@ -11,3 +11,4 @@ dist/**/*.stories.js
 dist/**/*.spec.js
 tmp
 font
+debug-storybook.log

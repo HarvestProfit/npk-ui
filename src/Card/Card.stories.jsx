@@ -4,54 +4,75 @@ import Button from '@harvest-profit/npk/Button';
 import TabNav from '@harvest-profit/npk/TabNav';
 import Table from '@harvest-profit/npk/Table';
 import * as Icons from '@harvest-profit/npk/icons/regular';
+import { expect } from 'storybook/test';
 
 export default {
   title: 'Components/Card',
   component: Card,
+  subcomponents: { Header: Card.Header, HeaderLeadingActions: Card.HeaderLeadingActions, HeaderTrailingActions: Card.HeaderTrailingActions, Divider: Card.Divider, Footer: Card.Footer },
   argTypes: {
     variant: {
       control: {
         type: 'radio',
       },
-      options: ['default', 'primary', 'danger'],
+      options: ['default', 'muted', 'invisible'],
       table: { defaultValue: { summary: "default" } }
+    },
+    headerVariant: {
+      control: {
+        type: 'radio',
+      },
+      options: ['underlined', 'plain', 'inset'],
+      table: { defaultValue: { summary: "underlined" } }
     }
   },
   args: {
     variant: 'default',
+    headerVariant: 'underlined'
   }
 }
 
-export const Default = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <Card>
-    <Card.Header title="Card Title">
-      <Card.HeaderLeadingActions>
-        <Button invisible variant="primary">See More</Button>
-      </Card.HeaderLeadingActions>
-      <Card.HeaderTrailingActions>
-        <Button invisible leadingVisual={Icons.ExportIcon}>Export</Button>
-        <Button invisible leadingVisual={Icons.ExportIcon}>Export</Button>
-      </Card.HeaderTrailingActions>
-    </Card.Header>
+export const Default = {
+  args: {
+    variant: 'default',
+  },
+  play: async ({ canvas }) => {
+    const card = canvas.getByTestId('card-1');
+    await expect(card).toBeInTheDocument();
+  },
+  render:({ variant, headerVariant }) => (
+    <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+      <Card data-testid="card-1" variant={variant}>
+        <Card.Header title="Card Title" variant={headerVariant}>
+          <Card.HeaderLeadingActions>
+            <Button invisible variant="primary">See More</Button>
+          </Card.HeaderLeadingActions>
+          <Card.HeaderTrailingActions>
+            <Button invisible leadingVisual={Icons.ExportIcon}>Export</Button>
+            <Button invisible leadingVisual={Icons.ExportIcon}>Export</Button>
+          </Card.HeaderTrailingActions>
+        </Card.Header>
 
-    <p>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo ipsa nesciunt aperiam adipisci, porro quas cumque accusamus. Inventore, nam quos. Quam iusto omnis laudantium amet quaerat sed inventore quos voluptatum.
-    </p>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo ipsa nesciunt aperiam adipisci, porro quas cumque accusamus. Inventore, nam quos. Quam iusto omnis laudantium amet quaerat sed inventore quos voluptatum.
+        </p>
 
-    <Card.Divider />
+        <Card.Divider />
 
-    <p>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo ipsa nesciunt aperiam adipisci, porro quas cumque accusamus. Inventore, nam quos. Quam iusto omnis laudantium amet quaerat sed inventore quos voluptatum.
-    </p>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo ipsa nesciunt aperiam adipisci, porro quas cumque accusamus. Inventore, nam quos. Quam iusto omnis laudantium amet quaerat sed inventore quos voluptatum.
+        </p>
 
-    <Card.Footer>
-      <span><b>Key</b> Value</span>
-      <span><b>Key</b> Value</span>
-      <span><b>Key</b> Value</span>
-      <span><b>Key</b> Value</span>
-    </Card.Footer>
-  </Card>
-</div>
+        <Card.Footer>
+          <span><b>Key</b> Value</span>
+          <span><b>Key</b> Value</span>
+          <span><b>Key</b> Value</span>
+          <span><b>Key</b> Value</span>
+        </Card.Footer>
+      </Card>
+    </div>
+  )
+}
 
 export const Muted = () =>
   <Card variant="muted" block style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>

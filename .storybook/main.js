@@ -5,15 +5,7 @@ module.exports = {
     '../src/**/*.stories.@(js|jsx|ts|tsx)'
   ],
 
-  addons: [
-    {
-      name: '@storybook/addon-essentials',
-      options: {
-        backgrounds: false,
-      },
-    },
-    '@storybook/addon-storysource',
-  ],
+  addons: ['@storybook/addon-docs', '@storybook/addon-vitest', '@vitest/coverage-v8'],
 
   typescript: {
     reactDocgen: false
@@ -24,10 +16,9 @@ module.exports = {
   },
 
   staticDirs: ['../static'],
-
   framework: '@storybook/react-vite',
-
   docs: {},
+
   async viteFinal(config) {
     // Merge custom configuration into the default config
     const { mergeConfig } = await import('vite');
@@ -42,4 +33,8 @@ module.exports = {
       },
     });
   },
+
+  features: {
+    backgrounds: false
+  }
 };
