@@ -1,4 +1,5 @@
 .Card {
+  --card-header-underlined-size: 2px;
   background-color: var(--nested-card-bg, var(--card-variant-normal-bg));
   border: 1px solid var(--card-border-color, var(--card-variant-normal-border-color));
   --card-pad-x: 14px;
@@ -8,6 +9,7 @@
 
 
   & > * {
+    --nested-colored-card-bg: var(--card-variant-normal-bg);
     --nested-card-bg: transparent;
   }
 
@@ -17,6 +19,7 @@
 
 
   &[data-variant="muted"] {
+    --nested-colored-card-bg: var(--card-variant-muted-bg);
     --nested-card-bg: var(--card-variant-muted-bg);
     --card-border-color: var(--card-variant-muted-border-color);
   }
@@ -64,8 +67,27 @@
     padding-bottom: var(--card-pad-y);
 
     &[data-variant="underlined"] {
-      border-bottom: 2px solid var(--card-border-color, var(--card-variant-normal-border-color));
+      border-bottom: var(--card-header-underlined-size) solid var(--card-border-color, var(--card-variant-normal-border-color));
       margin-bottom: var(--card-pad-y);
+
+      &[data-sticky="true"] {
+        position: sticky;
+        top: calc(var(--sticky-top, 0px) + var(--card-pad-y));
+        z-index: 3;
+
+        &::before {
+          content: '';
+          position: absolute;
+          background-color: var(--nested-colored-card-bg, var(--card-variant-normal-bg));
+          top: calc(var(--card-pad-y) * -1);
+          left: 0;
+          right: 0;
+          height: calc(100% + var(--card-pad-y));
+          z-index: -1;
+          border-top-right-radius: var(--card-radius);
+          border-top-left-radius: var(--card-radius);
+        }
+      }
     }
 
     &[data-variant="plain"] {
@@ -161,6 +183,12 @@
       padding-left: var(--card-pad-x);
       padding-right: var(--card-pad-x);
     }
+  }
+
+
+  & >[data-component="card-header"][data-variant="underlined"][data-sticky="true"] ~ [data-component="table"],
+  & >[data-component="card-header"][data-variant="underlined"][data-sticky="true"] ~ * > [data-component="table"]  {
+    --sticky-top: calc((var(--card-pad-y) * 2) + var(--card-header-underlined-size) + 18px);
   }
 
   & > [data-component="table"],

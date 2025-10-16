@@ -55,6 +55,13 @@ To simplify a feature, you can use tab navs to jump between different screens in
 work together.
 <Canvas of={CardStories.PlainWithTabNav} />
 
+### Sticky Headers
+
+Sometimes the header of the card is important for context, especially in long cards. You can make the header sticky by setting the
+<code>sticky</code> prop to <code>true</code>. This will stick the header to the top of the screen when scrolling. Table Headers
+will adjust automatically
+<Canvas of={CardStories.StickyHeader} />
+
 ## Props
 
 <Controls />

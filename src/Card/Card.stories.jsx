@@ -2,6 +2,7 @@ import React from 'react'
 import Card from '@harvest-profit/npk/Card';
 import Button from '@harvest-profit/npk/Button';
 import TabNav from '@harvest-profit/npk/TabNav';
+import Table from '@harvest-profit/npk/Table';
 import * as Icons from '@harvest-profit/npk/icons/regular';
 
 export default {
@@ -175,5 +176,80 @@ export const MultipleHeaders = () => <div style={{ display: 'flex', flexDirectio
     <p>
       I don't think we'd use this but its an option!
     </p>
+  </Card>
+</div>
+
+export const StickyHeader = () => <div style={{ maxHeight: 100, display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+  <Card>
+    <Card.Header title="Sticky Card Title" sticky>
+      <Card.HeaderLeadingActions>
+        <Button invisible variant="primary">See More</Button>
+      </Card.HeaderLeadingActions>
+      <Card.HeaderTrailingActions>
+        <Button invisible leadingVisual={Icons.ExportIcon}>Export</Button>
+        <Button invisible leadingVisual={Icons.ExportIcon}>Export</Button>
+      </Card.HeaderTrailingActions>
+    </Card.Header>
+
+    <p>
+      Hey! This sticky head will only work for the "underlined" variant of the header. 
+    </p>
+
+    <Card.Divider />
+
+    <p>
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo ipsa nesciunt aperiam adipisci, porro quas cumque accusamus. Inventore, nam quos. Quam iusto omnis laudantium amet quaerat sed inventore quos voluptatum.
+    </p>
+
+    <Table>
+      <thead>
+        <tr>
+          <th>First</th>
+          <th>Last</th>
+          <th>Age</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John</td>
+          <td>Doe</td>
+          <td>30</td>
+        </tr>
+        <tr>
+          <td>Jane</td>
+          <td>Smith</td>
+          <td>25</td>
+        </tr>
+        <tr>
+          <td>John</td>
+          <td>Doe</td>
+          <td>30</td>
+        </tr>
+        <tr>
+          <td>Jane</td>
+          <td>Smith</td>
+          <td>25</td>
+        </tr>
+        <tr>
+          <td>John</td>
+          <td>Doe</td>
+          <td>30</td>
+        </tr>
+        <tr>
+          <td>Jane</td>
+          <td>Smith</td>
+          <td>25</td>
+        </tr>
+      </tbody>
+    </Table>
+
+
+
+    <Card.Footer>
+      <span><b>Key</b> Value</span>
+      <span><b>Key</b> Value</span>
+      <span><b>Key</b> Value</span>
+      <span><b>Key</b> Value</span>
+    </Card.Footer>
   </Card>
 </div>

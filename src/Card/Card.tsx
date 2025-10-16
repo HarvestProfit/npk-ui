@@ -15,6 +15,7 @@ interface CardHeaderProps {
   variant?: 'underlined' | 'plain' | 'inset'; // Add other variants as needed
   as?: keyof JSX.IntrinsicElements;
   size?: 'md' | 'lg'; // Add other sizes as needed
+  sticky?: boolean; // Stick the header to the top of the screen when scrolling
 }
 
 interface CardItemProps {
@@ -38,8 +39,8 @@ const Card: FC<CardProps> & {
   </div>
 );
 
-Card.Header = ({ title, children, variant = 'underlined', as: Tag = 'h3', size = 'md' }) => (
-  <div data-component="card-header" data-variant={variant} data-size={size}>
+Card.Header = ({ title, children, variant = 'underlined', as: Tag = 'h3', size = 'md', sticky = false }) => (
+  <div data-component="card-header" data-variant={variant} data-size={size} data-sticky={sticky}>
     {title && <Tag data-component="card-header-text">{title}</Tag>}
     {children}
   </div>
