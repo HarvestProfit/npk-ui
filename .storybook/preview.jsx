@@ -1,5 +1,5 @@
 import React from 'react';
-import { themes, create } from '@storybook/theming';
+import { themes, create } from 'storybook/theming';
 import '../static/preview-styles.scss';
 import { ThemeContextProvider } from '../src/ThemeContext';
 
@@ -22,12 +22,14 @@ const darkTheme = create({
 export default {
   parameters: {
     actions: { argTypesRegex: "^on[A-Z].*" },
+
     controls: {
       hideNoControlsWarning: true,
       matchers: {
         date: /Date$/
       },
     },
+
     options: {
       storySort: {
         order: [
@@ -39,16 +41,23 @@ export default {
         ]
       }
     },
+
     viewMode: 'docs',
+
     previewTabs: {
       canvas: { hidden: true },
     },
+
     darkMode: {
       stylePreview: true,
       // Override the default dark theme
       dark: darkTheme,
       // Override the default light theme
       light: lightTheme
+    },
+
+    docs: {
+      codePanel: true
     }
   },
   decorators: [
