@@ -1,5 +1,7 @@
 .Card {
+  --card-header-sticky-z-index: 6;
   --card-header-underlined-size: 2px;
+
   background-color: var(--nested-card-bg, var(--card-variant-normal-bg));
   border: 1px solid var(--card-border-color, var(--card-variant-normal-border-color));
   --card-pad-x: 14px;
@@ -73,7 +75,7 @@
       &[data-sticky="true"] {
         position: sticky;
         top: calc(var(--sticky-top, 0px) + var(--card-pad-y));
-        z-index: 3;
+        z-index: var(--card-header-sticky-z-index, 6);
 
         &::before {
           content: '';
