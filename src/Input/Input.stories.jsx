@@ -4,6 +4,7 @@ import Button from '@harvest-profit/npk/Button';
 import Menu from '@harvest-profit/npk/Menu';
 import DateInput from '@harvest-profit/npk/DateInput';
 import * as Icons from '@harvest-profit/npk/icons/regular';
+import { expect, userEvent } from 'storybook/test';
 
 const icons = { None: null, ...Icons }
 
@@ -36,6 +37,10 @@ export default {
     labelDescription: {
       type: 'string',
       description: 'More details for the input',
+    },
+    labelRequirement: {
+      type: 'string',
+      description: 'A muted string after the label to denote requirement (required/optional',
     },
     info: {
       type: 'string',
@@ -120,8 +125,8 @@ export const Default = () => (
   <div>
     <label id="generic-inputs">Generic Inputs</label>
     <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-      <Input placeholder="Placeholder" type="text" label="My Input" />
-      <Input leadingVisual="TEL" placeholder="111 1111" type="tel" label="Phone"/>
+      <Input placeholder="Placeholder" type="text" label="My Input" labelRequirement="* Required" />
+      <Input leadingVisual="TEL" placeholder="111 1111" type="tel" label="Phone" labelRequirement="Optional"/>
       <Input placeholder="Disabled" type="text" disabled />
       <Input value="Readonly" type="text" readOnly />
     </div>
@@ -234,6 +239,41 @@ export const Loading = () => {
       <Input.Number label="Label" loading width={'50%'} />
     </div>
   )
+}
+
+export const Dropdowns = {
+  args: {
+    variant: 'default',
+    block: false,
+    loading: false,
+    disabled: false
+  },
+  play: async ({ canvas }) => {
+    const button = canvas.getByRole('button');
+    await userEvent.click(button);
+    await expect(canvas.getByRole('dialog')).toBeInTheDocument();
+    const buttonOption2 = canvas.getByRole('button', { name: 'Office' });
+    await userEvent.click(buttonOption2);
+    await expect(canvas.queryByRole('dialog')).not.toBeInTheDocument();
+    await expect(canvas.getByRole('button')).toHaveTextContent('Office');
+  },
+  render:(props) => {
+    const [location, setLocation] = React.useState('Home');
+    return (
+      <div style={{ maxWidth: 500, display: 'flex', flexDirection: 'column', gap: 16, flexWrap: 'wrap' }}>
+        <Input.Control {...props} label="Location" labelDescription="Block is also inherited" info="Dropdowns & buttons will automatically get their variant set to match the input">
+          <Menu>
+            <Button trailingAction={Icons.DropdownIndicatorIcon}>{location}</Button>
+            <Menu.Overlay >
+              <Button selected={location === 'Home'} onClick={() => setLocation('Home')}>Home</Button>
+              <Button selected={location === 'Office'} onClick={() => setLocation('Office')}>Office</Button>
+              <Button selected={location === 'Downtown'} onClick={() => setLocation('Downtown')}>Downtown</Button>
+            </Menu.Overlay>
+          </Menu>
+        </Input.Control>
+      </div>
+    )
+  }
 }
 
 export const Groups = () => {

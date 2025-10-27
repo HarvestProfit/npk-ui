@@ -52,6 +52,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
   disabled,
   label,
   labelDescription,
+  labelRequirement,
   info,
   error,
   size,
@@ -155,7 +156,10 @@ const BaseInput: React.FC<BaseInputProps> = ({
         nextElem?.focus();
         e.preventDefault();
       }}>
-        <span data-component="label-contents">{label}</span>
+        <span data-component="label">
+          <span data-component="label-contents">{label}</span>
+          {labelRequirement && <span data-component="label-requirement">{labelRequirement}</span>}  
+        </span>
         {labelDescription && <span data-component="label-description">{labelDescription}</span>}
         {renderResult}
         {(info || error) && (
@@ -199,6 +203,7 @@ export interface BaseInputProps extends HTMLAttributes<HTMLElement> {
   loading?: boolean;
   block?: boolean;
   label?: string | ReactNode;
+  labelRequirement?: string | ReactNode;
   labelDescription?: string | ReactNode;
   info?: string | ReactNode;
   error?: string | ReactNode;

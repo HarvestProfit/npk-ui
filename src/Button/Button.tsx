@@ -1,4 +1,5 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, forwardRef, useContext } from 'react';
+import type { ForwardRefExoticComponent, RefAttributes } from 'react';
 import classes from './Button.module.css';
 import BaseButton, { BaseButtonProps } from '../BaseButton';
 import { CheckedIcon } from '@harvest-profit/npk/icons/regular';
@@ -54,9 +55,7 @@ const useButtonDefaults = (props: ButtonProps): ButtonProps => {
   };
 }
 
-const Button: React.FC<ButtonProps>  & {
-  Context: React.FC;
- } = ({
+const Button = forwardRef<HTMLDivElement, ButtonProps>(({
   variant: variantProp,
   elevated,
   invisible: invisibleProp,
@@ -64,13 +63,14 @@ const Button: React.FC<ButtonProps>  & {
   plain: plainProp,
   className,
   ...props
-}) => {
+}, forwardedRef) => {
   
   const { invisible, plain, active, variant, ...defaultProps } = useButtonDefaults({ ...props, invisible: invisibleProp, plain: plainProp, active: activeProp, variant: variantProp });
 
   return (
     <BaseButton
       {...defaultProps}
+      ref={forwardedRef}
       data-elevated={elevated}
       data-invisible={invisible}
       data-variant={variant}
@@ -79,9 +79,11 @@ const Button: React.FC<ButtonProps>  & {
       className={`${classes.Button} ${className || ''}`}
     />
   );
-}
+}) as ForwardRefExoticComponent<Omit<ButtonProps, "ref"> & RefAttributes<HTMLDivElement>> & { Context: React.Provider<ButtonProps> };
 
 Button.Context = ButtonContext.Provider;
+
+Button.displayName = 'Button';
 
 export default Button;
 

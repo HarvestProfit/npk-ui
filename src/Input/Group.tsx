@@ -14,5 +14,7 @@ const Group: React.FC<GroupProps> = ({ children, ...props }) => {
   );
 }
 
+Group.displayName = 'Input.Group';
+
 export default Group;
 export type { GroupProps };

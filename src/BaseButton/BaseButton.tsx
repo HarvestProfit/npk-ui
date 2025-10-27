@@ -1,4 +1,4 @@
-import React, { useContext, useRef, ReactNode, ComponentType, MouseEvent } from 'react';
+import React, { useContext, useRef, ReactNode, ComponentType, MouseEvent, forwardRef, useImperativeHandle } from 'react';
 import classes from './BaseButton.module.css';
 import { Spinner, Tooltip } from '..';
 import { useMenuContext } from '../Menu';
@@ -27,7 +27,7 @@ interface BaseButtonProps {
   [key: string]: any; // Allow other props
 }
 
-const BaseButton: React.FC<BaseButtonProps> = ({
+const BaseButton: React.FC<BaseButtonProps> = forwardRef<HTMLButtonElement, BaseButtonProps>(({
   icon,
   leadingVisual: ProvidedLeadingVisual,
   trailingVisual: ProvidedTrailingVisual,
@@ -43,11 +43,16 @@ const BaseButton: React.FC<BaseButtonProps> = ({
   children,
   className,
   ...props
-}) => {
+}, forwardedRef) => {
   const menuContext = useMenuContext();
   const menuContentsContext = useContext<MenuContentsContextType>(MenuContentsContext);
-  const internalRef = useRef(null);
+  const internalRef = useRef<HTMLButtonElement>(null);
   let ref: any = internalRef;
+
+  useImperativeHandle<HTMLButtonElement | null, HTMLButtonElement | null>(
+    forwardedRef, () => ref.current
+  );
+
   let popoverProps = {};
 
   let onClick = props.onClick || props.onPress;
@@ -113,7 +118,9 @@ const BaseButton: React.FC<BaseButtonProps> = ({
       )}
     </>
   );
-};
+});
+
+BaseButton.displayName = 'BaseButton';
 
 export default BaseButton;
 export type { BaseButtonProps };
