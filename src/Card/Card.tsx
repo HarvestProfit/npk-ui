@@ -46,11 +46,15 @@ Card.Header = ({ title, children, variant = 'underlined', as: Tag = 'h3', size =
   </div>
 );
 
+Card.Header.displayName = 'Card.Header';
+
 Card.Footer = ({ children, as: Tag = 'div' }) => (
   <Tag data-component="card-footer">
     {children}
   </Tag>
 );
+
+Card.Footer.displayName = 'Card.Footer';
 
 Card.HeaderLeadingActions = ({ children }) => (
   <div data-component="card-header-leadingActions">
@@ -58,14 +62,20 @@ Card.HeaderLeadingActions = ({ children }) => (
   </div>
 );
 
+Card.HeaderLeadingActions.displayName = 'Card.HeaderLeadingActions';
+
 Card.HeaderTrailingActions = ({ children }) => (
   <div data-component="card-header-trailingActions">
     {children}
   </div>
 );
 
+Card.HeaderTrailingActions.displayName = 'Card.HeaderTrailingActions';
+
 Card.Divider = () => (
   <div data-component="card-divider" />
 )
+
+Card.Divider.displayName = 'Card.Divider';
 export default Card;
 export type { CardProps, CardHeaderProps, CardItemProps, CardHeaderActionsProps };
