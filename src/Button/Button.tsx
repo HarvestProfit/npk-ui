@@ -3,7 +3,7 @@ import type { ForwardRefExoticComponent, RefAttributes } from 'react';
 import classes from './Button.module.css';
 import BaseButton, { BaseButtonProps } from '../BaseButton';
 import { CheckedIcon } from '@harvest-profit/npk/icons/regular';
-import { useMenuContext } from '../Menu';
+import { useMenuContext, Reset as MenuReset } from '../Menu';
 import { MenuContentsContext, MenuContentsContextType } from '../Menu/MenuContext';
 
 interface ButtonProps extends BaseButtonProps {
@@ -86,9 +86,9 @@ Button.Context = ButtonContext.Provider;
 Button.Reset = ({ children }) => {
   return (
     <ButtonContext.Provider value={{}}>
-      <MenuContentsContext.Provider value={{ inMenu: false }}>
+      <MenuReset>
         {children}
-      </MenuContentsContext.Provider>
+      </MenuReset>
     </ButtonContext.Provider>
   )
 }

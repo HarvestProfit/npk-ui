@@ -58,4 +58,14 @@ export const useMenuContext = (): MenuContextType => {
   return context;
 };
 
+export const Reset: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <MenuContext.Provider value={null}>
+      <MenuContentsContext.Provider value={{ inMenu: false }}>
+        {children}
+      </MenuContentsContext.Provider>
+    </MenuContext.Provider>
+  );
+};
+
 export { MenuContextType, MenuContentsContextType }

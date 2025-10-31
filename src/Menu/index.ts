@@ -1,10 +1,11 @@
-import MenuContext, { useMenuContext } from './MenuContext';
+import MenuContext, { useMenuContext, Reset } from './MenuContext';
 import Menu from './Menu';
 
 export default Menu;
 export { 
   MenuContext,
-  useMenuContext
+  useMenuContext,
+  Reset
 };
 
 export type { MenuProps, MenuOverlayProps, MenuDividerProps, MenuSectionProps, MenuListProps, MenuItemProps, MenuHeaderProps, MenuFooterProps } from './Menu';
