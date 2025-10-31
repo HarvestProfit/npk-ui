@@ -79,9 +79,19 @@ const Button = forwardRef<HTMLDivElement, ButtonProps>(({
       className={`${classes.Button} ${className || ''}`}
     />
   );
-}) as ForwardRefExoticComponent<Omit<ButtonProps, "ref"> & RefAttributes<HTMLDivElement>> & { Context: React.Provider<ButtonProps> };
+}) as ForwardRefExoticComponent<Omit<ButtonProps, "ref"> & RefAttributes<HTMLDivElement>> & { Context: React.Provider<ButtonProps>, Reset: React.FC<{ children: React.ReactNode }> };
 
 Button.Context = ButtonContext.Provider;
+
+Button.Reset = ({ children }) => {
+  return (
+    <ButtonContext.Provider value={{}}>
+      <MenuContentsContext.Provider value={{ inMenu: false }}>
+        {children}
+      </MenuContentsContext.Provider>
+    </ButtonContext.Provider>
+  )
+}
 
 Button.displayName = 'Button';
 

@@ -39,6 +39,8 @@ const Card: FC<CardProps> & {
   </div>
 );
 
+Card.displayName = 'Card';
+
 Card.Header = ({ title, children, variant = 'underlined', as: Tag = 'h3', size = 'md', sticky = false }) => (
   <div data-component="card-header" data-variant={variant} data-size={size} data-sticky={sticky}>
     {title && <Tag data-component="card-header-text">{title}</Tag>}

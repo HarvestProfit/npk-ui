@@ -263,6 +263,16 @@ export const IconButtons = () => <div style={{ display: 'flex', flexDirection: '
   <Button icon={Icons.ExportIcon} />
 </div>
 
+
+export const ResetAndContext = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+  <Button.Context value={{ variant: 'primary' }}>
+    <Button.Reset>
+      <Button>Styles go back to defaults</Button>
+    </Button.Reset>
+    <Button>Styles inherited from context</Button>
+  </Button.Context>
+</div>
+
 export const Invisible = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
   <Button variant="primary" invisible>Primary</Button>
   <Button variant="danger" invisible>Danger</Button>

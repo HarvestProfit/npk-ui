@@ -59,6 +59,12 @@ You can specify the `aria-label` prop to add a tooltip to a button. You can also
 prop and a tooltip with an id to link them together.
 <Canvas of={ButtonStories.WithTooltip} />
 
+### Inherited Styles through Context
+You can use the `Button.Context` provider to set button styles for all buttons within the context.
+Menus and inputs do this for you to ensure all buttons within them are styled correctly by default.
+If you need to reset the button styles back to default within a context, you can use the `Button.Reset` component.
+<Canvas of={ButtonStories.ResetAndContext} />
+
 ## Props
 
 <Controls />
