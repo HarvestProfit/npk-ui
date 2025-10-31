@@ -37,6 +37,7 @@ const BaseButton: React.FC<BaseButtonProps> = forwardRef<HTMLButtonElement, Base
   disabled: providedDisabled,
   loading,
   size = 'md',
+  truncate = false,
   align = 'center',
   as: Component = 'button',
   chip,
@@ -102,7 +103,7 @@ const BaseButton: React.FC<BaseButtonProps> = forwardRef<HTMLButtonElement, Base
 
   return (
     <>
-      <Component ref={ref} className={`${classes.ControlButton} ${className || ''}`} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-state={state} data-component="button" type={Component === 'button' ? 'button' : undefined} { ...props } { ...popoverProps }>
+      <Component ref={ref} className={`${classes.ControlButton} ${className || ''}`} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-state={state} data-truncate={truncate} data-component="button" type={Component === 'button' ? 'button' : undefined} { ...props } { ...popoverProps }>
         <span data-component="contents" data-icon={!!(!children && (TrailingVisual || LeadingVisual))}>
           {LeadingVisual && <span data-component="leadingVisual">{React.isValidElement(LeadingVisual) ? LeadingVisual : <LeadingVisual />}</span>}
           {textLoading}

@@ -19,6 +19,7 @@ const Control: React.FC<ControlProps> = ({ children, ...props }) => {
         disabled: props.disabled, 
         variant: 'secondary', 
         invisible: true,
+        truncate: true,
         size: props.size
       }}>
         <BaseInput {...props} data-component="input-custom-control">

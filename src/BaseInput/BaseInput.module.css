@@ -156,6 +156,7 @@
     & > [data-component="button"] {
       margin-left: calc(var(--control-padding) * -1);
       margin-right: calc(var(--control-padding) * -1);
+      --truncate-width: calc(100% + (var(--control-padding) * 2));
       margin-top: -1px;
     }
   }

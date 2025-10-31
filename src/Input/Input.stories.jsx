@@ -260,14 +260,14 @@ export const Dropdowns = {
   render:(props) => {
     const [location, setLocation] = React.useState('Home');
     return (
-      <div style={{ maxWidth: 500, display: 'flex', flexDirection: 'column', gap: 16, flexWrap: 'wrap' }}>
+      <div style={{ maxWidth: 100, display: 'flex', flexDirection: 'column', gap: 16, flexWrap: 'wrap' }}>
         <Input.Control {...props} label="Location" labelDescription="Block is also inherited" info="Dropdowns & buttons will automatically get their variant set to match the input">
           <Menu>
             <Button trailingAction={Icons.DropdownIndicatorIcon}>{location}</Button>
             <Menu.Overlay >
               <Button selected={location === 'Home'} onClick={() => setLocation('Home')}>Home</Button>
               <Button selected={location === 'Office'} onClick={() => setLocation('Office')}>Office</Button>
-              <Button selected={location === 'Downtown'} onClick={() => setLocation('Downtown')}>Downtown</Button>
+              <Button selected={location === 'Downtown'} onClick={() => setLocation('Downtown')}>Downtown With Long Truncated Name</Button>
             </Menu.Overlay>
           </Menu>
         </Input.Control>
