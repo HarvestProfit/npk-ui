@@ -136,7 +136,7 @@ a.ControlButton:hover {
 
     svg {
       display: inline-block;
-      vertical-align: text-bottom;
+      vertical-align: bottom;
       overflow: visible;
     }
   }

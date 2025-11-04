@@ -39,10 +39,11 @@ export const Default = {
   play: async ({ canvas }) => {
     const card = canvas.getByTestId('card-1');
     await expect(card).toBeInTheDocument();
+    await expect(card).toHaveAttribute("data-tour", "Something Random");
   },
   render:({ variant, headerVariant }) => (
     <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-      <Card data-testid="card-1" variant={variant}>
+      <Card data-testid="card-1" variant={variant} data-tour="Something Random">
         <Card.Header title="Card Title" variant={headerVariant}>
           <Card.HeaderLeadingActions>
             <Button invisible variant="primary">See More</Button>

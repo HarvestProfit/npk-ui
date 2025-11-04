@@ -33,10 +33,10 @@ type TableType = React.FC<TableProps> & {
   Metrics: React.FC<MetricsProps>;
 }
 
-const Table: TableType = ({ children, layout = 'auto', truncate = false, height = null, minHeight = null, maxHeight = null, className = '', ['aria-role']: ariaRole, ...props }) => {
+const Table: TableType = ({ children, layout = 'auto', variant = 'zebra', truncate = false, height = null, minHeight = null, maxHeight = null, className = '', ['aria-role']: ariaRole, ...props }) => {
   return (
     <div data-component="table" style={{ height, minHeight, maxHeight, overflow: (height || minHeight || maxHeight) ? 'auto': 'initial' }}>
-      <table data-layout={layout} data-truncate={truncate} className={`${classes.Table} ${className}`} role={ariaRole} {...props}>
+      <table data-layout={layout} data-truncate={truncate} data-variant={variant} className={`${classes.Table} ${className}`} role={ariaRole} {...props}>
         {children}
       </table>
     </div>

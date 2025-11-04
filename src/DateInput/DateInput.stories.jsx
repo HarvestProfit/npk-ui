@@ -5,6 +5,7 @@ import Calendar from '@harvest-profit/npk/Calendar';
 import Menu from '@harvest-profit/npk/Menu';
 import Card from '@harvest-profit/npk/Card';
 import * as Icons from '@harvest-profit/npk/icons/regular';
+import { expect } from 'storybook/test';
 
 const icons = { None: null, ...Icons }
 
@@ -216,5 +217,15 @@ export const Granularity = () => <div style={{ display: 'flex', flexDirection: '
   <div><label>Time</label><DateInput granularity="time" /></div>
 </div>
 
+export const PassThroughProps = {
+  play: async ({ canvas }) => {
+    const input = canvas.getByTestId('123');
+    await expect(input).toBeInTheDocument();
+    await expect(input).toHaveAttribute("data-tour", "Something Random");
+  },
+  render:() => (
+    <DateInput data-tour="Something Random" data-testid="123" />
+  )
+}
 
 export const Playground = (props) => <DateInput {...props} />

@@ -3,6 +3,7 @@ import Button from '@harvest-profit/npk/Button';
 import Tooltip from '@harvest-profit/npk/Tooltip';
 import Card from '@harvest-profit/npk/Card';
 import * as Icons from '@harvest-profit/npk/icons/regular';
+import { expect } from 'storybook/test';
 
 const icons = { None: null, ...Icons }
 
@@ -141,7 +142,7 @@ export default {
 }
 
 export const Default = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <Button>default</Button>
+  <Button data-tour="Something Random">default</Button>
   <Button loading>default</Button>
   <Button disabled>Disabled</Button>
   <Button leadingVisual={Icons.ExportIcon}>Leading Vis</Button>
@@ -299,4 +300,17 @@ export const WithTooltip = () => <div style={{ display: 'flex', flexDirection: '
   <Button aria-describedby="btn-tooltip-id">Described By</Button>
   <Tooltip id="btn-tooltip-id">Describedby Tooltip</Tooltip>
 </div>
+
+
+export const PassThroughProps = {
+  play: async ({ canvas }) => {
+    const button = canvas.getByRole('button');
+    await expect(button).toBeInTheDocument();
+    await expect(button).toHaveAttribute("data-tour", "Something Random");
+  },
+  render:() => (
+    <Button data-tour="Something Random">default</Button>
+  )
+}
+
 export const Playground = (props) => <Button {...props} />

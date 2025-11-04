@@ -13,6 +13,13 @@ export default {
       },
       options: ['default', 'treegrid'],
       table: { defaultValue: { summary: "default" } }
+    },
+    variant: {
+      control: {
+        type: 'radio',
+      },
+      options: ['zebra', 'plain'],
+      table: { defaultValue: { summary: "zebra" } }
     }
   },
   args: {

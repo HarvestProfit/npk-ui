@@ -31,10 +31,9 @@
     table-layout: fixed;
   }
 
-  > tbody > tr:nth-child(even) > * {
+  &[data-variant="zebra"] > tbody > tr:nth-child(even) > * {
     --table-row-color: var(--table-zebra-bg-color, var(--internal-table-bg-color));
   }
-
 
   /* treegrids are clickable tables that may or may not expand */
   &[role="treegrid"] > tbody > tr {

@@ -309,6 +309,16 @@ export const Groups = () => {
   )
 }
 
+export const PassThroughProps = {
+  play: async ({ canvas }) => {
+    const input = canvas.getByTestId('123');
+    await expect(input).toBeInTheDocument();
+    await expect(input).toHaveAttribute("data-tour", "Something Random");
+  },
+  render:() => (
+    <Input data-tour="Something Random" data-testid="123" />
+  )
+}
 
 export const Plain = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
   <Input variant="plain" />

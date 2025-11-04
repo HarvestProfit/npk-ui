@@ -7,6 +7,7 @@ const BaseInputContext = React.createContext<BaseInputContextType>({});
 
 export const useBaseInput = (props) => {
   const inheritedContext = useContext(BaseInputContext);
+  
   return {
     disabled: props.disabled || inheritedContext.disabled || props.loading || inheritedContext.loading,
     'aria-label': props['aria-label'] || inheritedContext['aria-label'],
@@ -25,7 +26,7 @@ export const useBaseInput = (props) => {
     'autoCapitalize': props['autoCapitalize'],
     form: props.form,
     rows: props.rows,
-    type: props.type || 'text',
+    type: props.type || 'text'
   }
 };
 
@@ -92,6 +93,12 @@ const BaseInput: React.FC<BaseInputProps> = ({
   } else {
     const tagProps = {};
     if (props['data-component']) tagProps['data-component'] = props['data-component']
+
+    Object.keys(props).forEach(key => {
+      if (key.startsWith('data-')) {
+        tagProps[key] = props[key];
+      }
+    });
 
     renderResult = (
       <Tag
