@@ -1,8 +1,10 @@
 /* color theme */
 :root {
   --color-green: #3f9142;
+  --color-green-90: #e9f5ea;
   --color-green-80: #cae7cb;
-  --color-green-90: #e1f5e2;
+  --color-green-70: #a8d8aa;
+  
   --color-green--hover: #3C8A3F;
   --color-green--active: #37803A;
   --color-green--disabled: #77BA7A;
@@ -98,11 +100,21 @@
   --control-focus-color: var(--color-green);
   --control-focus-bg-color: var(--color-neutral-100);
 
+  /* If a control has been activated */
   --control-bg-color--active-element: var(--color-green);
   --control-fg-color--active-element: var(--color-neutral-100);
-  --control-bg-color--muted-hover-element: var(--color-green-90);
-  --control-bg-color--muted-active-element: var(--color-green-80);
-  --control-fg-color--muted-active-element: var(--color-neutral-10);
+
+  /* If a control is in an emphasis state (like a selected date range) or a table row */
+  --control-variant-emphasis-bg-color: var(--color-green-90);
+  --control-variant-emphasis-bg-color--hover: var(--color-green-80);
+  --control-variant-emphasis-bg-color--active: var(--color-green-70);
+  --control-variant-emphasis-fg-color: var(--color-neutral-10);
+
+  /* If a control is in an muted state (like a disabled date range) or a table row */
+  --control-variant-muted-bg-color: var(--color-neutral-90);
+  --control-variant-muted-bg-color--hover: var(--color-neutral-85);
+  --control-variant-muted-bg-color--active: var(--color-neutral-80);
+  --control-variant-muted-fg-color: var(--color-neutral-10);
 
 
   --control-on-surface-bg-color: var(--color-neutral-95);

@@ -3,7 +3,7 @@ import classes from './BaseInput.module.css';
 import Placeholder from '../Placeholder';
 import { nextFocusableElement } from '../utils';
 
-const BaseInputContext = React.createContext<BaseInputContextType>({});
+export const BaseInputContext = React.createContext<BaseInputContextType>({});
 
 export const useBaseInput = (props) => {
   const inheritedContext = useContext(BaseInputContext);

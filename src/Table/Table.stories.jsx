@@ -2,6 +2,7 @@ import React from 'react'
 import Card from '@harvest-profit/npk/Card';
 import Placeholder from '@harvest-profit/npk/Placeholder';
 import Table from '@harvest-profit/npk/Table';
+import DateInput from '@harvest-profit/npk/DateInput';
 
 export default {
   title: 'Components/Table',
@@ -316,6 +317,83 @@ export const InsideCardWithoutHeader = () => (
     </Table>
   </Card>
 );
+
+export const TableStyling = () => {
+  const [date, setDate] = React.useState([null, null]);
+  return (
+  <div>
+    <Card>
+      <Card.Header title="Default Table" />
+      <Table>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th data-type="number">Age</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>John</td>
+            <td>Smith</td>
+            <td data-type="number">25</td>
+          </tr>
+          <tr>
+            <td>Jane</td>
+            <td>Doe</td>
+            <td data-type="number">31</td>
+          </tr>
+          <tr>
+            <td>John</td>
+            <td>Smith</td>
+            <td data-type="number">25</td>
+          </tr>
+          <tr>
+            <td>Jane</td>
+            <td>Doe</td>
+            <td data-type="number">31</td>
+          </tr>
+        </tbody>
+      </Table>
+    </Card>
+    <br />
+    <Card>
+      <Card.Header title="Plain Table" />
+      <Table variant="plain" role="treegrid">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th data-type="number">Age</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-variant="emphasis">
+            <td>John</td>
+            <td><DateInput.Range picker value={date} onChange={setDate} /></td>
+            <td data-type="number">25</td>
+          </tr>
+          <tr>
+            <td>Jane</td>
+            <td>Doe</td>
+            <td data-type="number">31</td>
+          </tr>
+          <tr data-variant="muted">
+            <td>John</td>
+            <td>Smith</td>
+            <td data-type="number">25</td>
+          </tr>
+          <tr>
+            <td>Jane</td>
+            <td>Doe</td>
+            <td data-type="number">31</td>
+          </tr>
+        </tbody>
+      </Table>
+    </Card>
+  </div>
+);
+}
 
 export const TruncatedValues = () => (
   <Card>

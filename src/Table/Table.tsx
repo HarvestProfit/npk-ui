@@ -1,6 +1,7 @@
 import React from "react";
 import classes from './Table.module.css';
 import Placeholder from "../Placeholder";
+import { BaseInputContext } from "../BaseInput/BaseInput";
 
 interface TableProps {
   [key: string]: any; // Allow other props
@@ -37,7 +38,9 @@ const Table: TableType = ({ children, layout = 'auto', variant = 'zebra', trunca
   return (
     <div data-component="table" style={{ height, minHeight, maxHeight, overflow: (height || minHeight || maxHeight) ? 'auto': 'initial' }}>
       <table data-layout={layout} data-truncate={truncate} data-variant={variant} className={`${classes.Table} ${className}`} role={ariaRole} {...props}>
-        {children}
+        <BaseInputContext.Provider value={{ variant: 'invisible' }}>
+          {children}
+        </BaseInputContext.Provider>
       </table>
     </div>
   )

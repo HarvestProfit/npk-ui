@@ -19,6 +19,8 @@
   --internal-table-section-bg-color: var(--table-section-bg-color, var(--color-neutral-90));
   --internal-table-footer-bg-color: var(--table-footer-bg-color, var(--color-neutral-90));
   --table-zebra-bg-color: lch(from var(--internal-table-bg-color) calc(l - var(--table-zebra-brightness-adjustment, 2)) c h);
+  --table-row-color--hover: var(--control-bg-color--hover);
+  --table-row-color--active: var(--control-bg-color--active);
 
   text-align: left;
   border-collapse: separate;
@@ -31,8 +33,22 @@
     table-layout: fixed;
   }
 
-  &[data-variant="zebra"] > tbody > tr:nth-child(even) > * {
+  &[data-variant="zebra"] > tbody > tr:nth-child(even) {
     --table-row-color: var(--table-zebra-bg-color, var(--internal-table-bg-color));
+  }
+
+  & > tbody > tr[data-variant="emphasis"] {
+    --table-row-color: var(--control-variant-emphasis-bg-color);
+    color: var(--control-variant-emphasis-fg-color);
+    --table-row-color--hover: var(--control-variant-emphasis-bg-color--hover);
+    --table-row-color--active: var(--control-variant-emphasis-bg-color--active);
+  }
+
+  & > tbody > tr[data-variant="muted"] {
+    --table-row-color: var(--control-variant-muted-bg-color);
+    color: var(--control-variant-muted-fg-color);
+    --table-row-color--hover: var(--control-variant-muted-bg-color--hover);
+    --table-row-color--active: var(--control-variant-muted-bg-color--active);
   }
 
   /* treegrids are clickable tables that may or may not expand */
@@ -40,34 +56,33 @@
     /* level=1 (assumed if not specified), always clickable */
     /* expandable, always clickable */
     &:not([aria-disabled="true"]) {
-      &:not([aria-level]),
-      &[aria-level="1"],
-      &[aria-expanded] {
-        &:hover > td {
+      &:not(:has([aria-level])),
+      &:has([aria-level="1"]),
+      &:has([aria-expanded]) {
+        &:hover {
           cursor: pointer;
-          transition: background-color 200ms ease-in-out;
-          --table-row-color: var(--control-bg-color--hover);
+          --table-row-color: var(--table-row-color--hover);
         }
 
-        &:active > td {
+        &:active {
           cursor: pointer;
-          transition: background-color 200ms ease-in-out;
-          --table-row-color: var(--control-bg-color--active);
+          --table-row-color: var(--table-row-color--active);
         }
       }
     }
     
-    &[aria-expanded="true"] > td {
+    &[aria-expanded="true"] {
       --table-row-color: var(--internal-table-bg-color);
       --table-border: none;
     }
 
-    &[aria-expanded="true"] + tr > td {
+    &[aria-expanded="true"] + tr {
       --table-row-color: var(--internal-table-bg-color);
     }
   }
 
   > * > tr > :is(td, th) {
+    transition: background-color 200ms ease-in-out;
     background-color: var(--table-row-color, var(--internal-table-bg-color));
   }
 

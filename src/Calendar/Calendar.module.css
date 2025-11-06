@@ -134,9 +134,10 @@
         }
 
         &[data-selection-in="true"] {
-          background-color: var(--control-bg-color--muted-active-element);
-          color: var(--control-fg-color--muted-active-element);
-          --control-bg-color--hover: var(--control-bg-color--muted-hover-element);
+          background-color: var(--control-variant-emphasis-bg-color);
+          color: var(--control-variant-emphasis-fg-color);
+          --control-bg-color--hover: var(--control-variant-emphasis-bg-color--hover);
+          --control-bg-color--active: var(--control-variant-emphasis-bg-color--active);
         }
 
         &[data-state="selected"] {
