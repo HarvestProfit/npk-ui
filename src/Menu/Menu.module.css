@@ -6,8 +6,12 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: var(--menu-bg-color);
-  color: var(--menu-fg-color);
+  --menu-bg-color--internal: var(--menu-bg-color);
+  --menu-fg-color--internal: var(--menu-fg-color);
+  --menu-border-color--internal: var(--menu-border-color);
+
+  background: var(--menu-bg-color--internal);
+  color: var(--menu-fg-color--internal);
   font-weight: normal;
   padding: var(--size-6) var(--size-6);
   border-radius: var(--control-radius);
@@ -24,6 +28,15 @@
     min-width: var(--menu-select-min-width, 225px);
   }
 
+  &[data-variant="dark"] {
+    min-width: var(--menu-menu-min-width, 100px);
+    --menu-bg-color--internal: var(--tooltip-bg-color);
+    --menu-select-option-divider-color: none;
+    --menu-fg-color--internal: var(--tooltip-fg-color);
+    --btn-fg-color: var(--menu-fg-color--internal);
+    --menu-border-color--internal: hsl(from var(--menu-bg-color--internal) h s calc(l + 10)); 
+  }
+
   & > [data-component="menu-contents"],
   & > * > .List {
     display: flex;
@@ -31,7 +44,7 @@
   }
 
   & > [data-component="menu-arrow"] {
-    color: var(--menu-bg-color);
+    color: var(--menu-bg-color--internal);
   }
 
   &[data-variant="menu"] {
@@ -84,7 +97,7 @@
 
   .Divider {
     height: 1px;
-    background: var(--menu-border-color);
+    background: var(--menu-border-color--internal);
     margin: 6px 0px;
     border: none;
     padding: 0;

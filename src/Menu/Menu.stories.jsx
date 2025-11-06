@@ -135,6 +135,15 @@ export const CustomAnchors = (props) => {
   )
 }
 
+export const DarkMenu = (props) => <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
+  <Menu variant="dark" {...props}>
+    <Button aria-label="This opens a menu" leadingVisual={Icons.AddIcon} trailingAction={Icons.DropdownIndicatorIcon} variant="primary">Dark Menu – Limit use to tooltips and custom popups</Button>
+    <Menu.Overlay>
+      <p style={{ margin: 0 }}>This is like a custom tooltip! Look at me!</p>
+    </Menu.Overlay>
+  </Menu>
+</div>
+
 export const LongerSelect = (props) => {
   const [selected, setSelected] = useState(1)
   return (

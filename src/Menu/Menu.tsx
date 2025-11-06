@@ -7,7 +7,7 @@ import usePopover from './usePopover';
 
 interface MenuProps {
   children: ReactNode;
-  variant?: 'select' | 'menu' | null;
+  variant?: 'select' | 'menu' | 'dark' | null;
   arrow?: boolean | null;
   autoDismiss?: boolean | 'menu';
   placement?: 'bottom' | 'bottom-start' | 'bottom-end' | 'top' | 'top-start' | 'top-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
@@ -126,6 +126,8 @@ Menu.Anchor = ({ render }: MenuAnchorProps) => {
 
   return (<span ref={ref} />)
 }
+
+Menu.Anchor.displayName = "Menu.Anchor";
 
 Menu.Overlay.displayName = "Menu.Overlay";
 
