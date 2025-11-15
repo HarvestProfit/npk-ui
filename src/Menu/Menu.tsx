@@ -4,6 +4,7 @@ import classes from './Menu.module.css';
 import MenuContext, { MenuContentsContext, useMenuContext, MenuContentsContextType } from './MenuContext';
 import { FloatingArrow, FloatingFocusManager, FloatingPortal } from '@floating-ui/react';
 import usePopover from './usePopover';
+import Button from '../Button';
 
 interface MenuProps {
   children: ReactNode;
@@ -100,7 +101,9 @@ Menu.Overlay = forwardRef<HTMLDivElement, MenuOverlayProps>(({ children, style, 
           {menuContext.showArrow && <FloatingArrow data-component="menu-arrow" fill="currentColor" stroke="var(--menu-border-color)" strokeWidth={1} tipRadius={1} ref={menuContext.arrowRef} context={menuContext.context} />}
           <div data-component="menu-contents">
             <MenuContentsContext.Provider value={{ ...menuContentsContext, variant: menuContentsContext.variant, placement: menuContext.placement, inMenu: true }}>
-              {children}
+              <Button.Context value={{}}>
+                {children}
+              </Button.Context>
             </MenuContentsContext.Provider>
           </div>
         </div>

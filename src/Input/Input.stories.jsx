@@ -136,6 +136,12 @@ export const Default = () => (
   </div>
 )
 
+export const Invisible = () => (
+  <div style={{ backgroundColor: '#DDDDDD', display: 'flex', flexDirection: 'row', gap: 8 }}>
+    <Input variant="invisible" label="variant=invisible" labelDescription="To blend with background" value="sample text" />
+  </div>
+)
+
 export const Masking = () => {
   const mask = () => {
     return {
@@ -282,6 +288,7 @@ export const Groups = () => {
   const [date, setDate] = React.useState();
   const [weight, setWeight] = React.useState();
   const [unit, setUnit] = React.useState('LBS');
+  const [age, setAge] = React.useState('Young');
   return (
     <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
       <div>
@@ -293,16 +300,44 @@ export const Groups = () => {
       </div>
       
       <div>
-        <Input.Group label={<><h5>Size</h5><p>Labels can be customized as well!</p></>}>
+        <Input.Group label={<><h5>Inputs with a singular menu</h5><p>Should only have a single menu in them</p></>}>
           <Input.Number placeholder="Weight" minValue={0} width={100} value={weight} onChange={setWeight} />
-          <Menu arrow>
-            <Button tabIndex={0} invisible trailingAction={Icons.DropdownIndicatorIcon}>{unit}</Button>
-            <Menu.Overlay>
-              <Button onClick={() => setUnit('LBS')}>LBS</Button>
-              <Button onClick={() => setUnit('KG')}>KG</Button>
-              <Button onClick={() => setUnit('MT')}>MT</Button>
-            </Menu.Overlay>
-          </Menu>
+          <Input.Control size="sm">
+            <Menu arrow>
+              <Button tabIndex={0} invisible trailingAction={Icons.DropdownIndicatorIcon}>{unit}</Button>
+              <Menu.Overlay>
+                <Button onClick={() => setUnit('LBS')}>LBS</Button>
+                <Button onClick={() => setUnit('KG')}>KG</Button>
+                <Button onClick={() => setUnit('MT')}>MT</Button>
+              </Menu.Overlay>
+            </Menu>
+          </Input.Control>
+        </Input.Group>
+      </div>
+
+      <div>
+        <Input.Group label="Inputs with multiple menus" labelDescription="These should use the size='sm' prop on them">
+          <Input.Number placeholder="Weight" minValue={0} width={100} value={weight} onChange={setWeight} />
+          <Input.Control size="sm">
+            <Menu arrow>
+              <Button tabIndex={0} invisible trailingAction={Icons.DropdownIndicatorIcon}>{unit}</Button>
+              <Menu.Overlay>
+                <Button onClick={() => setUnit('LBS')}>LBS</Button>
+                <Button onClick={() => setUnit('KG')}>KG</Button>
+                <Button onClick={() => setUnit('MT')}>MT</Button>
+              </Menu.Overlay>
+            </Menu>
+          </Input.Control>
+          <Input.Control size="sm">
+            <Menu arrow>
+              <Button tabIndex={0} invisible trailingAction={Icons.DropdownIndicatorIcon}>{age}</Button>
+              <Menu.Overlay>
+                <Button onClick={() => setAge('Young')}>Young</Button>
+                <Button onClick={() => setAge('Middle Age')}>Middle Age</Button>
+                <Button onClick={() => setAge('Old')}>Old</Button>
+              </Menu.Overlay>
+            </Menu>
+          </Input.Control>
         </Input.Group>
       </div>
     </div>

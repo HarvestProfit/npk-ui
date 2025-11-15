@@ -51,6 +51,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
   variant,
   as: Tag = 'span',
   disabled,
+  muted,
   label,
   labelDescription,
   labelRequirement,
@@ -106,6 +107,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
         data-variant={variant}
         data-size={size}
         data-align={align}
+        data-muted={muted}
         data-block={block}
         aria-disabled={disabled}
         onClick={onClick}
@@ -189,6 +191,7 @@ interface BaseInputContextType {
   align?: 'start' | 'center' | 'end';
   disabled?: boolean;
   loading?: boolean;
+  muted?: boolean;
   id?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;

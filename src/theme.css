@@ -137,6 +137,7 @@
   --control-font-size: var(--size-14);
   --control-small-padding: var(--size-8);
   --control-padding: var(--size-12);
+  --control-button-unweighted: 400;
   --control-button-weight: 600;
   --control-label-font-size: var(--size-14);
   --control-label-weight: 700;
