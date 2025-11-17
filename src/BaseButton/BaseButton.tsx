@@ -15,7 +15,7 @@ interface BaseButtonProps {
   loading?: boolean;
   size?: 'sm' | 'md' | 'lg'; // Add other sizes as needed
   align?: 'start' | 'center' | 'end';
-  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
+  as?: keyof React.JSX.IntrinsicElements | React.ComponentType<any>;
   chip?: ReactNode;
   children?: ReactNode;
   className?: string;

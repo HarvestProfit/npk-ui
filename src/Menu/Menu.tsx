@@ -168,7 +168,7 @@ Menu.List = ({ className = '', ...props }: MenuListProps) => (
 Menu.List.displayName = "Menu.List";
 
 interface MenuItemProps {
-  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
+  as?: keyof React.JSX.IntrinsicElements | React.ComponentType<any>;
   block?: boolean;
   className?: string;
   [key: string]: any; // Allow other props

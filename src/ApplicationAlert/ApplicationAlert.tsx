@@ -6,7 +6,7 @@ import classes from './ApplicationAlert.module.css';
 interface ApplicationAlertProps {
   variant?: 'default' | 'primary'; // Add other variants as needed
   icon?: any;
-  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
+  as?: keyof React.JSX.IntrinsicElements | React.ComponentType<any>;
   children: ReactNode;
   [key: string]: any; // Allow other props
 }

@@ -31,7 +31,7 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
   });
 
   const ref = useRef(null);
-  const debounceRef = useRef<any>();
+  const debounceRef = useRef<any>(null);
   const [internalValue, setInternalValue] = useState(inputMask.formatter(externalValue));
   const [isFocused, setIsFocused] = useState(false);
 
@@ -79,7 +79,7 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
     )
   }
 
-  let InputComponent: keyof JSX.IntrinsicElements = 'input';
+  let InputComponent: keyof React.JSX.IntrinsicElements = 'input';
   if (props.type === 'textarea') InputComponent = 'textarea';
 
   return (

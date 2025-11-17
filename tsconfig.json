@@ -1,15 +1,19 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "lib": ["dom", "esnext"],
     "esModuleInterop": true,
     "target": "es2021",
     "jsx": "react-jsx",
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist",
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "allowJs": true
+    "allowJs": true,
+    "rootDir": "src",
+    "typeRoots": ["./dist/index.d.ts", "node_modules/@types"]
   },
   "include": [
     "src/**/*.ts",

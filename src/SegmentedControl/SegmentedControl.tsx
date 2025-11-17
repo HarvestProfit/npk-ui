@@ -13,7 +13,7 @@ interface SegmentedControlProps {
   block?: boolean;
   disabled?: boolean;
   size?: 'sm' | 'md' | 'lg'; // Add other sizes as needed
-  as?: keyof JSX.IntrinsicElements | ComponentType<any>;
+  as?: keyof React.JSX.IntrinsicElements | ComponentType<any>;
   children: ReactNode;
   selected?: number;
   onChange?: (index: number) => void;

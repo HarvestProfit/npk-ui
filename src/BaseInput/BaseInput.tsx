@@ -200,7 +200,7 @@ interface BaseInputContextType {
 export interface BaseInputProps extends HTMLAttributes<HTMLElement> {
   className?: string;
   variant?: 'default' | 'invisible' | 'plain';
-  as?: keyof JSX.IntrinsicElements | ComponentType<any>;
+  as?: keyof React.JSX.IntrinsicElements | ComponentType<any>;
   disabled?: boolean;
   size?: 'sm' | 'md' | 'lg';
   align?: 'start' | 'center' | 'end';
