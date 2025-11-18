@@ -10,6 +10,7 @@ interface TableProps {
   height?: string | number;
   minHeight?: string | number;
   maxHeight?: string | number;
+  variant?: 'zebra' | 'plain';
 }
 
 interface TDProps {

@@ -51,6 +51,10 @@
     --table-row-color--active: var(--control-variant-muted-bg-color--active);
   }
 
+  & > tbody > tr:has(+ tr[aria-labelledby]:not([data-bordered="true"])) {
+    --table-border: none;
+  }
+
   /* treegrids are clickable tables that may or may not expand */
   &[role="treegrid"] > tbody > tr {
     /* level=1 (assumed if not specified), always clickable */

@@ -19,13 +19,21 @@ You can also use the `data-type="number"` attribute on `td` and `th` elements to
 
 <Canvas of={TableStories.Default} />
 
-You can also add some metrics above the table with the `Table.Metrics` component.
-<Canvas of={TableStories.WithCounterMetrics} />
+or non-zebra style:
+
+<Canvas of={TableStories.Plain} />
+
 
 ### Cards
 Tables can exist inside cards with or without a card header.
 <Canvas of={TableStories.InsideCard} />
 <Canvas of={TableStories.InsideCardWithoutHeader} />
+
+### Grouping and Subheaders
+Create subheaders by using the `scope="row"` prop on the `th` element with the colSpan attribute in a row.
+Additionally, you can create groups by using the `aria-labelledby` attribute on the `tr` element to indicate that it is labelled by a different row.
+
+<Canvas of={TableStories.Grouping} />
 
 ### Clickable and Expandable Rows
 Tables can have clickable rows and expandable rows. To make the entire table clickable, set the `aria-role="treegrid"` on the table.

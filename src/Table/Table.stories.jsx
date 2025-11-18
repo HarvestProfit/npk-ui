@@ -3,6 +3,7 @@ import Card from '@harvest-profit/npk/Card';
 import Placeholder from '@harvest-profit/npk/Placeholder';
 import Table from '@harvest-profit/npk/Table';
 import DateInput from '@harvest-profit/npk/DateInput';
+import Input from '@harvest-profit/npk/Input';
 
 export default {
   title: 'Components/Table',
@@ -78,6 +79,152 @@ export const Default = () => (
           <td data-type="number">{person.age}</td>
         </tr>
       ))}
+    </tbody>
+    <tfoot data-sticky="false">
+      <tr>
+        <td colSpan="3">This is the table footer but it is not sticky because `data-sticky="false"`</td>
+      </tr>
+    </tfoot>
+  </Table>
+);
+
+export const Plain = () => (
+  <Table variant="plain" maxHeight={400}>
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th data-type="number">Age</th>
+      </tr>
+    </thead>
+    <tbody>
+      {data.map((person, index) => (
+        <tr key={index}>
+          <td>{person.firstName}</td>
+          <td>{person.lastName}</td>
+          <td data-type="number">{person.age}</td>
+        </tr>
+      ))}
+      <tr>
+        <th scope="row" colSpan="3">Person To Jobs</th>
+      </tr>
+      <tr>
+        <td id="john-smith-job">John Smith</td>
+        <td>Engineer</td>
+        <td data-type="number">2 Years</td>
+      </tr>
+      <tr aria-labelledby="john-smith-job">
+        <td />
+        <td>Manager</td>
+        <td data-type="number">1 Year</td>
+      </tr>
+      <tr aria-labelledby="john-smith-job">
+        <td />
+        <td>Self-Employed</td>
+        <td data-type="number">5 Years</td>
+      </tr>
+      <tr>
+        <td id="john-smith-job">Tracy Johnson</td>
+        <td>Programmer</td>
+        <td data-type="number">3 Years</td>
+      </tr>
+      <tr>
+        <td id="john-smith-job">Bill Cranston</td>
+        <td>Manager</td>
+        <td data-type="number">2 Years</td>
+      </tr>
+      <tr aria-labelledby="john-smith-job">
+        <td />
+        <td>CTO</td>
+        <td data-type="number">1 Year</td>
+      </tr>
+      <tr aria-labelledby="john-smith-job" data-bordered="true">
+        <td>Keep My Independence</td>
+        <td>...</td>
+        <td data-type="number">1 Year</td>
+      </tr>
+      
+
+    </tbody>
+    <tfoot data-sticky="false">
+      <tr>
+        <td colSpan="3">This is the table footer but it is not sticky because `data-sticky="false"`</td>
+      </tr>
+    </tfoot>
+  </Table>
+);
+
+export const Grouping = () => (
+  <Table variant="plain" maxHeight={400}>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Occupation</th>
+        <th data-type="number">Timeline</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row" colSpan="3">Employees</th>
+      </tr>
+      <tr>
+        <td id="john-smith-job">John Smith</td>
+        <td>Engineer</td>
+        <td data-type="number">2 Years</td>
+      </tr>
+      <tr aria-labelledby="john-smith-job">
+        <td />
+        <td>Manager</td>
+        <td data-type="number">1 Year</td>
+      </tr>
+      <tr aria-labelledby="john-smith-job" data-bordered="true">
+        <td>Keep My Border</td>
+        <td>data-bordered="true"</td>
+        <td data-type="number">...</td>
+      </tr>
+      <tr>
+        <td id="john-smith-job">Tracy Johnson</td>
+        <td>Programmer</td>
+        <td data-type="number">3 Years</td>
+      </tr>
+      <tr>
+        <th scope="row" colSpan="3">Past Employees</th>
+      </tr>
+      <tr>
+        <td id="tom-hudson-job">Tom Hudson</td>
+        <td>Engineer</td>
+        <td data-type="number">2 Years</td>
+      </tr>
+      <tr aria-labelledby="tom-hudson-job">
+        <td />
+        <td>Manager</td>
+        <td data-type="number">1 Year</td>
+      </tr>
+      <tr aria-labelledby="tom-hudson-job">
+        <td />
+        <td>Lead Engineer</td>
+        <td data-type="number">5 Years</td>
+      </tr>
+      <tr>
+        <td id="paul-timothy-job">Paul Timothy</td>
+        <td>Programmer</td>
+        <td data-type="number">3 Years</td>
+      </tr>
+      <tr>
+        <td id="bill-cranston-job">Bill Cranston</td>
+        <td>Manager</td>
+        <td data-type="number">2 Years</td>
+      </tr>
+      <tr aria-labelledby="bill-cranston-job">
+        <td />
+        <td>CTO</td>
+        <td data-type="number">3 Year</td>
+      </tr>
+      <tr aria-labelledby="bill-cranston-job">
+        <td />
+        <td>CEO</td>
+        <td data-type="number">1 Year</td>
+      </tr>
     </tbody>
     <tfoot data-sticky="false">
       <tr>
@@ -343,22 +490,13 @@ export const TableStyling = () => {
             <td>Doe</td>
             <td data-type="number">31</td>
           </tr>
-          <tr>
-            <td>John</td>
-            <td>Smith</td>
-            <td data-type="number">25</td>
-          </tr>
-          <tr>
-            <td>Jane</td>
-            <td>Doe</td>
-            <td data-type="number">31</td>
-          </tr>
         </tbody>
       </Table>
     </Card>
     <br />
     <Card>
       <Card.Header title="Plain Table" />
+      <p>Inputs are automatically themed as "invisible" to keep with the table styling.</p>
       <Table variant="plain" role="treegrid">
         <thead>
           <tr>
@@ -375,7 +513,7 @@ export const TableStyling = () => {
           </tr>
           <tr>
             <td>Jane</td>
-            <td>Doe</td>
+            <td><Input value="Doe" /></td>
             <td data-type="number">31</td>
           </tr>
           <tr data-variant="muted">
