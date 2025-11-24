@@ -168,4 +168,6 @@
   --card-variant-normal-bg: var(--color-neutral-100);
   --card-variant-muted-bg: var(--color-neutral-90);
   --card-variant-muted-border-color: var(--color-neutral-80);
+
+  --card-section-variant-muted-bg: var(--color-neutral-95);
 }

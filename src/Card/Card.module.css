@@ -2,6 +2,8 @@
   --card-header-sticky-z-index: 6;
   --card-header-underlined-size: 2px;
 
+  --card-other-border-sizes: 1px;
+
   background-color: var(--nested-card-bg, var(--card-variant-normal-bg));
   border: 1px solid var(--card-border-color, var(--card-variant-normal-border-color));
   --card-pad-x: 14px;
@@ -35,12 +37,34 @@
   & > * > [data-component="card-divider"] {
     margin: 0 calc(var(--card-pad-x) * -1);
     padding: 0 calc(var(--card-pad-x) * -1);
-    border-bottom: 2px solid var(--card-border-color, var(--card-variant-normal-border-color));
+    border-bottom: var(--card-header-underlined-size) solid var(--card-border-color, var(--card-variant-normal-border-color));
+  }
+
+  & > [data-component="card-section"] {
+    margin-top: var(--internal-card-section-margin-top, auto);
+    margin-left: calc(var(--card-pad-x) * -1);
+    margin-right: calc(var(--card-pad-x) * -1);
+    padding: var(--card-section-padding-y, calc(var(--card-pad-y) / 2)) calc(var(--card-pad-x));
+    border-top: var(--internal-card-section-border-size, var(--card-other-border-sizes)) solid var(--card-border-color, var(--card-variant-normal-border-color));
+    border-bottom: var(--internal-card-section-border-size, var(--card-other-border-sizes)) solid var(--card-border-color, var(--card-variant-normal-border-color));
+    color: var(--color-fg-muted);
+    background-color: var(--card-section-variant-muted-bg);
+    font-size: var(--size-14);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--size-8);
+
+    &:has(+ [data-component="card-footer"]) {
+      margin-bottom: calc((var(--card-pad-y) + var(--card-other-border-sizes)) * -1);
+      border-top-width: var(--card-other-border-sizes);
+      border-bottom-width: var(--card-other-border-sizes);
+    }
   }
 
   & >[data-component="card-footer"] {
     font-size: var(--size-14);
-    opacity: 0.7;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -53,7 +77,7 @@
     padding-right: var(--card-pad-x);
     padding-left: var(--card-pad-x);
     padding-top: calc(var(--card-pad-y) / 2);
-    border-top: 1px solid var(--card-border-color, var(--card-variant-normal-border-color));
+    border-top: var(--card-other-border-sizes) solid var(--card-border-color, var(--card-variant-normal-border-color));
   }
   
 
@@ -89,6 +113,11 @@
           border-top-right-radius: var(--card-radius);
           border-top-left-radius: var(--card-radius);
         }
+      }
+
+      & + [data-component="card-section"] {
+        --internal-card-section-margin-top: calc((var(--card-pad-y, 0) + var(--card-header-underlined-size)) * -1);
+        --internal-card-section-border-size: var(--card-header-underlined-size);
       }
     }
 

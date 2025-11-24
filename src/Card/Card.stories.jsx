@@ -65,6 +65,7 @@ export const Default = {
         </p>
 
         <Card.Footer>
+          <Button>Buttons can be in the footer!</Button>
           <span><b>Key</b> Value</span>
           <span><b>Key</b> Value</span>
           <span><b>Key</b> Value</span>
@@ -120,6 +121,102 @@ export const Invisible = () => <div style={{ display: 'flex', flexDirection: 'ro
     </div>
   </Card>
 </div>
+
+export const Footers = {
+  args: {
+    variant: 'default',
+  },
+  play: async ({ canvas }) => {
+    const card = canvas.getByTestId('card-1');
+    await expect(card).toBeInTheDocument();
+    await expect(card).toHaveAttribute("data-tour", "Something Random");
+  },
+  render:({ variant, headerVariant }) => (
+    <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+      <Card data-testid="card-1" variant={variant} data-tour="Something Random">
+        <Card.Header title="Card Title" variant={headerVariant}>
+          <Card.HeaderLeadingActions>
+            <Button invisible variant="primary">See More</Button>
+          </Card.HeaderLeadingActions>
+          <Card.HeaderTrailingActions>
+            <Button invisible leadingVisual={Icons.ExportIcon}>Export</Button>
+            <Button invisible leadingVisual={Icons.ExportIcon}>Export</Button>
+          </Card.HeaderTrailingActions>
+        </Card.Header>
+
+        <p>
+          Card.Footer allows you to create a section to summarize, add additional details to a card, or even add
+          actions (like toggling a chart's visuals from line to bar).
+        </p>
+
+        <Card.Footer>
+          <Button>Buttons can be in the footer!</Button>
+          <span><b>Key</b> Value</span>
+          <span><b>Key</b> Value</span>
+          <span><b>Key</b> Value</span>
+          <span><b>Key</b> Value</span>
+        </Card.Footer>
+      </Card>
+    </div>
+  )
+}
+
+export const CardSections = {
+  args: {
+    variant: 'default',
+  },
+  render:({ variant, headerVariant }) => (
+    <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+      <Card data-testid="card-1" variant={variant} data-tour="Something Random">
+        <Card.Header title="Card Title" variant={headerVariant}>
+          <Card.HeaderLeadingActions>
+            <Button invisible variant="primary">See More</Button>
+          </Card.HeaderLeadingActions>
+          <Card.HeaderTrailingActions>
+            <Button invisible leadingVisual={Icons.ExportIcon}>Export</Button>
+            <Button invisible leadingVisual={Icons.ExportIcon}>Export</Button>
+          </Card.HeaderTrailingActions>
+        </Card.Header>
+
+        <Card.Section>
+          Card.Section will blend with the header.
+        </Card.Section>
+
+        <p>
+          Sections describe metadata for the card. To create a separate content section, use the Card.Divider component.
+          This will keep your HTML flat.
+        </p>
+
+        <Card.Divider />
+
+        <p>
+          This shows up as a separate section now thanks to the divider.
+        </p>
+
+        <Card.Section>
+          Card.Section component will add this section. These are great for including some minor meta data to the card.
+        </Card.Section>
+
+        <p>
+          Content should still be enclosed in its own content tag (paragraph tag for me!), but it will maintain its gaps
+          from its siblings correctly.
+        </p>
+
+        <Card.Section>
+          Card sections will blend with footers.
+        </Card.Section>
+
+        <Card.Footer>
+          <Button>Buttons can be in the footer!</Button>
+          <span><b>Key</b> Value</span>
+          <span><b>Key</b> Value</span>
+          <span><b>Key</b> Value</span>
+          <span><b>Key</b> Value</span>
+        </Card.Footer>
+      </Card>
+    </div>
+  )
+}
 
 export const Large = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
   <Card>

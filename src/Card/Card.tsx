@@ -23,6 +23,11 @@ interface CardItemProps {
   as?: keyof React.JSX.IntrinsicElements;
 }
 
+interface CardSectionProps {
+  children: ReactNode;
+  variant?: 'muted' | 'normal'; // Add other variants as needed
+}
+
 interface CardHeaderActionsProps {
   children: ReactNode;
 }
@@ -31,6 +36,7 @@ const Card: FC<CardProps> & {
   Header: FC<CardHeaderProps>;
   Footer: FC<CardItemProps>;
   Divider: FC<CardItemProps>;
+  Section: FC<CardSectionProps>;
   HeaderLeadingActions: FC<CardHeaderActionsProps>;
   HeaderTrailingActions: FC<CardHeaderActionsProps>;
 } = ({ children, variant = 'normal', block, className = '', style = {}, ...props }) => (
@@ -79,5 +85,11 @@ Card.Divider = () => (
 )
 
 Card.Divider.displayName = 'Card.Divider';
+
+Card.Section = ({ children, variant = "muted", ...props }) => (
+  <div data-component="card-section" data-variant={variant} {...props}>{children}</div>
+)
+
+Card.Section.displayName = 'Card.Section';
 export default Card;
 export type { CardProps, CardHeaderProps, CardItemProps, CardHeaderActionsProps };
