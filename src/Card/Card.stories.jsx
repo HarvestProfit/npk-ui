@@ -9,7 +9,7 @@ import { expect } from 'storybook/test';
 export default {
   title: 'Components/Card',
   component: Card,
-  subcomponents: { Header: Card.Header, HeaderLeadingActions: Card.HeaderLeadingActions, HeaderTrailingActions: Card.HeaderTrailingActions, Divider: Card.Divider, Footer: Card.Footer },
+  subcomponents: { Header: Card.Header, HeaderLeadingActions: Card.HeaderLeadingActions, HeaderTrailingActions: Card.HeaderTrailingActions, Divider: Card.Divider, Footer: Card.Footer, Section: Card.Section },
   argTypes: {
     variant: {
       control: {
