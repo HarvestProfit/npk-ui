@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Input from '@harvest-profit/npk/Input';
 import Button from '@harvest-profit/npk/Button';
 import Menu from '@harvest-profit/npk/Menu';
@@ -121,20 +121,30 @@ export default {
   }
 }
 
-export const Default = () => (
-  <div>
-    <label id="generic-inputs">Generic Inputs</label>
-    <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-      <Input placeholder="Placeholder" type="text" label="My Input" labelRequirement="* Required" />
-      <Input leadingVisual="TEL" placeholder="111 1111" type="tel" label="Phone" labelRequirement="Optional"/>
-      <Input placeholder="Disabled" type="text" disabled />
-      <Input value="Readonly" type="text" readOnly />
+export const Default = {
+  play: async ({ canvas }) => {
+    const form = canvas.getByRole('form');
+    await expect(form).toBeInTheDocument();
+
+    expect(form).toHaveFormValues({
+      phone: '8675309'
+    })
+  },
+  render: () => (
+    <div>
+      <label id="generic-inputs">Generic Inputs</label>
+      <form name="exampleForm" style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+        <Input placeholder="Placeholder" type="text" label="My Input" labelRequirement="* Required" />
+        <Input leadingVisual="TEL" placeholder="111 1111" type="tel" label="Phone" name="phone" value="8675309" labelRequirement="Optional"/>
+        <Input placeholder="Disabled" type="text" disabled />
+        <Input value="Readonly" type="text" readOnly />
+      </form>
+      <Input value="A longer description of things" label="Notes" type="textarea" rows={4} />
+      <br />
+      <Button>Save</Button>
     </div>
-    <Input value="A longer description of things" label="Notes" type="textarea" rows={4} />
-    <br />
-    <Button>Save</Button>
-  </div>
-)
+  )
+}
 
 export const Invisible = () => (
   <div style={{ backgroundColor: '#DDDDDD', display: 'flex', flexDirection: 'row', gap: 8 }}>
@@ -142,37 +152,93 @@ export const Invisible = () => (
   </div>
 )
 
-export const Masking = () => {
-  const mask = () => {
-    return {
-      mask: [
-        ['-', ({ nextValue, cursorIndex }) => {
-          if (nextValue[cursorIndex - 1] === '-') return false;
-          return nextValue.match(/\-/g).length < 3;
-        }],
-        [/\d/, ({ nextValue }) => {
-          if (nextValue.replaceAll('-', '').length > 10) return false;
-          return true;
-        }],
-      ],
-      formatter: (text) => {
-        if (!text) return '';
-        const value = text.replaceAll('-', '');
-        if (value.length < 10) return '';
-        return `${value.substr(0, 3)}-${value.substr(3, 3)}-${value.substr(6, 4)}`;
+export const Masking = {
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole('form')).toBeInTheDocument();
+
+    const phoneInput = canvas.getByRole('textbox', { name: 'Custom Phone Mask'});
+    await expect(phoneInput).toBeInTheDocument();
+
+    await userEvent.type(phoneInput, '123');
+
+    await expect(canvas.getByRole('form')).toHaveFormValues({
+      phone: '123'
+    });
+
+    await userEvent.type(phoneInput, 'abc4');
+
+    await expect(canvas.getByRole('form')).toHaveFormValues({
+      phone: '1234'
+    });
+
+    await userEvent.keyboard('{Backspace}');
+
+    await expect(canvas.getByRole('form')).toHaveFormValues({
+      phone: '123'
+    });
+
+    await userEvent.type(phoneInput, '-334');
+
+    await expect(canvas.getByRole('form')).toHaveFormValues({
+      phone: '123-334'
+    });
+
+    await userEvent.keyboard('{Backspace}{Backspace}{Backspace}{Backspace}');
+
+    await expect(canvas.getByRole('form')).toHaveFormValues({
+      phone: '123'
+    });
+
+    await userEvent.type(phoneInput, '8884444');
+
+    await expect(canvas.getByRole('form')).toHaveFormValues({
+      phone: '1238884444'
+    });
+
+    await userEvent.tab(); // format on focusout
+
+    await expect(canvas.getByRole('form')).toHaveFormValues({
+      phone: '123-888-4444'
+    });
+  },
+  render: () => {
+    const mask = () => {
+      return {
+        mask: [
+          ['-', ({ nextValue, cursorIndex }) => {
+            if (nextValue[cursorIndex - 1] === '-') return false;
+            return nextValue.match(/\-/g).length < 3;
+          }],
+          [/\d/, ({ nextValue }) => {
+            if (nextValue.replaceAll('-', '').length > 10) return false;
+            return true;
+          }],
+        ],
+        formatter: (text) => {
+          if (!text) return '';
+          const value = text.replaceAll('-', '');
+          if (value.length < 10) return value;
+          return `${value.substr(0, 3)}-${value.substr(3, 3)}-${value.substr(6, 4)}`;
+        }
       }
     }
-  }
 
-  return (
-    <div>
-      <label id="generic-inputs">Custom Phone Number Mask. Only Allows numbers and a certain number of dashes</label>
-      <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <Input leadingVisual="TEL" placeholder="111-111-1111" type="tel" mask={mask} />
-      </div>
-      <Button>Save</Button>
-    </div>
-  )
+    return (
+      <form name="customPhoneMaskForm">
+        <Input 
+          label="Custom Phone Mask" 
+          name="phone" 
+          labelDescription="Only Allows numbers and a certain number of dashes" 
+          leadingVisual="TEL" 
+          placeholder="111-111-1111" 
+          type="tel" 
+          mask={mask} 
+          selectAllOnFocus={false}
+        />
+        <Button>Save</Button>
+      </form>
+    )
+  }
 }
 
 
@@ -208,24 +274,46 @@ export const CustomInputs = () => {
 }
 
 
-export const Number = () => {
-  const [value, setValue] = React.useState(40.99890123);
-  return (
-    <div>
-      <label id="number-inputs">Number Inputs</label>
-      <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <Input.Number placeholder="any number" trailingVisual={Icons.QuestionIcon} />
-        <Input.Number placeholder="positive integers" formatOptions={{ maximumFractionDigits: 0, minValue: 0 }} />
-        <Input.Number placeholder="decimals or integers" formatOptions={{ maximumFractionDigits: 2 }} />
-        <Input.Number aria-labelledby="number-inputs" leadingVisual="$" placeholder="400.00" minValue={-10} formatOptions={{ minimumFractionDigits: 3, maximumFractionDigits: 4 }} />
-        <Input.Number aria-labelledby="number-inputs" name="currency-type" value={value} onChange={setValue} type="currency" placeholder="400.00" formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 2 }} />
-        <Input.Number aria-labelledby="number-inputs" name="currency-format" value={value} onChange={setValue} placeholder="Debounced" debounce formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 4 }} />
-        <Input.Number aria-labelledby="number-inputs" align="end" trailingVisual="%" placeholder="67" width={80} />
-        <Input.Number aria-labelledby="number-inputs" align="end" placeholder="67" width={80} />
+export const Number = {
+  play: async ({ canvas }) => {
+    const numInput = canvas.getByRole('textbox', { name: 'anyNumber'});
+    await expect(numInput).toBeInTheDocument();
+    await userEvent.type(numInput, '123');
+    await expect(numInput.value).toEqual('123');
+    await userEvent.type(numInput, '{Backspace}{Backspace}{Backspace}');
+    await expect(numInput.value).toEqual('');
+    await userEvent.type(numInput, '11,222.333.444');
+    await expect(numInput.value).toEqual('11,222.333444');
+    await userEvent.clear(numInput);
+    await expect(numInput.value).toEqual('');
+    await userEvent.type(numInput, 'abc.334');
+    await expect(numInput.value).toEqual('.334');
+    await userEvent.clear(numInput);
+    await userEvent.type(numInput, '-1,2,3,---4,5');
+    await expect(numInput.value).toEqual('-1,2,3,4,5');
+    await userEvent.tab();
+    await expect(numInput.value).toEqual('-12,345');
+
+  },
+  render: () => {
+    const [value, setValue] = React.useState(40.99890123);
+    return (
+      <div>
+        <label id="number-inputs">Number Inputs</label>
+        <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+          <Input.Number placeholder="any number" aria-label="anyNumber" trailingVisual={Icons.QuestionIcon} selectAllOnFocus={false} />
+          <Input.Number placeholder="positive integers" formatOptions={{ maximumFractionDigits: 0, minValue: 0 }} />
+          <Input.Number placeholder="decimals or integers" formatOptions={{ maximumFractionDigits: 2 }} />
+          <Input.Number aria-labelledby="number-inputs" leadingVisual="$" placeholder="400.00" minValue={-10} formatOptions={{ minimumFractionDigits: 3, maximumFractionDigits: 4 }} />
+          <Input.Number aria-labelledby="number-inputs" name="currency-type" value={value} onChange={setValue} type="currency" placeholder="400.00" formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 2 }} />
+          <Input.Number aria-labelledby="number-inputs" name="currency-format" value={value} onChange={setValue} placeholder="Debounced" debounce formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 4 }} />
+          <Input.Number aria-labelledby="number-inputs" align="end" trailingVisual="%" placeholder="67" width={80} />
+          <Input.Number aria-labelledby="number-inputs" align="end" placeholder="67" width={80} />
+        </div>
+        <Button>Save {value}</Button>
       </div>
-      <Button>Save {value}</Button>
-    </div>
-  )
+    )
+  }
 }
 
 export const Loading = () => {

@@ -17,6 +17,7 @@ interface InputProps extends BaseInputProps {
   disabled?: boolean;
   formatOptions?: any;
   type?: string;
+  name?: string;
   readOnly?: boolean;
 }
 

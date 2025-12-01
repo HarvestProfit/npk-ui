@@ -7,12 +7,17 @@ export const BaseInputContext = React.createContext<BaseInputContextType>({});
 
 export const useBaseInput = (props) => {
   const inheritedContext = useContext(BaseInputContext);
+
+  let providedLabel = `${props['label']}`;
+  if (providedLabel === '[Object object]') providedLabel = '';
+  if (providedLabel === '') providedLabel = null;
   
   return {
     disabled: props.disabled || inheritedContext.disabled || props.loading || inheritedContext.loading,
-    'aria-label': props['aria-label'] || inheritedContext['aria-label'],
+    'aria-label': props['aria-label'] || inheritedContext['aria-label'] || providedLabel,
     'aria-labelledby': props['aria-labelledby'] || inheritedContext['aria-labelledby'],
     id: props.id,
+    name: props.name,
     autoFocus: props.autoFocus,
     placeholder: props.placeholder,
     'aria-invalid': props['aria-invalid'],
@@ -193,6 +198,7 @@ interface BaseInputContextType {
   loading?: boolean;
   muted?: boolean;
   id?: string;
+  name?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
 }
