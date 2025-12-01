@@ -27,7 +27,7 @@ module.exports = {
     return mergeConfig(config, {
       resolve: {
         alias: {
-          "@harvest-profit/npk/icons": path.resolve(__dirname, '../tmp/icons/'),
+          "@harvest-profit/npk/icons": path.resolve(__dirname, '../src/icons/'),
           "@harvest-profit/npk": path.resolve(__dirname, '../src/')
         },
       },
