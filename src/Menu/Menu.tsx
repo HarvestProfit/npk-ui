@@ -112,6 +112,8 @@ Menu.Overlay = forwardRef<HTMLDivElement, MenuOverlayProps>(({ children, style, 
   )
 });
 
+Menu.displayName = 'Menu';
+
 Menu.useAnchor = (props = {}) => {
   const menuContext = useMenuContext();
   return [menuContext.refs.setReference, {...menuContext.getReferenceProps(props)}]

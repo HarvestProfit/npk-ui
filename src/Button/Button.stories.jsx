@@ -142,7 +142,7 @@ export default {
 }
 
 export const Default = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <Button data-tour="Something Random">default</Button>
+  <Button>default</Button>
   <Button loading>default</Button>
   <Button disabled>Disabled</Button>
   <Button leadingVisual={Icons.ExportIcon}>Leading Vis</Button>

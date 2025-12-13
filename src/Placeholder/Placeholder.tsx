@@ -30,6 +30,7 @@ const Placeholder: React.FC<PlaceholderProps> = ({ className = '', width = [70, 
       aria-hidden="true"
       className={`${classes.Placeholder} ${className}`}
       style={{ width: selectWidth(width) || 100, ...style }}
+      aria-busy="true"
       {...props}
     >
       &nbsp;

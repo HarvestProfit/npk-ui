@@ -26,7 +26,9 @@ const Spinner: React.FC<SpinnerProps> = ({
         width={size}
         viewBox="0 0 16 16"
         fill="none"
-        aria-hidden
+        aria-busy="true"
+        aria-hidden="true"
+        aria-label="Loading..."
         {...props}
       >
         <circle

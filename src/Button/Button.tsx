@@ -46,12 +46,12 @@ const useButtonDefaults = (props: ButtonProps): ButtonProps => {
   }
 
   const buttonContextDefaults = useContext(ButtonContext) || {};
-  filteredProps.variant ||= 'secondary';
+  otherProps.variant ||= 'secondary';
 
   return {
     ...otherProps,
+    ...buttonContextDefaults,
     ...filteredProps,
-    ...buttonContextDefaults
   };
 }
 

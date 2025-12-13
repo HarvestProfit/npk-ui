@@ -5,7 +5,12 @@ module.exports = {
     '../src/**/*.stories.@(js|jsx|ts|tsx)'
   ],
 
-  addons: ['@storybook/addon-docs', '@storybook/addon-vitest', '@vitest/coverage-v8'],
+  addons: [
+    '@storybook/addon-docs',
+    '@storybook/addon-vitest',
+    '@vitest/coverage-v8',
+    '@storybook/addon-a11y'
+  ],
 
   typescript: {
     reactDocgen: false

@@ -1,38 +1,48 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import useMask from '../hooks/useMask';
 import { calendarDayMask, calendarHourMask, calendarMinuteMask, calendarMonthMask, calendarMonthNameMask, calendarTimeOfDayMask, calendarYearMask } from '../Input/masks';
+import { BaseInputContext } from '../BaseInput/BaseInput';
 
 // Handles the individual segments of the date/time input
 const InputSegment = ({ segment, ...props }) => {
   let mask = null;
   let placeholder = '';
+  let defaultAriaValueNow = undefined;
+  const today = new Date();
   switch (segment) {
     case 'year':
       mask = calendarYearMask;
       placeholder = 'yyyy';
+      defaultAriaValueNow = today.getFullYear();
       break;
     case 'month':
       mask = calendarMonthMask;
       placeholder = 'mm';
+      defaultAriaValueNow = today.getMonth() + 1;
       break;
     case 'monthName':
       mask = calendarMonthNameMask;
       placeholder = 'mmm';
+      defaultAriaValueNow = today.getMonth() + 1;
       break;
     case 'day':
       mask = calendarDayMask;
       placeholder = 'dd';
+      defaultAriaValueNow = today.getDate();
       break;
     case 'hour':
       mask = calendarHourMask;
       placeholder = '––';
+      defaultAriaValueNow = today.getHours();
       break;
     case 'minute':
       mask = calendarMinuteMask;
       placeholder = '––';
+      defaultAriaValueNow = today.getMinutes();
       break;
     case 'TOD':
       mask = calendarTimeOfDayMask;
+      defaultAriaValueNow = today.getHours() > 11 ? '1' : '0';
       placeholder = 'AM';
       break;
   }
@@ -46,6 +56,8 @@ const InputSegment = ({ segment, ...props }) => {
 
     return mask(props).formatter(`${strValue || ''}`)
   }
+
+  const { labelingIds } = useContext(BaseInputContext);
 
   const [value, setValue] = useState(formatValue(props.value) || '');
   const validatingValueRef = useRef(value);
@@ -122,6 +134,11 @@ const InputSegment = ({ segment, ...props }) => {
   // Use a placeholder if the value is empty
   const valueIsEmpty = value === '' || value === undefined || value === null;
 
+  const passthroughprops = [...Object.keys(props).filter(key => key.startsWith('aria'))];
+  const filteredProps = {
+    ...passthroughprops.reduce((agg, key) => ({ ...agg, [key]: props[key] }), {})
+  }
+
   return (
     <span
       tabIndex={0} 
@@ -137,6 +154,11 @@ const InputSegment = ({ segment, ...props }) => {
       role="spinbutton" 
       style={{ minWidth: segment === 'year' ? '2.35em' : '1.35em', caretColor: 'transparent' }} 
       data-placeholder={valueIsEmpty}
+      aria-labelledby={labelingIds.label}
+      aria-valuenow={defaultAriaValueNow}
+      aria-valuetext={valueIsEmpty ? 'Empty' : value}
+      {...inputMask.aria || {}}
+      {...filteredProps}
     >
       {valueIsEmpty ? placeholder : value}
     </span>

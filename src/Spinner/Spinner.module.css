@@ -1,4 +1,5 @@
 .Spinner {
+  cursor: wait;
   animation: rotate-keyframes 1s linear infinite;
 }
 
