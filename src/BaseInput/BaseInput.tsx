@@ -220,7 +220,7 @@ interface BaseInputContextType {
   name?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
-  labelingIds: LabelObjectType
+  labelingIds?: LabelObjectType
 }
 
 export interface BaseInputProps extends HTMLAttributes<HTMLElement> {

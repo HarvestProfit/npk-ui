@@ -57,7 +57,7 @@ const InputSegment = ({ segment, ...props }) => {
     return mask(props).formatter(`${strValue || ''}`)
   }
 
-  const { labelingIds } = useContext(BaseInputContext);
+  const labelingIds = useContext(BaseInputContext).labelingIds || {};
 
   const [value, setValue] = useState(formatValue(props.value) || '');
   const validatingValueRef = useRef(value);
