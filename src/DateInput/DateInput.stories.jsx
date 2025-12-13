@@ -209,12 +209,12 @@ export const Plain = () => <div style={{ display: 'flex', flexDirection: 'row', 
 </div>
 
 export const Granularity = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <div><label>Minute</label><DateInput granularity="minute" includeYear={false} /></div>
-  <div><label>Day (Default)</label><DateInput granularity="day" monthAsName /></div>
-  <div><label>Month</label><DateInput granularity="month" /></div>
-  <div><label>Year</label><DateInput granularity="year" /></div>
-  <div><label>Month (Range)</label><DateInput.Range granularity="month" monthAsName /></div>
-  <div><label>Time</label><DateInput granularity="time" /></div>
+  <div><DateInput label="Minute" granularity="minute" includeYear={false} /></div>
+  <div><DateInput label="Day (Default)" granularity="day" monthAsName /></div>
+  <div><DateInput label="Month" granularity="month" /></div>
+  <div><DateInput label="Year" granularity="year" /></div>
+  <div><DateInput.Range label="Month (Range)" granularity="month" monthAsName /></div>
+  <div><DateInput label="Time" granularity="time" /></div>
 </div>
 
 export const PassThroughProps = {

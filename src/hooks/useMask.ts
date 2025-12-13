@@ -88,6 +88,7 @@ export default (props) => {
   return {
     onKeyDown: mask ? handleOnKeyDown : onKeyDown,
     formatter: mask?.formatter || ((value) => value),
+    aria: mask?.aria || {}
   };
 }
 
@@ -102,6 +103,7 @@ interface MaskReturnType {
   formatter?: (value: string) => string;
   autoComplete?: (value: string, key: string) => string;
   shiftFocusIf?: (nextValue: string, key: string) => boolean;
+  aria?: any
 }
 
 type MaskType = (props?: any) => MaskReturnType;

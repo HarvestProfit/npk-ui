@@ -84,6 +84,10 @@ export const calendarDayMask: MaskType = ({ dateValue = new Date() } = {}) => {
       if (!value || value.length === 0) return value;
       if (value === '0') return '01'; // Special case for zero
       return `${value}`.padStart(2, '0');
+    },
+    aria: {
+      'aria-valuemin': 1,
+      'aria-valuemax': 31
     }
   }
 }
@@ -114,6 +118,10 @@ export const calendarMonthMask: MaskType = ({ dateValue = new Date() } = {}) => 
       if (!value || value.length === 0) return value;
       if (value === '0') return '01'; // Special case for zero
       return `${value}`.padStart(2, '0');
+    },
+    aria: {
+      'aria-valuemin': 1,
+      'aria-valuemax': 12
     }
   }
 }
@@ -132,6 +140,10 @@ export const calendarYearMask: MaskType = (props = {}) => {
     formatter: (value) => {
       if (!value) return value;
       return `${value}`.padStart(3, '0').padStart(4, '2');;
+    },
+    aria: {
+      'aria-valuemin': 1,
+      'aria-valuemax': 9999
     }
   }
 }
@@ -162,6 +174,10 @@ export const calendarHourMask: MaskType = ({ militaryTime = false } = {}) => {
       if (!value || value.length === 0) return value;
       if (value === '0' && !militaryTime) return '01'; // Special case for zero
       return `${value}`.padStart(2, '0');
+    },
+    aria: {
+      'aria-valuemin': 1,
+      'aria-valuemax': 23
     }
   }
 }
@@ -186,6 +202,10 @@ export const calendarMinuteMask: MaskType = (props = {}) => {
     formatter: (value) => {
       if (!value || value.length === 0) return value;
       return `${value}`.padStart(2, '0');
+    },
+    aria: {
+      'aria-valuemin': 0,
+      'aria-valuemax': 59
     }
   }
 }
@@ -210,6 +230,10 @@ export const calendarTimeOfDayMask: MaskType = (props = {}) => {
       if (value.toLowerCase().startsWith('a')) return 'AM';
       if (value.toLowerCase().startsWith('p')) return 'PM';
       return value;
+    },
+    aria: {
+      'aria-valuemin': 0,
+      'aria-valuemax': 1
     }
   }
 }
@@ -249,6 +273,10 @@ export const calendarMonthNameMask: MaskType = (props = {}) => {
         if (MONTH_ABBREVIATIONS[i].startsWith(value.toLowerCase())) return capitalize(MONTH_ABBREVIATIONS[i]); // Check if the next value starts with a valid month abbreviation
       }
       return value;
+    },
+    aria: {
+      'aria-valuemin': 1,
+      'aria-valuemax': 12
     }
   }
 }

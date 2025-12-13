@@ -133,14 +133,14 @@ const DateInputInternal = ({
 
   const dateParts = [];
   if (['day', 'month', 'minute'].includes(granularity)) {
-    dateParts.push(<InputSegment segment={monthAsName ? 'monthName' : 'month'} setIsFocused={setInputSegmentFocused} value={monthValue} onChange={setMonthValue} />);
+    dateParts.push(<InputSegment aria-label="month, " segment={monthAsName ? 'monthName' : 'month'} setIsFocused={setInputSegmentFocused} value={monthValue} onChange={setMonthValue} />);
   }
   if (['day', 'minute'].includes(granularity)) {
-    const dayPart = (<InputSegment segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} onOldChange={(day => onChange(new Date(new Date(updateValue).setDate(day))))} />);
+    const dayPart = (<InputSegment aria-label="day, "segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} onOldChange={(day => onChange(new Date(new Date(updateValue).setDate(day))))} />);
     (dayIsInFrontForCurrentLocale() && !monthAsName) ? dateParts.unshift(dayPart) : dateParts.push(dayPart);
   }
   if (includeYear && ['day', 'month', 'year', 'minute'].includes(granularity)) {
-    dateParts.push(<InputSegment segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} onOldChange={(year => onChange(new Date(new Date(updateValue).setFullYear(year))))} />);
+    dateParts.push(<InputSegment aria-label="year, " segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} onOldChange={(year => onChange(new Date(new Date(updateValue).setFullYear(year))))} />);
   }
 
   const contents = (
@@ -160,11 +160,11 @@ const DateInputInternal = ({
       </GranularityInclude>
       
       <GranularityInclude active={['minute', 'time'].includes(granularity)}>
-        <InputSegment segment="hour" setIsFocused={setInputSegmentFocused} value={hourValue} onChange={setHourValue} />
+        <InputSegment aria-label="hour, " segment="hour" setIsFocused={setInputSegmentFocused} value={hourValue} onChange={setHourValue} />
         <span aria-hidden="true" data-component="input-segment">:</span>
-        <InputSegment segment="minute" setIsFocused={setInputSegmentFocused} value={minuteValue} onChange={setMinuteValue} />
+        <InputSegment aria-label="minute, " segment="minute" setIsFocused={setInputSegmentFocused} value={minuteValue} onChange={setMinuteValue} />
         <span aria-hidden="true" data-component="input-segment"></span>
-        <InputSegment segment="TOD" setIsFocused={setInputSegmentFocused} value={todValue} onChange={setTODValue} />
+        <InputSegment aria-label="time of day, " segment="TOD" setIsFocused={setInputSegmentFocused} value={todValue} onChange={setTODValue} />
       </GranularityInclude>
     </>
   );
@@ -174,6 +174,7 @@ const DateInputInternal = ({
     return (
       <BaseInput containsSegments contentsRef={ref} {...dateGroupProps} {...props}>
         {contents}
+        <input type="hidden" value={`${updateValue?.toISOString()}`} />
       </BaseInput>
     )
   }
@@ -181,6 +182,7 @@ const DateInputInternal = ({
   return (
     <Group containsSegments contentsRef={ref} {...dateGroupProps} {...props}>
       {contents}
+      <input hidden type="text" value={`${updateValue?.toISOString()}`} />
     </Group>
   )
 };
@@ -199,20 +201,30 @@ const DateInput = ({
   excludeGroup,
   ...props
 }) => {
-  let value = externalValue;
-  let onChange = onExternalChange;
+  let initialValue = externalValue;
+  let onValueChange = onExternalChange;
   switch (output) {
     case 'ISO':
-      value = fromISO(value);
-      onChange = (newValue) => onExternalChange(toISO(newValue));
+      initialValue = fromISO(initialValue);
+      onValueChange = (newValue) => onExternalChange(toISO(newValue));
       break;
     case 'timestamp':
-      value = fromTimestamp(value);
-      onChange = (newValue) => onExternalChange(toTimestamp(newValue));
+      initialValue = fromTimestamp(initialValue);
+      onValueChange = (newValue) => onExternalChange(toTimestamp(newValue));
       break;
     default:
       break;
   }
+
+  const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    if (value !== externalValue) onValueChange(value);
+  }, [value?.toString()]);
+
+  useEffect(() => {
+    if (value !== initialValue) setValue(initialValue);
+  }, [initialValue?.toString()]);
 
   const extraProps: { trailingVisual?: React.ReactNode } = {};
 
@@ -221,7 +233,7 @@ const DateInput = ({
       <Menu arrow placement="bottom" autoDismiss={false}>
         <Button invisible icon={CalendarIcon} aria-label="Pick a date" tabIndex={-1} />
         <Menu.Overlay>
-          <Calendar visibleMonths={visibleMonths} presets={presets} value={value} onChange={onChange} output="date" autoDismiss={autoDismiss} />
+          <Calendar visibleMonths={visibleMonths} presets={presets} value={value} onChange={setValue} output="date" autoDismiss={autoDismiss} />
         </Menu.Overlay>
       </Menu>
     );
@@ -229,7 +241,7 @@ const DateInput = ({
 
   return (
     <DateInputInternal 
-      onChange={onChange} 
+      onChange={setValue} 
       value={value} 
       granularity={granularity} 
       excludeGroup={excludeGroup} 

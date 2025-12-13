@@ -89,7 +89,11 @@ const BaseButton: React.FC<BaseButtonProps> = forwardRef<HTMLButtonElement, Base
     if (!props['aria-label'] && !props['aria-describedby']) console.warn('Please provide a tooltip to this button.');
   }
 
+  const loadingProps = {};
+
   if (loading) {
+    loadingProps['aria-busy'] = true;
+    loadingProps['aria-label'] = `Loading${props['aria-label'] ? ` ${props['aria-label']}` : ''}...`;
     state = 'loading';
     disabled = true;
     if (LeadingVisual) {
@@ -103,7 +107,21 @@ const BaseButton: React.FC<BaseButtonProps> = forwardRef<HTMLButtonElement, Base
 
   return (
     <>
-      <Component ref={ref} className={`${classes.ControlButton} ${className || ''}`} disabled={disabled} data-alignment={align} data-size={size} data-block={block} data-state={state} data-truncate={truncate} data-component="button" type={Component === 'button' ? 'button' : undefined} { ...props } { ...popoverProps }>
+      <Component 
+        ref={ref} 
+        className={`${classes.ControlButton} ${className || ''}`} 
+        disabled={disabled} 
+        data-alignment={align} 
+        data-size={size} 
+        data-block={block} 
+        data-state={state} 
+        data-truncate={truncate} 
+        data-component="button"
+        type={Component === 'button' ? 'button' : undefined} 
+        { ...props } 
+        {...loadingProps}
+        { ...popoverProps }
+        >
         <span data-component="contents" data-icon={!!(!children && (TrailingVisual || LeadingVisual))}>
           {LeadingVisual && <span data-component="leadingVisual">{React.isValidElement(LeadingVisual) ? LeadingVisual : <LeadingVisual />}</span>}
           {textLoading}
@@ -114,7 +132,7 @@ const BaseButton: React.FC<BaseButtonProps> = forwardRef<HTMLButtonElement, Base
       </Component>
       {props['aria-label'] && popoverProps['aria-expanded'] !== 'true' && (
         <Tooltip targetRef={internalRef}>
-          {props['aria-label']}
+          {loadingProps['aria-label'] || props['aria-label']}
         </Tooltip>
       )}
     </>

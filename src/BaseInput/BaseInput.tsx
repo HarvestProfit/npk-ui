@@ -1,4 +1,4 @@
-import React, { ReactNode, ComponentType, Ref, HTMLAttributes, useContext, useId } from 'react';
+import React, { ReactNode, ComponentType, Ref, HTMLAttributes, useContext, useId, useState } from 'react';
 import classes from './BaseInput.module.css';
 import Placeholder from '../Placeholder';
 import { nextFocusableElement } from '../utils';
@@ -50,6 +50,7 @@ const preventFocusOnMouseDown = (event) => {
   }
 }
 
+let incId = 0; // note, replace with useId when we finally get to a later version of react.
 
 const BaseInput: React.FC<BaseInputProps> = ({
   className = '',
@@ -85,6 +86,15 @@ const BaseInput: React.FC<BaseInputProps> = ({
   disabled = disabled || inheritedContext.disabled;
   props['aria-label'] = props['aria-label'] || inheritedContext['aria-label'];
   props['aria-labelledby'] = props['aria-labelledby'] || inheritedContext['aria-labelledby'];
+
+  const [uniqueID] = useState(`npk-btn-${incId++}`);
+  const labelingIds: LabelObjectType = {}
+
+  if (label) labelingIds.label = `${uniqueID}-label`;
+  if (labelDescription) labelingIds.description = `${uniqueID}-description`;
+  if (labelRequirement) labelingIds.requirement = `${uniqueID}-requirement`;
+  if (error) labelingIds.error = `${uniqueID}-error`;
+  if (info) labelingIds.info = `${uniqueID}-info`;
 
   const widthStyles = width ? { width } : {};
 
@@ -140,6 +150,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
               align,
               'aria-label': props['aria-label'],
               'aria-labelledby': props['aria-labelledby'],
+              labelingIds
             }}
           >
             {children}
@@ -160,7 +171,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
 
   if (label) {
     return (
-      <label className={`${classes.Label} ${className}`} onClick={(e) => {
+      <label id={labelingIds.label} className={`${classes.Label} ${className}`} onClick={(e) => {
         if (e.currentTarget.contains(document.activeElement)) {
           e.preventDefault();
           return;
@@ -172,9 +183,9 @@ const BaseInput: React.FC<BaseInputProps> = ({
       }}>
         <span data-component="label">
           <span data-component="label-contents">{label}</span>
-          {labelRequirement && <span data-component="label-requirement">{labelRequirement}</span>}  
+          {labelRequirement && <span data-component="label-requirement" id={labelingIds.requirement}>{labelRequirement}</span>}  
         </span>
-        {labelDescription && <span data-component="label-description">{labelDescription}</span>}
+        {labelDescription && <span data-component="label-description" id={labelingIds.description}>{labelDescription}</span>}
         {renderResult}
         {(info || error) && (
           <span data-component="label-info" data-error={!!error}>
@@ -190,6 +201,14 @@ const BaseInput: React.FC<BaseInputProps> = ({
 
 export default BaseInput;
 
+interface LabelObjectType {
+  label?: string;
+  description?: string;
+  requirement?: string;
+  info?: string;
+  error?: string;
+}
+
 interface BaseInputContextType {
   variant?: 'default' | 'invisible' | 'plain';
   size?: 'sm' | 'md' | 'lg';
@@ -201,6 +220,7 @@ interface BaseInputContextType {
   name?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
+  labelingIds: LabelObjectType
 }
 
 export interface BaseInputProps extends HTMLAttributes<HTMLElement> {

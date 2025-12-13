@@ -21,8 +21,6 @@ const darkTheme = create({
 
 export default {
   parameters: {
-    actions: { argTypesRegex: "^on[A-Z].*" },
-
     controls: {
       hideNoControlsWarning: true,
       matchers: {
