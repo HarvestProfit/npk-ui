@@ -219,8 +219,12 @@ const DateInput = ({
   const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
-    onValueChange(value);
-  }, [value]);
+    if (value !== externalValue) onValueChange(value);
+  }, [value?.toString()]);
+
+  useEffect(() => {
+    if (value !== initialValue) setValue(initialValue);
+  }, [initialValue?.toString()]);
 
   const extraProps: { trailingVisual?: React.ReactNode } = {};
 
