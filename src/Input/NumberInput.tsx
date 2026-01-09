@@ -9,7 +9,7 @@ interface NumberInputProps extends Omit<InputProps, 'value' | 'onChange'> {
 }
 
 const NumberInput: React.FC<NumberInputProps> = ({ onChange = (_v) => null, value, ...props }) => {
-  
+
   return (
     <Input
       mask="number"
@@ -40,10 +40,10 @@ const NumberInputWrapper: React.FC<NumberInputProps> = (props) => {
   }
 
   const formatOptions = { ...suggestedFormatOptions, ...(props.formatOptions || {}) };
-  
+
   return (
-  <NumberInput 
-    {...suggestedProps} 
+  <NumberInput
+    {...suggestedProps}
     {...props}
     formatOptions={formatOptions}
   />);

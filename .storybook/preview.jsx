@@ -24,20 +24,14 @@ export default {
     controls: {
       hideNoControlsWarning: true,
       matchers: {
-        date: /Date$/
+        date: /Date$/,
       },
     },
 
     options: {
       storySort: {
-        order: [
-          'Overview',
-          'Components',
-          'Loading',
-          '*',
-          'WIP'
-        ]
-      }
+        order: ['Overview', 'Components', 'Loading', '*', 'WIP'],
+      },
     },
 
     viewMode: 'docs',
@@ -51,24 +45,36 @@ export default {
       // Override the default dark theme
       dark: darkTheme,
       // Override the default light theme
-      light: lightTheme
+      light: lightTheme,
     },
 
     docs: {
-      codePanel: true
-    }
+      codePanel: true,
+    },
+
+    a11y: {
+      // 'todo' - show a11y violations in the test UI only
+      // 'error' - fail CI on a11y violations
+      // 'off' - skip a11y checks entirely
+      test: 'todo',
+    },
   },
   decorators: [
     (Story, { id }) => {
       return (
         <div>
           <div id={`${id}_prependRoot`} />
-          <ThemeContextProvider config={{ prependRootId: `${id}_prependRoot`, appendRootId: `${id}_appendRoot` }}>
+          <ThemeContextProvider
+            config={{
+              prependRootId: `${id}_prependRoot`,
+              appendRootId: `${id}_appendRoot`,
+            }}
+          >
             <Story />
           </ThemeContextProvider>
           <div id={`${id}_appendRoot`} />
         </div>
-      )
+      );
     },
-  ]
-}
+  ],
+};

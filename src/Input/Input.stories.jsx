@@ -225,14 +225,14 @@ export const Masking = {
 
     return (
       <form name="customPhoneMaskForm">
-        <Input 
-          label="Custom Phone Mask" 
-          name="phone" 
-          labelDescription="Only Allows numbers and a certain number of dashes" 
-          leadingVisual="TEL" 
-          placeholder="111-111-1111" 
-          type="tel" 
-          mask={mask} 
+        <Input
+          label="Custom Phone Mask"
+          name="phone"
+          labelDescription="Only Allows numbers and a certain number of dashes"
+          leadingVisual="TEL"
+          placeholder="111-111-1111"
+          type="tel"
+          mask={mask}
           selectAllOnFocus={false}
         />
         <Button>Save</Button>
@@ -300,10 +300,16 @@ export const Number = {
     return (
       <div>
         <label id="number-inputs">Number Inputs</label>
+        <p>
+          You can set numeric rules using the <code>formatOptions</code> prop.
+          <br />
+
+          <code>{'formatOptions={{ maximumFractionDigits: 4, minimumFractionDigits: 2, minValue: 0, maxValue: 1000, separator: false }}'}</code>
+        </p>
         <div style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
           <Input.Number placeholder="any number" aria-label="anyNumber" trailingVisual={Icons.QuestionIcon} selectAllOnFocus={false} />
           <Input.Number placeholder="positive integers" formatOptions={{ maximumFractionDigits: 0, minValue: 0 }} />
-          <Input.Number placeholder="decimals or integers" formatOptions={{ maximumFractionDigits: 2 }} />
+          <Input.Number placeholder="decimals or integers" formatOptions={{ maximumFractionDigits: 2, separator: false }} />
           <Input.Number aria-labelledby="number-inputs" leadingVisual="$" placeholder="400.00" minValue={-10} formatOptions={{ minimumFractionDigits: 3, maximumFractionDigits: 4 }} />
           <Input.Number aria-labelledby="number-inputs" name="currency-type" value={value} onChange={setValue} type="currency" placeholder="400.00" formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 2 }} />
           <Input.Number aria-labelledby="number-inputs" name="currency-format" value={value} onChange={setValue} placeholder="Debounced" debounce formatOptions={{ style: 'currency', currency: 'USD', maximumFractionDigits: 4 }} />
@@ -386,7 +392,7 @@ export const Groups = () => {
           <DateInput value={date} onChange={setDate} />
         </Input.Group>
       </div>
-      
+
       <div>
         <Input.Group label={<><h5>Inputs with a singular menu</h5><p>Should only have a single menu in them</p></>}>
           <Input.Number placeholder="Weight" minValue={0} width={100} value={weight} onChange={setWeight} />

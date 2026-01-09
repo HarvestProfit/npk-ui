@@ -6,10 +6,11 @@ interface NumericMaskProps {
   minimumFractionDigits?: number;
   minValue?: number;
   maxValue?: number;
+  separator?: string | false;
 }
 
 export const numericMask: MaskType = (props: NumericMaskProps = {}) => {
-  const { maximumFractionDigits, minimumFractionDigits, minValue, maxValue } = props;
+  const { maximumFractionDigits, minimumFractionDigits, minValue, maxValue, separator } = props;
 
   return {
     mask: [
@@ -25,7 +26,7 @@ export const numericMask: MaskType = (props: NumericMaskProps = {}) => {
       }),
       rule(',', ({ nextValue, previousValue, cursorIndex }) => {
         if (nextValue[cursorIndex] === '-') return false;
-        if (previousValue[cursorIndex - 1] === ',') return false;
+        if (previousValue[cursorIndex - 1] === (separator || ',')) return false;
         if (previousValue.slice(0, cursorIndex).split('.')[1]) return false;
         return true;
       }),
@@ -43,7 +44,10 @@ export const numericMask: MaskType = (props: NumericMaskProps = {}) => {
       const numberValue = parseFloat(value.replace(/,/g, ''));
       const numberString = isFinite(maximumFractionDigits) ? numberValue.toFixed(maximumFractionDigits) : numberValue.toString();
       const parts = numberString.split('.');
-      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      if (separator !== false) {
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, (separator || ','));
+      }
+
       if (isFinite(minimumFractionDigits)) {
         const decimalNumber = parseFloat(`0.${parts[1] || '0'}`);
         parts[1] = isNaN(decimalNumber) ? '0' : (`${decimalNumber}`.split('.')[1] || '0');
@@ -51,7 +55,7 @@ export const numericMask: MaskType = (props: NumericMaskProps = {}) => {
       } else if (parseInt(parts[1]) === 0) {
         parts.pop();
       }
-      
+
       return parts.join('.');
     }
   }
