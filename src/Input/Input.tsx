@@ -74,9 +74,10 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
   }
 
   if (readOnly) {
+    const widthStyles = props.width ? { width: props.width } : {};
     return (
       <BaseInput {...props} variant="plain" labelAlign={props.align}>
-        <span {...inputProps} data-component="readonly-content" data-emphasis={emphasis} className={classes.ReadonlyInput} ref={ref}>{internalValue || ''}</span>
+        <span {...inputProps} style={widthStyles} data-component="readonly-content" data-emphasis={emphasis} className={classes.ReadonlyInput} ref={ref}>{internalValue || ''}</span>
       </BaseInput>
     )
   }

@@ -458,7 +458,7 @@ export const Readonly = () => <div style={{ display: 'flex', flexDirection: 'row
   <Input readOnly value="Some value that is longer" width={200} label="Readonly Input" labelDescription="Something additional" labelRequirement="required" info="More details" />
 
   <Input readOnly value="Some value" label="Readonly Input" labelDescription="Something additional" info="More details" align="end" />
-  <Input readOnly emphasis value="Some value" label="Important Readonly" labelDescription="Something additional" info="More details" align="end" />
+  <Input readOnly emphasis width={200} value="Some value" label="Important Readonly" labelDescription="Something additional" info="More details" align="end" />
 </div>
 
 export const Playground = (props) => <Input {...props} />
