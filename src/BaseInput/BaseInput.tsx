@@ -11,7 +11,7 @@ export const useBaseInput = (props) => {
   let providedLabel = `${props['label']}`;
   if (providedLabel === '[Object object]') providedLabel = '';
   if (providedLabel === '') providedLabel = null;
-  
+
   return {
     disabled: props.disabled || inheritedContext.disabled || props.loading || inheritedContext.loading,
     'aria-label': props['aria-label'] || inheritedContext['aria-label'] || providedLabel,
@@ -65,6 +65,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
   error,
   size,
   align,
+  labelAlign,
   block,
   leadingVisual: LeadingVisual,
   trailingVisual: TrailingVisual,
@@ -171,7 +172,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
 
   if (label) {
     return (
-      <label id={labelingIds.label} className={`${classes.Label} ${className}`} onClick={(e) => {
+      <label id={labelingIds.label} data-label-align={labelAlign} className={`${classes.Label} ${className}`} onClick={(e) => {
         if (e.currentTarget.contains(document.activeElement)) {
           e.preventDefault();
           return;
@@ -183,7 +184,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
       }}>
         <span data-component="label">
           <span data-component="label-contents">{label}</span>
-          {labelRequirement && <span data-component="label-requirement" id={labelingIds.requirement}>{labelRequirement}</span>}  
+          {labelRequirement && <span data-component="label-requirement" id={labelingIds.requirement}>{labelRequirement}</span>}
         </span>
         {labelDescription && <span data-component="label-description" id={labelingIds.description}>{labelDescription}</span>}
         {renderResult}
@@ -230,6 +231,7 @@ export interface BaseInputProps extends HTMLAttributes<HTMLElement> {
   disabled?: boolean;
   size?: 'sm' | 'md' | 'lg';
   align?: 'start' | 'center' | 'end';
+  labelAlign?: 'start' | 'center' | 'end';
   leadingVisual?: ReactNode | any;
   trailingVisual?: ReactNode | any;
   children?: ReactNode;

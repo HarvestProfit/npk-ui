@@ -19,9 +19,10 @@ interface InputProps extends BaseInputProps {
   type?: string;
   name?: string;
   readOnly?: boolean;
+  emphasis?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: externalValue, onChange: onExternalChange, debounce = false, readOnly = false, formatOptions = {}, ...props }) => {
+const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: externalValue, onChange: onExternalChange, debounce = false, readOnly = false, emphasis = false, formatOptions = {}, ...props }) => {
   const inputProps = useBaseInput(props);
 
   const maskFunction = (typeof mask === 'string') ? maskFetch[mask] : (mask || (() => null));
@@ -68,14 +69,14 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
       onInternalChange(e.target.files);
       return;
     }
-    
+
     onInternalChange(e.target.value);
   }
 
   if (readOnly) {
     return (
-      <BaseInput {...props} variant="plain">
-        <span {...inputProps} className={classes.Input} ref={ref}>{internalValue || ''}</span>
+      <BaseInput {...props} variant="plain" labelAlign={props.align}>
+        <span {...inputProps} data-component="readonly-content" data-emphasis={emphasis} className={classes.ReadonlyInput} ref={ref}>{internalValue || ''}</span>
       </BaseInput>
     )
   }

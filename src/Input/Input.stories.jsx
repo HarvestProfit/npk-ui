@@ -137,7 +137,7 @@ export const Default = {
         <Input placeholder="Placeholder" type="text" label="My Input" labelRequirement="* Required" />
         <Input leadingVisual="TEL" placeholder="111 1111" type="tel" label="Phone" name="phone" value="8675309" labelRequirement="Optional"/>
         <Input placeholder="Disabled" type="text" disabled />
-        <Input value="Readonly" type="text" readOnly />
+        <Input value="Readonly" type="text" readOnly label="Readonly" />
       </form>
       <Input value="A longer description of things" label="Notes" type="textarea" rows={4} />
       <br />
@@ -451,6 +451,14 @@ export const PassThroughProps = {
 
 export const Plain = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
   <Input variant="plain" />
+</div>
+
+export const Readonly = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+  <Input value="Some value" label="Default Input" labelDescription="Something additional" labelRequirement="required" info="More details" />
+  <Input readOnly value="Some value that is longer" width={200} label="Readonly Input" labelDescription="Something additional" labelRequirement="required" info="More details" />
+
+  <Input readOnly value="Some value" label="Readonly Input" labelDescription="Something additional" info="More details" align="end" />
+  <Input readOnly emphasis value="Some value" label="Important Readonly" labelDescription="Something additional" info="More details" align="end" />
 </div>
 
 export const Playground = (props) => <Input {...props} />
