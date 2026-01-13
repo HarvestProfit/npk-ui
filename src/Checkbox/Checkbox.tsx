@@ -90,7 +90,7 @@ const Checkbox: FC<CheckboxProps> & {} = ({
     )
   }
 
-  if (!props['aria-label']) console.warn('Please provide an aria-label to this checkbox.');
+  if (!props['aria-label'] && !props['aria-labelledby']) console.warn('Please provide an aria-label to this checkbox.');
 
   return input;
 };
