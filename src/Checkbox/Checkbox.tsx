@@ -89,6 +89,10 @@ const Checkbox: FC<CheckboxProps> & {} = ({
       </label>
     )
   }
+
+  if (!props['aria-label']) console.warn('Please provide an aria-label to this checkbox.');
+
+  return input;
 };
 
 export default Checkbox;
