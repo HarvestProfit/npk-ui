@@ -48,7 +48,7 @@ const Checkbox: FC<CheckboxProps> & {} = ({
       aria-checked={value || false}
       onClick={onChangeValue}
       aria-disabled={disabled}
-      tabIndex={1}
+      tabIndex={0}
       onKeyDown={(event) => {
         console.log(event.key);
         if (event.key === ' ' || event.key === 'Enter') {
