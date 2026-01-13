@@ -14,7 +14,7 @@ export default defineConfig({
     //Specifies that the output of the build will be a library.
     target: 'esnext',
     lib: {
-      //Defines the entry point for the library build. It resolves 
+      //Defines the entry point for the library build. It resolves
       //to src/index.ts,indicating that the library starts from this file.
       entry: path.resolve(__dirname, "src/index.ts"),
       name: "@harvest-profit/npk",

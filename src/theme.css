@@ -1,16 +1,18 @@
 /* color theme */
 :root {
   --color-green: #3f9142;
+  /*--color-green: #3C853C; enable this for AA contrast approval */
   --color-green-90: #e9f5ea;
   --color-green-80: #cae7cb;
   --color-green-70: #a8d8aa;
-  
+
   --color-green--hover: #3C8A3F;
   --color-green--active: #37803A;
   --color-green--disabled: #77BA7A;
 
   --color-orange: #F4801F;
   --color-red: #d63b49;
+  /*--color-red: #CD2D3C; enable this for AA contrast approval */
   --color-brown: #8C602C;
   --color-blue: #1470e1;
   --color-purple: #960eeb;

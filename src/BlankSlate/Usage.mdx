@@ -1,0 +1,40 @@
+import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
+ 
+import * as BlankSlateStories from './BlankSlate.stories.jsx';
+ 
+<Meta of={BlankSlateStories} />
+ 
+# Blank Slates
+Blank slates represent an empty state on a page. This will tell users how to populate the page.
+
+The <code>BlankSlate.Description</code> component should <em>always</em> be added to a blank slate to add context
+as to why the state is blank and what the user can do about it. Additionally, the <code>BlankSlate.Actions</code> component
+should also be used to provide users a next step on how to populate the page.
+
+### Default
+<small>Use: General</small>
+
+<Canvas of={BlankSlateStories.Default} />
+
+### Normal (No Border)
+The default is without a border and is great as a stand alone item on a page telling the user what actions they 
+should take to fill the page.
+<Canvas of={BlankSlateStories.Normal} />
+
+### Border
+Blank Slates with borders are great when there are other components on the page and you need to section things up
+a bit.
+<Canvas of={BlankSlateStories.Border} />
+
+### Visuals
+
+Providing the <code>BlankSlate.Visual</code> component with a large icon allows you to break up the page/text a bit with
+some fun representable image. This isn't always needed but can be nice.
+
+<b>If a large icon isn't available in this package, use a <em>light</em> icon from font awesome with a font size of 2.5rem</b>.
+
+<Canvas of={BlankSlateStories.Visuals} />
+
+
+## Props
+<Controls />

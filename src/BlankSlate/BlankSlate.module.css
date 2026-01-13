@@ -1,0 +1,46 @@
+.BlankSlateTitle {
+  margin: 0;
+  font-weight: 800;
+  text-align: center;
+  font-size: 1.2rem;
+  order: 1;
+}
+
+.BlankSlateDescription {
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: normal;
+  max-width: 700px;
+  margin: 0 auto;
+  order: 2;
+}
+
+.BlankSlate {
+  margin: 0;
+
+  &[data-variant="normal"] {
+    margin: 4rem 0;
+    --card-border-color: transparent;
+    --nested-card-bg: transparent;
+  }
+
+  div[data-component="blank-slate-contents"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--size-14);
+  }
+}
+
+.BlankSlateActions {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--size-8);
+  order: 3;
+}
+
+.BlankSlateVisual {
+  order: 0;
+}
