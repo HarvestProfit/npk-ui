@@ -6,7 +6,7 @@ import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
 import InputSegment from './InputSegment';
-import { dayIsInFrontForCurrentLocale, fromISO, fromTimestamp, monthAbbrevToIndex, monthHumanToIndex, monthIndexToAbbrev, monthIndexToHuman, toISO, toTimestamp } from '../Calendar/utils';
+import { dayIsInFrontForCurrentLocale, fromISO, fromTimestamp, isEqual, monthAbbrevToIndex, monthHumanToIndex, monthIndexToAbbrev, monthIndexToHuman, toISO, toTimestamp } from '../Calendar/utils';
 
 const GranularityInclude = ({ children, active }) => active ? children : null;
 
@@ -187,7 +187,7 @@ const DateInputInternal = ({
   )
 };
 
-const DateInput = ({
+const DateInput: React.FC<DateInputProps> = ({
   visibleMonths = 1,
   autoDismiss = true,
   presets = false,
@@ -201,33 +201,35 @@ const DateInput = ({
   excludeGroup,
   ...props
 }) => {
-  let initialValue = externalValue;
   let onValueChange = onExternalChange;
-  let formatValue = (v: Date) => v;
+  let toDateFormatter = (v: Date): Date => v;
   switch (output) {
     case 'ISO':
-      initialValue = fromISO(initialValue);
       onValueChange = (newValue) => onExternalChange(toISO(newValue));
-      formatValue = (v) => toISO(v);
+      toDateFormatter = (v) => fromISO(v);
       break;
     case 'timestamp':
-      initialValue = fromTimestamp(initialValue);
       onValueChange = (newValue) => onExternalChange(toTimestamp(newValue));
-      formatValue = (v) => toTimestamp(v);
+      toDateFormatter = (v) => fromTimestamp(v);
       break;
     default:
       break;
   }
 
-  const [value, setValue] = useState(initialValue);
+  const formattedExternalValue = toDateFormatter(externalValue);
+  const [value, setValue] = useState(formattedExternalValue);
 
   useEffect(() => {
-    if (formatValue(value) !== externalValue) onValueChange(value);
+    // If internal value is different than the external value based on granularity, update
+    // the external value. The granularity ensures that if this is a date picker, changes to
+    // minutes do not trigger a change.
+    if (!isEqual(value, formattedExternalValue, granularity)) onValueChange(value);
   }, [value?.toString()]);
 
   useEffect(() => {
-    if (value !== initialValue) setValue(initialValue);
-  }, [initialValue?.toString()]);
+    // Ensure internal value matches external value
+    if (value !== formattedExternalValue) setValue(formattedExternalValue);
+  }, [formattedExternalValue?.toString()]);
 
   const extraProps: { trailingVisual?: React.ReactNode } = {};
 

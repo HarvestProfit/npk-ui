@@ -224,18 +224,34 @@ export const Tests = {
     await userEvent.tab();
     await userEvent.keyboard('1')
     await expect(output).toHaveTextContent(testValue2?.toString());
+
+    const btn = canvas.getByTestId('addHourButton');
+    const monthOutput = canvas.getByTestId('monthOutput');
+    await expect(monthOutput).toHaveTextContent('2024-12-12');
+    await userEvent.tab();
+    await userEvent.keyboard('1')
+    await userEvent.click(btn);
+    await expect(monthOutput).toHaveTextContent('2024-12-12');
   },
   render: () => {
-    const [value, setValue] = React.useState(testValue1)
+    const [value, setValue] = React.useState(testValue1);
+    const [monthValue, setMonthValue] = React.useState('2024-12-12');
 
     return (
       <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
         <Card>
           <Card.Header title="Test for onchange hook only called when actually changing something" />
           <div>
+            <h4>Test Time Input</h4>
             <DateInput data-testid="input" granularity="time" value={value} onChange={() => setValue(testValue2)} />
-            <Button>Save</Button>
             <p data-testid="output">{value?.toString()}</p>
+          </div>
+          <Card.Divider />
+          <div>
+            <h4>Test Month Input</h4>
+            <DateInput data-testid="monthInput" granularity="month" value={monthValue} onChange={() => setMonthValue('2024-2-12')} />
+            <Button data-testid="addHourButton" onClick={() => setMonthValue('2024-12-12')}>Add an Hour</Button>
+            <p data-testid="monthOutput">{monthValue?.toString()}</p>
           </div>
 
         </Card>

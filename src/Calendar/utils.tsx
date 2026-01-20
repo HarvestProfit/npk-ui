@@ -13,7 +13,8 @@ export const startOfYear = (date = today()) => new Date(new Date(date).setMonth(
 export const endOfYear = (date = today()) => new Date(new Date(date).setMonth(11, 31));
 export const startOfDay = (date = today()) => new Date(new Date(date).setHours(0, 0, 0, 0));
 export const endOfDay = (date = today()) => new Date(new Date(date).setHours(23, 59, 59, 999));
-export const addDays = (date, days) => new Date(new Date(date).setDate(date.getDate() + days)); 
+export const addHours = (date, hours) => new Date(new Date(date).setHours(date.getHours() + hours));
+export const addDays = (date, days) => new Date(new Date(date).setDate(date.getDate() + days));
 export const addMonths = (date, months) => new Date(new Date(date).setMonth(date.getMonth() + months));
 export const addYears = (date, years) => new Date(new Date(date).setFullYear(date.getFullYear() + years));
 
@@ -63,6 +64,22 @@ export function monthAbbrevToIndex(monthAbbrev) {
     if (MONTH_ABBREVIATIONS[i].startsWith(monthAbbrev.toLowerCase())) return i; // Check if the next value starts with a valid month abbreviation
   }
   return null;
+}
+
+export function isEqual(one: Date, two: Date, granularity: 'day' | 'month' | 'year' | 'minute' | 'time' = 'day') {
+  switch (granularity) {
+    case "day":
+      return isEqual(one, two, 'month') && one.getDate() === two.getDate();
+    case "month":
+      return isEqual(one, two, 'year') && one.getMonth() === two.getMonth();
+    case "year":
+      return one.getFullYear() === two.getFullYear();
+    case "time":
+    case "minute":
+      return isEqual(one, two, 'day') && one.getHours() === two.getHours() && one.getMinutes() === two.getMinutes();
+    default:
+      return false;
+  }
 }
 
 export function isSameDay(one, two) {
