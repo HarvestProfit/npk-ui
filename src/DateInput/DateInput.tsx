@@ -13,7 +13,7 @@ const GranularityInclude = ({ children, active }) => active ? children : null;
 const hourAndTODfromDate = (date) => {
   if (!date) return {};
   const hours = date.getHours();
-  const tod = hours >= 12 ? 'PM' : 'AM';  
+  const tod = hours >= 12 ? 'PM' : 'AM';
   const hour = hours % 12 || 12; // Convert to 12-hour format
   return { hour, tod };
 }
@@ -37,7 +37,7 @@ const useDateGroupFocus = () => {
       node.focus();
     }
 
-    focusNearest(e.target);    
+    focusNearest(e.target);
   }
 
   return { onMouseDown };
@@ -158,7 +158,7 @@ const DateInputInternal = ({
         <span aria-hidden="true" data-component="input-segment">, </span>
         <span aria-hidden="true" data-component="input-segment"></span>
       </GranularityInclude>
-      
+
       <GranularityInclude active={['minute', 'time'].includes(granularity)}>
         <InputSegment aria-label="hour, " segment="hour" setIsFocused={setInputSegmentFocused} value={hourValue} onChange={setHourValue} />
         <span aria-hidden="true" data-component="input-segment">:</span>
@@ -203,14 +203,17 @@ const DateInput = ({
 }) => {
   let initialValue = externalValue;
   let onValueChange = onExternalChange;
+  let formatValue = (v: Date) => v;
   switch (output) {
     case 'ISO':
       initialValue = fromISO(initialValue);
       onValueChange = (newValue) => onExternalChange(toISO(newValue));
+      formatValue = (v) => toISO(v);
       break;
     case 'timestamp':
       initialValue = fromTimestamp(initialValue);
       onValueChange = (newValue) => onExternalChange(toTimestamp(newValue));
+      formatValue = (v) => toTimestamp(v);
       break;
     default:
       break;
@@ -219,7 +222,7 @@ const DateInput = ({
   const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
-    if (value !== externalValue) onValueChange(value);
+    if (formatValue(value) !== externalValue) onValueChange(value);
   }, [value?.toString()]);
 
   useEffect(() => {
@@ -240,11 +243,11 @@ const DateInput = ({
   }
 
   return (
-    <DateInputInternal 
-      onChange={setValue} 
-      value={value} 
-      granularity={granularity} 
-      excludeGroup={excludeGroup} 
+    <DateInputInternal
+      onChange={setValue}
+      value={value}
+      granularity={granularity}
+      excludeGroup={excludeGroup}
       includeYear={includeYear}
       monthAsName={monthAsName}
       {...props}

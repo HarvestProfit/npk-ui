@@ -5,7 +5,7 @@ import Calendar from '@harvest-profit/npk/Calendar';
 import Menu from '@harvest-profit/npk/Menu';
 import Card from '@harvest-profit/npk/Card';
 import * as Icons from '@harvest-profit/npk/icons/regular';
-import { expect } from 'storybook/test';
+import { expect, userEvent } from 'storybook/test';
 
 const icons = { None: null, ...Icons }
 
@@ -86,6 +86,14 @@ export default {
       },
       options: ['second', 'minute', 'hour', 'day', 'month', 'year'],
       table: { defaultValue: { summary: "day" } }
+    },
+    output: {
+      control: {
+        type: 'radio'
+      },
+      options: ['ISO', 'timestamp', 'date'],
+      description: 'The format of the value inputted and outputted via onChange from this component',
+      table: { defaultValue: { summary: 'ISO' }}
     },
     variant: {
       control: {
@@ -170,7 +178,7 @@ export const CalendarInline = () => {
       <Card style={{ width: 650 }}>
       <Calendar visibleMonths={2} value={date} onChange={setDate} />
       </Card>
-      
+
     </div>
   )
 }
@@ -186,22 +194,55 @@ export const Range = (props) => {
 }
 
 export const Time = () => {
-  const [value, setValue] = React.useState(new Date())
+  const [value, setValue] = React.useState(val)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-  <Card>
-    <Card.Header title="Input in a Card" />
-    <div>
-      <DateInput granularity="time" value={value} onChange={setValue} />
-      <Button>Save</Button>
-      <p>{value?.toString()}</p>
+      <Card>
+        <Card.Header title="Input in a Card" />
+        <div>
+          <DateInput granularity="time" value={value} onChange={setValue} />
+          <Button>Save</Button>
+          <p data-testid="output">{value?.toString()}</p>
+        </div>
+
+      </Card>
+
     </div>
-    
-  </Card>
-  
-</div>
   )
+}
+
+const testValue1 = (new Date()).toISOString();
+const testValue2 = dateUtils.addDays(new Date(), 2).toISOString();
+export const Tests = {
+  play: async ({ canvas }) => {
+    const output = canvas.getByTestId('output');
+    await expect(output).toBeInTheDocument();
+    await expect(output).toHaveTextContent(testValue1?.toString());
+
+    const input = canvas.getByTestId('input');
+    await userEvent.tab();
+    await userEvent.keyboard('1')
+    await expect(output).toHaveTextContent(testValue2?.toString());
+  },
+  render: () => {
+    const [value, setValue] = React.useState(testValue1)
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+        <Card>
+          <Card.Header title="Test for onchange hook only called when actually changing something" />
+          <div>
+            <DateInput data-testid="input" granularity="time" value={value} onChange={() => setValue(testValue2)} />
+            <Button>Save</Button>
+            <p data-testid="output">{value?.toString()}</p>
+          </div>
+
+        </Card>
+
+      </div>
+    )
+  }
 }
 
 export const Plain = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
