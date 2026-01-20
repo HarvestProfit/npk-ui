@@ -13,12 +13,13 @@ interface DateRangeInputProps {
   visibleMonths?: number;
   includeYear?: boolean;
   monthAsName?: boolean;
+  granularity?: 'day' | 'month' | 'year' | 'minute' | 'time';
   output?: 'ISO' | 'timestamp' | 'Date';
   onChange?: (range: { start: Date; end: Date }) => void;
   [key: string]: any; // Allow additional props
 }
 
-const DateRangeInput = ({
+const DateRangeInput: React.FC<DateRangeInputProps> = ({
   picker,
   visibleMonths = 2,
   value: externalValue,
@@ -108,9 +109,9 @@ const DateRangeInput = ({
 
   return (
     <Group containsSegments contentsRef={ref} {...props} {...extraProps}>
-      <DateInput output="date" excludeGroup onChange={onChangeStart} value={value?.start} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur} includeYear={includeYear} monthAsName={monthAsName} />
+      <DateInput output="Date" excludeGroup onChange={onChangeStart} value={value?.start} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur} includeYear={includeYear} monthAsName={monthAsName} />
       <span style={{ padding: '0 10px' }}>–</span>
-      <DateInput output="date" excludeGroup onChange={onChangeEnd} value={value?.end} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur} includeYear={includeYear} monthAsName={monthAsName} />
+      <DateInput output="Date" excludeGroup onChange={onChangeEnd} value={value?.end} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur} includeYear={includeYear} monthAsName={monthAsName} />
     </Group>
   );
 };

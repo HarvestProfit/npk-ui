@@ -91,7 +91,7 @@ export default {
       control: {
         type: 'radio'
       },
-      options: ['ISO', 'timestamp', 'date'],
+      options: ['ISO', 'timestamp', 'Date'],
       description: 'The format of the value inputted and outputted via onChange from this component',
       table: { defaultValue: { summary: 'ISO' }}
     },
