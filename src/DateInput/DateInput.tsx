@@ -6,7 +6,7 @@ import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
 import InputSegment from './InputSegment';
-import { change, dayIsInFrontForCurrentLocale, fromISO, fromTimestamp, isEqual, monthAbbrevToMonthIndex, monthIndexToAbbrev, monthIndexToMonthNumber, monthNumberToMonthIndex, setMonth, today, toISO, toTimestamp } from '../Calendar/utils';
+import { change, dayIsInFrontForCurrentLocale, fromISO, fromTimestamp, isEqual, monthAbbrevToMonthIndex, monthIndexToAbbrev, monthIndexToMonthNumber, monthNumberToMonthIndex, today, toISO, toTimestamp } from '../Calendar/utils';
 
 const GranularityInclude = ({ children, active }) => active ? children : null;
 
