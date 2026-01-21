@@ -6,7 +6,7 @@ import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
 import InputSegment from './InputSegment';
-import { dayIsInFrontForCurrentLocale, fromISO, fromTimestamp, isEqual, monthAbbrevToIndex, monthHumanToIndex, monthIndexToAbbrev, monthIndexToHuman, toISO, toTimestamp } from '../Calendar/utils';
+import { change, dayIsInFrontForCurrentLocale, fromISO, fromTimestamp, isEqual, monthAbbrevToMonthIndex, monthIndexToAbbrev, monthIndexToMonthNumber, monthNumberToMonthIndex, setMonth, today, toISO, toTimestamp } from '../Calendar/utils';
 
 const GranularityInclude = ({ children, active }) => active ? children : null;
 
@@ -63,7 +63,7 @@ const DateInputInternal = ({
   excludeGroup = false,
   ...props
 }) => {
-  let updateValue = new Date(); // When updating a new date, we build off the current date and then set individual values
+  let updateValue = today(); // When updating a new date, we build off the current date and then set individual values
   let segmentDateValue = value; // We then use a date segment and a time segment for the values of the segments
   let segmentTimeValue = value; // If "value" is not a complete date, we do not fill out the input. Time will be null if the time is 00:00:00.000
   if (value instanceof Date && !isNaN(value.getTime())) {
@@ -76,30 +76,30 @@ const DateInputInternal = ({
     segmentTimeValue = null;
   }
 
-  const toMonthValue = monthAsName ? monthIndexToAbbrev : monthIndexToHuman;
-  const fromMonthValue = monthAsName ? monthAbbrevToIndex : monthHumanToIndex;
+  const monthIndexToMonthValue = monthAsName ? monthIndexToAbbrev : monthIndexToMonthNumber;
+  const monthValueToMonthIndex = monthAsName ? monthAbbrevToMonthIndex : monthNumberToMonthIndex;
 
   // Specify the rules of getting and setting the values of the segments
-  const [monthValue, setMonthValue] = useOnChangeState(toMonthValue(segmentDateValue?.getMonth()), (month) => onChange(new Date(new Date(updateValue).setMonth(fromMonthValue(month)))));
-  const [dayValue, setDayValue] = useOnChangeState(segmentDateValue?.getDate(), (day => onChange(new Date(new Date(updateValue).setDate(day)))));
-  const [yearValue, setYearValue] = useOnChangeState(segmentDateValue?.getFullYear(), (year => onChange(new Date(new Date(updateValue).setFullYear(year)))));
-  const [minuteValue, setMinuteValue] = useOnChangeState(segmentTimeValue?.getMinutes(), (minutes => onChange(new Date(new Date(updateValue).setMinutes(minutes)))));
+  const [monthValue, setMonthValue] = useOnChangeState(monthIndexToMonthValue(segmentDateValue?.getMonth()), (month) => onChange(change(updateValue, monthValueToMonthIndex(month), 'monthIndex')));
+  const [dayValue, setDayValue] = useOnChangeState(segmentDateValue?.getDate(), (day => onChange(change(updateValue, day, 'day'))));
+  const [yearValue, setYearValue] = useOnChangeState(segmentDateValue?.getFullYear(), (year => onChange(change(updateValue, year, 'year'))));
+  const [minuteValue, setMinuteValue] = useOnChangeState(segmentTimeValue?.getMinutes(), (minutes => onChange(change(updateValue, minutes, 'minute'))));
   const [todValue, setTODValue] = useOnChangeState(hourAndTODfromDate(segmentTimeValue).tod, (tod) => {
-    const hours = new Date(updateValue).getHours();
+    const hours = updateValue.getHours();
     if (tod === 'AM' && hours >= 12) {
-      onChange(new Date(new Date(updateValue).setHours(hours - 12)))
+      onChange(change(updateValue, hours - 12, 'hour'));
     } else if (tod === 'PM' && hours < 12) {
-      onChange(new Date(new Date(updateValue).setHours(hours + 12)))
+      onChange(change(updateValue, hours + 12, 'hour'));
     }
   });
   const [hourValue, setHourValue] = useOnChangeState(hourAndTODfromDate(segmentTimeValue).hour, (hour) => {
     const intHours = parseInt(hour);
     if (todValue === 'AM' && intHours === 12) { // hours are tricky because of the 12-hour format. Native date objects are 24-hour format
-      onChange(new Date(new Date(updateValue).setHours(0)))
+      onChange(change(updateValue, 0, 'hour'));
     } else if (todValue === 'PM' && intHours < 12) {
-      onChange(new Date(new Date(updateValue).setHours(intHours + 12)))
+      onChange(change(updateValue, intHours + 12, 'hour'));
     } else {
-      onChange(new Date(new Date(updateValue).setHours(hour)))
+      onChange(change(updateValue, hour, 'hour'));
     }
   });
 
@@ -108,7 +108,7 @@ const DateInputInternal = ({
   const [isFocused, setIsFocused] = useState(false);
   useEffect(() => {
     if (!isFocused) { // if the input is out of focus, we will accept updates from outside changes
-      setMonthValue(toMonthValue(segmentDateValue?.getMonth()));
+      setMonthValue(monthIndexToMonthValue(segmentDateValue?.getMonth()));
       setDayValue(segmentDateValue?.getDate());
       setYearValue(segmentDateValue?.getFullYear());
       setHourValue(hourAndTODfromDate(segmentTimeValue).hour);
@@ -136,11 +136,11 @@ const DateInputInternal = ({
     dateParts.push(<InputSegment aria-label="month, " segment={monthAsName ? 'monthName' : 'month'} setIsFocused={setInputSegmentFocused} value={monthValue} onChange={setMonthValue} />);
   }
   if (['day', 'minute'].includes(granularity)) {
-    const dayPart = (<InputSegment aria-label="day, "segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} onOldChange={(day => onChange(new Date(new Date(updateValue).setDate(day))))} />);
+    const dayPart = (<InputSegment aria-label="day, "segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} onOldChange={(day => onChange(change(updateValue, day, 'day')))} />);
     (dayIsInFrontForCurrentLocale() && !monthAsName) ? dateParts.unshift(dayPart) : dateParts.push(dayPart);
   }
   if (includeYear && ['day', 'month', 'year', 'minute'].includes(granularity)) {
-    dateParts.push(<InputSegment aria-label="year, " segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} onOldChange={(year => onChange(new Date(new Date(updateValue).setFullYear(year))))} />);
+    dateParts.push(<InputSegment aria-label="year, " segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} onOldChange={(year => onChange(change(updateValue, year, 'year')))} />);
   }
 
   const contents = (
@@ -195,7 +195,7 @@ const DateInput: React.FC<DateInputProps> = ({
   output = 'ISO',
   includeYear = true,
   monthAsName = false,
-  onChange: onExternalChange = (_value) => null,
+  onChange: onExternalChange = (_value: string | Date | number) => null,
   value: externalValue,
   granularity = 'day',
   excludeGroup,
@@ -205,11 +205,11 @@ const DateInput: React.FC<DateInputProps> = ({
   let toDateFormatter = (v: Date): Date => v;
   switch (output) {
     case 'ISO':
-      onValueChange = (newValue) => onExternalChange(toISO(newValue));
+      onValueChange = (newValue: Date) => onExternalChange(toISO(newValue));
       toDateFormatter = (v) => fromISO(v);
       break;
     case 'timestamp':
-      onValueChange = (newValue) => onExternalChange(toTimestamp(newValue));
+      onValueChange = (newValue: Date) => onExternalChange(toTimestamp(newValue));
       toDateFormatter = (v) => fromTimestamp(v);
       break;
     default:
@@ -267,7 +267,7 @@ interface DateInputProps {
   includeYear?: boolean;
   monthAsName?: boolean;
   output?: 'ISO' | 'timestamp' | 'Date';
-  onChange?: (date: Date) => void;
+  onChange?: (date: Date | string | number) => void;
   [key: string]: any; // Allow additional props
 }
 

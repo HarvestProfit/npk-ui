@@ -1,4 +1,4 @@
-import { MONTH_ABBREVIATIONS } from '../Calendar/utils';
+import { change, getMonthNames, getMonthNamesStartingWith, today } from '../Calendar/utils';
 import { rule, MaskType } from '../hooks/useMask';
 
 interface NumericMaskProps {
@@ -61,12 +61,12 @@ export const numericMask: MaskType = (props: NumericMaskProps = {}) => {
   }
 }
 
-export const calendarDayMask: MaskType = ({ dateValue = new Date() } = {}) => {
+export const calendarDayMask: MaskType = ({ dateValue = today() } = {}) => {
   const performRule = (nextInputValue) => {
     if (nextInputValue === '0') return true;
     if (nextInputValue.length > 2) return false; // max of 2 digits for day
 
-    const nextDateValue = new Date(dateValue.getFullYear(), dateValue.getMonth(), nextInputValue);
+    const nextDateValue = change(dateValue, nextInputValue, 'day');
     if (dateValue.getMonth() !== nextDateValue.getMonth()) return false;
     if (dateValue.getFullYear() !== nextDateValue.getFullYear()) return false;
     if (nextDateValue.getDate() !== parseInt(nextInputValue, 10)) return false;
@@ -96,13 +96,13 @@ export const calendarDayMask: MaskType = ({ dateValue = new Date() } = {}) => {
   }
 }
 
-export const calendarMonthMask: MaskType = ({ dateValue = new Date() } = {}) => {
+export const calendarMonthMask: MaskType = ({ dateValue = today() } = {}) => {
 
   const performRule = (nextInputValue) => {
     if (nextInputValue === '0') return true;
     if (nextInputValue.length > 2) return false; // max of 2 digits for month
     const monthNumber = parseInt(nextInputValue, 10) - 1; // Convert to zero-based month index
-    const nextDateValue = new Date(dateValue.getFullYear(), monthNumber, dateValue.getDate());
+    const nextDateValue = change(dateValue, monthNumber, 'monthIndex');
     if (nextDateValue.getMonth() !== monthNumber) return false;
     if (dateValue.getFullYear() !== nextDateValue.getFullYear()) return false;
     if (dateValue.getDate() !== nextDateValue.getDate()) return false;
@@ -242,29 +242,42 @@ export const calendarTimeOfDayMask: MaskType = (props = {}) => {
   }
 }
 
+// For english for example, this will return 'Jul' for july (since June also starts with "Ju"), and "Oct" for "o" since it is unique.
+function autoCompleteKeyForAbbreviation(abbrev: string, characterCount = 1) {
+  if (abbrev.length === characterCount) return abbrev;
+
+  const matches = getMonthNamesStartingWith(abbrev.slice(0, characterCount), 'default', 'short');
+  if (matches.length === 1) {
+    return abbrev.toLowerCase().slice(0, characterCount);
+  } else if (matches.length === 0) {
+    return 'noclue';
+  } else {
+    return autoCompleteKeyForAbbreviation(abbrev, characterCount + 1);
+  }
+}
+
 export const calendarMonthNameMask: MaskType = (props = {}) => {
-  const autoComplete = (value, _key) => {
-    if (value.startsWith('f')) return 'Feb';
-    if (value.startsWith('n')) return 'Nov';
-    if (value.startsWith('d')) return 'Dec';
-    if (value.startsWith('s')) return 'Sep';
-    if (value.startsWith('o')) return 'Oct';
-    if (value.startsWith('ja')) return 'Jan';
-    if (value.startsWith('au')) return 'Aug';
-    if (value.startsWith('ap')) return 'Apr';
-    return value;
+  const monthAbbrevs = getMonthNames('default', 'short');
+
+  const autoCompleteKeys = monthAbbrevs.map((abbrev) => [autoCompleteKeyForAbbreviation(abbrev), abbrev]);
+
+  const autoComplete = (value: string) => {
+    const foundAutoCompleteKey = autoCompleteKeys.find((keyMatch) => value.startsWith(keyMatch[0]));
+    if (!foundAutoCompleteKey) return value;
+    return foundAutoCompleteKey[1];
   }
   return {
-    shiftFocusIf: (nextValue, key) => {
-      if (autoComplete(nextValue, key) !== nextValue) return true;
+    shiftFocusIf: (nextValue) => {
+      if (autoComplete(nextValue) !== nextValue) return true;
       if (nextValue.length >= 3) return true;
       return false;
     },
     mask: [
       rule(/^[a-zA-Z]$/, ({ nextValue }) => {
         if (nextValue.length > 3) return false; // max of 3 letters for month name
-        for (let i = 0; i < MONTH_ABBREVIATIONS.length; i++) {
-          if (MONTH_ABBREVIATIONS[i].startsWith(nextValue.toLowerCase())) return true; // Check if the next value starts with a valid month abbreviation
+
+        for (let i = 0; i < monthAbbrevs.length; i++) {
+          if (monthAbbrevs[i].toLowerCase().startsWith(nextValue.toLowerCase())) return true; // Check if the next value starts with a valid month abbreviation
         }
         return false; // If it doesn't match any month abbreviation, return false
       })
@@ -272,9 +285,9 @@ export const calendarMonthNameMask: MaskType = (props = {}) => {
     autoComplete,
     formatter: (value) => {
       if (!value || value.length === 0) return value;
-      for (let i = 0; i < MONTH_ABBREVIATIONS.length; i++) {
-        const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-        if (MONTH_ABBREVIATIONS[i].startsWith(value.toLowerCase())) return capitalize(MONTH_ABBREVIATIONS[i]); // Check if the next value starts with a valid month abbreviation
+      for (let i = 0; i < monthAbbrevs.length; i++) {
+        const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+        if (monthAbbrevs[i].toLowerCase().startsWith(value.toLowerCase())) return capitalize(monthAbbrevs[i]); // Check if the next value starts with a valid month abbreviation
       }
       return value;
     },

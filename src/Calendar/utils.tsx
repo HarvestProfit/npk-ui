@@ -1,72 +1,143 @@
+export const timeZones = () => Intl.supportedValuesOf('timeZone');
 export const today = () => new Date();
-export const yesterday = () => new Date(new Date().setDate(today().getDate() - 1));
-export const tomorrow = () => new Date(new Date().setDate(today().getDate() + 1));
-export const nextMonth = () => new Date(new Date().setMonth(today().getMonth() + 1));
-export const lastMonth = () => new Date(new Date().setMonth(today().getMonth() - 1));
-export const nextYear = () => new Date(new Date().setFullYear(today().getFullYear() + 1));
-export const lastYear = () => new Date(new Date().setFullYear(today().getFullYear() - 1));
-export const startOfWeek = (date = today()) => new Date(new Date().setDate(date.getDate() - date.getDay()));
-export const endOfWeek = (date = today()) => new Date(new Date().setDate(date.getDate() + (6 - date.getDay())));
-export const startOfMonth = (date = today()) => new Date(new Date(date).setDate(1));
-export const endOfMonth = (date = today()) => new Date(new Date(date).setMonth(date.getMonth() + 1, 0));
-export const startOfYear = (date = today()) => new Date(new Date(date).setMonth(0, 1));
-export const endOfYear = (date = today()) => new Date(new Date(date).setMonth(11, 31));
-export const startOfDay = (date = today()) => new Date(new Date(date).setHours(0, 0, 0, 0));
-export const endOfDay = (date = today()) => new Date(new Date(date).setHours(23, 59, 59, 999));
-export const addHours = (date, hours) => new Date(new Date(date).setHours(date.getHours() + hours));
-export const addDays = (date, days) => new Date(new Date(date).setDate(date.getDate() + days));
-export const addMonths = (date, months) => new Date(new Date(date).setMonth(date.getMonth() + months));
-export const addYears = (date, years) => new Date(new Date(date).setFullYear(date.getFullYear() + years));
+// Shortcuts Relative
+export const yesterday = () => subtract(today(), 1, 'day');
+export const tomorrow = () => add(today(), 1, 'day');
+export const nextMonth = () => add(today(), 1, 'month');
+export const lastMonth = () => subtract(today(), 1, 'month');
+export const nextYear = () => add(today(), 1, 'year');
+export const lastYear = () => subtract(today(), 1, 'year');
+// Shortcuts Start/End
+export const startOfWeek = (date = today()) => change(date, date.getDate() - date.getDay(), 'day');
+export const endOfWeek = (date = today()) => change(date, date.getDate() + (6 - date.getDay()), 'day');
+export const startOfMonth = (date = today()) => change(date, 1, 'day');
+export const endOfMonth = (date = today()) => subtract(add(startOfMonth(date), 1, 'month'), 1, 'day');
+export const startOfYear = (date = today()) => change(change(date, 1, 'day'), 1, 'month');
+export const endOfYear = (date = today()) => subtract(add(startOfYear(date), 1, 'year'), 1, 'day');
+export const startOfDay = (date = today()) => {
+  const newValue = new Date(date);
+  newValue.setHours(0, 0, 0, 0);
+  return newValue;
+}
+export const endOfDay = (date = today()) => {
+  const newValue = new Date(date);
+  newValue.setHours(23, 59, 59, 999);
+  return newValue;
+}
+
+export function change(date: Date, value: number | string, granularity: 'minute' | 'hour' | 'day' | 'month' | 'monthIndex' | 'year'): Date {
+  const newValue = new Date(date);
+  const numberValue = (Number.isFinite(value)) ? value as number : parseInt(value as string)
+
+  switch (granularity) {
+    case "minute":
+      newValue.setMinutes(numberValue);
+      break;
+    case "hour":
+      newValue.setHours(numberValue);
+      break;
+    case "day":
+      newValue.setDate(numberValue);
+      break;
+    case "month":
+      newValue.setMonth(numberValue - 1);
+      break;
+    case "monthIndex":
+      newValue.setMonth(numberValue);
+      break;
+    case "year":
+      newValue.setFullYear(numberValue);
+      break;
+  }
+
+  return newValue;
+}
+
+export function add(date: Date, amount: number, granularity: 'minute' | 'hour' | 'day' | 'month' | 'year'): Date {
+  switch (granularity) {
+    case "minute":
+      return change(date, date.getMinutes() + amount, 'minute');
+    case "hour":
+      return change(date, date.getHours() + amount, 'hour');
+    case "day":
+      return change(date, date.getDate() + amount, 'day');
+    case "month":
+      return change(date, date.getMonth() + amount, 'monthIndex');
+    case "year":
+      return change(date, date.getFullYear() + amount, 'year');
+    default:
+      return date;
+  }
+}
+
+export function subtract(date: Date, amount: number, granularity: 'minute' | 'hour' | 'day' | 'month' | 'year'): Date {
+  return add(date, amount * -1, granularity);
+}
 
 export function dayIsInFrontForCurrentLocale() {
-  return (new Date(2020, 11, 31).toLocaleDateString().indexOf('31') < 2);
+  return (new Date(2020, 11, 31).toLocaleDateString('default').indexOf('31') < 2);
 }
 
-export function fromISO(dateString) {
+export function fromISO(dateString: string | Date) {
   if (!dateString) return null;
   if (dateString instanceof Date) return dateString;
-  if (dateString.includes('T')) return new Date(dateString);
-  const dateParts = dateString.split('-');
-  return new Date(dateParts[0], parseInt(dateParts[1]) - 1, dateParts[2]);
+  return new Date(dateString);
 }
 
-export function toISO(date) {
+export function toISO(date: Date) {
   if (!date) return null;
   return date.toISOString();
 }
 
-export function fromTimestamp(number) {
+export function fromTimestamp(number: number | string | Date) {
   if (!number) return null;
   return new Date(number);
 }
 
-export function toTimestamp(date) {
+export function toTimestamp(date: Date) {
   if (!date) return null;
   return date.getTime();
 }
 
-export function monthIndexToHuman(monthIndex) {
+export function getMonthNames(locale = 'default', format: 'long' | 'short' = 'long') {
+  const months = [];
+  // Use a fixed year (e.g., 2017) and the 1st day to avoid issues with month rollovers
+  // for months that have fewer than 31 days (e.g., February 31st is invalid)
+  for (let i = 0; i < 12; i++) {
+    const date = new Date(2017, i, 1);
+    months.push(date.toLocaleString(locale, { month: format }));
+  }
+  return months;
+}
+
+export function getMonthNamesStartingWith(monthNamePart: string, locale = 'default', format: 'long' | 'short' = 'long'): string[] {
+  const monthAbbrevs = getMonthNames(locale, format);
+  return monthAbbrevs.filter(abbrev => abbrev.toLowerCase().startsWith(monthNamePart.toLowerCase()))
+}
+
+export function monthIndexToMonthNumber(monthIndex) {
   return isFinite(monthIndex) ? monthIndex + 1 : null;
 }
 
-export function monthHumanToIndex(monthNumber) {
-  return (monthNumber || '').length > 0 ? (parseInt(monthNumber, 10) - 1) : null;
+export function monthNumberToMonthIndex(monthNumber: string | number) {
+  return (`${monthNumber}` || '').length > 0 ? (parseInt(`${monthNumber}`, 10) - 1) : null;
 }
 
-export const MONTH_ABBREVIATIONS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-export function monthIndexToAbbrev(monthIndex) {
-  return isFinite(monthIndex) ? MONTH_ABBREVIATIONS[monthIndex] : null;
+export function monthIndexToAbbrev(monthIndex: number) {
+  return isFinite(monthIndex) ? getMonthNames('default', 'short')[monthIndex] : null;
 }
 
-export function monthAbbrevToIndex(monthAbbrev) {
+export function monthAbbrevToMonthIndex(monthAbbrev: string) {
   if (!monthAbbrev) return null;
-  for (let i = 0; i < MONTH_ABBREVIATIONS.length; i++) {
-    if (MONTH_ABBREVIATIONS[i].startsWith(monthAbbrev.toLowerCase())) return i; // Check if the next value starts with a valid month abbreviation
+  const abrevs = getMonthNames('default', 'short');
+  for (let i = 0; i < abrevs.length; i++) {
+    if (abrevs[i].toLowerCase().startsWith(monthAbbrev.toLowerCase())) return i; // Check if the next value starts with a valid month abbreviation
   }
   return null;
 }
 
 export function isEqual(one: Date, two: Date, granularity: 'day' | 'month' | 'year' | 'minute' | 'time' = 'day') {
+  if (!one || !two) return false;
   switch (granularity) {
     case "day":
       return isEqual(one, two, 'month') && one.getDate() === two.getDate();
@@ -82,25 +153,7 @@ export function isEqual(one: Date, two: Date, granularity: 'day' | 'month' | 'ye
   }
 }
 
-export function isSameDay(one, two) {
-  if (!one || !two) return false;
-  return one.getFullYear() === two.getFullYear() && one.getMonth() === two.getMonth() && one.getDate() === two.getDate();
-}
-
-export function isPartOfSelection(state, date) {
-  if (state.range) {
-    if (isSameDay(date, state.value.start) || isSameDay(date, state.value.end)) return true;
-    if (state.value?.start && state.value?.end) {
-      if (date >= state.value.start && date <= state.value.end) return true;
-      return false;
-    }
-    return false;
-  } else {
-    return isSameDay(date, state.selectingValue);
-  }
-}
-
-export function getDatesInWeek(weekIndex, visibleDate) {
+export function getDatesInWeek(weekIndex: number, visibleDate: Date) {
   const firstDay = new Date(visibleDate.getFullYear(), visibleDate.getMonth(), 1).getDay();
   const startOfWeek = new Date(visibleDate.getFullYear(), visibleDate.getMonth(), weekIndex * 7 - firstDay + 1);
   return [...Array(7)].map((_, i) => {
@@ -110,22 +163,22 @@ export function getDatesInWeek(weekIndex, visibleDate) {
   });
 }
 
-export function getWeeksInMonth(visibleDate) {
-  const firstDay = new Date(visibleDate.getFullYear(), visibleDate.getMonth(), 1).getDay();
-  const totalDays = new Date(visibleDate.getFullYear(), visibleDate.getMonth() + 1, 0).getDate();
+export function getWeeksInMonth(visibleDate: Date) {
+  const firstDay = startOfMonth(visibleDate).getDay();
+  const totalDays = endOfMonth(visibleDate).getDate();
   return Math.ceil((firstDay + totalDays) / 7);
 }
 
-export function nameForVisibleDates(visibleDate, visibleMonths = 1) {
-  if (visibleMonths <= 1 || !isFinite(visibleMonths)) return visibleDate.toLocaleString('default', { month: 'long', year: 'numeric' });
-  const startMonth = startOfMonth(visibleDate);
-  const endMonth = startOfMonth(new Date(new Date(visibleDate).setMonth(visibleDate.getMonth() + visibleMonths)));
-  const startMonthName = startMonth.toLocaleString('default', { month: 'long' });
-  const endMonthName = endMonth.toLocaleString('default', { month: 'long' });
-
-  if (startMonth.getFullYear() === endMonth.getFullYear()) {
-    return `${startMonthName} – ${endMonthName} ${startMonth.getFullYear()}`;
+export function nameForVisibleDates(visibleDate: Date, visibleMonths = 1, showYear = true) {
+  if (visibleMonths <= 1 || !isFinite(visibleMonths)) {
+    return visibleDate.toLocaleString('default', { month: 'long', year: showYear ? 'numeric' : undefined });
   }
 
-  return `${startMonthName} ${startMonth.getFullYear()} – ${endMonthName} ${endMonth.getFullYear()}`;
+  const startMonth = startOfMonth(visibleDate);
+  const endMonth = startOfMonth(add(visibleDate, visibleMonths - 1, 'month'));
+
+  return [
+    nameForVisibleDates(startMonth, 1, !isEqual(startMonth, endMonth, 'year')),
+    nameForVisibleDates(endMonth)
+  ].join(' – ');
 }

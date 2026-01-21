@@ -3,7 +3,20 @@ import classes from './Calendar.module.css';
 import { BackwardIndicatorIcon, ForwardIndicatorIcon } from '@harvest-profit/npk/icons/regular';
 import Button from '../Button';
 import Month from './Month';
-import { fromISO, fromTimestamp, lastMonth, lastYear, nameForVisibleDates, nextMonth, nextYear, today, toISO, toTimestamp } from './utils';
+import {
+  fromISO,
+  fromTimestamp,
+  lastMonth,
+  lastYear,
+  nameForVisibleDates,
+  nextMonth,
+  nextYear,
+  today,
+  toISO,
+  toTimestamp,
+  add,
+  subtract
+} from './utils';
 import { MenuContext } from '../Menu';
 
 interface CalendarProps {
@@ -60,7 +73,7 @@ const Calendar = ({
 
   const menuContext = useContext(MenuContext);
 
-  const onChange = (newValue) => {
+  const onChange = (newValue: Date) => {
     if (!range) {
       onExternalChange(toFormat(newValue));
       if (autoDismiss && menuContext) menuContext.setOpen(false);
@@ -95,7 +108,7 @@ const Calendar = ({
 
   const initialVisibleDate = range ? (value.start || value.end) : value;
   const [visibleDate, setVisibleDate] = useState(initialVisibleDate || new Date());
-  
+
   let presetButtons: Array<{ label: string; date: Date }> = [];
   if (presets === true) {
     presetButtons = defaultPresets;
@@ -108,10 +121,10 @@ const Calendar = ({
       <header>
         <h4 data-component="calendar-title">{nameForVisibleDates(visibleDate, visibleMonths)}</h4>
         <span data-component="calendar-backwards">
-          <Button autoDismiss={false} onClick={() => setVisibleDate(new Date(new Date(visibleDate).setMonth(visibleDate.getMonth() - 1)))} icon={BackwardIndicatorIcon} aria-label="Previous month" />
+          <Button autoDismiss={false} onClick={() => setVisibleDate(subtract(visibleDate, 1, 'month'))} icon={BackwardIndicatorIcon} aria-label="Previous month" />
         </span>
         <span data-component="calendar-forwards">
-          <Button autoDismiss={false} onClick={() => setVisibleDate(new Date(new Date(visibleDate).setMonth(visibleDate.getMonth() + 1)))} icon={ForwardIndicatorIcon} aria-label="Next month"/>
+          <Button autoDismiss={false} onClick={() => setVisibleDate(add(visibleDate, 1, 'month'))} icon={ForwardIndicatorIcon} aria-label="Next month"/>
         </span>
         {presetButtons.length > 0 && (
           <span data-component="calendar-actions">

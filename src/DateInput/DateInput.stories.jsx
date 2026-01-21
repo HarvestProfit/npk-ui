@@ -154,19 +154,34 @@ export const Default = () => {
   )
 }
 
-export const CalendarButton = () => {
-  const [date, setDate] = React.useState('2023-01-01');
+export const CalendarButton = {
+  play: async ({ canvas }) => {
 
-  return (
-    <div>
-      <Menu arrow>
-        <Button>{dateUtils.fromISO(date).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' })}</Button>
-        <Menu.Overlay>
-          <Calendar value={date} onChange={setDate} />
-        </Menu.Overlay>
-      </Menu>
-    </div>
-  )
+    const menu = canvas.getByTestId('menu');
+    await expect(menu).toHaveTextContent(new Date(2023, 0, 1).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' }));
+    await userEvent.click(menu);
+
+    const dateToSelect = new Date('2023-01-02');
+    const dateLabel = dateToSelect.toLocaleDateString('default', { month: 'long', year: 'numeric', day: 'numeric' });
+    const cell = canvas.getByRole('gridcell', { name: dateLabel })
+    await expect(cell).toBeInTheDocument();
+    await userEvent.click(cell);
+    await expect(menu).toHaveTextContent(new Date(2023, 0, 2).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' }));
+  },
+  render: () => {
+    const [date, setDate] = React.useState('2023-01-01');
+
+    return (
+      <div>
+        <Menu arrow>
+          <Button data-testid="menu">{dateUtils.fromISO(date).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' })}</Button>
+          <Menu.Overlay>
+            <Calendar value={date} onChange={setDate} />
+          </Menu.Overlay>
+        </Menu>
+      </div>
+    )
+  }
 }
 
 export const CalendarInline = () => {
@@ -194,7 +209,7 @@ export const Range = (props) => {
 }
 
 export const Time = () => {
-  const [value, setValue] = React.useState(val)
+  const [value, setValue] = React.useState((new Date()).toISOString())
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
@@ -213,7 +228,7 @@ export const Time = () => {
 }
 
 const testValue1 = (new Date()).toISOString();
-const testValue2 = dateUtils.addDays(new Date(), 2).toISOString();
+const testValue2 = dateUtils.add(new Date(), 2, 'day').toISOString();
 export const Tests = {
   play: async ({ canvas }) => {
     const output = canvas.getByTestId('output');
