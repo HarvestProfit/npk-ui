@@ -42,8 +42,6 @@ const Day = ({ visibleDate, date, state }) => {
     newValue.setDate(date.getDate());
     newValue.setMonth(date.getMonth());
     newValue.setFullYear(date.getFullYear());
-
-    console.log('clicked!', date, newValue);
     state.onChange(newValue);
   }
 

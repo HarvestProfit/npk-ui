@@ -124,6 +124,8 @@ export function toISO(date: Date, excludeTime = false) {
   const value = date.toISOString();
   if (!excludeTime) return value;
 
+  // Using the `get` method here uses the toLocaleString method to return the value as the user sees it.
+  // This is critical for date only ISO strings as we don't care about the timezone.
   return `${get(date, 'year')}-${get(date, 'month', 'default', { month: '2-digit' })}-${get(date, 'day', 'default', { day: '2-digit' })}`
 }
 
