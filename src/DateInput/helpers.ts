@@ -1,4 +1,4 @@
-import { fromISO, fromTimestamp, toISO, toTimestamp } from "../Calendar/utils";
+import { fromISO, fromTimestamp, toISODate, toISODateTime, toTimestamp } from "../Calendar/utils";
 
 export type valueType = Date | string | number;
 export type outputFormatType = 'ISO' | 'timestamp' | 'Date';
@@ -23,7 +23,7 @@ export const useValueFormatter = (format: outputFormatType = 'ISO', includeTime 
       // We want to strip the time off of the outputted value if the inputted value did not contain
       // a time. This indicates that the ISO format/attribute we are affecting is date only.
       toDateFormatter = (v) => fromISO(v);
-      fromDateFormatter = (newValue) => toISO(newValue, !includeTime);
+      fromDateFormatter = (newValue) => includeTime ? toISODateTime(newValue) : toISODate(newValue)
       break;
     case 'timestamp':
       toDateFormatter = (v) => fromTimestamp(v);
@@ -34,7 +34,7 @@ export const useValueFormatter = (format: outputFormatType = 'ISO', includeTime 
   }
 
   const toOutputFormatter = (value?: Date, optionalFormat?: outputFormatType) => {
-    if (optionalFormat === 'ISO') return toISO(value, !includeTime);
+    if (optionalFormat === 'ISO') return includeTime ? toISODateTime(value) : toISODate(value);
     if (optionalFormat === 'timestamp') return toTimestamp(value);
     return fromDateFormatter(value);
   }

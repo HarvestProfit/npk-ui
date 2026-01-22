@@ -10,8 +10,6 @@ import {
   nextMonth,
   nextYear,
   today,
-  toISO,
-  toTimestamp,
   add,
   subtract
 } from './utils';

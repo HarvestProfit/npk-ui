@@ -111,6 +111,14 @@ export function dayIsInFrontForCurrentLocale() {
   return (new Date(2020, 11, 31).toLocaleDateString('default').indexOf('31') < 2);
 }
 
+export function parse(dateValue: string | number | Date) {
+  if (dateValue instanceof Date) return new Date(dateValue);
+  if (Number.isFinite(dateValue)) return fromTimestamp(dateValue as number);
+  if (typeof dateValue === 'string') return fromISO(dateValue as string)
+
+  return new Date(dateValue);
+}
+
 export function fromISO(dateString: string | Date) {
   if (!dateString) return null;
   if (dateString instanceof Date) return dateString;
@@ -119,11 +127,13 @@ export function fromISO(dateString: string | Date) {
   return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
 }
 
-export function toISO(date: Date, excludeTime = false) {
+export function toISODateTime(date: Date) {
   if (!date) return null;
-  const value = date.toISOString();
-  if (!excludeTime) return value;
+  return date.toISOString();
+}
 
+export function toISODate(date: Date) {
+  if (!date) return null;
   // Using the `get` method here uses the toLocaleString method to return the value as the user sees it.
   // This is critical for date only ISO strings as we don't care about the timezone.
   return `${get(date, 'year')}-${get(date, 'month', 'default', { month: '2-digit' })}-${get(date, 'day', 'default', { day: '2-digit' })}`
