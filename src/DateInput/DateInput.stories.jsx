@@ -95,6 +95,14 @@ export default {
       description: 'The format of the value inputted and outputted via onChange from this component',
       table: { defaultValue: { summary: 'ISO' }}
     },
+    isoType: {
+      control: {
+        type: 'radio'
+      },
+      options: ['Date', 'DateTime', 'null'],
+      description: 'The format of the ISO value outputted via the onChange from this component. Will remove the time part if specifying "Date"',
+      table: { defaultValue: { summary: 'null' }}
+    },
     variant: {
       control: {
         type: 'radio',
@@ -161,7 +169,7 @@ export const CalendarButton = {
     await expect(menu).toHaveTextContent('2023-01-01');
     await userEvent.click(menu);
 
-    const dateToSelect = new Date('2023-01-02');
+    const dateToSelect = new Date(2023, 0, 2);
     const dateLabel = dateToSelect.toLocaleDateString('default', { month: 'long', year: 'numeric', day: 'numeric' });
     const cell = canvas.getByRole('gridcell', { name: dateLabel })
     await expect(cell).toBeInTheDocument();
@@ -179,6 +187,37 @@ export const CalendarButton = {
           <Button data-testid="menu">{date}</Button>
           <Menu.Overlay>
             <Calendar value={date} onChange={setDate} />
+          </Menu.Overlay>
+        </Menu>
+      </div>
+    )
+  }
+}
+
+export const CalendarButtonWithTime = {
+  play: async ({ canvas }) => {
+
+    const menu = canvas.getByTestId('menu');
+    await expect(menu).toHaveTextContent('2023-01-01');
+    await userEvent.click(menu);
+
+    const dateToSelect = new Date(2023, 0, 2);
+    const dateLabel = dateToSelect.toLocaleDateString('default', { month: 'long', year: 'numeric', day: 'numeric' });
+    const cell = canvas.getByRole('gridcell', { name: dateLabel })
+    await expect(cell).toBeInTheDocument();
+    await userEvent.click(cell);
+    // Should also contain a time part of it
+    await expect(menu).toHaveTextContent('2023-01-02T');
+  },
+  render: () => {
+    const [date, setDate] = React.useState('2023-01-01');
+
+    return (
+      <div>
+        <Menu arrow>
+          <Button data-testid="menu">{date}</Button>
+          <Menu.Overlay>
+            <Calendar value={date} onChange={setDate} isoType="DateTime" />
           </Menu.Overlay>
         </Menu>
       </div>

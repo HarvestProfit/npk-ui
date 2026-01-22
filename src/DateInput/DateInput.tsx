@@ -187,6 +187,7 @@ const DateInput: React.FC<DateInputProps> = ({
   autoDismiss = true,
   presets = false,
   picker = false,
+  isoType = null,
   output = null,
   includeYear = true,
   monthAsName = false,
@@ -196,7 +197,9 @@ const DateInput: React.FC<DateInputProps> = ({
   excludeGroup,
   ...props
 }) => {
-  const includeTime = isoDateIncludesTime(externalValue)
+  let includeTime = isoDateIncludesTime(externalValue);
+  if (isoType === 'DateTime') includeTime = true;
+  if (isoType === 'Date') includeTime = false;
   const formatter = useValueFormatter(output, includeTime);
   const onValueChange = (value: Date) => onExternalChange(formatter.to(value));
 
@@ -253,6 +256,7 @@ interface DateInputProps {
   value?: valueType;
   includeYear?: boolean;
   monthAsName?: boolean;
+  isoType?: 'Date' | 'DateTime';
   output?: outputFormatType;
   onChange?: onChangeType;
   name?: string;

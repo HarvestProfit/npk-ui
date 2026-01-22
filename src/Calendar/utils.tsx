@@ -114,7 +114,10 @@ export function dayIsInFrontForCurrentLocale() {
 export function fromISO(dateString: string | Date) {
   if (!dateString) return null;
   if (dateString instanceof Date) return dateString;
-  return new Date(dateString);
+  if (dateString.includes('T')) return new Date(dateString);
+  const parts = dateString.split('-');
+  return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+
 }
 
 export function toISO(date: Date, excludeTime = false) {

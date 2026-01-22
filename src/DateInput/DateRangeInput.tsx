@@ -13,6 +13,7 @@ interface DateRangeInputProps {
   visibleMonths?: number;
   includeYear?: boolean;
   monthAsName?: boolean;
+  isoType?: 'Date' | 'DateTime';
   granularity?: 'day' | 'month' | 'year' | 'minute' | 'time';
   output?: 'ISO' | 'timestamp' | 'Date';
   onChange?: (range: { start: valueType; end: valueType }) => void;
@@ -28,11 +29,14 @@ const DateRangeInput: React.FC<DateRangeInputProps> = ({
   granularity = 'day',
   output = 'ISO',
   includeYear = true,
+  isoType = null,
   monthAsName = false,
   name,
   ...props
 }) => {
-  const includeTime = isoDateIncludesTime(externalValue?.start) || isoDateIncludesTime(externalValue?.end)
+  let includeTime = isoDateIncludesTime(externalValue?.start) || isoDateIncludesTime(externalValue?.end);
+  if (isoType === 'DateTime') includeTime = true;
+  if (isoType === 'Date') includeTime = false;
   const formatter = useValueFormatter(output, includeTime);
 
   // Ensure the value is in the correct format

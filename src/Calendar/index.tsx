@@ -26,6 +26,7 @@ interface CalendarProps {
   autoDismiss?: boolean;
   output?: outputFormatType;
   onChange?: onChangeType;
+  isoType?: 'Date' | 'DateTime';
   range?: boolean;
   visibleMonths?: number;
 }
@@ -42,6 +43,7 @@ const Calendar: React.FC<CalendarProps> = ({
   presets = true,
   value: externalValue,
   output = 'ISO',
+  isoType = null,
   autoDismiss = true,
   onChange: onExternalChange,
   range = false,
@@ -55,6 +57,9 @@ const Calendar: React.FC<CalendarProps> = ({
   } else {
     includeTime = isoDateIncludesTime(externalValue)
   }
+
+  if (isoType === 'DateTime') includeTime = true;
+  if (isoType === 'Date') includeTime = false;
 
   const formatter = useValueFormatter(output, includeTime);
 

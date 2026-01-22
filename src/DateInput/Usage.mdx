@@ -14,6 +14,16 @@ You can also use the same `leadingVisual` and `trailingVisual` props as the `But
 The biggest change is that you can also put a button in as those visuals to allow for a date picker and other things.
 <Canvas of={DateInputStories.Default} />
 
+#### NOTE about timezones
+If you are working with a date that does NOT store the time, you must remember to exclude the time
+part of ISO string before sending to the database. Otherwise the time part will get stripped and anything remaining
+will be stored. For example "2025-01-01T18:00:00+01100" will be stored as "2025-01-01", but it actually should be 
+stored as "2025-01-02" because of the timezone change.
+
+You can fix this by making sure the value provided to these components is only "2025-01-01" in which case you will 
+only ever recieve a date only ISO string in the onChange. Or you can provide the prop `isoType="Date"` to force it to
+return a specific type, this is useful for initial values like `value={new Date()} isoType="Date"`.
+
 ### Date Range
 
 You can also do date ranges the same way
