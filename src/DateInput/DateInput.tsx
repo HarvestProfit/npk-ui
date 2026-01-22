@@ -6,7 +6,8 @@ import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
 import InputSegment from './InputSegment';
-import { change, dayIsInFrontForCurrentLocale, fromISO, fromTimestamp, isEqual, monthAbbrevToMonthIndex, monthIndexToAbbrev, monthIndexToMonthNumber, monthNumberToMonthIndex, today, toISO, toTimestamp } from '../Calendar/utils';
+import { change, dayIsInFrontForCurrentLocale, get as getDatePart, isEqual, monthAbbrevToMonthIndex, monthIndexToAbbrev, monthIndexToMonthNumber, monthNumberToMonthIndex, today } from '../Calendar/utils';
+import { isoDateIncludesTime, onChangeType, outputFormatType, useValueFormatter, valueType } from './helpers';
 
 const GranularityInclude = ({ children, active }) => active ? children : null;
 
@@ -61,6 +62,7 @@ const DateInputInternal = ({
   monthAsName = false,
   granularity = 'day',
   excludeGroup = false,
+  formatter,
   ...props
 }) => {
   let updateValue = today(); // When updating a new date, we build off the current date and then set individual values
@@ -80,19 +82,12 @@ const DateInputInternal = ({
   const monthValueToMonthIndex = monthAsName ? monthAbbrevToMonthIndex : monthNumberToMonthIndex;
 
   // Specify the rules of getting and setting the values of the segments
-  const [monthValue, setMonthValue] = useOnChangeState(monthIndexToMonthValue(segmentDateValue?.getMonth()), (month) => onChange(change(updateValue, monthValueToMonthIndex(month), 'monthIndex')));
-  const [dayValue, setDayValue] = useOnChangeState(segmentDateValue?.getDate(), (day => onChange(change(updateValue, day, 'day'))));
-  const [yearValue, setYearValue] = useOnChangeState(segmentDateValue?.getFullYear(), (year => onChange(change(updateValue, year, 'year'))));
-  const [minuteValue, setMinuteValue] = useOnChangeState(segmentTimeValue?.getMinutes(), (minutes => onChange(change(updateValue, minutes, 'minute'))));
-  const [todValue, setTODValue] = useOnChangeState(hourAndTODfromDate(segmentTimeValue).tod, (tod) => {
-    const hours = updateValue.getHours();
-    if (tod === 'AM' && hours >= 12) {
-      onChange(change(updateValue, hours - 12, 'hour'));
-    } else if (tod === 'PM' && hours < 12) {
-      onChange(change(updateValue, hours + 12, 'hour'));
-    }
-  });
-  const [hourValue, setHourValue] = useOnChangeState(hourAndTODfromDate(segmentTimeValue).hour, (hour) => {
+  const [monthValue, setMonthValue] = useOnChangeState(monthIndexToMonthValue(parseInt(getDatePart(segmentDateValue, 'monthIndex'))), (month) => onChange(change(updateValue, monthValueToMonthIndex(month), 'monthIndex')));
+  const [dayValue, setDayValue] = useOnChangeState(getDatePart(segmentDateValue, 'day'), (day => onChange(change(updateValue, day, 'day'))));
+  const [yearValue, setYearValue] = useOnChangeState(getDatePart(segmentDateValue, 'year'), (year => onChange(change(updateValue, year, 'year'))));
+  const [minuteValue, setMinuteValue] = useOnChangeState(getDatePart(segmentTimeValue, 'minute'), (minutes => onChange(change(updateValue, minutes, 'minute'))));
+  const [todValue, setTODValue] = useOnChangeState(getDatePart(segmentTimeValue, 'TOD'), (tod) => onChange(change(updateValue, tod, 'TOD')));
+  const [hourValue, setHourValue] = useOnChangeState(getDatePart(segmentTimeValue, 'hour'), (hour) => {
     const intHours = parseInt(hour);
     if (todValue === 'AM' && intHours === 12) { // hours are tricky because of the 12-hour format. Native date objects are 24-hour format
       onChange(change(updateValue, 0, 'hour'));
@@ -109,11 +104,11 @@ const DateInputInternal = ({
   useEffect(() => {
     if (!isFocused) { // if the input is out of focus, we will accept updates from outside changes
       setMonthValue(monthIndexToMonthValue(segmentDateValue?.getMonth()));
-      setDayValue(segmentDateValue?.getDate());
-      setYearValue(segmentDateValue?.getFullYear());
-      setHourValue(hourAndTODfromDate(segmentTimeValue).hour);
-      setTODValue(hourAndTODfromDate(segmentTimeValue).tod);
-      setMinuteValue(segmentDateValue?.getMinutes());
+      setDayValue(getDatePart(segmentDateValue, 'day'));
+      setYearValue(getDatePart(segmentDateValue, 'year'));
+      setHourValue(getDatePart(segmentTimeValue, 'hour'));
+      setTODValue(getDatePart(segmentTimeValue, 'TOD'));
+      setMinuteValue(getDatePart(segmentDateValue, 'minute'));
     }
   }, [`${value}`]);
 
@@ -133,14 +128,14 @@ const DateInputInternal = ({
 
   const dateParts = [];
   if (['day', 'month', 'minute'].includes(granularity)) {
-    dateParts.push(<InputSegment aria-label="month, " segment={monthAsName ? 'monthName' : 'month'} setIsFocused={setInputSegmentFocused} value={monthValue} onChange={setMonthValue} />);
+    dateParts.push(<InputSegment aria-label="month" segment={monthAsName ? 'monthName' : 'month'} setIsFocused={setInputSegmentFocused} value={monthValue} onChange={setMonthValue} />);
   }
   if (['day', 'minute'].includes(granularity)) {
-    const dayPart = (<InputSegment aria-label="day, "segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} onOldChange={(day => onChange(change(updateValue, day, 'day')))} />);
+    const dayPart = (<InputSegment aria-label="day" segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} onOldChange={(day => onChange(change(updateValue, day, 'day')))} />);
     (dayIsInFrontForCurrentLocale() && !monthAsName) ? dateParts.unshift(dayPart) : dateParts.push(dayPart);
   }
   if (includeYear && ['day', 'month', 'year', 'minute'].includes(granularity)) {
-    dateParts.push(<InputSegment aria-label="year, " segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} onOldChange={(year => onChange(change(updateValue, year, 'year')))} />);
+    dateParts.push(<InputSegment aria-label="year" segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} onOldChange={(year => onChange(change(updateValue, year, 'year')))} />);
   }
 
   const contents = (
@@ -160,11 +155,11 @@ const DateInputInternal = ({
       </GranularityInclude>
 
       <GranularityInclude active={['minute', 'time'].includes(granularity)}>
-        <InputSegment aria-label="hour, " segment="hour" setIsFocused={setInputSegmentFocused} value={hourValue} onChange={setHourValue} />
+        <InputSegment aria-label="hour" segment="hour" setIsFocused={setInputSegmentFocused} value={hourValue} onChange={setHourValue} />
         <span aria-hidden="true" data-component="input-segment">:</span>
-        <InputSegment aria-label="minute, " segment="minute" setIsFocused={setInputSegmentFocused} value={minuteValue} onChange={setMinuteValue} />
+        <InputSegment aria-label="minute" segment="minute" setIsFocused={setInputSegmentFocused} value={minuteValue} onChange={setMinuteValue} />
         <span aria-hidden="true" data-component="input-segment"></span>
-        <InputSegment aria-label="time of day, " segment="TOD" setIsFocused={setInputSegmentFocused} value={todValue} onChange={setTODValue} />
+        <InputSegment aria-label="time of day" segment="TOD" setIsFocused={setInputSegmentFocused} value={todValue} onChange={setTODValue} />
       </GranularityInclude>
     </>
   );
@@ -174,7 +169,7 @@ const DateInputInternal = ({
     return (
       <BaseInput containsSegments contentsRef={ref} {...dateGroupProps} {...props}>
         {contents}
-        <input type="hidden" value={`${updateValue?.toISOString()}`} />
+        <input type="hidden" value={`${formatter.to(updateValue, 'ISO')}`} name={props.name} />
       </BaseInput>
     )
   }
@@ -182,7 +177,7 @@ const DateInputInternal = ({
   return (
     <Group containsSegments contentsRef={ref} {...dateGroupProps} {...props}>
       {contents}
-      <input hidden type="text" value={`${updateValue?.toISOString()}`} />
+      <input type="hidden" value={`${formatter.to(updateValue, 'ISO')}`} name={props.name} />
     </Group>
   )
 };
@@ -192,44 +187,35 @@ const DateInput: React.FC<DateInputProps> = ({
   autoDismiss = true,
   presets = false,
   picker = false,
-  output = 'ISO',
+  output = null,
   includeYear = true,
   monthAsName = false,
-  onChange: onExternalChange = (_value: string | Date | number) => null,
+  onChange: onExternalChange = (_value) => null,
   value: externalValue,
   granularity = 'day',
   excludeGroup,
   ...props
 }) => {
-  let onValueChange = onExternalChange;
-  let toDateFormatter = (v: Date): Date => v;
-  switch (output) {
-    case 'ISO':
-      onValueChange = (newValue: Date) => onExternalChange(toISO(newValue));
-      toDateFormatter = (v) => fromISO(v);
-      break;
-    case 'timestamp':
-      onValueChange = (newValue: Date) => onExternalChange(toTimestamp(newValue));
-      toDateFormatter = (v) => fromTimestamp(v);
-      break;
-    default:
-      break;
-  }
+  const includeTime = isoDateIncludesTime(externalValue)
+  const formatter = useValueFormatter(output, includeTime);
+  const onValueChange = (value: Date) => onExternalChange(formatter.to(value));
 
-  const formattedExternalValue = toDateFormatter(externalValue);
-  const [value, setValue] = useState(formattedExternalValue);
+  // SYNC formatted external value with value
+  const [value, setValue] = useState(formatter.from(externalValue));
+  useEffect(() => {
+    // Ensure internal value matches external value
+    if (value !== formatter.from(externalValue)) setValue(formatter.from(externalValue));
+  }, [formatter.from(externalValue)?.toString()]);
+  // END SYNC
+
 
   useEffect(() => {
     // If internal value is different than the external value based on granularity, update
     // the external value. The granularity ensures that if this is a date picker, changes to
     // minutes do not trigger a change.
-    if (!isEqual(value, formattedExternalValue, granularity)) onValueChange(value);
+    if (!isEqual(value, formatter.from(externalValue), granularity)) onValueChange(value);
   }, [value?.toString()]);
 
-  useEffect(() => {
-    // Ensure internal value matches external value
-    if (value !== formattedExternalValue) setValue(formattedExternalValue);
-  }, [formattedExternalValue?.toString()]);
 
   const extraProps: { trailingVisual?: React.ReactNode } = {};
 
@@ -238,7 +224,7 @@ const DateInput: React.FC<DateInputProps> = ({
       <Menu arrow placement="bottom" autoDismiss={false}>
         <Button invisible icon={CalendarIcon} aria-label="Pick a date" tabIndex={-1} />
         <Menu.Overlay>
-          <Calendar visibleMonths={visibleMonths} presets={presets} value={value} onChange={setValue} output="date" autoDismiss={autoDismiss} />
+          <Calendar visibleMonths={visibleMonths} presets={presets} value={value} onChange={setValue} output="Date" autoDismiss={autoDismiss} />
         </Menu.Overlay>
       </Menu>
     );
@@ -252,6 +238,7 @@ const DateInput: React.FC<DateInputProps> = ({
       excludeGroup={excludeGroup}
       includeYear={includeYear}
       monthAsName={monthAsName}
+      formatter={formatter}
       {...props}
       {...extraProps}
     />
@@ -263,11 +250,12 @@ interface DateInputProps {
   autoDismiss?: boolean;
   visibleMonths?: number;
   granularity?: 'day' | 'month' | 'year' | 'minute' | 'time';
-  value?: Date;
+  value?: valueType;
   includeYear?: boolean;
   monthAsName?: boolean;
-  output?: 'ISO' | 'timestamp' | 'Date';
-  onChange?: (date: Date | string | number) => void;
+  output?: outputFormatType;
+  onChange?: onChangeType;
+  name?: string;
   [key: string]: any; // Allow additional props
 }
 

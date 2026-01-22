@@ -5,17 +5,18 @@ import Menu from '../Menu';
 import Button from '../Button';
 import { CalendarIcon } from '@harvest-profit/npk/icons/regular';
 import Group from '../Input/Group';
-import { fromISO, fromTimestamp, toISO, toTimestamp } from '../Calendar/utils';
+import { isoDateIncludesTime, useValueFormatter, valueType } from './helpers';
 
 interface DateRangeInputProps {
-  value?: { start: Date; end: Date }; // Unified type for defaultValue
+  value?: { start: valueType; end: valueType }; // Unified type for defaultValue
   picker?: boolean;
   visibleMonths?: number;
   includeYear?: boolean;
   monthAsName?: boolean;
   granularity?: 'day' | 'month' | 'year' | 'minute' | 'time';
   output?: 'ISO' | 'timestamp' | 'Date';
-  onChange?: (range: { start: Date; end: Date }) => void;
+  onChange?: (range: { start: valueType; end: valueType }) => void;
+  name?: string;
   [key: string]: any; // Allow additional props
 }
 
@@ -28,25 +29,14 @@ const DateRangeInput: React.FC<DateRangeInputProps> = ({
   output = 'ISO',
   includeYear = true,
   monthAsName = false,
+  name,
   ...props
 }) => {
-  let fromFormat = v => v;
-  let toFormat = v => v;
-  switch (output) {
-    case 'ISO':
-      fromFormat = fromISO;
-      toFormat = toISO;
-      break;
-    case 'timestamp':
-      fromFormat = fromTimestamp;
-      toFormat = toTimestamp;
-      break;
-    default:
-      break;
-  }
+  const includeTime = isoDateIncludesTime(externalValue?.start) || isoDateIncludesTime(externalValue?.end)
+  const formatter = useValueFormatter(output, includeTime);
 
   // Ensure the value is in the correct format
-  let value = { start: fromFormat(externalValue?.start), end: fromFormat(externalValue?.end) };
+  let value = { start: formatter.from(externalValue?.start), end: formatter.from(externalValue?.end) };
   if (!value.start && !value.end) value = null;
 
   const ref = useRef<HTMLDivElement>(null);
@@ -72,23 +62,23 @@ const DateRangeInput: React.FC<DateRangeInputProps> = ({
 
   useEffect(() => { // if not focused, swap the start and end dates if they are in the wrong order
     if (!isFocused && value?.start && value?.end && value.start > value.end) {
-      if (onExternalChange) onExternalChange({ start: toFormat(value.end), end: toFormat(value.start) });
+      if (onExternalChange) onExternalChange({ start: formatter.to(value.end), end: formatter.to(value.start) });
     }
   }, [isFocused, value?.start, value?.end]);
 
-  const onChangeStart = (newValue) => {
+  const onChangeStart = (newValue: Date) => {
     if (onExternalChange) {
       onExternalChange({
-        start: toFormat(newValue),
-        end: toFormat(value?.end),
+        start: formatter.to(newValue),
+        end: formatter.to(value?.end),
       });
     }
   };
-  const onChangeEnd = (newValue) => {
+  const onChangeEnd = (newValue: Date) => {
     if (onExternalChange) {
       onExternalChange({
-        start: toFormat(value?.start),
-        end: toFormat(newValue),
+        start: formatter.to(value?.start),
+        end: formatter.to(newValue),
       });
     }
   };
@@ -101,7 +91,7 @@ const DateRangeInput: React.FC<DateRangeInputProps> = ({
       <Menu arrow placement="bottom" autoDismiss={false}>
         <Button invisible icon={CalendarIcon} aria-label="Pick a date range" tabIndex={-1} />
         <Menu.Overlay>
-          <Calendar visibleMonths={visibleMonths} range value={value} onChange={onExternalChange} output="date" {...props} />
+          <Calendar visibleMonths={visibleMonths} range value={value} onChange={onExternalChange} output="Date" {...props} />
         </Menu.Overlay>
       </Menu>
     );
@@ -109,9 +99,9 @@ const DateRangeInput: React.FC<DateRangeInputProps> = ({
 
   return (
     <Group containsSegments contentsRef={ref} {...props} {...extraProps}>
-      <DateInput output="Date" excludeGroup onChange={onChangeStart} value={value?.start} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur} includeYear={includeYear} monthAsName={monthAsName} />
+      <DateInput output="Date" name={`${name}_start`}  excludeGroup onChange={onChangeStart} value={value?.start} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur} includeYear={includeYear} monthAsName={monthAsName} />
       <span style={{ padding: '0 10px' }}>–</span>
-      <DateInput output="Date" excludeGroup onChange={onChangeEnd} value={value?.end} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur} includeYear={includeYear} monthAsName={monthAsName} />
+      <DateInput output="Date" name={`${name}_end`} excludeGroup onChange={onChangeEnd} value={value?.end} granularity={granularity} variant="plain" onFocus={onFocus} onBlur={onBlur} includeYear={includeYear} monthAsName={monthAsName} />
     </Group>
   );
 };

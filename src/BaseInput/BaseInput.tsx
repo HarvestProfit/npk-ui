@@ -88,8 +88,8 @@ const BaseInput: React.FC<BaseInputProps> = ({
   props['aria-label'] = props['aria-label'] || inheritedContext['aria-label'];
   props['aria-labelledby'] = props['aria-labelledby'] || inheritedContext['aria-labelledby'];
 
-  const [uniqueID] = useState(`npk-btn-${incId++}`);
-  const labelingIds: LabelObjectType = {}
+  const [uniqueID] = useState([inheritedContext?.labelingIds?.uuid, `npk-btn-${incId++}`].filter(k => !!k).join(' '));
+  const labelingIds: LabelObjectType = { ...inheritedContext?.labelingIds || {}, uuid: uniqueID }
 
   if (label) labelingIds.label = `${uniqueID}-label`;
   if (labelDescription) labelingIds.description = `${uniqueID}-description`;
@@ -172,7 +172,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
 
   if (label) {
     return (
-      <label id={labelingIds.label} data-label-align={labelAlign} className={`${classes.Label} ${className}`} onClick={(e) => {
+      <label data-label-align={labelAlign} className={`${classes.Label} ${className}`} onClick={(e) => {
         if (e.currentTarget.contains(document.activeElement)) {
           e.preventDefault();
           return;
@@ -182,7 +182,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
         nextElem?.focus();
         e.preventDefault();
       }}>
-        <span data-component="label">
+        <span id={labelingIds.label} data-component="label">
           <span data-component="label-contents">{label}</span>
           {labelRequirement && <span data-component="label-requirement" id={labelingIds.requirement}>{labelRequirement}</span>}
         </span>
@@ -208,6 +208,7 @@ interface LabelObjectType {
   requirement?: string;
   info?: string;
   error?: string;
+  uuid?: string;
 }
 
 interface BaseInputContextType {

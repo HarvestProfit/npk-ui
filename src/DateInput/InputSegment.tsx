@@ -141,25 +141,26 @@ const InputSegment = ({ segment, ...props }) => {
 
   return (
     <span
-      tabIndex={0} 
-      data-component="input-segment" 
-      onKeyDown={inputMask.onKeyDown} 
+      tabIndex={0}
+      data-component="input-segment"
+      onKeyDown={inputMask.onKeyDown}
       onClick={e => e.preventDefault()} // Prevents refocus when input is wrapped in a label
-      onBlur={onBlur} 
+      onBlur={onBlur}
       onFocus={onFocus}
-      enterKeyHint="next" 
-      inputMode="numeric" 
-      contentEditable 
-      suppressContentEditableWarning 
-      role="spinbutton" 
-      style={{ minWidth: segment === 'year' ? '2.35em' : '1.35em', caretColor: 'transparent' }} 
+      enterKeyHint="next"
+      inputMode="numeric"
+      contentEditable
+      suppressContentEditableWarning
+      role="spinbutton"
+      style={{ minWidth: segment === 'year' ? '2.35em' : '1.35em', caretColor: 'transparent' }}
       data-placeholder={valueIsEmpty}
-      aria-labelledby={labelingIds.label}
+      aria-labelledby={`${labelingIds.label} ${labelingIds.label}-${segment}`}
       aria-valuenow={defaultAriaValueNow}
       aria-valuetext={valueIsEmpty ? 'Empty' : value}
       {...inputMask.aria || {}}
       {...filteredProps}
     >
+      <span aria-hidden id={`${labelingIds.label}-${segment}`} aria-label={props['aria-label']}></span>
       {valueIsEmpty ? placeholder : value}
     </span>
   )

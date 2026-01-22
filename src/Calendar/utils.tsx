@@ -25,7 +25,7 @@ export const endOfDay = (date = today()) => {
   return newValue;
 }
 
-export function change(date: Date, value: number | string, granularity: 'minute' | 'hour' | 'day' | 'month' | 'monthIndex' | 'year'): Date {
+export function change(date: Date, value: number | string, granularity: 'TOD' | 'minute' | 'hour' | 'day' | 'month' | 'monthIndex' | 'year'): Date {
   const newValue = new Date(date);
   const numberValue = (Number.isFinite(value)) ? value as number : parseInt(value as string)
 
@@ -39,6 +39,14 @@ export function change(date: Date, value: number | string, granularity: 'minute'
     case "day":
       newValue.setDate(numberValue);
       break;
+    case "TOD":
+      if (get(newValue, 'TOD') !== value) {
+        if (value === 'AM') {
+          return subtract(newValue, 12, 'hour');
+        } else {
+          return add(newValue, 12, 'hour');
+        }
+      }
     case "month":
       newValue.setMonth(numberValue - 1);
       break;
@@ -51,6 +59,30 @@ export function change(date: Date, value: number | string, granularity: 'minute'
   }
 
   return newValue;
+}
+
+export function get(date: Date, granularity: 'minute' | 'hour' | '24Hour' | 'TOD' | 'day' | 'month' | 'monthIndex' | 'year', locale = 'default', ...options): string {
+  if (!date) return null;
+  const timeChunks = date.toLocaleTimeString(locale, { hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', ...options });
+  switch (granularity) {
+    case "minute":
+      return timeChunks.split(':')[1];
+    case "hour":
+      return timeChunks.split(':')[0];
+    case "24Hour":
+      const time24Chunks = date.toLocaleTimeString(locale, { hour12: false, hour: 'numeric', minute: 'numeric', second: 'numeric', ...options });
+      return time24Chunks.split(':')[0];
+    case "TOD":
+      return timeChunks.split(' ')[1];
+    case "day":
+      return date.toLocaleString(locale, { day: 'numeric', ...options });
+    case "month":
+      return date.toLocaleString(locale, { month: 'numeric', ...options });
+    case "monthIndex":
+      return `${(parseInt(date.toLocaleString(locale, { month: 'numeric', ...options })) - 1)}`;
+    case "year":
+      return date.toLocaleString(locale, { year: 'numeric', ...options });
+  }
 }
 
 export function add(date: Date, amount: number, granularity: 'minute' | 'hour' | 'day' | 'month' | 'year'): Date {
@@ -84,9 +116,11 @@ export function fromISO(dateString: string | Date) {
   return new Date(dateString);
 }
 
-export function toISO(date: Date) {
+export function toISO(date: Date, excludeTime = false) {
   if (!date) return null;
-  return date.toISOString();
+  const value = date.toISOString();
+  if (excludeTime) return value.split('T')[0];
+  return value;
 }
 
 export function fromTimestamp(number: number | string | Date) {

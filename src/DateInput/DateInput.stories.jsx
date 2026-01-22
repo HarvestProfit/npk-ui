@@ -136,7 +136,7 @@ export default {
 
 export const Default = () => {
   const [value, setValue] = React.useState()
-  const [value2, setValue2] = React.useState(new Date('2025-01-22T16:00:00.653-06:00'))
+  const [value2, setValue2] = React.useState(new Date())
   const [value3, setValue3] = React.useState()
   return (
     <div>
@@ -146,8 +146,8 @@ export const Default = () => {
         <p>3(Timestamp) {value3}</p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <DateInput label="Generic (sm)" size="sm" picker presets value={value} onChange={setValue} /><Button>Save</Button>
-        <DateInput label="With picker" picker presets value={value2} onChange={setValue2} output="date" granularity="minute" monthAsName />
+        <DateInput label="Date (sm)" name="generic" size="sm" picker presets value={value} onChange={setValue} /><Button>Save</Button>
+        <DateInput label="With picker" picker presets value={value2} onChange={setValue2} output="Date" granularity="minute" monthAsName />
         <DateInput label="To Timestamp" value={value3} onChange={setValue3} output="timestamp" granularity="minute" /><Button>Save</Button>
       </div>
     </div>
@@ -158,7 +158,7 @@ export const CalendarButton = {
   play: async ({ canvas }) => {
 
     const menu = canvas.getByTestId('menu');
-    await expect(menu).toHaveTextContent(new Date(2023, 0, 1).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' }));
+    await expect(menu).toHaveTextContent('2023-01-01');
     await userEvent.click(menu);
 
     const dateToSelect = new Date('2023-01-02');
@@ -166,7 +166,9 @@ export const CalendarButton = {
     const cell = canvas.getByRole('gridcell', { name: dateLabel })
     await expect(cell).toBeInTheDocument();
     await userEvent.click(cell);
-    await expect(menu).toHaveTextContent(new Date(2023, 0, 2).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' }));
+    await expect(menu).toHaveTextContent('2023-01-02');
+    // Should NOT have a time component to the output
+    await expect(menu).not.toHaveTextContent('2023-01-02T');
   },
   render: () => {
     const [date, setDate] = React.useState('2023-01-01');
@@ -174,7 +176,7 @@ export const CalendarButton = {
     return (
       <div>
         <Menu arrow>
-          <Button data-testid="menu">{dateUtils.fromISO(date).toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' })}</Button>
+          <Button data-testid="menu">{date}</Button>
           <Menu.Overlay>
             <Calendar value={date} onChange={setDate} />
           </Menu.Overlay>

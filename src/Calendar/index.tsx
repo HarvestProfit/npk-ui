@@ -4,8 +4,6 @@ import { BackwardIndicatorIcon, ForwardIndicatorIcon } from '@harvest-profit/npk
 import Button from '../Button';
 import Month from './Month';
 import {
-  fromISO,
-  fromTimestamp,
   lastMonth,
   lastYear,
   nameForVisibleDates,
@@ -18,13 +16,16 @@ import {
   subtract
 } from './utils';
 import { MenuContext } from '../Menu';
+import { isoDateIncludesTime, onChangeType, outputFormatType, useValueFormatter, valueType } from '../DateInput/helpers';
+
+type rangeValueType = { start: valueType; end: valueType };
 
 interface CalendarProps {
   presets?: boolean | Array<{ label: string; date: Date }>;
-  value?: Date | { start: Date; end: Date };
+  value?: valueType | rangeValueType;
   autoDismiss?: boolean;
-  output?: 'ISO' | 'timestamp' | 'Date';
-  onChange?: (date: Date | { start: Date; end: Date }) => void;
+  output?: outputFormatType;
+  onChange?: onChangeType;
   range?: boolean;
   visibleMonths?: number;
 }
@@ -37,7 +38,7 @@ const defaultPresets = [
   { label: 'Next Year', date: nextYear() },
 ]
 
-const Calendar = ({
+const Calendar: React.FC<CalendarProps> = ({
   presets = true,
   value: externalValue,
   output = 'ISO',
@@ -46,27 +47,27 @@ const Calendar = ({
   range = false,
   visibleMonths = 1
 }) => {
-  let fromFormat = v => v;
-  let toFormat = v => v;
-  switch (output) {
-    case 'ISO':
-      fromFormat = fromISO;
-      toFormat = toISO;
-      break;
-    case 'timestamp':
-      fromFormat = fromTimestamp;
-      toFormat = toTimestamp;
-      break;
-    default:
-      break;
+  let includeTime = true;
+
+  if (range) {
+    const externalRangeValue = externalValue as rangeValueType;
+    includeTime = isoDateIncludesTime(externalRangeValue.start) || isoDateIncludesTime(externalRangeValue.start);
+  } else {
+    includeTime = isoDateIncludesTime(externalValue)
   }
 
-  let value = externalValue;
+  const formatter = useValueFormatter(output, includeTime);
+
+  let value: Date | { start?: Date, end?: Date };
+
   if (range) {
-    value = { start: fromFormat(value?.start), end: fromFormat(value?.end) };
+    const externalRangeValue = externalValue as rangeValueType;
+    value = { start: formatter.from(externalRangeValue?.start), end: formatter.from(externalRangeValue?.end) };
   } else {
-    value = fromFormat(value);
+    value = formatter.from(externalValue as valueType);
   }
+
+  const rangeValue = value as { start?: Date, end?: Date };
 
   const [selectingStart, setSelectingStart] = useState(true); // For range selection, true if we are selecting the start date
   const [hoveredDate, setHoveredDate] = useState(); // For range selection, the date that is currently hovered to show the potential range the user is selecting when setting the end date.
@@ -75,7 +76,7 @@ const Calendar = ({
 
   const onChange = (newValue: Date) => {
     if (!range) {
-      onExternalChange(toFormat(newValue));
+      onExternalChange(formatter.to(newValue));
       if (autoDismiss && menuContext) menuContext.setOpen(false);
       return;
     }
@@ -83,13 +84,13 @@ const Calendar = ({
     setHoveredDate(null); // We are no longer hovering if we've made a selection
     if (selectingStart) {
       setSelectingStart(false); // We are now selecting the end date
-      onExternalChange({ start: toFormat(newValue), end: null });
+      onExternalChange({ start: formatter.to(newValue), end: null });
     } else {
       setSelectingStart(true); // The next click will select the start date
-      if (newValue < value?.start) { // Swap the start and end dates if the new value is before the start date
-        onExternalChange({ start: toFormat(newValue), end: toFormat(value?.start) });
+      if (newValue < rangeValue?.start) { // Swap the start and end dates if the new value is before the start date
+        onExternalChange({ start: formatter.to(newValue), end: formatter.to(rangeValue?.start) });
       } else {
-        onExternalChange({ start: toFormat(value?.start), end: toFormat(newValue) });
+        onExternalChange({ start: formatter.to(rangeValue?.start), end: formatter.to(newValue) });
       }
 
       if (autoDismiss && menuContext) menuContext.setOpen(false);
@@ -102,11 +103,11 @@ const Calendar = ({
     selectingStart,
     hoveredDate,
     setHoveredDate,
-    value: range ? { start: value?.start, end: value?.end } : value,
-    selectingValue: range ? (selectingStart ? value?.start : value?.end) : value,
+    value: range ? { start: rangeValue?.start, end: rangeValue?.end } : value,
+    selectingValue: range ? (selectingStart ? rangeValue?.start : rangeValue?.end) : value,
   }
 
-  const initialVisibleDate = range ? (value.start || value.end) : value;
+  const initialVisibleDate = range ? (rangeValue.start || rangeValue.end) : value as Date;
   const [visibleDate, setVisibleDate] = useState(initialVisibleDate || new Date());
 
   let presetButtons: Array<{ label: string; date: Date }> = [];

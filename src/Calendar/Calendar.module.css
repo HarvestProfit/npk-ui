@@ -124,9 +124,21 @@
         transition-property: color, fill, background-color;
         position: relative;
         margin: auto;
+        font-weight: 600;
 
         &[data-today="true"] {
-          font-weight: bold;
+          font-weight: 800;
+          position: relatve;
+          &::after {
+            position: absolute;
+            content: '';
+            height: 4px;
+            width: 4px;
+            border-radius: 100px;
+            bottom: 3px;
+            transition: all 0.3s ease;
+            background-color: var(--control-fg-color);
+          }
         }
 
         &[data-state="disabled"] {
@@ -138,6 +150,10 @@
           color: var(--control-variant-emphasis-fg-color);
           --control-bg-color--hover: var(--control-variant-emphasis-bg-color--hover);
           --control-bg-color--active: var(--control-variant-emphasis-bg-color--active);
+
+          &[data-today="true"]::after {
+            background-color: var(--control-variant-emphasis-fg-color);
+          }
         }
 
         &[data-state="selected"] {
@@ -146,14 +162,19 @@
           border-radius: var(--control-segment-radius);
           outline: 0.125rem solid var(--control-focus-color);
           outline-offset: -1px;
+
+          &[data-today="true"]::after {
+            background-color: var(--control-fg-color--active-element);
+          }
         }
 
         &[hidden] {
           cursor: default;
-          opacity: 0.25;
+          opacity: 0.5;
+          font-weight: 400;
         }
 
-        
+
         &:not([data-state="disabled"], [data-state="selected"]) {
           &:hover {
             background-color: var(--control-bg-color--hover);
