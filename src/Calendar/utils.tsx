@@ -47,6 +47,7 @@ export function change(date: Date, value: number | string, granularity: 'TOD' | 
           return add(newValue, 12, 'hour');
         }
       }
+      break;
     case "month":
       newValue.setMonth(numberValue - 1);
       break;
