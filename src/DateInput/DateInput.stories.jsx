@@ -198,19 +198,19 @@ export const CalendarButtonWithTime = {
   play: async ({ canvas }) => {
 
     const menu = canvas.getByTestId('menu');
-    await expect(menu).toHaveTextContent('2023-01-01');
+    await expect(menu).toHaveTextContent('2026-01-22T01:05:34.414Z');
     await userEvent.click(menu);
 
-    const dateToSelect = new Date(2023, 0, 2);
+    const dateToSelect = new Date(2026, 0, 23);
     const dateLabel = dateToSelect.toLocaleDateString('default', { month: 'long', year: 'numeric', day: 'numeric' });
     const cell = canvas.getByRole('gridcell', { name: dateLabel })
     await expect(cell).toBeInTheDocument();
     await userEvent.click(cell);
     // Should also contain a time part of it
-    await expect(menu).toHaveTextContent('2023-01-02T');
+    await expect(menu).toHaveTextContent('T');
   },
   render: () => {
-    const [date, setDate] = React.useState('2023-01-01');
+    const [date, setDate] = React.useState('2026-01-22T01:05:34.414Z');
 
     return (
       <div>

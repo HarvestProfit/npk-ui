@@ -62,7 +62,7 @@ export function change(date: Date, value: number | string, granularity: 'TOD' | 
   return newValue;
 }
 
-export function get(date: Date, granularity: 'minute' | 'hour' | '24Hour' | 'TOD' | 'day' | 'month' | 'monthIndex' | 'year', locale = 'default', ...options): string {
+export function get(date: Date, granularity: 'minute' | 'hour' | '24Hour' | 'TOD' | 'day' | 'month' | 'monthIndex' | 'year', locale = 'default', options = {}): string {
   if (!date) return null;
   const timeChunks = date.toLocaleTimeString(locale, { hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', ...options });
   switch (granularity) {
@@ -117,14 +117,14 @@ export function fromISO(dateString: string | Date) {
   if (dateString.includes('T')) return new Date(dateString);
   const parts = dateString.split('-');
   return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-
 }
 
 export function toISO(date: Date, excludeTime = false) {
   if (!date) return null;
   const value = date.toISOString();
-  if (excludeTime) return value.split('T')[0];
-  return value;
+  if (!excludeTime) return value;
+
+  return `${get(date, 'year')}-${get(date, 'month', 'default', { month: '2-digit' })}-${get(date, 'day', 'default', { day: '2-digit' })}`
 }
 
 export function fromTimestamp(number: number | string | Date) {
