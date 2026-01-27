@@ -4,7 +4,8 @@ import ThemeContext from '../ThemeContext';
 import classes from './Tooltip.module.css';
 import { computePosition, flip, inline, offset, shift } from '@floating-ui/dom';
 
-const ANIMATION_TIMING = 800;
+const HOVER_SHOW_TOOLTIP_AFTER = 800;// ms
+const CLICK_SHOW_TOOLTIP_AFTER = 1000;// ms
 const EVENT_OPEN = 'NPK:TooltipOpen';
 const EVENT_CLOSE = 'NPK:TooltipClose';
 
@@ -28,7 +29,7 @@ const Tooltip = ({
     elementRef.current.dispatchEvent(event);
     clearTimeout(animationTimeout.current);
     setIsMounted(true);
-    animationTimeout.current = setTimeout(() => setIsOpen(true), ANIMATION_TIMING);
+    animationTimeout.current = setTimeout(() => setIsOpen(true), HOVER_SHOW_TOOLTIP_AFTER);
   }, []);
 
   const closeTooltip = useCallback(() => {
@@ -36,25 +37,25 @@ const Tooltip = ({
     elementRef.current.dispatchEvent(event);
     clearTimeout(animationTimeout.current);
     setIsOpen(false);
-    animationTimeout.current = setTimeout(() => setIsMounted(false), ANIMATION_TIMING);
+    animationTimeout.current = setTimeout(() => setIsMounted(false), 100);
   }, []);
 
   const delayOpeningTooltip = useCallback(() => {
     clearTimeout(animationTimeout.current);
-    animationTimeout.current = setTimeout(() => openTooltip(), 1000);
-  }, []);
+    animationTimeout.current = setTimeout(() => openTooltip(), CLICK_SHOW_TOOLTIP_AFTER);
+  }, [openTooltip]);
 
   const skipOpeningTooltip = useCallback((event) => {
     if (event.target === elementRef.current) return;
     if (!elementRef.current.contains(event.target)) return;
     closeTooltip();
-  }, []);
+  }, [closeTooltip]);
 
   const potentiallyOpenTooltip = useCallback((event) => {
     if (event.target === elementRef.current) return;
     if (!elementRef.current.contains(event.target)) return;
     openTooltip();
-  }, []);
+  }, [openTooltip]);
 
   useEffect(() => {
     if (targetRef?.current) {
@@ -76,7 +77,7 @@ const Tooltip = ({
       elementRef.current?.removeEventListener(EVENT_OPEN, skipOpeningTooltip);
       elementRef.current?.removeEventListener(EVENT_CLOSE, potentiallyOpenTooltip);
     }
-  }, []);
+  }, [targetRef?.current, id, openTooltip, closeTooltip, delayOpeningTooltip, skipOpeningTooltip, potentiallyOpenTooltip]);
 
   const setTooltipRef = (ref) => {
     tooltipRef.current = ref;
