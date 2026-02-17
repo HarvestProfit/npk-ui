@@ -17,11 +17,13 @@ import Spinner from './Spinner';
 import Switch from './Switch';
 import Tooltip from './Tooltip';
 import Table from './Table';
+import { NavigationContextProvider } from './Nav/NavigationContext';
 import ThemeContext, { ThemeContextProvider } from './ThemeContext';
 
 export {
   ThemeContext,
   ThemeContextProvider,
+  NavigationContextProvider,
   ApplicationAlert,
   BaseButton,
   Button,

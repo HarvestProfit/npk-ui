@@ -5,11 +5,16 @@ import ThemeContext from '../ThemeContext';
 import { attemptFilledIconForIcon } from '../icons';
 import classes from './Nav.module.css';
 import Button from '../Button';
+import NavigationContext, { defaultNavigationConfig } from './NavigationContext';
 
 interface NavProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'underline';
   [key: string]: any; // Allow other props
+}
+
+interface NavButtonProps extends BaseButtonProps {
+  ignore?: RegExp | 'string' | Function,
 }
 
 interface NavGroupProps extends HTMLAttributes<HTMLElement> {
@@ -19,7 +24,7 @@ interface NavGroupProps extends HTMLAttributes<HTMLElement> {
 }
 
 const Nav: React.FC<NavProps> & {
-  Button: React.FC<BaseButtonProps>;
+  Button: React.FC<NavButtonProps>;
   Group: React.FC<NavGroupProps>;
 } = ({ children, variant = 'underline', ...props }) => {
 
@@ -57,13 +62,24 @@ Nav.Group = ({ title = null, children, ...props }) => {
   )
 }
 
-Nav.Button = (props) => {
-  const { navigation } = useContext(ThemeContext);
+Nav.Button = ({ ignore, ...props }) => {
+  let navigation = useContext(NavigationContext) || defaultNavigationConfig;
+  navigation = { ...defaultNavigationConfig, ...navigation };
+
   const href = props[navigation.hrefProp];
-  const isActive = navigation.matchWith(href, window.location.pathname)
+  let isActive = navigation.matchWith(href, window.location.pathname, props);
+  if (isActive && ignore) {
+    if (ignore instanceof RegExp) {
+      isActive = !ignore.test(href);
+    } else if (typeof ignore === 'string') {
+      isActive = !href.includes(ignore);
+    } else if (typeof ignore === 'function') {
+      isActive = !ignore(href);
+    }
+  }
 
   const buttonProps = { ...props };
-  buttonProps[navigation.hrefProp] = navigation.transformPath(buttonProps[navigation.hrefProp]);
+  buttonProps[navigation.hrefProp] = navigation.transformPath(buttonProps[navigation.hrefProp], window.location.pathname, props);
 
   if (isActive) {
     buttonProps['aria-current'] = 'page';
@@ -71,7 +87,6 @@ Nav.Button = (props) => {
       buttonProps.leadingVisual = attemptFilledIconForIcon(buttonProps.leadingVisual) || buttonProps.leadingVisual;
     }
   }
-
 
   if (typeof buttonProps.leadingVisual === 'function' && (buttonProps.leadingVisual.name === 'leadingVisual')) {
     buttonProps.leadingVisual = buttonProps.leadingVisual({ active: isActive })
