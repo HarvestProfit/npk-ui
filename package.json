@@ -87,17 +87,18 @@
     "react-dom": ">=17.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.13",
-    "@storybook/addon-a11y": "^10.2.0",
-    "@storybook/addon-docs": "10.2.0",
-    "@storybook/addon-vitest": "^10.2.0",
-    "@storybook/builder-vite": "^10.2.0",
-    "@storybook/react-vite": "^10.2.0",
+    "@biomejs/biome": "2.4.2",
+    "@storybook/addon-a11y": "^10.2.9",
+    "@storybook/addon-docs": "10.2.9",
+    "@storybook/addon-vitest": "^10.2.9",
+    "@storybook/builder-vite": "^10.2.9",
+    "@storybook/react-vite": "^10.2.9",
     "@svgr/cli": "^8.1.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.1",
     "@types/react": "^19.2.0",
     "@vitest/browser": "^4.0.0",
+    "@vitest/browser-playwright": "^4.0.0",
     "@vitest/coverage-v8": "^4.0.0",
     "autoprefixer": "^10.4.20",
     "playwright": "^1.58.0",
@@ -108,12 +109,11 @@
     "prettier": "^3.8.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "storybook": "^10.2.0",
+    "storybook": "^10.2.9",
     "storybook-css-modules": "^1.0.8",
     "svgtofont": "^6.3.1",
     "typescript": "^5.7.3",
     "vite-plugin-dts": "^4.5.4",
-    "vitest": "^4.0.0",
-    "@vitest/browser-playwright": "^4.0.0"
+    "vitest": "^4.0.0"
   }
 }
