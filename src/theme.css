@@ -175,6 +175,7 @@
   --card-section-variant-muted-bg: var(--color-neutral-95);
 
   --nav-control-size: 2.25rem;
+  --nav-underline-active-size: 5px;
   --nav-border-color: #00000011;
   --nav-active-indicator-color: var(--color-orange);
   --nav-control-bg-color--active: var(--color-neutral-95);
