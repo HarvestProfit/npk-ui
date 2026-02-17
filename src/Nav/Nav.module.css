@@ -1,0 +1,141 @@
+.Nav {
+  display: flex;
+  flex-direction: var(--nav-direction, column);
+  gap: var(--nav-gap, var(--size-16));
+
+  &[data-variant="primary"],
+  &[data-variant="secondary"] {
+    min-width: 190px;
+    max-width: 250px;
+    --nav-direction: column;
+    --control-font-size: var(--size-16);
+    --control-size: var(--nav-control-size, 2.25rem);
+
+    section:not(:first-child) {
+      border-top: 1px solid var(--control-border-color);
+    }
+  }
+
+  &[data-variant="underline"] {
+    border-bottom: 1px solid var(--control-border-color);
+    --control-font-size: var(--size-16);
+    --nav-direction: row;
+    --btn-border-color: transparent;
+    --btn-bg-color: transparent;
+    --btn-fg-color: var(--control-fg-color);
+    --btn-font-weight: var(--control-button-unweighted);
+    --nav-button-padding: var(--size-8);
+    --nav-gap: var(--size-12);
+
+    [aria-current] {
+      --btn-font-weight: var(--control-button-heavy);
+      --btn-border-color: transparent;
+      --btn-bg-color: transparent;
+      --btn-fg-color: var(--control-fg-color);
+      --btn-visual-color: var(--control-fg-color);
+
+      --internal-nav-active-indicator-color: var(--nav-active-indicator-color);
+    }
+
+    [data-component="button"] {
+      position: relative;
+      margin-bottom: var(--size-6);
+      --control-padding: var(--nav-button-padding);
+      &::after {
+        position: absolute;
+        bottom: calc(var(--size-8) * -1);
+        left: 0;
+        right: 0;
+        content: '';
+        width: 100%;
+        border-radius: 3px;
+        height: 3px;
+        background-color: var(--internal-nav-active-indicator-color, transparent);
+      }
+    }
+  }
+
+  &[data-variant="primary"] {
+    --btn-border-color: transparent;
+    --btn-bg-color: transparent;
+    --btn-fg-color: var(--control-fg-color);
+    --btn-font-weight: var(--control-button-unweighted);
+    --nav-button-padding: 1.3rem;
+
+    [data-component="button"] {
+      --control-padding: var(--nav-button-padding);
+    }
+
+    [aria-current] {
+      --btn-font-weight: var(--control-button-heavy);
+      --btn-border-color: var(--nav-control-bg-color-primary-variant--active);
+      --btn-bg-color: var(--nav-control-bg-color-primary-variant--active);
+      --btn-fg-color: var(--nav-control-fg-color-primary-variant--active);
+      --btn-visual-color: var(--nav-control-fg-color-primary-variant--active);
+      --btn-chip-bg-color: var(--nav-control-chip-bg-color-primary-variant--active);
+
+      --btn-border-color--hover: var(--nav-control-bg-color-primary-variant--hover);
+      --btn-bg-color--hover: var(--nav-control-bg-color-primary-variant--hover);
+      --btn-fg-color--hover: var(--nav-control-fg-color-primary-variant--active);
+    }
+  }
+
+  &[data-variant="secondary"] {
+    --nav-button-left-margin: var(--control-gap);
+    --nav-button-padding: var(--size-8);
+
+    --btn-border-color: transparent;
+    --btn-bg-color: transparent;
+    --btn-fg-color: var(--control-fg-color);
+    --btn-font-weight: var(--control-button-unweighted);
+
+    [aria-current] {
+      --btn-font-weight: var(--control-button-heavy);
+      --btn-border-color: var(--nav-control-bg-color--active);
+      --btn-bg-color: var(--nav-control-bg-color--active);
+      --btn-fg-color: var(--control-fg-color);
+      --btn-visual-color: var(--control-fg-color);
+
+      --internal-nav-active-indicator-color: var(--nav-active-indicator-color);
+    }
+
+    [data-component="button"] {
+      position: relative;
+      margin-left: var(--nav-button-left-margin);
+      --control-padding: var(--nav-button-padding);
+      &::before {
+        position: absolute;
+        left: calc(var(--nav-button-left-margin) * -1);
+        content: '';
+        width: var(--size-4);
+        border-radius: var(--size-4);
+        height: 100%;
+        background-color: var(--internal-nav-active-indicator-color, transparent);
+      }
+    }
+  }
+
+
+  section h3 {
+    font-size: var(--size-12);
+    color: var(--color-fg-muted);
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    padding: 0 calc(var(--nav-button-padding, var(--control-padding)) + var(--nav-button-left-margin, 0px));
+  }
+
+  ul[data-component="nav-list"] {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: var(--nav-direction, column);
+    gap: var(--nav-gap, var(--size-4));
+
+    & > li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

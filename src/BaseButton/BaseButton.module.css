@@ -39,7 +39,7 @@ a.ControlButton:hover {
     max-width: var(--truncate-width, 100%);
 
     &>[data-component="contents"] {
- 
+
       &>[data-component="text"] {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -124,7 +124,7 @@ a.ControlButton:hover {
     font-weight: 500;
     line-height: 1;
     border-radius: 20px;
-    background-color: var(--control-surface-color);
+    background-color: var(--btn-chip-bg-color, var(--control-surface-color));
   }
 
   [data-component="loading"],

@@ -4,6 +4,7 @@ import Button from './Button';
 import Badge from './Badge';
 import BlankSlate from './BlankSlate';
 import Calendar from './Calendar';
+import Nav from './Nav';
 import DateInput, { dateUtils } from './DateInput';
 import Input from './Input';
 import Checkbox from './Checkbox';
@@ -35,6 +36,7 @@ export {
   SegmentedControl,
   Spinner,
   Menu,
+  Nav,
   Switch,
   Tooltip,
   Table,

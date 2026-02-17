@@ -1,0 +1,35 @@
+import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
+ 
+import * as NavStories from './Nav.stories.jsx';
+ 
+<Meta of={NavStories} />
+ 
+# Navigation
+
+
+### Primary Navigation
+Primary navigation is bold and important. It utilizes `Nav.Group` to group the navigation items. **Groups are required**
+for the primary navigation. You do not need to include a title for the group but it should have an `aria-label` to make
+sure it is labeled correctly.
+
+<Canvas of={NavStories.Primary} />
+
+### Underline Navigation
+Underline navigation is used on most pages. These cannot use groups.
+
+<Canvas of={NavStories.Underline} />
+
+### Secondary Navigation
+This is pretty much only used in settings or anywhere else that you would have a panel with a vertical navigation.
+This is best to not use since it conflicts with the primary navigation.
+
+<Canvas of={NavStories.Secondary} />
+
+### Nav.Button icons
+Using icons from this library may come with a filled or non-filled version. `Nav.Button` will automatically choose
+the filled icon when active. Otherwise you will need to use the pattern `leadingVisual={({ active }) => active ? FilledIcon : RegularIcon}`.
+
+Check out the examples to see how this works.
+
+## Props
+<Controls />

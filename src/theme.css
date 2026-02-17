@@ -141,6 +141,7 @@
   --control-padding: var(--size-12);
   --control-button-unweighted: 400;
   --control-button-weight: 600;
+  --control-button-heavy: 700;
   --control-label-font-size: var(--size-14);
   --control-label-weight: 700;
   --control-border-color: #00000022;
@@ -172,4 +173,12 @@
   --card-variant-muted-border-color: var(--color-neutral-80);
 
   --card-section-variant-muted-bg: var(--color-neutral-95);
+
+  --nav-control-size: 2.25rem;
+  --nav-active-indicator-color: var(--color-orange);
+  --nav-control-bg-color--active: var(--color-neutral-95);
+  --nav-control-bg-color-primary-variant--active: var(--color-neutral-20);
+  --nav-control-bg-color-primary-variant--hover: var(--color-neutral-25);
+  --nav-control-chip-bg-color-primary-variant--active: var(--color-neutral-30);
+  --nav-control-fg-color-primary-variant--active: var(--color-neutral-98);
 }
