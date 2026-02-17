@@ -70,11 +70,11 @@ Nav.Button = ({ ignore, ...props }) => {
   let isActive = navigation.matchWith(href, window.location.pathname, props);
   if (isActive && ignore) {
     if (ignore instanceof RegExp) {
-      isActive = !ignore.test(href);
+      isActive = !ignore.test(window.location.pathname);
     } else if (typeof ignore === 'string') {
-      isActive = !href.includes(ignore);
+      isActive = !window.location.pathname.includes(ignore);
     } else if (typeof ignore === 'function') {
-      isActive = !ignore(href);
+      isActive = !ignore(window.location.pathname, href);
     }
   }
 
