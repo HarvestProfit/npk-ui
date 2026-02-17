@@ -8,6 +8,7 @@ interface ThemeContextType {
     as?: keyof React.JSX.IntrinsicElements | React.ComponentType<any>;
     hrefProp?: string,
     matchWith: (href: string, locationPath: string) => boolean;
+    transformPath: (href: string) => string;
   }
 }
 
@@ -18,7 +19,8 @@ const defaultConfig: ThemeContextType = {
   navigation: {
     as: 'a',
     hrefProp: 'href',
-    matchWith: (href: string, locationPath: string) => locationPath.endsWith(href)
+    matchWith: (href: string, locationPath: string) => locationPath.endsWith(href),
+    transformPath: (href: string) => href,
   }
 
 };

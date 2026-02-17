@@ -12,12 +12,12 @@
     --control-size: var(--nav-control-size, 2.25rem);
 
     section:not(:first-child) {
-      border-top: 1px solid var(--control-border-color);
+      border-top: 1px solid var(--nav-border-color);
     }
   }
 
   &[data-variant="underline"] {
-    border-bottom: 1px solid var(--control-border-color);
+    border-bottom: 1px solid var(--nav-border-color);
     --control-font-size: var(--size-16);
     --nav-direction: row;
     --btn-border-color: transparent;

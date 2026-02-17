@@ -62,7 +62,9 @@ Nav.Button = (props) => {
   const href = props[navigation.hrefProp];
   const isActive = navigation.matchWith(href, window.location.pathname)
 
-  const buttonProps = { ...props};
+  const buttonProps = { ...props };
+  buttonProps[navigation.hrefProp] = navigation.transformPath(buttonProps[navigation.hrefProp]);
+
   if (isActive) {
     buttonProps['aria-current'] = 'page';
     if (buttonProps.leadingVisual) {
