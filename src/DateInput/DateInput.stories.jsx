@@ -5,7 +5,7 @@ import Calendar from '@harvest-profit/npk/Calendar';
 import Menu from '@harvest-profit/npk/Menu';
 import Card from '@harvest-profit/npk/Card';
 import * as Icons from '@harvest-profit/npk/icons/regular';
-import { expect, userEvent } from 'storybook/test';
+import { expect, userEvent, within } from 'storybook/test';
 
 const icons = { None: null, ...Icons }
 
@@ -142,24 +142,41 @@ export default {
   }
 }
 
-export const Default = () => {
-  const [value, setValue] = React.useState()
-  const [value2, setValue2] = React.useState(new Date())
-  const [value3, setValue3] = React.useState()
-  return (
-    <div>
-      <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <p>1(ISO) {value}</p>
-        <p>2(Date) {value2.toString()}</p>
-        <p>3(Timestamp) {value3}</p>
+export const Default = {
+  play: async ({ canvas }) => {
+    const dateInput = await canvas.findByTestId('date');
+    const monthInput = await within(dateInput).findByRole('spinbutton', { name: /month/ })
+    await userEvent.type(monthInput, '01');
+    const dayInput = await within(dateInput).findByRole('spinbutton', { name: /day/ })
+    await userEvent.type(dayInput, '31');
+    const yearInput = await within(dateInput).findByRole('spinbutton', { name: /year/ })
+    await userEvent.type(yearInput, '2026');
+    const result = canvas.getByTestId('result');
+    await expect(result).toHaveTextContent('2026-01-31');
+
+    await userEvent.type(dayInput, '0000');
+    await userEvent.click(yearInput);
+    await expect(result).toHaveTextContent('2026-01-01');
+  },
+  render: () => {
+    const [value, setValue] = React.useState()
+    const [value2, setValue2] = React.useState(new Date())
+    const [value3, setValue3] = React.useState()
+    return (
+      <div>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+          <p data-testId="result">1(ISO) {value}</p>
+          <p>2(Date) {value2.toString()}</p>
+          <p>3(Timestamp) {value3}</p>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+          <DateInput data-testId="date" label="Date (sm)" name="generic" size="sm" picker presets value={value} onChange={setValue} /><Button>Save</Button>
+          <DateInput label="With picker" picker presets value={value2} onChange={setValue2} output="Date" granularity="minute" monthAsName />
+          <DateInput label="To Timestamp" value={value3} onChange={setValue3} output="timestamp" granularity="minute" /><Button>Save</Button>
+        </div>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <DateInput label="Date (sm)" name="generic" size="sm" picker presets value={value} onChange={setValue} /><Button>Save</Button>
-        <DateInput label="With picker" picker presets value={value2} onChange={setValue2} output="Date" granularity="minute" monthAsName />
-        <DateInput label="To Timestamp" value={value3} onChange={setValue3} output="timestamp" granularity="minute" /><Button>Save</Button>
-      </div>
-    </div>
-  )
+    )
+  }
 }
 
 export const CalendarButton = {

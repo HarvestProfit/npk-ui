@@ -45,6 +45,10 @@ const Day = ({ visibleDate, date, state }) => {
     state.onChange(newValue);
   }
 
+  let label = date.toLocaleDateString('default', { month: 'long', year: 'numeric', day: 'numeric' });
+  if (isSelectionStart) label = `${label}, start of range`;
+  if (isSelectionEnd) label = `${label}, end of range`;
+
   return (
     <td
       onClick={onClickChange}
@@ -59,7 +63,7 @@ const Day = ({ visibleDate, date, state }) => {
       aria-selected={partOfSelected}
       role="gridcell"
       onMouseEnter={onMouseEnter}
-      aria-label={date.toLocaleDateString('default', { month: 'long', year: 'numeric', day: 'numeric' })}
+      aria-label={label}
     >
       <div
         ref={ref}

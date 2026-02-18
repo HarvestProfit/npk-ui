@@ -11,43 +11,36 @@ import { isoDateIncludesTime, onChangeType, outputFormatType, useValueFormatter,
 
 const GranularityInclude = ({ children, active }) => active ? children : null;
 
-const hourAndTODfromDate = (date) => {
-  if (!date) return {};
-  const hours = date.getHours();
-  const tod = hours >= 12 ? 'PM' : 'AM';
-  const hour = hours % 12 || 12; // Convert to 12-hour format
-  return { hour, tod };
-}
-
 // Shifts focus to the next input segment
 const useDateGroupFocus = () => {
-  const onMouseDown = (e) => {
-    if (document.activeElement === e.target) return;
-    if (!e.target.ariaHidden && e.target.dataset.component === 'input-segment') return;
+  const onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement;
+    if (document.activeElement === target) return;
+    if (!target.ariaHidden && target.dataset.component === 'input-segment') return;
 
-    const rootNode = e.target?.dataset?.component === 'input-group' ? e.target : e.target?.closest('[data-component="input-group"]');
+    const rootNode = target?.dataset?.component === 'input-group' ? target : target?.closest('[data-component="input-group"]');
     if (rootNode && rootNode.contains(document.activeElement)) {
-      e.preventDefault();
+      event.preventDefault();
       return;
     }
 
-    const focusNearest = (node) => {
+    const focusNearest = (node: HTMLElement) => {
       if (!node) return;
-      if (node.ariaHidden) focusNearest(node.nextElementSibling);
-      if (node.dataset.component === 'input-group') focusNearest(node.firstElementChild);
+      if (node.ariaHidden) focusNearest(node.nextElementSibling as HTMLElement);
+      if (node.dataset.component === 'input-group') focusNearest(node.firstElementChild as HTMLElement);
       node.focus();
     }
 
-    focusNearest(e.target);
+    focusNearest(target);
   }
 
   return { onMouseDown };
 }
 
 // Simple hook to manage state and call a callback when the value changes
-const useOnChangeState = (initialValue, cb) => {
+const useOnChangeState = (initialValue: any, cb?: (value: any) => void) => {
   const [state, setState] = useState(initialValue);
-  return [state, (newValue) => {
+  return [state, (newValue: any): void => {
     if (newValue === state) return;
     setState(newValue);
     if (cb && newValue) cb(newValue);
@@ -56,7 +49,7 @@ const useOnChangeState = (initialValue, cb) => {
 
 // Controls the individual segments of the date input
 const DateInputInternal = ({
-  onChange = (_value) => null,
+  onChange = (_value: any) => null,
   value,
   includeYear = true,
   monthAsName = false,
@@ -128,14 +121,14 @@ const DateInputInternal = ({
 
   const dateParts = [];
   if (['day', 'month', 'minute'].includes(granularity)) {
-    dateParts.push(<InputSegment aria-label="month" segment={monthAsName ? 'monthName' : 'month'} setIsFocused={setInputSegmentFocused} value={monthValue} onChange={setMonthValue} />);
+    dateParts.push(<InputSegment aria-label="month" segment={monthAsName ? 'monthName' : 'month'} setIsFocused={setInputSegmentFocused} value={monthValue} onChange={setMonthValue} dateValue={updateValue} />);
   }
   if (['day', 'minute'].includes(granularity)) {
-    const dayPart = (<InputSegment aria-label="day" segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} onOldChange={(day => onChange(change(updateValue, day, 'day')))} />);
+    const dayPart = (<InputSegment aria-label="day" segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} dateValue={updateValue} />);
     (dayIsInFrontForCurrentLocale() && !monthAsName) ? dateParts.unshift(dayPart) : dateParts.push(dayPart);
   }
   if (includeYear && ['day', 'month', 'year', 'minute'].includes(granularity)) {
-    dateParts.push(<InputSegment aria-label="year" segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} onOldChange={(year => onChange(change(updateValue, year, 'year')))} />);
+    dateParts.push(<InputSegment aria-label="year" segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} dateValue={updateValue} />);
   }
 
   const contents = (
@@ -155,11 +148,11 @@ const DateInputInternal = ({
       </GranularityInclude>
 
       <GranularityInclude active={['minute', 'time'].includes(granularity)}>
-        <InputSegment aria-label="hour" segment="hour" setIsFocused={setInputSegmentFocused} value={hourValue} onChange={setHourValue} />
+        <InputSegment aria-label="hour" segment="hour" setIsFocused={setInputSegmentFocused} value={hourValue} onChange={setHourValue} dateValue={updateValue} />
         <span aria-hidden="true" data-component="input-segment">:</span>
-        <InputSegment aria-label="minute" segment="minute" setIsFocused={setInputSegmentFocused} value={minuteValue} onChange={setMinuteValue} />
+        <InputSegment aria-label="minute" segment="minute" setIsFocused={setInputSegmentFocused} value={minuteValue} onChange={setMinuteValue} dateValue={updateValue} />
         <span aria-hidden="true" data-component="input-segment"></span>
-        <InputSegment aria-label="time of day" segment="TOD" setIsFocused={setInputSegmentFocused} value={todValue} onChange={setTODValue} />
+        <InputSegment aria-label="time of day" segment="TOD" setIsFocused={setInputSegmentFocused} value={todValue} onChange={setTODValue} dateValue={updateValue} />
       </GranularityInclude>
     </>
   );
@@ -226,7 +219,7 @@ const DateInput: React.FC<DateInputProps> = ({
     extraProps.trailingVisual = (
       <Menu arrow placement="bottom" autoDismiss={false}>
         <Button invisible icon={CalendarIcon} aria-label="Pick a date" tabIndex={-1} />
-        <Menu.Overlay>
+        <Menu.Overlay aria-label="Pick a date">
           <Calendar visibleMonths={visibleMonths} presets={presets} value={value} onChange={setValue} output="Date" autoDismiss={autoDismiss} />
         </Menu.Overlay>
       </Menu>

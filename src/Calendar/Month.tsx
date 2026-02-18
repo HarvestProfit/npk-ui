@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDatesInWeek, getWeeksInMonth } from './utils';
+import { getDatesInWeek, getWeeksInMonth, nameForVisibleDates } from './utils';
 import Day from './Day';
 
 const Month = ({ visibleDate: initialVisibleDate, monthOffset = null, state }) => {
@@ -11,16 +11,16 @@ const Month = ({ visibleDate: initialVisibleDate, monthOffset = null, state }) =
   }
 
   return (
-    <table>
-      <thead>
+    <table aria-label={`${visibleDate.toLocaleString('default', { month: 'long', year: 'numeric' })} calendar`} role="grid" aria-multiselectable={state.range}>
+      <thead aria-hidden>
         <tr>
-          <th>S</th>
-          <th>M</th>
-          <th>T</th>
-          <th>W</th>
-          <th>T</th>
-          <th>F</th>
-          <th>S</th>
+          <th aria-label="Sunday">S</th>
+          <th aria-label="Monday">M</th>
+          <th aria-label="Tuesday">T</th>
+          <th aria-label="Wednesday">W</th>
+          <th aria-label="Thursday">T</th>
+          <th aria-label="Friday">F</th>
+          <th aria-label="Saturday">S</th>
         </tr>
       </thead>
       <tbody>

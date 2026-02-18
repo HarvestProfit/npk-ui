@@ -107,28 +107,28 @@ const BaseButton: React.FC<BaseButtonProps> = forwardRef<HTMLButtonElement, Base
 
   return (
     <>
-      <Component 
-        ref={ref} 
-        className={`${classes.ControlButton} ${className || ''}`} 
-        disabled={disabled} 
-        data-alignment={align} 
-        data-size={size} 
-        data-block={block} 
-        data-state={state} 
-        data-truncate={truncate} 
+      <Component
+        ref={ref}
+        className={`${classes.ControlButton} ${className || ''}`}
+        disabled={disabled}
+        data-alignment={align}
+        data-size={size}
+        data-block={block}
+        data-state={state}
+        data-truncate={truncate}
         data-component="button"
-        type={Component === 'button' ? 'button' : undefined} 
-        { ...props } 
+        type={Component === 'button' ? 'button' : undefined}
+        { ...props }
         {...loadingProps}
         { ...popoverProps }
         >
         <span data-component="contents" data-icon={!!(!children && (TrailingVisual || LeadingVisual))}>
-          {LeadingVisual && <span data-component="leadingVisual">{React.isValidElement(LeadingVisual) ? LeadingVisual : <LeadingVisual />}</span>}
+          {LeadingVisual && <span data-component="leadingVisual">{React.isValidElement(LeadingVisual) ? LeadingVisual : <LeadingVisual aria-hidden="true" />}</span>}
           {textLoading}
           {children && <span data-component="text" data-text-contents={`${children}`}>{children}</span>}
-          {TrailingVisual && <span data-component="trailingVisual">{React.isValidElement(TrailingVisual) ? TrailingVisual : <TrailingVisual />}</span>}
+          {TrailingVisual && <span data-component="trailingVisual">{React.isValidElement(TrailingVisual) ? TrailingVisual : <TrailingVisual aria-hidden="true" />}</span>}
         </span>
-        {TrailingAction && <span data-component="trailingAction">{React.isValidElement(TrailingAction) ? TrailingAction : <TrailingAction />}</span>}
+        {TrailingAction && <span data-component="trailingAction">{React.isValidElement(TrailingAction) ? TrailingAction : <TrailingAction aria-hidden="true" />}</span>}
       </Component>
       {props['aria-label'] && popoverProps['aria-expanded'] !== 'true' && (
         <Tooltip targetRef={internalRef}>

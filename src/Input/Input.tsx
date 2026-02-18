@@ -87,7 +87,7 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
 
   return (
     <BaseInput {...props}>
-      <InputComponent {...inputProps} className={classes.Input} value={internalValue || ''} onChange={handleChangeEvent} onFocus={onFocus} onBlur={onBlur} onKeyDown={inputMask.onKeyDown} ref={ref} />
+      <InputComponent {...inputProps} className={classes.Input} value={internalValue || ''} onChange={handleChangeEvent} onFocus={onFocus} onBlur={onBlur} onKeyDown={inputMask.onKeyDown as React.KeyboardEventHandler} ref={ref} />
     </BaseInput>
   );
 }

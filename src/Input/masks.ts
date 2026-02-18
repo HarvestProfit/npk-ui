@@ -62,10 +62,9 @@ export const numericMask: MaskType = (props: NumericMaskProps = {}) => {
 }
 
 export const calendarDayMask: MaskType = ({ dateValue = today() } = {}) => {
-  const performRule = (nextInputValue) => {
+  const performRule = (nextInputValue: string) => {
     if (nextInputValue === '0') return true;
     if (nextInputValue.length > 2) return false; // max of 2 digits for day
-
     const nextDateValue = change(dateValue, nextInputValue, 'day');
     if (dateValue.getMonth() !== nextDateValue.getMonth()) return false;
     if (dateValue.getFullYear() !== nextDateValue.getFullYear()) return false;
@@ -98,7 +97,7 @@ export const calendarDayMask: MaskType = ({ dateValue = today() } = {}) => {
 
 export const calendarMonthMask: MaskType = ({ dateValue = today() } = {}) => {
 
-  const performRule = (nextInputValue) => {
+  const performRule = (nextInputValue: string) => {
     if (nextInputValue === '0') return true;
     if (nextInputValue.length > 2) return false; // max of 2 digits for month
     const monthNumber = parseInt(nextInputValue, 10) - 1; // Convert to zero-based month index
@@ -131,7 +130,7 @@ export const calendarMonthMask: MaskType = ({ dateValue = today() } = {}) => {
 }
 
 export const calendarYearMask: MaskType = (props = {}) => {
-  const performRule = (nextInputValue) => {
+  const performRule = (nextInputValue: string) => {
     if (nextInputValue.length <= 4) return true; // needs at least 4 digits for year
 
     return false;
@@ -153,7 +152,7 @@ export const calendarYearMask: MaskType = (props = {}) => {
 }
 
 export const calendarHourMask: MaskType = ({ militaryTime = false } = {}) => {
-  const performRule = (nextInputValue) => {
+  const performRule = (nextInputValue: string) => {
     if (nextInputValue === '0') return true;
     if (nextInputValue.length > 2) return false; // max of 2 digits for hour
     const numberValue = parseInt(nextInputValue, 10);
@@ -187,7 +186,7 @@ export const calendarHourMask: MaskType = ({ militaryTime = false } = {}) => {
 }
 
 export const calendarMinuteMask: MaskType = (props = {}) => {
-  const performRule = (nextInputValue) => {
+  const performRule = (nextInputValue: string) => {
     if (nextInputValue === '0') return true;
     if (nextInputValue.length > 2) return false; // max of 2 digits for minute
     const numberValue = parseInt(nextInputValue, 10);

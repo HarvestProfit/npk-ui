@@ -3,12 +3,22 @@ import useMask from '../hooks/useMask';
 import { calendarDayMask, calendarHourMask, calendarMinuteMask, calendarMonthMask, calendarMonthNameMask, calendarTimeOfDayMask, calendarYearMask } from '../Input/masks';
 import { BaseInputContext } from '../BaseInput/BaseInput';
 
+interface InputSegmentProps {
+  [key: string]: any; // Allow other props
+  onChange?: (value: string) => void;
+  setIsFocused?: (isFocused: boolean) => void;
+  value: string;
+  segment: 'year' | 'month' | 'monthName' | 'day' | 'hour' | 'minute' | 'TOD';
+  dateValue: Date;
+}
+
 // Handles the individual segments of the date/time input
-const InputSegment = ({ segment, ...props }) => {
+const InputSegment: React.FC<InputSegmentProps> = ({ segment, setIsFocused: externalSetIsFocused, value: externalValue, onChange: externalOnChange, dateValue, ...props }) => {
   let mask = null;
   let placeholder = '';
   let defaultAriaValueNow = undefined;
   const today = new Date();
+  const maskProps = { dateValue };
   switch (segment) {
     case 'year':
       mask = calendarYearMask;
@@ -47,25 +57,24 @@ const InputSegment = ({ segment, ...props }) => {
       break;
   }
 
-  const formatValue = (inputValue) => {
+  const formatValue = (inputValue: string | Date) => {
     if (inputValue === '0' && segment !== 'minute') return '';
 
     let strValue = `${inputValue}`;
     if (inputValue instanceof Date) strValue = inputValue.toISOString();
     if (strValue === 'null' || strValue === 'undefined') strValue = '';
 
-    return mask(props).formatter(`${strValue || ''}`)
+    return mask(maskProps).formatter(`${strValue || ''}`)
   }
 
   const labelingIds = useContext(BaseInputContext).labelingIds || {};
 
-  const [value, setValue] = useState(formatValue(props.value) || '');
+  const [value, setValue] = useState(formatValue(externalValue) || '');
   const validatingValueRef = useRef(value);
   const [isFocused, setIsFocused] = useState(false);
 
   const inputMask = useMask({
-    ...props,
-    mask: mask(props),
+    mask: mask(maskProps),
     // Since we are using a span[contentEditable] as the input, we need to use the valueRef to get the current value instead of relying on event.target.value.
     valueRef: validatingValueRef,
     navigateWithArrows: true,
@@ -111,23 +120,23 @@ const InputSegment = ({ segment, ...props }) => {
 
     // Publish the change to the parent component if the value is different
     const emptyIfZero = (val) => val === '0' ? '' : val;
-    if (props.onChange && formatValue(props.value) !== formatValue(value)) props.onChange(emptyIfZero(value));
+    if (externalOnChange && formatValue(externalValue) !== formatValue(value)) externalOnChange(emptyIfZero(value));
   }, [value]);
 
   useEffect(() => { // if out of focus, update the internal value to the external value
-    if (!isFocused && formatValue(props.value) !== formatValue(value)) setValue(formatValue(props.value));
-  }, [props.value]);
+    if (!isFocused && formatValue(externalValue) !== formatValue(value)) setValue(formatValue(externalValue));
+  }, [externalValue]);
 
   const onBlur = (e) => {
     setIsFocused(false);
-    if (props.setIsFocused) props.setIsFocused(false);
+    if (externalSetIsFocused) externalSetIsFocused(false);
     setValue(inputMask.formatter(value));
   }
 
   const onFocus = (e) => {
     setTimeout(() => { // Add a delay to allow setting the value before focusing when selecting from a date picker
       setIsFocused(true);
-      if (props.setIsFocused) props.setIsFocused(true);
+      if (externalSetIsFocused) externalSetIsFocused(true);
     }, 100);
   }
 

@@ -1,7 +1,7 @@
 const SPECIAL_KEYS = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Enter', 'Tab', 'Escape', 'Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'NumLock', 'ScrollLock', 'Insert', 'Home', 'End', 'PageUp', 'PageDown'];
 import { nextFocusableElement } from '../utils';
 
-function keyMatchesMask(key, match) {
+function keyMatchesMask(key: string, match: string | RegExp) {
   if (typeof match === 'string') {
     return key === match;
   }
@@ -15,12 +15,12 @@ export const rule: RuleFunction = (match, ruleCB) => {
   return [match, ruleCB];
 };
 
-export default (props) => {
+export default (props: UseMaskProps) => {
   const { onKeyDown, mask, valueRef, navigateWithArrows } = props || {};
   const rules = mask?.mask || [];
 
-  const handleOnKeyDown = (event) => {
-    const previousValue = valueRef?.current || event.target.value || '';
+  const handleOnKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const previousValue = valueRef?.current || event.currentTarget.value || '';
     if (mask?.shiftFocusIf && previousValue === '' && event.key === 'Backspace') {
       setTimeout(() => {
         nextFocusableElement({ activeElem: event.target, reverse: true, parent: '[data-component=input-group]' })?.focus();
@@ -39,7 +39,7 @@ export default (props) => {
 
     if ((navigateWithArrows && event.key === 'ArrowRight') || event.key === 'Tab') {
       setTimeout(() => {
-        nextFocusableElement({ activeElem: event.target, parent: '[data-component=input-group]', requireParentMatch: event.key === 'ArrowRight' })?.focus();
+        nextFocusableElement({ activeElem: event.currentTarget, parent: '[data-component=input-group]', requireParentMatch: event.key === 'ArrowRight' })?.focus();
       }, 10);
       if (onKeyDown) onKeyDown(event, true);
       return
@@ -49,9 +49,9 @@ export default (props) => {
       if (onKeyDown) onKeyDown(event, true);
       return;
     }
-  
-    const selectionStart = isFinite(event.target.selectionStart) ? event.target.selectionStart : previousValue.length + 1;
-    const selectionEnd = isFinite(event.target.selectionEnd) ? event.target.selectionEnd : previousValue.length + 1;
+
+    const selectionStart = isFinite(event.currentTarget.selectionStart) ? event.currentTarget.selectionStart : previousValue.length + 1;
+    const selectionEnd = isFinite(event.currentTarget.selectionEnd) ? event.currentTarget.selectionEnd : previousValue.length + 1;
     const nextValue = previousValue.slice(0, selectionStart) + event.key + previousValue.slice(selectionEnd);
 
     let validInput = false;
@@ -64,7 +64,7 @@ export default (props) => {
           break;
         }
 
-        if (rule({ key: event.key, previousValue, nextValue, cursorIndex: selectionStart, target: event.target })) {
+        if (rule({ key: event.key, previousValue, nextValue, cursorIndex: selectionStart, target: event.currentTarget })) {
           validInput = true;
           break;
         }
@@ -73,7 +73,7 @@ export default (props) => {
 
     if (mask?.shiftFocusIf && mask?.shiftFocusIf(nextValue, event.key)) {
       setTimeout(() => {
-        nextFocusableElement({ activeElem: event.target, parent: '[data-component=input-group]' })?.focus();
+        nextFocusableElement({ activeElem: event.currentTarget, parent: '[data-component=input-group]' })?.focus();
       }, 10);
     }
 
@@ -82,7 +82,7 @@ export default (props) => {
       return;
     }
 
-    if (onKeyDown) onKeyDown(event);
+    if (onKeyDown) onKeyDown(event, false);
   }
 
   return {
@@ -107,5 +107,12 @@ interface MaskReturnType {
 }
 
 type MaskType = (props?: any) => MaskReturnType;
+
+interface UseMaskProps {
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>, isSpecialKey: boolean) => any;
+  mask?: MaskReturnType;
+  valueRef?: React.RefObject<string>;
+  navigateWithArrows?: boolean;
+}
 
 export type { MaskType, MaskReturnType, RuleType };
