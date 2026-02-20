@@ -23,21 +23,21 @@ export default (props: UseMaskProps) => {
     const previousValue = valueRef?.current || event.currentTarget.value || '';
     if (mask?.shiftFocusIf && previousValue === '' && event.key === 'Backspace') {
       setTimeout(() => {
-        nextFocusableElement({ activeElem: event.target, reverse: true, parent: '[data-component=input-group]' })?.focus();
+        nextFocusableElement({ activeElem: event.currentTarget, reverse: true, parent: '[data-component=input-group]' })?.focus();
       }, 10);
       if (onKeyDown) onKeyDown(event, true);
       return;
     }
 
-    if ((navigateWithArrows && event.key === 'ArrowLeft') || event.key === 'Tab' && event.shiftKey) {
+    if ((navigateWithArrows && event.key === 'ArrowLeft')) {
       setTimeout(() => {
-        nextFocusableElement({ activeElem: event.target, reverse: true, parent: '[data-component=input-group]', requireParentMatch: event.key === 'ArrowLeft' })?.focus();
+        nextFocusableElement({ activeElem: event.currentTarget, reverse: true, parent: '[data-component=input-group]', requireParentMatch: event.key === 'ArrowLeft' })?.focus();
       }, 10);
       if (onKeyDown) onKeyDown(event, true);
       return
     }
 
-    if ((navigateWithArrows && event.key === 'ArrowRight') || event.key === 'Tab') {
+    if ((navigateWithArrows && event.key === 'ArrowRight')) {
       setTimeout(() => {
         nextFocusableElement({ activeElem: event.currentTarget, parent: '[data-component=input-group]', requireParentMatch: event.key === 'ArrowRight' })?.focus();
       }, 10);
@@ -73,7 +73,7 @@ export default (props: UseMaskProps) => {
 
     if (mask?.shiftFocusIf && mask?.shiftFocusIf(nextValue, event.key)) {
       setTimeout(() => {
-        nextFocusableElement({ activeElem: event.currentTarget, parent: '[data-component=input-group]' })?.focus();
+        nextFocusableElement({ activeElem: event.target, parent: '[data-component=input-group]' })?.focus();
       }, 10);
     }
 
