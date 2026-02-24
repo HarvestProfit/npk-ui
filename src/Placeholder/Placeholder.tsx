@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './Placeholder.module.css';
 
-function randomIntFromInterval(min: number, max: number): number { // min and max included 
+function randomIntFromInterval(min: number, max: number): number { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -21,11 +21,12 @@ interface PlaceholderProps {
   width?: number | string | Array<number>;
   style?: React.CSSProperties;
   className?: string;
+  as?: keyof React.JSX.IntrinsicElements | React.ComponentType<any>;
 }
 
-const Placeholder: React.FC<PlaceholderProps> = ({ className = '', width = [70, 150], style = {}, ...props }) => {
+const Placeholder: React.FC<PlaceholderProps> = ({ as: Component = 'span', className = '', width = [70, 150], style = {}, ...props }) => {
   return (
-    <span
+    <Component
       title="loading..."
       aria-hidden="true"
       className={`${classes.Placeholder} ${className}`}
@@ -34,7 +35,7 @@ const Placeholder: React.FC<PlaceholderProps> = ({ className = '', width = [70, 
       {...props}
     >
       &nbsp;
-    </span>
+    </Component>
   );
 }
 

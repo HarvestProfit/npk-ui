@@ -1,3 +1,7 @@
+.NavLoadingButton {
+  height: var(--control-size);
+}
+
 .Nav {
   display: flex;
   flex-direction: var(--nav-direction, column);
@@ -13,6 +17,10 @@
 
     section:not(:first-child) {
       border-top: 1px solid var(--nav-border-color);
+    }
+
+    .NavLoadingButton {
+      min-width: 100%;
     }
   }
 
@@ -35,6 +43,10 @@
       --btn-visual-color: var(--control-fg-color);
 
       --internal-nav-active-indicator-color: var(--nav-active-indicator-color);
+    }
+
+    .NavLoadingButton {
+      margin-bottom: var(--size-6);
     }
 
     [data-component="button"] {

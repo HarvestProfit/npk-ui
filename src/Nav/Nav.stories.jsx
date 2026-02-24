@@ -123,3 +123,26 @@ export const Groups = {
     </div>
   )
 }
+
+
+export const Loading = () => (
+  <div>
+    <h3>Underline Loading</h3>
+    <Nav variant="underline" data-testid="nav-1" data-tour="Something Random">
+      <Nav.Button loading>Active</Nav.Button>
+      <Nav.Button loading>Inactive</Nav.Button>
+      <Nav.Button loading>Inactive</Nav.Button>
+      <Nav.Button loading>Active</Nav.Button>
+    </Nav>
+
+    <h3>Secondary Loading</h3>
+    <Nav variant="secondary" data-testid="nav-1" data-tour="Something Random">
+      <Nav.Group aria-label="Primary A">
+        <Nav.Button loading>Active</Nav.Button>
+        <Nav.Button loading>Inactive</Nav.Button>
+        <Nav.Button loading>Inactive</Nav.Button>
+        <Nav.Button loading>Active</Nav.Button>
+      </Nav.Group>
+    </Nav>
+  </div>
+)

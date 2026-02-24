@@ -6,6 +6,7 @@ import { attemptFilledIconForIcon } from '../icons';
 import classes from './Nav.module.css';
 import Button from '../Button';
 import NavigationContext, { defaultNavigationConfig } from './NavigationContext';
+import Placeholder from '../Placeholder';
 
 interface NavProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
@@ -14,7 +15,8 @@ interface NavProps extends HTMLAttributes<HTMLElement> {
 }
 
 interface NavButtonProps extends BaseButtonProps {
-  ignore?: RegExp | 'string' | Function,
+  ignore?: RegExp | 'string' | Function;
+  loading?: boolean;
 }
 
 interface NavGroupProps extends HTMLAttributes<HTMLElement> {
@@ -62,9 +64,13 @@ Nav.Group = ({ title = null, children, ...props }) => {
   )
 }
 
-Nav.Button = ({ ignore, ...props }) => {
+Nav.Button = ({ ignore, loading, ...props }) => {
   let navigation = useContext(NavigationContext) || defaultNavigationConfig;
   navigation = { ...defaultNavigationConfig, ...navigation };
+
+  if (loading) {
+    return <li><Placeholder as="a" className={classes.NavLoadingButton} /></li>
+  }
 
   const href = props[navigation.hrefProp];
   let isActive = navigation.matchWith(href, window.location.pathname, props);
