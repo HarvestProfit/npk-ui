@@ -7,6 +7,7 @@
   opacity: 1;
   border-radius: var(--control-radius);
   animation: placeholder-glow 2s ease-in-out infinite;
+  color: inherit;
 }
 
 @keyframes placeholder-glow {
