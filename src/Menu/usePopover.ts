@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { AriaRole, useMemo, useRef, useState } from 'react';
 import { autoUpdate, flip, offset, shift } from '@floating-ui/dom';
 import { arrow, useClick, useDismiss, useFloating, useInteractions, useMergeRefs, useRole } from '@floating-ui/react';
 import { MenuContextType } from './MenuContext';
@@ -15,6 +15,7 @@ interface UsePopoverProps {
   submenu?: boolean;
   variant?: string;
   offset?: number;
+  role?: 'dialog' | 'menu' | 'listbox';
 }
 
 function usePopover({
@@ -28,7 +29,8 @@ function usePopover({
   autoDismiss = true,
   submenu = false,
   variant = 'dialog',
-  offset: offsetAmount = 5
+  offset: offsetAmount = 5,
+  role = 'dialog',
 }: UsePopoverProps): MenuContextType {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen);
   const [labelId, setLabelId] = useState<string | undefined>();
@@ -58,8 +60,8 @@ function usePopover({
 
   const click = useClick(data.context, { enabled: controlledOpen == null });
   const dismiss = useDismiss(data.context);
-  const role = useRole(data.context);
-  const interactions = useInteractions([click, dismiss, role]);
+  const ariarole = useRole(data.context, { role: role || 'dialog' });
+  const interactions = useInteractions([click, dismiss, ariarole]);
 
   return useMemo<MenuContextType>(
     () => ({
@@ -67,6 +69,7 @@ function usePopover({
       open,
       setOpen,
       initialFocus,
+      role,
       ...interactions,
       ...data,
       modal,
@@ -82,7 +85,7 @@ function usePopover({
       placement,
       variant
     }),
-    [open, setOpen, interactions, data, modal, labelId, descriptionId, arrowRef, showArrow, autoDismiss, submenu, placement, variant, initialFocus]
+    [open, setOpen, interactions, data, modal, labelId, descriptionId, arrowRef, showArrow, autoDismiss, submenu, placement, variant, role, initialFocus]
   );
 }
 

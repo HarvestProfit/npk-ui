@@ -9,6 +9,7 @@ import Button from '../Button';
 interface MenuProps {
   children: ReactNode;
   variant?: 'select' | 'menu' | 'dark' | null;
+  role?: 'dialog' | 'menu' | 'listbox';
   arrow?: boolean | null;
   autoDismiss?: boolean | 'menu';
   placement?: 'bottom' | 'bottom-start' | 'bottom-end' | 'top' | 'top-start' | 'top-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
@@ -33,16 +34,27 @@ const Menu: React.FC<MenuProps> & {
   Footer: React.FC<MenuFooterProps>;
   useAnchor: (props?: Record<string, any>) => [React.Ref<any>, Record<string, any>];
   Anchor: React.FC<MenuAnchorProps>;
-} = ({ children, variant = null, arrow = null, autoDismiss = true, placement, initialFocus = 0, onOpen, onClose, ...restOptions }) => {
+} = ({ children, variant: externalVariant = null, role: externalRole = null, arrow = null, autoDismiss = true, placement, initialFocus = 0, onOpen, onClose, ...restOptions }) => {
   const menuContentsContext = useContext<MenuContentsContextType>(MenuContentsContext);
 
-  const popover = usePopover({ 
-    showArrow: arrow || (variant === 'menu' ? true : false), 
-    autoDismiss, 
+  let role = externalRole;
+  if (externalVariant === 'menu' && !role) role = 'menu';
+  if (externalVariant === 'select' && !role) role = 'listbox';
+
+  let variant = externalVariant;
+  if (role === 'listbox' && !variant) variant = 'select';
+  if (role === 'menu' && !variant) variant = 'menu';
+  if (externalVariant === 'menu' && !role) role = 'menu';
+  if (externalVariant === 'select' && !role) role = 'listbox';
+
+  const popover = usePopover({
+    showArrow: arrow || (role === 'menu' ? true : false),
+    autoDismiss,
     initialFocus,
     submenu: menuContentsContext.inMenu,
     placement: placement || placementFromContextPlacement(menuContentsContext.placement),
-    variant: menuContentsContext.variant,
+    variant: menuContentsContext.variant || variant,
+    role: menuContentsContext.role || role,
     ...restOptions
   });
 
@@ -62,7 +74,7 @@ const Menu: React.FC<MenuProps> & {
   }
 
   return (
-    <MenuContentsContext.Provider value={{ inMenu: false, ...menuContentsOptions, variant: variant || menuContentsContext.variant }}>
+    <MenuContentsContext.Provider value={{ inMenu: false, ...menuContentsOptions, variant: variant || menuContentsContext.variant, role: role || menuContentsContext.role }}>
       <MenuContext.Provider value={popover}>
         {children}
       </MenuContext.Provider>
@@ -88,7 +100,7 @@ Menu.Overlay = forwardRef<HTMLDivElement, MenuOverlayProps>(({ children, style, 
   return (
     <FloatingPortal id={theme.appendRootId}>
       <FloatingFocusManager context={menuContext.context} modal={menuContext.context.modal} initialFocus={menuContext.initialFocus}>
-        <div 
+        <div
           ref={ref}
           style={{...menuContext.floatingStyles, ...style}}
           className={classes.Overlay}

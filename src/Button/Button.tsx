@@ -35,14 +35,18 @@ const useButtonDefaults = (props: ButtonProps): ButtonProps => {
   const menuContentsContext = useContext<MenuContentsContextType>(MenuContentsContext);
 
   if (menuContext && (menuContext.submenu || menuContentsContext.inMenu)) {
-    const menuVariant = menuContentsContext.inMenu ? menuContentsContext.variant : menuContext.variant;
+    const menuVariant = menuContentsContext.inMenu ? menuContentsContext.role : menuContext.role;
     otherProps.invisible = true;
     otherProps.align = 'start';
     otherProps.tabIndex = 1;
 
-    if (menuVariant === 'select' || menuVariant === 'menu') otherProps.plain = true;
-    if (menuVariant === 'select') otherProps.leadingVisual = (filteredProps.selectedIcon || CheckedIcon);
-    if (menuVariant === 'select') otherProps.active = filteredProps.selected;
+    console.log('in menu', menuContext);
+
+    if (menuVariant === 'listbox' || menuVariant === 'menu') otherProps.plain = true;
+    if (menuVariant === 'listbox') otherProps.leadingVisual = (filteredProps.selectedIcon || CheckedIcon);
+    if (menuVariant === 'listbox') otherProps.active = filteredProps.selected;
+    if (menuVariant === 'listbox') otherProps.role = 'option';
+    if (menuVariant === 'listbox' && filteredProps.selected) otherProps['aria-selected'] = true;
   }
 
   const buttonContextDefaults = useContext(ButtonContext) || {};
@@ -64,7 +68,7 @@ const Button = forwardRef<HTMLDivElement, ButtonProps>(({
   className,
   ...props
 }, forwardedRef) => {
-  
+
   const { invisible, plain, active, variant, ...defaultProps } = useButtonDefaults({ ...props, invisible: invisibleProp, plain: plainProp, active: activeProp, variant: variantProp });
 
   return (

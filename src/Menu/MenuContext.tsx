@@ -24,6 +24,7 @@ interface MenuContextType {
   arrowRef?: any;
   placement?: string;
   variant?: string;
+  role?: string;
 }
 
 const MenuContext = createContext<MenuContextType | null>(null);
@@ -33,6 +34,7 @@ export default MenuContext;
 interface MenuContentsContextType {
   inMenu: boolean;
   variant?: string;
+  role?: 'dialog' | 'menu' | 'listbox',
   placement?: string;
   onDismiss?: (any?) => void;
 }

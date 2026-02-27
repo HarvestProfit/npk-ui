@@ -134,8 +134,16 @@ export const Default = {
     <div>
       <label id="generic-inputs">Generic Inputs</label>
       <form name="exampleForm" style={{ margin: '8px 0', display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-        <Input placeholder="Placeholder" type="text" label="My Input" labelRequirement="* Required" />
-        <Input leadingVisual="TEL" placeholder="111 1111" type="tel" label="Phone" name="phone" value="8675309" labelRequirement="Optional"/>
+        <Input placeholder="Placeholder" type="text" label="My Input" aria-required="true" />
+
+        <div>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <Input.Label for="custom-label-input">Custom Label</Input.Label>
+            <Button style={{ marginTop: -8 }} invisible size="sm" icon={Icons.SettingsIcon} aria-label="Configure Input" />
+          </div>
+          <Input id="custom-label-input" placeholder="Placeholder" type="text" />
+        </div>
+        <Input leadingVisual="TEL" placeholder="111 1111" type="tel" label="Phone" name="phone" value="8675309" aria-required="false"/>
         <Input placeholder="Disabled" type="text" disabled />
         <Input value="Readonly" type="text" readOnly label="Readonly" />
       </form>
@@ -349,13 +357,13 @@ export const Dropdowns = {
     disabled: false
   },
   play: async ({ canvas }) => {
-    const button = canvas.getByRole('button');
+    const button = canvas.getByRole('combobox');
     await userEvent.click(button);
-    await expect(canvas.getByRole('dialog')).toBeInTheDocument();
-    const buttonOption2 = canvas.getByRole('button', { name: 'Office' });
+    await expect(canvas.getByRole('listbox')).toBeInTheDocument();
+    const buttonOption2 = canvas.getByRole('option', { name: 'Office' });
     await userEvent.click(buttonOption2);
-    await expect(canvas.queryByRole('dialog')).not.toBeInTheDocument();
-    await expect(canvas.getByRole('button')).toHaveTextContent('Office');
+    await expect(canvas.queryByRole('listbox')).not.toBeInTheDocument();
+    await expect(canvas.getByRole('combobox')).toHaveTextContent('Office');
   },
   render:(props) => {
     const [location, setLocation] = React.useState('Home');
@@ -389,20 +397,20 @@ export const Groups = () => {
         <Input.Group label="Your Details" labelDescription="A description of the input" info="You can quickly tab through each segment of the input">
           <Input placeholder="First" value={firstName} onChange={setFirstName} />
           <Input placeholder="Last" value={lastName} onChange={setLastName} />
-          <DateInput value={date} onChange={setDate} />
+          <DateInput value={date} onChange={setDate} name="date of birth" />
         </Input.Group>
       </div>
 
       <div>
         <Input.Group label={<><h5>Inputs with a singular menu</h5><p>Should only have a single menu in them</p></>}>
           <Input.Number placeholder="Weight" minValue={0} width={100} value={weight} onChange={setWeight} />
-          <Input.Control size="sm">
+          <Input.Control size="sm" name="unit" value={unit}>
             <Menu arrow>
               <Button tabIndex={0} invisible trailingAction={Icons.DropdownIndicatorIcon}>{unit}</Button>
               <Menu.Overlay>
-                <Button onClick={() => setUnit('LBS')}>LBS</Button>
-                <Button onClick={() => setUnit('KG')}>KG</Button>
-                <Button onClick={() => setUnit('MT')}>MT</Button>
+                <Button onClick={() => setUnit('LBS')} selected={unit === 'LBS'}>LBS</Button>
+                <Button onClick={() => setUnit('KG')} selected={unit === 'KG'}>KG</Button>
+                <Button onClick={() => setUnit('MT')} selected={unit === 'MT'}>MT</Button>
               </Menu.Overlay>
             </Menu>
           </Input.Control>
@@ -410,9 +418,21 @@ export const Groups = () => {
       </div>
 
       <div>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <Input.Label id="custom-group-label-input">Group with Custom Label</Input.Label>
+          <Button style={{ marginTop: -8 }} invisible size="sm" icon={Icons.SettingsIcon} aria-label="Configure Input" />
+        </div>
+        <Input.Group aria-labelledby="custom-group-label-input">
+          <Input placeholder="First" value={firstName} onChange={setFirstName} />
+          <Input placeholder="Last" value={lastName} onChange={setLastName} />
+          <DateInput value={date} onChange={setDate} name="date of birth" />
+        </Input.Group>
+      </div>
+
+      <div>
         <Input.Group label="Inputs with multiple menus" labelDescription="These should use the size='sm' prop on them">
           <Input.Number placeholder="Weight" minValue={0} width={100} value={weight} onChange={setWeight} />
-          <Input.Control size="sm">
+          <Input.Control size="sm" name="unit" value={unit}>
             <Menu arrow>
               <Button tabIndex={0} invisible trailingAction={Icons.DropdownIndicatorIcon}>{unit}</Button>
               <Menu.Overlay>
@@ -422,7 +442,7 @@ export const Groups = () => {
               </Menu.Overlay>
             </Menu>
           </Input.Control>
-          <Input.Control size="sm">
+          <Input.Control size="sm" name="age group" value={age}>
             <Menu arrow>
               <Button tabIndex={0} invisible trailingAction={Icons.DropdownIndicatorIcon}>{age}</Button>
               <Menu.Overlay>

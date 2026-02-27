@@ -10,19 +10,28 @@ export const useBaseInput = (props) => {
 
   let providedLabel = `${props['label']}`;
   if (providedLabel === '[Object object]') providedLabel = '';
-  if (providedLabel === '') providedLabel = null;
+  if (providedLabel === '' || providedLabel === 'undefined') providedLabel = null;
+
+  let fullAriaLabelledBy = props['aria-labelledby'] || inheritedContext['aria-labelledby'];
+  if (inheritedContext.labelingIds.label) {
+    fullAriaLabelledBy = `${fullAriaLabelledBy || ''} ${inheritedContext.labelingIds.label}`;
+  }
+
+  if (inheritedContext.labelingIds.additional) {
+    fullAriaLabelledBy = `${fullAriaLabelledBy || ''} ${inheritedContext.labelingIds.additional}`;
+  }
 
   return {
     disabled: props.disabled || inheritedContext.disabled || props.loading || inheritedContext.loading,
     'aria-label': props['aria-label'] || inheritedContext['aria-label'] || providedLabel,
-    'aria-labelledby': props['aria-labelledby'] || inheritedContext['aria-labelledby'],
+    'aria-labelledby': fullAriaLabelledBy,
     id: props.id,
-    name: props.name,
+    name: props.name || inheritedContext.name,
     autoFocus: props.autoFocus,
     placeholder: props.placeholder,
     'aria-invalid': props['aria-invalid'],
     'aria-required': props['aria-required'],
-    'aria-describedby': props['aria-describedby'],
+    'aria-describedby': props['aria-describedby'] || inheritedContext.labelingIds.description,
     'aria-controls': props['aria-controls'],
     'aria-activedescendant': props['aria-activedescendant'],
     'aria-autocomplete': props['aria-autocomplete'],
@@ -88,17 +97,26 @@ const BaseInput: React.FC<BaseInputProps> = ({
   props['aria-label'] = props['aria-label'] || inheritedContext['aria-label'];
   props['aria-labelledby'] = props['aria-labelledby'] || inheritedContext['aria-labelledby'];
 
-  const [uniqueID] = useState([inheritedContext?.labelingIds?.uuid, `npk-btn-${incId++}`].filter(k => !!k).join(' '));
+  const [uniqueID] = useState([`npk-ctrl-${incId++}`].filter(k => !!k).join(' '));
   const labelingIds: LabelObjectType = { ...inheritedContext?.labelingIds || {}, uuid: uniqueID }
 
   if (label) labelingIds.label = `${uniqueID}-label`;
+  if (labelRequirement) console.warn('NPK: Please use aria-required instead of labelRequirement on input')
   if (labelDescription) labelingIds.description = `${uniqueID}-description`;
-  if (labelRequirement) labelingIds.requirement = `${uniqueID}-requirement`;
+  if (props.hasOwnProperty('aria-required') || labelRequirement) labelingIds.requirement = `${uniqueID}-requirement`;
   if (error) labelingIds.error = `${uniqueID}-error`;
   if (info) labelingIds.info = `${uniqueID}-info`;
 
   const widthStyles = width ? { width } : {};
 
+  let additionalAriaLabel = null;
+  if (inheritedContext['aria-labelledby'] || (inheritedContext.labelingIds || {}).label) {
+    if (!props['aria-label'] && !props['placeholder'] && !props['name'] && !inheritedContext['name']) console.warn('NPK: Please provide an aria-label, name, or placeholder for this input in this group')
+    labelingIds.additional = `${labelingIds.uuid}-more`;
+    additionalAriaLabel = (
+      <span aria-hidden id={labelingIds.additional} aria-label={props['aria-label'] || props['name'] || inheritedContext['name'] || props['placeholder']}></span>
+    )
+  }
 
   let renderResult = null;
   if (loading) {
@@ -151,10 +169,12 @@ const BaseInput: React.FC<BaseInputProps> = ({
               align,
               'aria-label': props['aria-label'],
               'aria-labelledby': props['aria-labelledby'],
+              name: props['name'],
               labelingIds
             }}
           >
             {children}
+            {additionalAriaLabel}
           </BaseInputContext.Provider>
         </div>
         {TrailingVisual && (
@@ -182,9 +202,15 @@ const BaseInput: React.FC<BaseInputProps> = ({
         nextElem?.focus();
         e.preventDefault();
       }}>
-        <span id={labelingIds.label} data-component="label">
-          <span data-component="label-contents">{label}</span>
-          {labelRequirement && <span data-component="label-requirement" id={labelingIds.requirement}>{labelRequirement}</span>}
+        <span data-component="label">
+          <span id={labelingIds.label} data-component="label-contents">{label}</span>
+          {(props.hasOwnProperty('aria-required') || labelRequirement) && (
+            <span data-component="label-requirement" id={labelingIds.requirement}>
+              {
+                props.hasOwnProperty('aria-required') ? (`${props['aria-required']}` === 'true' ? '* required' : 'optional') : labelRequirement
+              }
+            </span>
+          )}
         </span>
         {labelDescription && <span data-component="label-description" id={labelingIds.description}>{labelDescription}</span>}
         {renderResult}
@@ -209,6 +235,7 @@ interface LabelObjectType {
   info?: string;
   error?: string;
   uuid?: string;
+  additional?: string;
 }
 
 interface BaseInputContextType {

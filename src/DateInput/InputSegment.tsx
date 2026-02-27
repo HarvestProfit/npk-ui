@@ -67,7 +67,7 @@ const InputSegment: React.FC<InputSegmentProps> = ({ segment, setIsFocused: exte
     return mask(maskProps).formatter(`${strValue || ''}`)
   }
 
-  const labelingIds = useContext(BaseInputContext).labelingIds || {};
+  const inputContext = useContext(BaseInputContext) || {};
 
   const [value, setValue] = useState(formatValue(externalValue) || '');
   const validatingValueRef = useRef(value);
@@ -163,13 +163,13 @@ const InputSegment: React.FC<InputSegmentProps> = ({ segment, setIsFocused: exte
       role="spinbutton"
       style={{ minWidth: segment === 'year' ? '2.35em' : '1.35em', caretColor: 'transparent' }}
       data-placeholder={valueIsEmpty}
-      aria-labelledby={`${labelingIds.label} ${labelingIds.label}-${segment}`}
+      aria-labelledby={`${inputContext['aria-labelledby'] || `${inputContext.labelingIds.label || ''} ${inputContext.labelingIds.additional || ''}`} ${inputContext.labelingIds.uuid}-${segment}`}
       aria-valuenow={defaultAriaValueNow}
       aria-valuetext={valueIsEmpty ? 'Empty' : value}
       {...inputMask.aria || {}}
       {...filteredProps}
     >
-      <span aria-hidden id={`${labelingIds.label}-${segment}`} aria-label={props['aria-label']}></span>
+      <span aria-hidden id={`${inputContext.labelingIds.uuid}-${segment}`} aria-label={props['aria-label']}></span>
       {valueIsEmpty ? placeholder : value}
     </span>
   )

@@ -22,7 +22,7 @@ interface InputProps extends BaseInputProps {
   emphasis?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: externalValue, onChange: onExternalChange, debounce = false, readOnly = false, emphasis = false, formatOptions = {}, ...props }) => {
+const InputInternal: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: externalValue, onChange: onExternalChange, debounce = false, readOnly = false, emphasis = false, formatOptions = {}, ...props }) => {
   const inputProps = useBaseInput(props);
 
   const maskFunction = (typeof mask === 'string') ? maskFetch[mask] : (mask || (() => null));
@@ -76,9 +76,7 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
   if (readOnly) {
     const widthStyles = props.width ? { width: props.width } : {};
     return (
-      <BaseInput {...props} variant="plain" labelAlign={props.align}>
-        <span {...inputProps} style={widthStyles} data-component="readonly-content" data-emphasis={emphasis} className={classes.ReadonlyInput} ref={ref}>{internalValue || ''}</span>
-      </BaseInput>
+      <span {...inputProps} style={widthStyles} data-component="readonly-content" data-emphasis={emphasis} className={classes.ReadonlyInput} ref={ref}>{internalValue || ''}</span>
     )
   }
 
@@ -86,11 +84,24 @@ const Input: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, value: ext
   if (props.type === 'textarea') InputComponent = 'textarea';
 
   return (
-    <BaseInput {...props}>
-      <InputComponent {...inputProps} className={classes.Input} value={internalValue || ''} onChange={handleChangeEvent} onFocus={onFocus} onBlur={onBlur} onKeyDown={inputMask.onKeyDown as React.KeyboardEventHandler} ref={ref} />
-    </BaseInput>
+    <InputComponent {...inputProps} className={classes.Input} value={internalValue || ''} onChange={handleChangeEvent} onFocus={onFocus} onBlur={onBlur} onKeyDown={inputMask.onKeyDown as React.KeyboardEventHandler} ref={ref} />
   );
 }
 
+const Input: React.FC<InputProps> = (props) => {
+  if (props.readOnly) {
+    return (
+      <BaseInput {...props} variant="plain" labelAlign={props.align}>
+        <InputInternal {...props} />
+      </BaseInput>
+    )
+  }
+
+  return (
+    <BaseInput {...props}>
+      <InputInternal {...props} />
+    </BaseInput>
+  );
+}
 export default Input;
 export type { InputProps };

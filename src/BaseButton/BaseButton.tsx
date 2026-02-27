@@ -3,6 +3,7 @@ import classes from './BaseButton.module.css';
 import { Spinner, Tooltip } from '..';
 import { useMenuContext } from '../Menu';
 import { MenuContentsContext, MenuContentsContextType } from '../Menu/MenuContext';
+import { BaseInputContext } from '../BaseInput/BaseInput';
 
 interface BaseButtonProps {
   icon?: ComponentType;
@@ -46,6 +47,7 @@ const BaseButton: React.FC<BaseButtonProps> = forwardRef<HTMLButtonElement, Base
   ...props
 }, forwardedRef) => {
   const menuContext = useMenuContext();
+  const inputContext = useContext(BaseInputContext) || {};
   const menuContentsContext = useContext<MenuContentsContextType>(MenuContentsContext);
   const internalRef = useRef<HTMLButtonElement>(null);
   let ref: any = internalRef;
@@ -86,7 +88,7 @@ const BaseButton: React.FC<BaseButtonProps> = forwardRef<HTMLButtonElement, Base
   if (icon) {
     LeadingVisual = icon;
 
-    if (!props['aria-label'] && !props['aria-describedby']) console.warn('Please provide a tooltip to this button.');
+    if (!props['aria-label'] && !props['aria-describedby']) console.warn('NPK: Please provide a tooltip to this button.');
   }
 
   const loadingProps = {};
@@ -118,6 +120,7 @@ const BaseButton: React.FC<BaseButtonProps> = forwardRef<HTMLButtonElement, Base
         data-truncate={truncate}
         data-component="button"
         type={Component === 'button' ? 'button' : undefined}
+        aria-label={menuContentsContext.inMenu ? null : inputContext.name}
         { ...props }
         {...loadingProps}
         { ...popoverProps }

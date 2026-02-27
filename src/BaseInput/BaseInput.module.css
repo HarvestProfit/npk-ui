@@ -10,7 +10,13 @@
   }
 }
 
-.Label {
+.CustomLabel {
+  [data-component="label"] {
+    margin-bottom: var(--control-gap);
+  }
+}
+.Label,
+.CustomLabel {
   display: flex;
   flex-direction: column;
   gap: var(--control-gap);
