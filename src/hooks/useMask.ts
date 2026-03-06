@@ -77,7 +77,7 @@ export default (props: UseMaskProps) => {
       }, 10);
     }
 
-    if (!validInput) {
+    if (!validInput && !event.metaKey && !event.ctrlKey) {
       event.preventDefault();
       return;
     }

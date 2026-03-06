@@ -128,6 +128,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
   } else {
     const tagProps = {};
     if (props['data-component']) tagProps['data-component'] = props['data-component']
+    if (props['onPaste']) tagProps['onPaste'] = props['onPaste']
 
     Object.keys(props).forEach(key => {
       if (key.startsWith('data-')) {

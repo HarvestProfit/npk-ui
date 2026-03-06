@@ -42,6 +42,7 @@ export const numericMask: MaskType = (props: NumericMaskProps = {}) => {
     formatter: (value) => {
       if (!value || value.length === 0) return value;
       const numberValue = parseFloat(value.replace(/,/g, ''));
+      if (isNaN(numberValue)) return '';
       const numberString = isFinite(maximumFractionDigits) ? numberValue.toFixed(maximumFractionDigits) : numberValue.toString();
       const parts = numberString.split('.');
       if (separator !== false) {

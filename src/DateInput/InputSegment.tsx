@@ -6,6 +6,7 @@ import { BaseInputContext } from '../BaseInput/BaseInput';
 interface InputSegmentProps {
   [key: string]: any; // Allow other props
   onChange?: (value: string) => void;
+  onChangeFullValue?: (value: Date) => void;
   setIsFocused?: (isFocused: boolean) => void;
   value: string;
   segment: 'year' | 'month' | 'monthName' | 'day' | 'hour' | 'minute' | 'TOD';
@@ -13,7 +14,7 @@ interface InputSegmentProps {
 }
 
 // Handles the individual segments of the date/time input
-const InputSegment: React.FC<InputSegmentProps> = ({ segment, setIsFocused: externalSetIsFocused, value: externalValue, onChange: externalOnChange, dateValue, ...props }) => {
+const InputSegment: React.FC<InputSegmentProps> = ({ segment, setIsFocused: externalSetIsFocused, value: externalValue, onChange: externalOnChange, onChangeFullValue, dateValue, ...props }) => {
   let mask = null;
   let placeholder = '';
   let defaultAriaValueNow = undefined;
@@ -72,6 +73,7 @@ const InputSegment: React.FC<InputSegmentProps> = ({ segment, setIsFocused: exte
   const [value, setValue] = useState(formatValue(externalValue) || '');
   const validatingValueRef = useRef(value);
   const [isFocused, setIsFocused] = useState(false);
+  const [isPasted, setIsPasted] = useState(false);
 
   const inputMask = useMask({
     mask: mask(maskProps),
@@ -100,7 +102,9 @@ const InputSegment: React.FC<InputSegmentProps> = ({ segment, setIsFocused: exte
         setValue(newValue);
       }
 
-      e.preventDefault();
+      if ((e.metaKey || e.ctrlKey) && e.key === 'v') setValue('');
+
+      if (!e.metaKey && !e.ctrlKey) e.preventDefault();
     }
   });
 
@@ -124,7 +128,10 @@ const InputSegment: React.FC<InputSegmentProps> = ({ segment, setIsFocused: exte
   }, [value]);
 
   useEffect(() => { // if out of focus, update the internal value to the external value
-    if (!isFocused && formatValue(externalValue) !== formatValue(value)) setValue(formatValue(externalValue));
+    if ((!isFocused || isPasted) && formatValue(externalValue) !== formatValue(value)) {
+      setValue(formatValue(externalValue));
+      if (isPasted) setIsPasted(false);
+    }
   }, [externalValue]);
 
   const onBlur = (e) => {
@@ -148,6 +155,14 @@ const InputSegment: React.FC<InputSegmentProps> = ({ segment, setIsFocused: exte
     ...passthroughprops.reduce((agg, key) => ({ ...agg, [key]: props[key] }), {})
   }
 
+  const onPaste = (event) => {
+    setIsPasted(true);
+    // Get the text from the clipboard
+    const pastedData = event.clipboardData.getData('text');
+    onChangeFullValue(new Date(pastedData));
+    event.preventDefault();
+  }
+
   return (
     <span
       tabIndex={0}
@@ -166,6 +181,7 @@ const InputSegment: React.FC<InputSegmentProps> = ({ segment, setIsFocused: exte
       aria-labelledby={`${inputContext['aria-labelledby'] || `${inputContext.labelingIds.label || ''} ${inputContext.labelingIds.additional || ''}`} ${inputContext.labelingIds.uuid}-${segment}`}
       aria-valuenow={defaultAriaValueNow}
       aria-valuetext={valueIsEmpty ? 'Empty' : value}
+      onPaste={onPaste}
       {...inputMask.aria || {}}
       {...filteredProps}
     >

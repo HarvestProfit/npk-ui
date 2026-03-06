@@ -58,6 +58,7 @@ const DateInputInternal = ({
   formatter,
   ...props
 }) => {
+  const [didPasteValue, setDidPasteValue] = useState(false);
   let updateValue = today(); // When updating a new date, we build off the current date and then set individual values
   let segmentDateValue = value; // We then use a date segment and a time segment for the values of the segments
   let segmentTimeValue = value; // If "value" is not a complete date, we do not fill out the input. Time will be null if the time is 00:00:00.000
@@ -95,15 +96,16 @@ const DateInputInternal = ({
   const [isInputSegmentInFocus, setInputSegmentFocused] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   useEffect(() => {
-    if (!isFocused) { // if the input is out of focus, we will accept updates from outside changes
+    if (!isFocused || didPasteValue) { // if the input is out of focus, we will accept updates from outside changes
       setMonthValue(monthIndexToMonthValue(segmentDateValue?.getMonth()));
       setDayValue(getDatePart(segmentDateValue, 'day'));
       setYearValue(getDatePart(segmentDateValue, 'year'));
       setHourValue(getDatePart(segmentTimeValue, 'hour'));
       setTODValue(getDatePart(segmentTimeValue, 'TOD'));
       setMinuteValue(getDatePart(segmentDateValue, 'minute'));
+      if (didPasteValue) setDidPasteValue(false);
     }
-  }, [`${value}`]);
+  }, [`${value}`, didPasteValue]);
 
   useEffect(() => { // Calls onFocus and onBlur when any of the input segments are focused or blurred as a group
     setTimeout(() => {
@@ -119,16 +121,21 @@ const DateInputInternal = ({
     }, 10);
   }, [isInputSegmentInFocus]);
 
+  const onChangeFullValue = (date: Date) => {
+    setDidPasteValue(true);
+    onChange(date);
+  }
+
   const dateParts = [];
   if (['day', 'month', 'minute'].includes(granularity)) {
-    dateParts.push(<InputSegment aria-label="month" segment={monthAsName ? 'monthName' : 'month'} setIsFocused={setInputSegmentFocused} value={monthValue} onChange={setMonthValue} dateValue={updateValue} />);
+    dateParts.push(<InputSegment aria-label="month" segment={monthAsName ? 'monthName' : 'month'} setIsFocused={setInputSegmentFocused} value={monthValue} onChange={setMonthValue} dateValue={updateValue} onChangeFullValue={onChangeFullValue} />);
   }
   if (['day', 'minute'].includes(granularity)) {
-    const dayPart = (<InputSegment aria-label="day" segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} dateValue={updateValue} />);
+    const dayPart = (<InputSegment aria-label="day" segment="day" setIsFocused={setInputSegmentFocused} value={dayValue} onChange={setDayValue} dateValue={updateValue} onChangeFullValue={onChangeFullValue} />);
     (dayIsInFrontForCurrentLocale() && !monthAsName) ? dateParts.unshift(dayPart) : dateParts.push(dayPart);
   }
   if (includeYear && ['day', 'month', 'year', 'minute'].includes(granularity)) {
-    dateParts.push(<InputSegment aria-label="year" segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} dateValue={updateValue} />);
+    dateParts.push(<InputSegment aria-label="year" segment="year" setIsFocused={setInputSegmentFocused} value={yearValue} onChange={setYearValue} dateValue={updateValue} onChangeFullValue={onChangeFullValue} />);
   }
 
   const contents = (
@@ -148,14 +155,16 @@ const DateInputInternal = ({
       </GranularityInclude>
 
       <GranularityInclude active={['minute', 'time'].includes(granularity)}>
-        <InputSegment aria-label="hour" segment="hour" setIsFocused={setInputSegmentFocused} value={hourValue} onChange={setHourValue} dateValue={updateValue} />
+        <InputSegment aria-label="hour" segment="hour" setIsFocused={setInputSegmentFocused} value={hourValue} onChange={setHourValue} dateValue={updateValue} onChangeFullValue={onChangeFullValue} />
         <span aria-hidden="true" data-component="input-segment">:</span>
-        <InputSegment aria-label="minute" segment="minute" setIsFocused={setInputSegmentFocused} value={minuteValue} onChange={setMinuteValue} dateValue={updateValue} />
+        <InputSegment aria-label="minute" segment="minute" setIsFocused={setInputSegmentFocused} value={minuteValue} onChange={setMinuteValue} dateValue={updateValue} onChangeFullValue={onChangeFullValue} />
         <span aria-hidden="true" data-component="input-segment"></span>
-        <InputSegment aria-label="time of day" segment="TOD" setIsFocused={setInputSegmentFocused} value={todValue} onChange={setTODValue} dateValue={updateValue} />
+        <InputSegment aria-label="time of day" segment="TOD" setIsFocused={setInputSegmentFocused} value={todValue} onChange={setTODValue} dateValue={updateValue} onChangeFullValue={onChangeFullValue} />
       </GranularityInclude>
     </>
   );
+
+
 
   const dateGroupProps = useDateGroupFocus();
   if (excludeGroup) {

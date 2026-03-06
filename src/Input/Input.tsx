@@ -64,6 +64,15 @@ const InputInternal: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, va
     if (onExternalChange) onExternalChange(inputMask.formatter(internalValue));
   }
 
+  const onPaste = (event: ClipboardEvent) => {
+    // Get the text from the clipboard
+    const pastedData = event.clipboardData.getData('text');
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    onInternalChange(inputMask.formatter(pastedData));
+    if (onExternalChange) onExternalChange(inputMask.formatter(pastedData));
+    event.preventDefault();
+  }
+
   const handleChangeEvent = (e) => {
     if (props.type === 'file') {
       onInternalChange(e.target.files);
@@ -84,7 +93,7 @@ const InputInternal: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, va
   if (props.type === 'textarea') InputComponent = 'textarea';
 
   return (
-    <InputComponent {...inputProps} className={classes.Input} value={internalValue || ''} onChange={handleChangeEvent} onFocus={onFocus} onBlur={onBlur} onKeyDown={inputMask.onKeyDown as React.KeyboardEventHandler} ref={ref} />
+    <InputComponent {...inputProps} className={classes.Input} value={internalValue || ''} onChange={handleChangeEvent} onFocus={onFocus} onBlur={onBlur} onPaste={onPaste} onKeyDown={inputMask.onKeyDown as React.KeyboardEventHandler} ref={ref} />
   );
 }
 
