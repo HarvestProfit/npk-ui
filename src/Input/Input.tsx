@@ -64,7 +64,8 @@ const InputInternal: React.FC<InputProps> = ({ selectAllOnFocus = true, mask, va
     if (onExternalChange) onExternalChange(inputMask.formatter(internalValue));
   }
 
-  const onPaste = (event: ClipboardEvent) => {
+  const onPaste = (evt) => {
+    const event = evt as ClipboardEvent;
     // Get the text from the clipboard
     const pastedData = event.clipboardData.getData('text');
     if (debounceRef.current) clearTimeout(debounceRef.current);

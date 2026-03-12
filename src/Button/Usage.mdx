@@ -1,4 +1,4 @@
-import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
+import { Canvas, Meta, ArgTypes } from '@storybook/addon-docs/blocks';
  
 import * as ButtonStories from './Button.stories.jsx';
  
@@ -32,16 +32,6 @@ Danger buttons should be used to indicate a destructive action.
 Button groups are used for collections of filters, or multipart actions (like a primary button with a dropdown button for more primary actions).
 <Canvas of={ButtonStories.Groups} />
 
-### Elevated
-<small>Use: Bulk Actions, Main CTA</small>
-
-Elevated buttons are used to display actions on tables for things like bulk actions as well as 
-`size="lg"` buttons which are used for the main CTA set of buttons on the top right of the page.
-**Do not mix invisible and elevated.**
-
-These buttons have a little shadow and is intended for them to stick out just a little bit more.
-<Canvas of={ButtonStories.Elevated} />
-
 ### Invisible
 <small>Use: Minor Actions</small>
 
@@ -67,4 +57,4 @@ If you need to reset the button styles back to default within a context, you can
 
 ## Props
 
-<Controls />
+<ArgTypes of={ButtonStories} />

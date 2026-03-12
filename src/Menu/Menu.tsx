@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useEffect, ReactNode, CSSProperties } from 'react';
+import React, { forwardRef, useContext, useEffect, ReactNode, CSSProperties, useRef } from 'react';
 import ThemeContext, { ThemeContextType } from '../ThemeContext';
 import classes from './Menu.module.css';
 import MenuContext, { MenuContentsContext, useMenuContext, MenuContentsContextType } from './MenuContext';
@@ -8,7 +8,7 @@ import Button from '../Button';
 
 interface MenuProps {
   children: ReactNode;
-  variant?: 'select' | 'menu' | 'dark' | null;
+  variant?: 'select' | 'menu' | 'dark' | 'emphasizedItem' | null;
   role?: 'dialog' | 'menu' | 'listbox';
   arrow?: boolean | null;
   autoDismiss?: boolean | 'menu';
@@ -40,6 +40,7 @@ const Menu: React.FC<MenuProps> & {
   let role = externalRole;
   if (externalVariant === 'menu' && !role) role = 'menu';
   if (externalVariant === 'select' && !role) role = 'listbox';
+  if (externalVariant === 'emphasizedItem' && !role) role = 'listbox';
 
   let variant = externalVariant;
   if (role === 'listbox' && !variant) variant = 'select';
@@ -85,24 +86,37 @@ const Menu: React.FC<MenuProps> & {
 interface MenuOverlayProps {
   children: ReactNode;
   style?: CSSProperties;
+  height?: any;
+  scrollToActiveItem?: boolean;
   [key: string]: any; // Allow other props
 }
 
-Menu.Overlay = forwardRef<HTMLDivElement, MenuOverlayProps>(({ children, style, ...props }, forwardedRef) => {
+Menu.Overlay = forwardRef<HTMLDivElement, MenuOverlayProps>(({ children, style, height, scrollToActiveItem, ...props }, forwardedRef) => {
   const theme = useContext<ThemeContextType>(ThemeContext);
 
   const menuContext = useMenuContext();
+  const menuRef = useRef(null);
   const menuContentsContext = useContext(MenuContentsContext);
-  const ref = menuContext.useMergeRefs([menuContext.refs.setFloating, forwardedRef]);
+  const ref = menuContext.useMergeRefs([menuContext.refs.setFloating, menuRef, forwardedRef]);
+
+  useEffect(() => {
+    if (menuRef.current?.querySelector('[aria-selected="true"]')) {
+      const position = menuRef.current.querySelector('[aria-selected="true"]').offsetTop - 80;
+			setTimeout(() => menuRef.current.scrollTop = position, 10);
+		}
+	}, [menuRef.current, menuContext.open]);
 
   if (!menuContext.open) return null;
+
+  let heightStyles = {};
+  if (height) heightStyles = { height, overflowY: 'scroll' }
 
   return (
     <FloatingPortal id={theme.appendRootId}>
       <FloatingFocusManager context={menuContext.context} modal={menuContext.context.modal} initialFocus={menuContext.initialFocus}>
         <div
           ref={ref}
-          style={{...menuContext.floatingStyles, ...style}}
+          style={{...menuContext.floatingStyles, ...heightStyles, ...style}}
           className={classes.Overlay}
           data-component={menuContext.submenu ? 'submenu' : 'menu'}
           data-variant={menuContentsContext.variant}

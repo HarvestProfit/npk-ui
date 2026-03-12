@@ -2,6 +2,7 @@ import React from 'react'
 import Button from '@harvest-profit/npk/Button';
 import Tooltip from '@harvest-profit/npk/Tooltip';
 import Card from '@harvest-profit/npk/Card';
+import Menu from '@harvest-profit/npk/Menu';
 import * as Icons from '@harvest-profit/npk/icons/regular';
 import { expect } from 'storybook/test';
 
@@ -185,6 +186,29 @@ export const Groups = () => <div style={{ display: 'flex', flexDirection: 'row',
   </Button.Group>
   <Button leadingVisual={Icons.AddIcon}>Add</Button>
 
+  <Button.Group role="nav" aria-label="Season Navigation">
+    <Button as="a" icon={Icons.BackwardIndicatorIcon} aria-label="2025 Season" />
+    <Menu role="listbox" variant="emphasizedItem" placement="bottom">
+      <Button aria-label="Open Season Selector">2026</Button>
+      <Menu.Overlay height="200px" scrollToActiveItem>
+        <Button as="a">2017</Button>
+        <Button as="a">2018</Button>
+        <Button as="a">2019</Button>
+        <Button as="a">2020</Button>
+        <Button as="a">2021</Button>
+        <Button as="a">2022</Button>
+        <Button as="a">2023</Button>
+        <Button as="a">2024</Button>
+        <Button as="a">2025</Button>
+        <Button as="a" aria-selected="true">2026</Button>
+        <Button as="a">2027</Button>
+        <Button as="a">2028</Button>
+        <Button as="a">2029</Button>
+      </Menu.Overlay>
+    </Menu>
+    <Button as="a" icon={Icons.ForwardIndicatorIcon} aria-label="2027 Season" />
+  </Button.Group>
+
   <Button.Group variant="primary">
     <Button leadingVisual={Icons.AddIcon}>Add</Button>
     <Button icon={Icons.DropdownIndicatorIcon} aria-label="More primary actions" />
@@ -239,27 +263,14 @@ export const ColorsOnCards = () => <div style={{ display: 'flex', flexDirection:
   </Card>
 </div>
 
-export const Elevated = () => <div>
-
-  <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-    <Button variant="danger" leadingVisual={Icons.DeleteIcon} elevated>Delete Selected</Button>
-    <Button elevated leadingVisual={Icons.EditIcon}>Bulk Edit</Button>
-    <Button elevated leadingVisual={Icons.ExportIcon} trailingAction={Icons.DropdownIndicatorIcon} chip="12">Export</Button>
-  </div>
-
-
-  <h4>CTAs</h4>
-  <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-    <Button elevated size="lg" leadingVisual={Icons.ExportIcon}>Export</Button>
-    <Button variant="primary" size="lg" elevated leadingVisual={Icons.AddIcon} loading>Adding Item...</Button>
-    <Button variant="primary" size="lg" elevated leadingVisual={Icons.AddIcon} trailingAction={Icons.DropdownIndicatorIcon}>Add Something</Button>
-  </div>
+export const AvatarButton = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+  <Button variant="avatar" aria-label="Open user navigation menu">JD</Button>
 </div>
-
 
 export const IconButtons = () => <div style={{ display: 'flex', flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
   <Button variant="primary" icon={Icons.ExportIcon} aria-label="Primary Export" />
   <Button variant="danger" icon={Icons.ExportIcon} aria-label="Destructive Export" />
+  <Button variant="avatar" aria-label="Open User Settings">JH</Button>
   <Button icon={Icons.ExportIcon} aria-label="Export" />
   <Button icon={Icons.ExportIcon} />
 </div>

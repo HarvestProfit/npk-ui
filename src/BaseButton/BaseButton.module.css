@@ -25,7 +25,7 @@ a.ControlButton:hover {
   height: var(--control-size);
   border-radius: var(--control-radius);
 
-  border: 1px solid var(--btn-border-color, var(--control-border-color));
+  border: var(--btn-border-size, 1px) solid var(--btn-border-color, var(--control-border-color));
   background-color: var(--btn-bg-color, var(--control-bg-color));
   color: var(--btn-fg-color, var(--control-fg-color));
 

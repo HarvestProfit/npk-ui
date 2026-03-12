@@ -5,6 +5,7 @@ import BaseButton, { BaseButtonProps } from '../BaseButton';
 import { CheckedIcon } from '@harvest-profit/npk/icons/regular';
 import { useMenuContext, Reset as MenuReset } from '../Menu';
 import { MenuContentsContext, MenuContentsContextType } from '../Menu/MenuContext';
+import { ButtonGroupContext } from './ButtonGroup';
 
 interface ButtonProps extends BaseButtonProps {
   variant?: 'primary' | 'danger' | 'secondary'; // Add other variants as needed
@@ -14,6 +15,7 @@ interface ButtonProps extends BaseButtonProps {
   plain?: boolean;
   className?: string;
   selected?: boolean;
+  'aria-selected'?: boolean;
   selectedIcon?: any;
   leadingVisual?: any;
   [key: string]: any; // Allow other props
@@ -29,24 +31,34 @@ function isNotSet(value: any): boolean {
 const useButtonDefaults = (props: ButtonProps): ButtonProps => {
   const filteredProps = Object.keys(props).reduce((agg, key) => (!isNotSet(props[key])) ? { ...agg, [key]: props[key] } : agg, {} as ButtonProps);
   const otherProps: ButtonProps = {};
-  if (filteredProps.selected) otherProps.leadingVisual = (filteredProps.selectedIcon || CheckedIcon);
 
   const menuContext = useMenuContext();
   const menuContentsContext = useContext<MenuContentsContextType>(MenuContentsContext);
 
+  const selected = filteredProps['aria-selected'] || filteredProps.selected;
+  if (selected) otherProps.leadingVisual = (filteredProps.selectedIcon || CheckedIcon);
+
   if (menuContext && (menuContext.submenu || menuContentsContext.inMenu)) {
-    const menuVariant = menuContentsContext.inMenu ? menuContentsContext.role : menuContext.role;
+    const menuVariant = menuContentsContext.inMenu ? menuContentsContext.variant : menuContext.variant;
+    const menuRole = menuContentsContext.inMenu ? menuContentsContext.role : menuContext.role;
     otherProps.invisible = true;
     otherProps.align = 'start';
     otherProps.tabIndex = 1;
 
-    console.log('in menu', menuContext);
+    if (menuRole === 'listbox' || menuRole === 'menu') otherProps.plain = true;
+    if (menuRole === 'listbox') otherProps.leadingVisual = (filteredProps.selectedIcon || CheckedIcon);
+    if (menuRole === 'listbox') otherProps.active = selected;
+    if (menuRole === 'listbox') otherProps.role = 'option';
+    if (menuRole === 'listbox' && selected) otherProps['aria-selected'] = true;
+    if (menuVariant === 'emphasizedItem') {
+      otherProps.leadingVisual = null;
+      otherProps.align = 'center';
+      if (selected) {
+        otherProps.invisible = false;
+        otherProps.variant = 'primary';
+      }
 
-    if (menuVariant === 'listbox' || menuVariant === 'menu') otherProps.plain = true;
-    if (menuVariant === 'listbox') otherProps.leadingVisual = (filteredProps.selectedIcon || CheckedIcon);
-    if (menuVariant === 'listbox') otherProps.active = filteredProps.selected;
-    if (menuVariant === 'listbox') otherProps.role = 'option';
-    if (menuVariant === 'listbox' && filteredProps.selected) otherProps['aria-selected'] = true;
+    }
   }
 
   const buttonContextDefaults = useContext(ButtonContext) || {};

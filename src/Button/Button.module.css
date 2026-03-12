@@ -48,11 +48,12 @@
     --btn-border-color: transparent;
     --control-size: var(--btn-group-control-size);
 
-    &:not(:first-of-type) {
+    &:nth-child(n + 2 of .Button) {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
-    &:not(:last-of-type) {
+
+    &:nth-last-child(n + 2 of .Button) {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
       border-right: 1px solid var(--button-group-border-color);
@@ -61,6 +62,7 @@
 }
 
 .Button {
+  font-family: inherit;
   &[data-elevated="true"] {
     --btn-bg-color: var(--button-white-bg-color);
     --btn-bg-color--hover: var(--button-white-bg-color--hover);
@@ -97,7 +99,8 @@
     --btn-fg-color--disabled: rgb(from var(--button-danger-fg-color) r g b / 50%);
   }
 
-  &[data-variant="primary"]:not([data-invisible="true"]) {
+  &[data-variant="primary"]:not([data-invisible="true"]),
+  &[data-variant="avatar"] {
     --btn-visual-color: var(--button-primary-fg-color);
     --btn-fg-color: var(--button-primary-fg-color);
     --btn-icon-color: var(--button-primary-fg-color);
@@ -106,6 +109,14 @@
     --btn-bg-color--hover: var(--button-primary-bg-color--hover);
     --btn-bg-color--active: var(--button-primary-bg-color--active);
     --btn-bg-color--disabled: var(--button-primary-bg-color--disabled);
+  }
+
+  &[data-variant="avatar"] {
+    border-radius: 100px;
+    font-family: sans-serif;
+    width: var(--control-size);
+    min-width: auto;
+    --control-padding: 0;
   }
 
   &[data-plain="true"] {

@@ -12,20 +12,13 @@ export default {
       control: {
         type: 'radio',
       },
-      options: ['default', 'muted', 'invisible'],
-      table: { defaultValue: { summary: "default" } }
-    },
-    headerVariant: {
-      control: {
-        type: 'radio',
-      },
-      options: ['underlined', 'plain', 'inset'],
-      table: { defaultValue: { summary: "underlined" } }
+      options: ['primary', 'secondary', 'underline'],
+      table: { defaultValue: { summary: "underline" } },
+      description: "primary, secondary, or underline. primary and secondary are vertical, underline is horizontal"
     }
   },
   args: {
     variant: 'default',
-    headerVariant: 'underlined'
   }
 }
 

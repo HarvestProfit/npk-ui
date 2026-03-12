@@ -1,6 +1,7 @@
 import ApplicationAlert from './ApplicationAlert';
 import BaseButton from './BaseButton';
 import Button from './Button';
+import Avatar from './Avatar';
 import Badge from './Badge';
 import BlankSlate from './BlankSlate';
 import Calendar from './Calendar';
@@ -27,6 +28,7 @@ export {
   ApplicationAlert,
   BaseButton,
   Button,
+  Avatar,
   Badge,
   BlankSlate,
   DateInput,

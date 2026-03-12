@@ -4,7 +4,7 @@ import ThemeContext from '../ThemeContext';
 import classes from './Tooltip.module.css';
 import { computePosition, flip, inline, offset, shift } from '@floating-ui/dom';
 
-const HOVER_SHOW_TOOLTIP_AFTER = 800;// ms
+const HOVER_SHOW_TOOLTIP_AFTER = 400;// ms
 const CLICK_SHOW_TOOLTIP_AFTER = 1000;// ms
 const EVENT_OPEN = 'NPK:TooltipOpen';
 const EVENT_CLOSE = 'NPK:TooltipClose';

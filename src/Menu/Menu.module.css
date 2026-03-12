@@ -28,6 +28,12 @@
     min-width: var(--menu-select-min-width, 225px);
   }
 
+  &[data-variant="emphasizedItem"] {
+    min-width: auto;
+    --control-padding: var(--size-18);
+  }
+
+
   &[data-variant="dark"] {
     min-width: var(--menu-menu-min-width, 100px);
     --menu-bg-color--internal: var(--tooltip-bg-color);
