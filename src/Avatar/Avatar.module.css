@@ -8,11 +8,22 @@
   --btn-border-size: 0;
 
   overflow: hidden;
-  box-shadow: 0 0 0 1px #1f232826;
   vertical-align: middle;
   line-height: 1;
   display: inline-block;
   box-sizing: border-box;
+  position: relative;
+
+  &::after {
+    box-shadow: inset 0 0 0 1px #1f232826;
+    content: '';
+    border-radius: var(--control-radius);
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
 
   &[data-size="sm"] {
     width: var(--control-small-size);
