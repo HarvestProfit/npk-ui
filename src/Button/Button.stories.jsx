@@ -190,20 +190,22 @@ export const Groups = () => <div style={{ display: 'flex', flexDirection: 'row',
     <Button as="a" icon={Icons.BackwardIndicatorIcon} aria-label="2025 Season" />
     <Menu role="listbox" variant="emphasizedItem" placement="bottom">
       <Button aria-label="Open Season Selector">2026</Button>
-      <Menu.Overlay height="200px" scrollToActiveItem>
-        <Button as="a">2017</Button>
-        <Button as="a">2018</Button>
-        <Button as="a">2019</Button>
-        <Button as="a">2020</Button>
-        <Button as="a">2021</Button>
-        <Button as="a">2022</Button>
-        <Button as="a">2023</Button>
-        <Button as="a">2024</Button>
-        <Button as="a">2025</Button>
-        <Button as="a" aria-selected="true">2026</Button>
-        <Button as="a">2027</Button>
-        <Button as="a">2028</Button>
-        <Button as="a">2029</Button>
+      <Menu.Overlay>
+        <Menu.List scrollToSelected maxHeight="220px">
+          <Button as="a">2017</Button>
+          <Button as="a">2018</Button>
+          <Button as="a">2019</Button>
+          <Button as="a">2020</Button>
+          <Button as="a">2021</Button>
+          <Button as="a">2022</Button>
+          <Button as="a">2023</Button>
+          <Button as="a">2024</Button>
+          <Button as="a">2025</Button>
+          <Button as="a" aria-selected="true">2026</Button>
+          <Button as="a">2027</Button>
+          <Button as="a">2028</Button>
+          <Button as="a">2029</Button>
+        </Menu.List>
       </Menu.Overlay>
     </Menu>
     <Button as="a" icon={Icons.ForwardIndicatorIcon} aria-label="2027 Season" />

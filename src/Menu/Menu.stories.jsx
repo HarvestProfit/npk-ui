@@ -15,13 +15,21 @@ export default {
       table: { defaultValue: { summary: "bottom-start" } },
       description: "Placement of the menu"
     },
-    variant: {
-      options: ['dialog', 'menu', 'select'],
+    role: {
+      options: ['dialog', 'menu', 'listbox'],
       control: {
         type: 'select'
       },
       table: { defaultValue: { summary: "dialog" } },
-      description: "Type of menu"
+      description: "Type of menu. You should use this instead of variant"
+    },
+    variant: {
+      options: ['dialog', 'menu', 'select', 'emphasizedItem'],
+      control: {
+        type: 'select'
+      },
+      table: { defaultValue: { summary: "dialog" } },
+      description: "Customizes the menu further. Defaults to the role, but lets you add some extras"
     },
     autoDismiss: {
       options: [true, false, 'menu'],
@@ -147,11 +155,13 @@ export const DarkMenu = (props) => <div style={{ display: 'flex', justifyContent
 export const LongerSelect = (props) => {
   const [selected, setSelected] = useState(1)
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
+    <div style={{ height: 300 }}>
+      <p>Using <code>{'<Menu.List>'}</code> will cap the length of the menu. You can also provide a <code>scrollToSelected</code> flag on it to jump to the selection when opening it.</p>
+      <p>You can also overwrite the height by setting the <code>maxHeight</code> prop. It defaults to 350px.</p>
       <Menu variant="select" {...props}>
         <Button trailingAction={Icons.DropdownIndicatorIcon}>Select</Button>
         <Menu.Overlay>
-          <Menu.List>
+          <Menu.List scrollToSelected maxHeight="350px">
             <Menu.Section>Section</Menu.Section>
             {[11,12,13,14,15,16,17,18,19,20].map(item => (
               <Button selected={selected === item} onClick={() => setSelected(item)}>Item {item}</Button>

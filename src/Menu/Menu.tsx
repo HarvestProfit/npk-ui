@@ -86,37 +86,24 @@ const Menu: React.FC<MenuProps> & {
 interface MenuOverlayProps {
   children: ReactNode;
   style?: CSSProperties;
-  height?: any;
-  scrollToActiveItem?: boolean;
   [key: string]: any; // Allow other props
 }
 
-Menu.Overlay = forwardRef<HTMLDivElement, MenuOverlayProps>(({ children, style, height, scrollToActiveItem, ...props }, forwardedRef) => {
+Menu.Overlay = forwardRef<HTMLDivElement, MenuOverlayProps>(({ children, style, ...props }, forwardedRef) => {
   const theme = useContext<ThemeContextType>(ThemeContext);
 
   const menuContext = useMenuContext();
-  const menuRef = useRef(null);
   const menuContentsContext = useContext(MenuContentsContext);
-  const ref = menuContext.useMergeRefs([menuContext.refs.setFloating, menuRef, forwardedRef]);
-
-  useEffect(() => {
-    if (menuRef.current?.querySelector('[aria-selected="true"]')) {
-      const position = menuRef.current.querySelector('[aria-selected="true"]').offsetTop - 80;
-			setTimeout(() => menuRef.current.scrollTop = position, 10);
-		}
-	}, [menuRef.current, menuContext.open]);
+  const ref = menuContext.useMergeRefs([menuContext.refs.setFloating, forwardedRef]);
 
   if (!menuContext.open) return null;
-
-  let heightStyles = {};
-  if (height) heightStyles = { height, overflowY: 'scroll' }
 
   return (
     <FloatingPortal id={theme.appendRootId}>
       <FloatingFocusManager context={menuContext.context} modal={menuContext.context.modal} initialFocus={menuContext.initialFocus}>
         <div
           ref={ref}
-          style={{...menuContext.floatingStyles, ...heightStyles, ...style}}
+          style={{...menuContext.floatingStyles, ...style}}
           className={classes.Overlay}
           data-component={menuContext.submenu ? 'submenu' : 'menu'}
           data-variant={menuContentsContext.variant}
@@ -187,12 +174,25 @@ Menu.Section.displayName = "Menu.Section";
 
 interface MenuListProps {
   className?: string;
+  scrollToSelected?: boolean;
+  maxHeight?: any;
   [key: string]: any; // Allow other props
 }
 
-Menu.List = ({ className = '', ...props }: MenuListProps) => (
-  <div className={`${classes.List} ${className}`} {...props} />
+Menu.List = ({ className = '', scrollToSelected = false, maxHeight, ...props }: MenuListProps) => {
+  const listRef = useRef(null);
+  useEffect(() => {
+    if (scrollToSelected && listRef.current?.querySelector('[aria-selected="true"]')) {
+      const position = listRef.current.querySelector('[aria-selected="true"]').offsetTop - 80;
+      setTimeout(() => listRef.current.scrollTop = position, 20);
+			setTimeout(() => listRef.current.scrollTop = position, 60); // needs to render the component fully first, sometimes this takes a second so here's a slower catchall.
+		}
+  }, [scrollToSelected, listRef.current]);
+
+  return (
+    <div ref={listRef} style={{ maxHeight }} className={`${classes.List} ${className}`} {...props} />
 );
+}
 Menu.List.displayName = "Menu.List";
 
 interface MenuItemProps {
