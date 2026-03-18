@@ -17,8 +17,23 @@
   --internal-table-border-color: var(--table-border-color, var(--color-neutral-90));
   --internal-table-bg-color: var(--table-bg-color, var(--body-bg-color));
   --internal-table-section-bg-color: var(--table-section-bg-color, var(--color-neutral-90));
+  --internal-table-section-lg-bg-color: var(--table-section-lg-bg-color, var(--color-neutral-95));
   --internal-table-footer-bg-color: var(--table-footer-bg-color, var(--color-neutral-90));
   --table-zebra-bg-color: lch(from var(--internal-table-bg-color) calc(l - var(--table-zebra-brightness-adjustment, 2)) c h);
+  --table-grid-default-bg-color: #e9ecef;
+
+  --table-grid-really-positive-bg-color: #abcfac;
+  --table-grid-positive-bg-color: #c9e0ca;
+  --table-grid-negative-bg-color: #f4c8cc;
+  --table-grid-really-negative-bg-color: #eda9af;
+  --table-grid-neutral-bg-color: #f9e7ba;
+
+  --table-grid-really-positive-bg-color--hover: #bad7bb;
+  --table-grid-positive-bg-color--hover: #d9e9d9;
+  --table-grid-negative-bg-color--hover: #f7d8db;
+  --table-grid-really-negative-bg-color--hover: #f0b8bd;
+  --table-grid-neutral-bg-color--hover: #faeece;
+
   --table-row-color--hover: var(--control-bg-color--hover);
   --table-row-color--active: var(--control-bg-color--active);
 
@@ -28,6 +43,16 @@
   width: 100%;
   margin-bottom: 0rem;
   font-size: 15px;
+
+  caption {
+    font-weight: 600;
+    font-size: var(--size-18);
+
+    &[data-align="bottom"] {
+      margin-top: var(--size-16);
+      caption-side: bottom;
+    }
+  }
 
   &[data-layout="fixed"] {
     table-layout: fixed;
@@ -55,14 +80,99 @@
     --table-border: none;
   }
 
+  &[role="grid"] {
+    border-spacing: 1px;
+
+    [data-color="positive"] {
+      --internal-table-grid-bg-color: var(--table-grid-positive-bg-color);
+      &[data-column-focused="true"], &:hover {
+        --internal-table-grid-bg-color: var(--table-grid-positive-bg-color--hover);
+      }
+    }
+    [data-color="negative"] {
+      --internal-table-grid-bg-color: var(--table-grid-negative-bg-color);
+      &[data-column-focused="true"], &:hover {
+        --internal-table-grid-bg-color: var(--table-grid-negative-bg-color--hover);
+      }
+    }
+
+    [data-color="neutral"] {
+      --internal-table-grid-bg-color: var(--table-grid-neutral-bg-color);
+      &[data-column-focused="true"], &:hover {
+        --internal-table-grid-bg-color: var(--table-grid-neutral-bg-color--hover);
+      }
+    }
+
+    [data-color="really-positive"] {
+      --internal-table-grid-bg-color: var(--table-grid-really-positive-bg-color);
+      &[data-column-focused="true"], &:hover {
+        --internal-table-grid-bg-color: var(--table-grid-really-positive-bg-color--hover);
+      }
+    }
+
+    [data-color="really-negative"] {
+      --internal-table-grid-bg-color: var(--table-grid-really-negative-bg-color);
+      &[data-column-focused="true"], &:hover {
+        --internal-table-grid-bg-color: var(--table-grid-really-negative-bg-color--hover);
+      }
+    }
+
+    thead > tr > th,
+    tbody > tr > th {
+      background-color: transparent;
+      border: 0;
+      font-weight: normal;
+      font-size: var(--size-14);
+
+      &[data-column-focused="true"] {
+        background-color: var(--table-grid-default-bg-color);
+      }
+    }
+
+    tr[aria-hidden="true"] {
+      opacity: 0.7;
+    }
+
+    tbody > tr > th[rowSpan] > * {
+      writing-mode: vertical-rl;
+    }
+
+    tbody > tr:nth-child(1 of :has(td)) {
+      td:first-of-type {
+        border-top-left-radius: 8px;
+      }
+      td:last-of-type {
+        border-top-right-radius: 8px;
+      }
+    }
+
+    tbody > tr:last-child {
+      td:first-of-type {
+        border-bottom-left-radius: 8px;
+      }
+      td:last-of-type {
+        border-bottom-right-radius: 8px;
+      }
+    }
+
+    tbody > tr > td {
+      border: 0;
+      cursor: pointer;
+      font-size: var(--size-14);
+      background-color: var(--internal-table-grid-bg-color, var(--table-grid-default-bg-color));
+    }
+  }
+
   /* treegrids are clickable tables that may or may not expand */
   &[role="treegrid"] > tbody > tr {
     /* level=1 (assumed if not specified), always clickable */
     /* expandable, always clickable */
     &:not([aria-disabled="true"]) {
-      &:not(:has([aria-level])),
-      &:has([aria-level="1"]),
-      &:has([aria-expanded]) {
+      &[aria-expanded],
+      &[aria-level="1"],
+      &:not([aria-level]) {
+
+
         &:hover {
           cursor: pointer;
           --table-row-color: var(--table-row-color--hover);
@@ -73,8 +183,9 @@
           --table-row-color: var(--table-row-color--active);
         }
       }
+
     }
-    
+
     &[aria-expanded="true"] {
       --table-row-color: var(--internal-table-bg-color);
       --table-border: none;
@@ -121,7 +232,12 @@
     }
   }
 
-  > tbody > tr > th[scope="row"] {
+  > tbody > tr:has( th[scope="row"][data-size="lg"]):first-child th {
+    top: calc(var(--table-header-height) + var(--sticky-top, 0rem));
+    padding-top: calc(var(--table-section-padding) * 2);
+  }
+
+  > tbody > tr > :where(th[scope="row"]) {
     background: var(--internal-table-section-bg-color);
     font-size: var(--size-12);
     font-weight: bold;
@@ -133,6 +249,13 @@
 
     position: sticky;
     top: calc(var(--table-header-height) + var(--sticky-top, 0rem));
+
+    &[data-size="lg"] {
+      top: calc(var(--table-header-height) + var(--sticky-top, 0rem) - calc(var(--table-section-padding) * 6));
+      font-size: var(--size-13);
+      padding-top: calc(var(--table-section-padding) * 8);
+      background: var(--internal-table-section-lg-bg-color);
+    }
 
     &[data-sticky="false"] {
       position: static;
@@ -173,8 +296,11 @@
     height: var(--table-header-height);
   }
 
-  [data-type="numeric"],
-  [data-type="number"] {
+  [data-type^="num"] + :not([data-type^="num"]):not([data-type="actions"]) {
+    padding-left: calc(var(--table-cell-padding-x) * 3);
+  }
+
+  [data-type^="num"] {
     text-align: right;
   }
 

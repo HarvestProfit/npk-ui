@@ -6,6 +6,7 @@ import { BaseInputContext } from "../BaseInput/BaseInput";
 interface TableProps {
   [key: string]: any; // Allow other props
   layout?: 'auto' | 'fixed';
+  role?: 'table' | 'treegrid' | 'grid';
   truncate?: boolean;
   height?: string | number;
   minHeight?: string | number;

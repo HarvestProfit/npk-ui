@@ -143,7 +143,7 @@ export const Plain = () => (
         <td>...</td>
         <td data-type="number">1 Year</td>
       </tr>
-      
+
 
     </tbody>
     <tfoot data-sticky="false">
@@ -188,7 +188,17 @@ export const Grouping = () => (
         <td data-type="number">3 Years</td>
       </tr>
       <tr>
-        <th scope="row" colSpan="3">Past Employees</th>
+        <th scope="row" colSpan="3" data-size="lg">Past Employees (large section)</th>
+      </tr>
+      <tr>
+        <td id="tom-hudson-job">Tom Hudson</td>
+        <td>Engineer</td>
+        <td data-type="number">2 Years</td>
+      </tr>
+      <tr aria-labelledby="tom-hudson-job">
+        <td />
+        <td>Manager</td>
+        <td data-type="number">1 Year</td>
       </tr>
       <tr>
         <td id="tom-hudson-job">Tom Hudson</td>
@@ -258,60 +268,6 @@ export const WithCounterMetrics = () => (
   </div>
 );
 
-export const ClickableAndExpandable = () => {
-  const [expanded, setExpanded] = React.useState(false);
-  const [expanded2, setExpanded2] = React.useState(false);
-  return (
-  <Table role="treegrid">
-    <thead>
-      <tr>
-        <th>Level</th>
-        <th data-type="number">Data</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>
-        <td>#1 Expand Me</td>
-        <td data-type="number">25</td>
-      </tr>
-      {expanded && (
-        <>
-          <tr aria-level="2">
-            <td style={{ paddingLeft: 20 }}>#2 I'm not clickable cuz I don't have the aria-expanded prop AND I'm level 2.</td>
-            <td data-type="number">31</td>
-          </tr>
-          <tr aria-level="2" aria-expanded={expanded2} onClick={() => setExpanded2(!expanded2)}>
-            <td style={{ paddingLeft: 20 }}>#2 Expand Me Again</td>
-            <td data-type="number">31</td>
-          </tr>
-        </>
-      )}
-      {expanded2 && (
-      <tr aria-level="3">
-        <td style={{ paddingLeft: 40 }}>#3 I'm not clickable</td>
-        <td data-type="number">25</td>
-      </tr>
-      )}
-      <tr aria-level="1">
-        <td>I'm still clickable because I'm level 1.</td>
-        <td data-type="number">25</td>
-      </tr>
-      <tr aria-disabled="true">
-        <td>I can't be clicked because I have aria-disabled="true"</td>
-        <td data-type="number">25</td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colSpan="3">This is the table footer</td>
-      </tr>
-    </tfoot>
-  </Table>
-);
-}
-
-
-
 export const InsideCard = () => (
   <Card>
     <Card.Header title="Card Title" />
@@ -323,7 +279,10 @@ export const InsideCard = () => (
             <th data-type="number">Age</th>
           </tr>
         </thead>
-        <tbody>
+      <tbody>
+          <tr>
+            <th scope="row" colSpan="3" data-size="lg">Section 1 (<code>data-size="lg"</code>)</th>
+          </tr>
           {data.map((person, index) => (
             <tr key={index}>
               <td>{person.firstName}</td>
@@ -332,7 +291,7 @@ export const InsideCard = () => (
             </tr>
           ))}
           <tr>
-            <th scope="row" colSpan="3">Section 2</th>
+            <th scope="row" colSpan="3" data-size="lg">Section 2</th>
           </tr>
           {data.map((person, index) => (
             <tr key={index}>

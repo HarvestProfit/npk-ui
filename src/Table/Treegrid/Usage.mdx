@@ -1,0 +1,24 @@
+import { Canvas, Meta, ArgTypes } from '@storybook/addon-docs/blocks';
+ 
+import * as TreegridStories from './Treegrid.stories.jsx';
+ 
+<Meta of={TreegridStories} />
+ 
+# Treegrid
+
+### Clickable and Expandable Rows
+Tables can have clickable rows and expandable rows. To make the entire table clickable, set the `aria-role="treegrid"` on the table.
+A treegrid is basically like a file explorer, it allows clicking to open or expand a row. 
+
+The table role sets each row to be clickable if they have an `aria-level="1"` (this is assumed if not provided). You can disable
+a row from being clickable by setting `aria-disabled="true"` on the row.
+
+When expanding a row, the `aria-expanded` attribute is set to `true` on the row which allows it to be clicked no matter its level.
+New expanded rows should be added as a new row with the `aria-level` incremented by 1. If this row can be expanded but is not,
+set the `aria-expanded` attribute to `false` on the row. This allows the user to click on the row to expand it.
+
+<Canvas of={TreegridStories.Treegrid} />
+
+## Props
+
+<ArgTypes of={TreegridStories} />
