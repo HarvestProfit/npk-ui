@@ -246,6 +246,7 @@
     padding: var(--table-section-padding);
     padding-left: var(--table-cell-padding-x);
     padding-right: var(--table-cell-padding-x);
+    z-index: 1;
 
     position: sticky;
     top: calc(var(--table-header-height) + var(--sticky-top, 0rem));
