@@ -167,7 +167,7 @@
   &[role="treegrid"] > tbody > tr {
     /* level=1 (assumed if not specified), always clickable */
     /* expandable, always clickable */
-    &:not([aria-disabled="true"]) {
+    &:not([aria-disabled="true"]):not(:has(th[scope="row"])) {
       &[aria-expanded],
       &[aria-level="1"],
       &:not([aria-level]) {

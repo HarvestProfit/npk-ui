@@ -103,7 +103,10 @@ export const Treegrid = () => {
         <td style={{ paddingLeft: 40 }}>#3 I'm not clickable</td>
         <td data-type="number">25</td>
       </tr>
-      )}
+        )}
+      <tr>
+        <th scope="row" colSpan="3" data-size="lg">Section 1 Not clickable</th>
+      </tr>
       <tr aria-level="1">
         <td>I'm still clickable because I'm level 1.</td>
         <td data-type="number">25</td>
